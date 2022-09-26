@@ -1,0 +1,58 @@
+{
+          "users": [
+            {
+              "id": 1,
+              "name": "name",
+              "username": "username",
+              "password": "password",
+              "email": "typicode",
+              "fisrttime": "fisrttime",
+              "lasttime": "fisrttime",
+              "cash": "cash",
+              "lock": 0
+            }
+          ],
+          "admins": [
+            {
+              "id": 1,
+              "name": "name",
+              "username": "username",
+              "password": "password",
+              "email": "typicode",
+              "fisrttime": "fisrttime",
+              "lasttime": "fisrttime",
+              "cash": "cash",
+              "lock": 0
+            }
+          ],
+          "products": [
+            {
+              "id": 1,
+              "name": "name",
+              "price": "username",
+              "desciption": "desciption",
+              "email": "typicode",
+              "time": "fisrttime",
+              "time-update": "fisrttime",
+              "number": 12,
+              "status": "yes"
+            }
+          ],
+          "posts": [
+            {
+              "id": 1,
+              "title": "json-server",
+              "author": "typicode"
+            }
+          ],
+          "comments": [
+            {
+              "id": 1,
+              "body": "some comment",
+              "postId": 1
+            }
+          ],
+          "profile": {
+            "name": "typicode"
+          }
+        }

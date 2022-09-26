@@ -1,0 +1,234 @@
+{
+          "users": [
+            {
+              "id": "kUVC7rf3rJOe2ldeHvOop",
+              "uid": 1,
+              "name": "Đỗ Công Minh",
+              "username": "Admin",
+              "email": "dominh020195@gmail.commmm",
+              "password": "5e963efc4702d1bf96ddf16dfb7ab96e",
+              "create_at": "10:22:44, 21/9/2022"
+            },
+            {
+              "id": "LQSfzLVsekfE3wMjQL97V",
+              "uid": 2,
+              "name": "Minh",
+              "username": "Admin",
+              "email": "dominh020195@gmail.commmmm",
+              "password": "62eee6a173e10f3b826a30bb8051516f",
+              "create_at": "10:24:10, 21/9/2022"
+            },
+            {
+              "id": "M85m5zcc3M7azd8AT4hK_",
+              "uid": 3,
+              "name": "Đỗ Công",
+              "username": "admin",
+              "email": "mylands.vn@gmail.com",
+              "password": "62eee6a173e10f3b826a30bb8051516fgg",
+              "create_at": "10:28:21, 21/9/2022"
+            },
+            {
+              "id": "K2m0_BrrhtxZT8sJeIc2X",
+              "uid": 4,
+              "name": "Ok nhé",
+              "username": "Admin",
+              "email": "mylands.vn@gmail.comm",
+              "password": "289dff07669d7a23de0ef88d2f7129e7",
+              "create_at": "10:35:53, 21/9/2022"
+            },
+            {
+              "id": "8wZr95o4jsx6oU3zbHv_5",
+              "uid": 5,
+              "name": "ok Bạn eey!",
+              "username": "minh",
+              "email": "mylands.vn@gmail.commmm",
+              "password": "d93591bdf7860e1e4ee2fca799911215",
+              "create_at": "17:06:15, 21/9/2022"
+            }
+          ],
+          "admins": [
+            {
+              "id": 1,
+              "name": "name",
+              "username": "username",
+              "password": "password",
+              "email": "typicode",
+              "fisrttime": "fisrttime",
+              "lasttime": "fisrttime",
+              "cash": "cash",
+              "lock": 0
+            }
+          ],
+          "products": [
+            {
+              "id": "VaRpVxUwKl0mnK-kkEG_q",
+              "pid": 2,
+              "author": "dominh020195@gmail.commm",
+              "name": "sp 20",
+              "price": 12345,
+              "description": "ètgh",
+              "time": "03:24:03, 20/9/2022"
+            },
+            {
+              "id": "T2bwsYsJ8aEjqeg-EZd2i",
+              "pid": 3,
+              "author": "dominh020195@gmail.commm",
+              "name": "sp 21",
+              "price": 1222,
+              "description": "2wertgh",
+              "time": "03:24:15, 20/9/2022"
+            },
+            {
+              "id": "-Y3GGOhBPp7j-HOHc693s",
+              "pid": 4,
+              "author": "dominh020195@gmail.commm",
+              "name": "sp 23",
+              "price": 12345,
+              "description": "oiuytrf",
+              "time": "03:31:04, 20/9/2022"
+            },
+            {
+              "id": "n69NVLC4PqlWUCXHyfPSg",
+              "pid": 5,
+              "author": "check@gmail.commm",
+              "name": "sp 25",
+              "price": 3456,
+              "description": "dfgbhnm",
+              "time": "03:33:33, 20/9/2022"
+            },
+            {
+              "id": "Mm7QZw3x5yL-6yLrSLyfC",
+              "pid": 5,
+              "author": "dominh020195@gmail.commm",
+              "name": "sp 26",
+              "price": 6678,
+              "description": "876t",
+              "time": "03:33:51, 20/9/2022"
+            },
+            {
+              "id": "NYh018ZaKFmvVvQOlPJ1Q",
+              "pid": 6,
+              "author": "dominh020195@gmail.commm",
+              "name": "sp 27",
+              "price": 876,
+              "description": "xcvbn",
+              "time": "03:35:18, 20/9/2022"
+            },
+            {
+              "id": "tRagex0bI9PAZZygtR6Ae",
+              "pid": 7,
+              "author": "dominh020195@gmail.commm",
+              "name": "sp 28",
+              "price": 2345,
+              "description": "mnbvc",
+              "time": "03:35:35, 20/9/2022"
+            },
+            {
+              "id": "9VCpQWTFDFwMnkRD9VfCA",
+              "pid": 8,
+              "author": "dominh020195@gmail.commm",
+              "name": "sp 29",
+              "price": 453,
+              "description": "hgft",
+              "time": "03:36:44, 20/9/2022"
+            },
+            {
+              "id": "kpZfhn1Q01hHyKuuhCtTO",
+              "pid": 9,
+              "author": "dominh020195@gmail.commm",
+              "name": "sp 30",
+              "price": 5678,
+              "description": "mnjbhvgcf",
+              "time": "03:36:47, 20/9/2022"
+            },
+            {
+              "id": "c1RGVcuhO2rBKhRJOobd0",
+              "pid": 10,
+              "author": "dominh020195@gmail.commm",
+              "name": "sp 31",
+              "price": 1234,
+              "description": "hgfd",
+              "time": "03:41:46, 20/9/2022"
+            },
+            {
+              "id": "VFZ-TzuL57bQK3G4bKwvf",
+              "pid": 11,
+              "author": "dominh020195@gmail.commm",
+              "name": "sp 32",
+              "price": 5432,
+              "description": "uhytrew",
+              "time": "10:55:08, 20/9/2022"
+            },
+            {
+              "id": "nUNMx65RTNY57UpFcvX0u",
+              "pid": 12,
+              "author": "dominh020195@gmail.commm",
+              "name": "sp 33",
+              "price": 12345,
+              "description": "iuytr",
+              "time": "10:56:13, 20/9/2022"
+            },
+            {
+              "id": "7kBUoFoJ6IdD2RIdfb8En",
+              "pid": 13,
+              "author": "dominh020195@gmail.commm",
+              "name": "sp 345",
+              "price": 2345,
+              "description": "jhygtre",
+              "time": "10:56:33, 20/9/2022"
+            },
+            {
+              "id": "0E20mGrrQbS9I125hK008",
+              "pid": 15,
+              "author": "dominh020195@gmail.commm",
+              "name": "sp 36",
+              "price": 7654,
+              "description": "456tr",
+              "time": "11:06:20, 20/9/2022"
+            },
+            {
+              "id": "7hFw5ijSSobuZ5cPFZrwY",
+              "pid": 16,
+              "author": "dominh020195@gmail.commm",
+              "name": "sp 36",
+              "price": 765,
+              "description": "5t6y7u8i",
+              "time": "11:10:36, 20/9/2022"
+            },
+            {
+              "id": "G2TUXtYkoacNRYrkVmx7R",
+              "pid": 17,
+              "author": "dominh020195@gmail.commm",
+              "name": "sp 37",
+              "price": 321,
+              "description": "4321",
+              "time": 1663667249267
+            },
+            {
+              "id": "K11zuXdQBtX7JzztD59ht",
+              "pid": 18,
+              "author": "dominh020195@gmail.commm",
+              "name": "sp 380",
+              "price": 123456,
+              "description": "123456",
+              "time": 1663667557920
+            }
+          ],
+          "posts": [
+            {
+              "id": 1,
+              "title": "json-server",
+              "author": "typicode"
+            }
+          ],
+          "comments": [
+            {
+              "id": 1,
+              "body": "some comment",
+              "postId": 1
+            }
+          ],
+          "profile": {
+            "name": "typicode"
+          }
+        }

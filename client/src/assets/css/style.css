@@ -1,0 +1,661 @@
+:root {
+    --width-menu-icon: ;
+}
+
+body {
+    font-size: 13px;
+}
+
+/* .row{
+          margin: 15px;
+      } */
+
+
+#main {
+    display: flex;
+    flex-direction: row;
+}
+
+
+
+
+
+#menu-left .search {
+    display: flex;
+    flex-direction: row;
+}
+
+
+#menu-left .search .input-search input {
+    z-index: ;
+    width: 210px;
+    height: 40px;
+    line-height: 30px;
+    margin-right: 15px;
+    text-align: center;
+    background: #f5f5f5;
+    border: 1px solid #f5f5f5;
+    border-radius: 5px;
+}
+
+#menu-left .search .user-icon {
+    float: right;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    background: #f5f5f5;
+    border-radius: 5px;
+
+
+}
+
+.item-menu-left {
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+
+}
+
+
+
+.item-menu-left:hover,
+.item-menu-left.active {
+    /* background: #f5f5f5; */
+    border-radius: 5px;
+
+}
+
+#menu-left .icon-menu-left {
+    background: #f5f5f5;
+    border-radius: 5px;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align-last: center;
+}
+
+#menu-left .item-menu-left:hover .icon-menu-left,
+#menu-left .item-menu-left.active .icon-menu-left {
+    background: #ffffff;
+
+}
+
+.body-item-menu-left {
+    float: right;
+    display: flex;
+    flex-direction: column;
+
+}
+
+#menu-left .title-menu-left {
+
+    margin: 20px 0;
+    font-size: 30px;
+}
+
+#menu-left .body-item-menu-left {
+    padding: 0 10px;
+}
+
+#menu-left .title-item-menu-left {
+
+    /* padding: 0 10px; */
+    margin-bottom: 5px;
+    font-size: 15px;
+}
+
+#menu-left .content-menu-left {
+    color: #a4a4a4;
+}
+
+.search .fa.fa-search {
+    color: #666;
+    z-index: 1;
+    margin-top: 5px;
+    margin-right: -20px;
+}
+
+
+
+.statis .sales,
+.statis .author,
+.statis .market-leaders,
+.turnover,
+.amount-product {
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    background: #ffffff;
+}
+
+.statis .sales,
+.statis .author,
+.statis .market-leaders {
+    height: 400px;
+    /* background: red; */
+}
+
+.statis .author {
+    /* background: #000; */
+}
+
+.turnover,
+.amount-product {
+    height: 185px;
+    /* background-color: blueviolet; */
+}
+
+
+
+.statis .sales {
+
+    background: radial-gradient(50% 38.76% at 50% 31.25%, #21E1D8 0%, #1BC5BD 100%)
+}
+
+.statis .sales .sales-top {
+    position: relative;
+    height: 60%;
+}
+
+.statis .sales .sales-bottom {
+    background: #ffffff;
+    height: 40%;
+    border-radius: 9px;
+    margin: 0px -20px;
+}
+
+.statis .sales .sales-top img {
+    position: absolute;
+    width: 80%;
+    height: 100%;
+    margin: 0 10%;
+    bottom: -50px;
+}
+
+.item-sales-bottom {
+
+    text-align: center;
+    overflow: hidden;
+    word-wrap: break-word;
+    padding: 20px 10px;
+}
+
+.item-sales-bottom .title-chart {
+    font-size: 10px;
+}
+
+
+.header-sales-top {
+    margin: 20px 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    color: #ffffff;
+}
+
+.dots-sales-top {
+    /* right: right; */
+}
+
+
+.header-author {
+
+    padding: 10px 0;
+
+}
+
+.time-author {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+
+}
+
+.month,
+.day,
+.week {
+    color: #333;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.month.active,
+.day.active,
+.week.active,
+.month:hover,
+.day:hover,
+.week:hover {
+    color: #fff;
+    background: #333;
+}
+
+.title-header-author {
+    color: #333;
+    font-weight: bold;
+
+}
+
+.content-header-author {
+    color: #a4a4a4;
+    font-size: 12px;
+}
+
+.body-author {
+    display: flex;
+    flex-direction: row;
+}
+
+.info-author {
+    display: flex;
+    flex-direction: row;
+}
+
+
+.avatar-author img {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+}
+
+.main-author {
+    padding: 0 10px;
+    line-height: 20px;
+}
+
+
+.author {
+    width: 100%;
+}
+
+.info-author {
+    width: 50%;
+}
+
+.info-cash {
+    width: 30%;
+    line-height: 20px;
+}
+
+.cash-percent,
+.detail-author {
+    width: 10%;
+    text-align: center;
+    line-height: 40px;
+
+}
+
+
+.button {
+    height: 30px;
+    width: 30px;
+    margin: 5px auto;
+    line-height: 30px;
+    background: #f2f2f2;
+    outline: none;
+    border-radius: 5px;
+    text-align: center;
+
+
+}
+
+.detail-author img {
+    width: 10px;
+    height: 10px;
+    /* line-height: 40px; */
+
+}
+
+.paid {
+    color: #a4a4a4;
+}
+
+.cash-percent {
+    color: #8950FC;
+}
+
+
+
+
+
+
+
+.new-arrivals {
+    padding: 20px;
+    height: 400px;
+    background: #fff;
+}
+
+.body-author {
+    margin: 20px 0;
+}
+
+.turnover-top,
+.product-top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+.buttun-turnover img {
+    width: 30px;
+    height: 30px;
+}
+
+.buttun-turnover {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    padding: 5px;
+    text-align: center;
+    border-radius: 50%;
+    background: #FFE2E5;
+}
+
+.buttun-product {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    padding: 5px;
+    text-align: center;
+    border-radius: 50%;
+    background: #E1F0FF;
+}
+
+.info-turnover {
+    text-align: right;
+}
+
+.info-product {
+    text-align: right;
+}
+
+
+.turnover,
+.amount-product {
+    position: relative;
+}
+
+.turnover-bottom,
+.product-bottom {
+    margin: 0 -10px;
+}
+
+.turnover-bottom img,
+.product-bottom img {
+    margin-left: -10px;
+    border-radius: 10px;
+    height: 40%;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+
+
+}
+
+.cash-turnover,
+.cash-product {
+    font-weight: bold;
+    color: #333;
+}
+
+.content-turnover,
+.content-product {
+    font-size: 12px;
+}
+
+.market-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 30px;
+    line-height: 30px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.market-body {
+    display: flex;
+    flex-direction: row;
+}
+
+
+.market-img img {
+    width: 75px;
+    height: 50px;
+    border-radius: 10px;
+}
+
+
+.market-item {
+    margin-bottom: 20px;
+
+}
+
+.market-text {
+    font-size: 12px;
+    width: 80%;
+    padding: 0 10px;
+    line-height: 15px;
+}
+
+.market-title {
+    font-weight: bold;
+}
+
+.market-number {
+    width: 20%;
+    text-align: right;
+    /* right:0; */
+}
+
+.market-number-total {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.market-number-sales {
+    font-size: 12px;
+    color: #a4a4a4;
+}
+
+.new-arrivals-header {
+    margin: 0 0 20px 0;
+    line-height: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.new-arrivals-header-right {
+    display: flex;
+    flex-direction: row;
+}
+
+.new-arrivals-header-right .new-report,
+.new-arrivals-header-right .create {
+    margin: 5px;
+}
+
+.new-arrivals-header-left-title {
+    color: #333;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.new-arrivals-header-left-content {
+    color: #a4a4a4;
+    font-size: 12px;
+}
+
+table {
+    width: 100%;
+
+}
+
+.new-arrivals-body {
+    width: 100%;
+    left: 0;
+    right: 0;
+    overflow-y: hidden;
+    overflow-x: auto;
+}
+
+.new-arrivals-body table th {
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px;
+    background: #F3F6F9;
+}
+
+.new-arrivals-body table thead tr th:first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.new-arrivals-body table thead tr th:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.new-arrivals-body table th.th-1 {
+    width: 40%;
+    color: #333;
+
+}
+
+.new-arrivals-body table th.th-2 {
+    width: 15%;
+    color: #a4a4a4;
+
+}
+
+.new-arrivals-body table th.th-3 {
+    width: 15%;
+    color: #a4a4a4;
+
+}
+
+.new-arrivals-body table th.th-4 {
+    width: 30%;
+    color: #a4a4a4;
+
+}
+
+.new-arrivals-body table th.th-5 {
+    width: 15%;
+    color: #a4a4a4;
+
+}
+
+.new-arrivals-body table td {
+    position: relative;
+}
+
+.new-arrivals-body table td .item,
+.new-arrivals-body table td .author-avatar {
+    height: 70px;
+    line-height: 20px;
+    padding: 20px 0;
+    padding-left: 10px;
+
+}
+
+.new-arrivals-body table td .author-avatar {
+
+    padding-left: 0px;
+
+}
+
+.author-avatar {
+    height: 40px;
+    width: 40px;
+}
+
+.author-new {
+    display: flex;
+    flex-direction: row;
+
+}
+
+td .item {
+    display: flex;
+    flex-direction: column;
+}
+
+td .info-author {
+    width: 100%;
+    position: absolute;
+}
+
+td .info-author .item .icon {
+    color: #FFA800;
+}
+
+td .info-author .button-view-offer {
+
+    color: #1BC5BD;
+    background: #C9F7F5;
+    border-radius: 5px;
+    padding: 5px;
+    margin-top: 10px;
+    right: 0;
+}
+
+.rating {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@media screen and (min-width:1000px) {
+
+
+    #menu-left {
+        display: block;
+    }
+
+    #main-body {
+        margin-left: 440px;
+    }
+
+    section#main-body {
+        width: calc(100% - 440px);
+        margin-left: 440px;
+    }
+
+    .sales-bottom .row .col-md-6,
+    .sales-bottom .row .col-xs-6,
+    .sales-bottom .row .col-lg-6 {
+        width: 50%;
+    }
+}
+@media screen and (max-width:1000px) {
+
+
+    #menu-left {
+        display: none;
+    }
+
+    #main-body {
+        margin-left: 60px;
+    }
+
+    #main-body {
+        width: calc(100% - 60px);
+    }
+
+    .sales-bottom .row .col-md-6,
+    .sales-bottom .row .col-xs-6,
+    .sales-bottom .row .col-lg-6 {
+        width: 50%;
+    }
+}

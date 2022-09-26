@@ -31,7 +31,7 @@ bundle exec rails db:seed
 # Run server on port 3000
 
 ```bash
-bundle exec foreman start
+rails s
 ```
 
 After all of above commands are executed, you are now able to access: `http://localhost.com:3000/`
