@@ -6,5 +6,7 @@ Rails.application.routes.draw do
         post :user_login
       end
     end
+
+    resources :users
   end
 end
