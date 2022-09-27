@@ -108,7 +108,7 @@ export default {
     };
   },
   created() {
-    this.checkUser();
+    // this.checkUser();
     console.log(this.config);
 
   },
@@ -141,31 +141,31 @@ export default {
       this.password = "";
     },
     submit() {
-      var md5 = require("md5");
-      this.password = md5(this.password);
-      console.log(this.password);
+      // var md5 = require("md5");
+      // this.password = md5(this.password);
+      // console.log(this.password);
       api
-        // .post("/api/auths/admin_login", {
-          .post("/api/login", {
+        .post("/api/auths/admin_login", {
+          // .post("/api/login", {
           email: this.email,
           password: this.password,
         })
         .then((res) => {
           console.log(res);
-          if (!res.data.success) {
+          if (!res.data) {
             this.isError = true;
             this.isSuccess = false;
             this.error = "Email or Password is not correct";
             this.success = "";
             this.reset();
           }
-          if (res.data.success) {
+          if (res.data) {
             this.isError = false;
             this.isSuccess = true;
             this.error = "";
             this.success = "Successful Login!";
-            localStorage.setItem("token", res.data.token);
-            localStorage.setItem("email", res.data.user.email);
+            localStorage.setItem("token", res.data);
+            // localStorage.setItem("email", res.data.user.email);
             localStorage.setItem("login", "online");
             this.user.name = res.data.user.name;
             this.user.token = localStorage.getItem("token");
