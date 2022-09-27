@@ -141,12 +141,12 @@ export default {
       this.password = "";
     },
     submit() {
-      var md5 = require("md5");
-      this.password = md5(this.password);
+      // var md5 = require("md5");
+      // this.password = md5(this.password);
       console.log(this.password);
       api
-        // .post("/api/auths/admin_login", {
-          .post("/api/login", {
+        .post("/api/auths/admin_login", {
+          // .post("/api/login", {
           email: this.email,
           password: this.password,
         })
