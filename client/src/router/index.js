@@ -13,6 +13,9 @@ const routes = [
     path: '/', name: 'client', component: Client, children: [
       {  path: '/', name: 'home.index', component: () => import('@/components/client/IndexClient.vue') },
       {  path: 'products', name: 'home.products', component: () => import('@/views/client/products/ListProducts.vue') },
+      {  path: 'register', name: 'home.register', component: () => import('@/views/client/users/RegisterUser.vue') },
+      {  path: 'users', name: 'home.users', component: () => import('@/views/client/users/ListUser.vue') },
+
 
     ],
   },

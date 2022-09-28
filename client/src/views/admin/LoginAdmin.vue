@@ -91,7 +91,7 @@ import api from '@/plugin/axios';
 export default {
   data() {
     return {
-      headers:"",
+      headers: "",
       error: "",
       isError: false,
       success: "",
@@ -105,52 +105,68 @@ export default {
         token: localStorage.getItem("token"),
         username: "",
       },
-    };
+    }
   },
   created() {
-    // this.checkUser();
-    console.log(this.config);
+    this.checkUser();
+    console.log(this.config.header);
 
   },
   mounted() { },
   methods: {
-    logoutUser() {
-      localStorage.removeItem("email");
-      localStorage.removeItem("token");
-      localStorage.removeItem("login");
-    },
+    // logoutUser() {
+    //   localStorage.removeItem("email");
+    //   localStorage.removeItem("token");
+    //   localStorage.removeItem("login");
+    // },
     async checkUser() {
-      await 
-      api
-        .post("/api/client", {
-          email: this.$store.state.user.email
-        })
-        .then((res) => {
+      const header = {
+        Authorization: "Bearer " + this.$store.state.user.token
+      }
+      // console.log(header);
+      await api
+        .get("/api/auths/client", {
+          headers: header
+        }).then(res => {
           console.log(res)
           if (!res.data.success) {
             localStorage.setItem("login", "offline");
-            localStorage.setItem("email", "");
+            window.location.href = "/admin/login";
           }
+
           if (res.data.success) {
-            localStorage.setItem("login", "online");
-            window.location.href = "/admin/management/users";
+            this.client.username = res.data.user.username;
+            this.client.password = res.data.user.password;
+            localStorage.setItem("login", "online")
           }
         });
     },
+    // async checkUser() {
+    //   const header = { Authorization: "Bearer " + this.$store.state.user.token};
+    //   console.log(header);
+    //   await 
+    //   api
+    //     .get("/api/client", { headers: this.header} ).then(res => {
+    //       console.log(res)
+    //       // if (!res.data.success) {
+    //       //   localStorage.setItem("login", "offline");
+    //       //   localStorage.setItem("email", "");
+    //       // }
+    //       // if (res.data.success) {
+    //       //   localStorage.setItem("login", "online");
+    //       //   window.location.href = "/admin/management/users";
+    //       // }
+    //     });get
+    // },
     reset() {
-      this.password = "";
+      this.password = ""
     },
     submit() {
-      // var md5 = require("md5");
-      // this.password = md5(this.password);
-      // console.log(this.password);
-      api
-        .post("/api/auths/admin_login", {
-          // .post("/api/login", {
-          email: this.email,
-          password: this.password,
-        })
-        .then((res) => {
+      api.get("/api/auths/admin_login", {
+        email: this.email,
+        password: this.password
+      })
+        .then(res => {
           console.log(res);
           if (!res.data) {
             this.isError = true;
@@ -175,10 +191,10 @@ export default {
         });
     },
   },
-  computed: {
-  }
+  computed: {}
 };
 </script>
+
 <style scoped>
 p.error {
   margin: 10px auto;

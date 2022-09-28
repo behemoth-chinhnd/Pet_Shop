@@ -10,7 +10,7 @@ api.interceptors.request.use((config) => {
   config.headers = {
     Authorization: "Bearer " + store.state.user.token,
   };
-  console.log(config.headers); 
+  // console.log(config.headers); 
   return config;
 });
 

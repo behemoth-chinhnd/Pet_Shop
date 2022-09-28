@@ -53,11 +53,11 @@ export default {
       window.location.href = "/admin/login";
     },
     async checkUser() {
+      const header = {Authorization:"eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZXhwIjoxNjY1NTY0ODg5fQ.-J3L-LkuGEU8kLP-uL95qmLDbmvDqqT_mB_CuNvoDMI"}
+      console.log(header);
       await api
-        .post("/api/client", {
-          email: this.$store.state.user.email,
-        })
-        .then((res) => {
+        .get("/api/checkUser", {headers:header}).then(res=> {
+          console.log(res)
           if (!res.data.success) {
             localStorage.setItem("login", "offline");
             window.location.href = "/admin/login";
