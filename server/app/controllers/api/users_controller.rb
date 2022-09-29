@@ -18,7 +18,7 @@ module Api
       form = ::Users::UserForm.new.assign_model(::User.new, user_params.to_h)
 
       if form.save
-        binding.pry
+        # binding.pry
         response_success(form, { serializer: ::Users::UserListSerializer })
       else
         response_error(form.errors.to_hash(true))

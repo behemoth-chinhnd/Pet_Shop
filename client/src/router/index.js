@@ -13,6 +13,8 @@ const routes = [
     path: '/', name: 'client', component: Client, children: [
       {  path: '/', name: 'home.index', component: () => import('@/components/client/IndexClient.vue') },
       {  path: 'products', name: 'home.products', component: () => import('@/views/client/products/ListProducts.vue') },
+      {  path: 'products/detail/:id', name: 'home.products.detail', component: () => import('@/views/client/products/DetailProducts.vue') },
+      {  path: 'carts', name: 'home.carts', component: () => import('@/views/client/carts/ListCarts.vue') },
       {  path: 'register', name: 'home.register', component: () => import('@/views/client/users/RegisterUser.vue') },
       {  path: 'users', name: 'home.users', component: () => import('@/views/client/users/ListUser.vue') },
 

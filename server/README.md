@@ -28,6 +28,11 @@ bundle exec rake ridge:apply ALLOW_DROP_TABLE=1 ALLOW_REMOVE_COLUMN=1
 bundle exec rails db:seed
 ```
 
+## fix errors version 
+
+source ~/.rvm/scripts/rvm
+rvm use 3.1.1
+
 # Run server on port 3000
 
 ```bash

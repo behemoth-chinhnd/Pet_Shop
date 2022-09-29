@@ -7,12 +7,12 @@
                 <div class="panel-body flex-row-space-between-center">
                     <div class="btn">
                         <button class="btn btn-primary text-white">
-                            <router-link to="/admin/management/products">Product</router-link>
+                            <router-link to="/admin/management/carts">cart</router-link>
                         </button>
                     </div>
                     <div class="btn">
                         <button class="btn btn-primary text-white">
-                            <router-link to="/admin/management/products/create">Add New</router-link>
+                            <router-link to="/admin/management/carts/create">Add New</router-link>
                         </button>
 
                         <button @click="showFilter = !showFilter" class="btn btn-info btn-sm mgl-10px text-white">
@@ -46,27 +46,30 @@
                 <div class="card-deck mb-3 text-center scroll-x">
 
                     <div class="cards">
-                        
-                            <div  class="card" v-for="(post, index) in List" :key="index">
-                                <router-link class="" :to="{ name: 'home.products.detail', params: { id: post.id }, }">
 
-                                <img class="img-card" src="@/assets/images/products/gai-xinh-1.jpg" alt="">
-                            </router-link>
-
-                                <div class="card-top">
-                                    <span class="item-1">{{ post.pid }} {{ post.name }}</span>
-                                    <span class="item-2">{{ post.price }}</span>
-                                </div>
-                                <div class="card-bottom flex-row-space-between" >
-                                    <!-- <div class=""> -->
-
-                                        <div>VND: {{ post.price }}</div>
-                                        <div>Buy: 2899</div>
-                                    <!-- </div> -->
-                                </div>
-
+                        <div class="card" v-for="(post, index) in List" :key="index">
+                            <img class="img-card" src="@/assets/images/products/gai-xinh-1.jpg" alt="">
+                            <div class="card-top">
+                                <span class="item-1">{{ post.cid }} {{ post.name }}</span>
+                                <span class="item-2">{{ post.price }}</span>
                             </div>
-                        
+                            <div class="card-bottom flex-row-space-between">
+                                <!-- <div class=""> -->
+
+                                <div>
+                                    <div>
+                                        {{post.quantity}} x {{ post.price }}
+                                    </div>
+                                    <div>Total: {{post.quantity * post.price }}</div>
+                                </div>
+
+
+                                <div>Time: {{ post.time }}</div>
+                                <!-- </div> -->
+                            </div>
+
+                        </div>
+
                     </div>
 
                 </div>
@@ -84,7 +87,7 @@
 <script>
 import Paginate from "vuejs-paginate";
 export default {
-    name: "ProductForm",
+    name: "cartForm",
     components: {
         Paginate,
     },
@@ -96,7 +99,7 @@ export default {
                 minprice: "",
                 maxprice: "",
             },
-            products: [],
+            carts: [],
             // List: [],
             page: {
                 pageCount: 0,
@@ -105,7 +108,7 @@ export default {
             },
             currentSort: "time",
             currentSortDir: 1,
-            title: "product",
+            title: "cart",
             showFilter: false,
             filters: ["id", "name", "price", "time"],
             nPage: [],
@@ -139,10 +142,6 @@ export default {
     methods: {
         clickCallback(pageNum) {
             this.page.pageCount = pageNum - 1;
-
-            // this.params.page = pageNum;
-            // this.getAll();
-            // console.log(pageNum)
         },
         prev() {
             if (this.model.prev_page_url) {
@@ -163,20 +162,20 @@ export default {
         async getAll() {
             // console.log(this.builUrl());
             await this.$request.get(this.builUrl()).then((res) => {
-                this.products = res.data;
+                this.carts = res.data;
                 // sort price
-                // this.products = this.products.sort((a, b) => a.price - b.price);
+                // this.carts = this.carts.sort((a, b) => a.price - b.price);
                 // sort reverse
-                this.products = this.products.reverse();
-                // this.products.time = this.products.time.getUTCMilliseconds();
+                this.carts = this.carts.reverse();
+                // this.carts.time = this.carts.time.getUTCMilliseconds();
             });
         },
         builUrl() {
             // let p = this.params;
-            // return `http://localhost:8000/api/products?page=${p.page}&per_page=${p.per_page}&sort_column=${p.sort_column}&direction=${p.direction}&search_column=${p.search_column}&search_operator=${p.search_operator}&search_query_1=${p.search_query_1}&search_query_2=${p.search_query_2}`;
-            return `http://localhost:8000/api/products`;
+            // return `http://localhost:8000/api/carts?page=${p.page}&per_page=${p.per_page}&sort_column=${p.sort_column}&direction=${p.direction}&search_column=${p.search_column}&search_operator=${p.search_operator}&search_query_1=${p.search_query_1}&search_query_2=${p.search_query_2}`;
+            return `http://localhost:8000/api/carts`;
         },
-        onDelete(productId) {
+        onDelete(cartId) {
             this.$swal
                 .fire({
                     title: "Delete?",
@@ -196,7 +195,7 @@ export default {
                 .then((result) => {
                     if (result.isConfirmed) {
                         this.$request
-                            .delete(`http://localhost:8000/api/products/${productId}`)
+                            .delete(`http://localhost:8000/api/carts/${cartId}`)
                             .then((res) => {
                                 if (res.data.success) {
                                     this.$swal.fire("Đã Xóa", "", "success");
@@ -207,7 +206,7 @@ export default {
                 });
             // });
             // let test ;
-            // const url = `http://localhost:8000/api/products/${productId}`
+            // const url = `http://localhost:8000/api/carts/${cartId}`
             // fetch(url , { method: 'DELETE'}).then(res =>test = res.ok)
             // if (test){
             //   this.p
@@ -225,37 +224,37 @@ export default {
     },
     watch: {
         currentSortDir(value) {
-            console.log(this.products);
-            this.products.sort((a, b) => this.currentSortDir);
+            console.log(this.carts);
+            this.carts.sort((a, b) => this.currentSortDir);
         },
     },
     computed: {
         getFilter() {
             // this.getAll()
-            return this.products.filter((post) => {
+            return this.carts.filter((post) => {
                 if (this.search.minprice === "" && this.search.maxprice === "") {
                     return (
                         post.name.toLowerCase().includes(this.search.name.toLowerCase()) &&
-                        post.author.toLowerCase().includes(this.search.author.toLowerCase()) &&
+                        // post.author.toLowerCase().includes(this.search.author.toLowerCase()) &&
                         post.price >= 0
                     );
                 } else if (this.search.minprice != "" && this.search.maxprice === "") {
                     return (
                         post.name.toLowerCase().includes(this.search.name.toLowerCase()) &&
-                        post.author.toLowerCase().includes(this.search.author.toLowerCase()) &&
+                        // post.author.toLowerCase().includes(this.search.author.toLowerCase()) &&
                         post.price >= this.search.minprice
                     );
                 } else if (this.search.minprice === "" && this.search.maxprice != "") {
                     return (
                         post.name.toLowerCase().includes(this.search.name.toLowerCase()) &&
-                        post.author.toLowerCase().includes(this.search.author.toLowerCase()) &&
+                        // post.author.toLowerCase().includes(this.search.author.toLowerCase()) &&
                         post.price >= 0 &&
                         post.price <= this.search.maxprice
                     );
                 } else if (this.minprice != "" && this.maxprice != "") {
                     return (
                         post.name.toLowerCase().includes(this.search.name.toLowerCase()) &&
-                        post.author.toLowerCase().includes(this.search.author.toLowerCase()) &&
+                        // post.author.toLowerCase().includes(this.search.author.toLowerCase()) &&
                         post.price >= this.search.minprice &&
                         post.price <= this.search.maxprice
                     );
@@ -340,6 +339,7 @@ export default {
         --column: 1;
     }
 }
+
 .cards a {
     color: #333;
 }
@@ -401,7 +401,6 @@ export default {
     align-items: center;
     justify-content: space-between;
 }
-
 
 .pagination li,
 .page-item {
