@@ -9,7 +9,7 @@ module Publics
     include Interactor
 
     def call
-      user = ::User.activated.find_by(email: context.email)
+      user = ::User.find_by(email: context.email)
 
       unless user
         return context.fail!(

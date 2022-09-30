@@ -402,7 +402,6 @@ export default {
     justify-content: space-between;
 }
 
-
 .pagination li,
 .page-item {
     background: var(--white);

@@ -139,6 +139,7 @@ export default {
             console.log(`Success`)
           }
         }).catch((res) => {
+          console.log(res)
           if (res.response.data.birthday) {
             this.errors.birthday = res.response.data.birthday;
           }
@@ -158,7 +159,10 @@ export default {
       };
     },
     reset() {
-      (this.user.username = ""), (this.user.email = ""), (this.user.password = "");
+      (this.user.name = "minhmonster"), 
+      (this.user.email = "dominh020195@gmail.com"), 
+      (this.user.password = "12345678"), 
+      (this.user.birthday = "02/01/1995")
     },
   },
 };

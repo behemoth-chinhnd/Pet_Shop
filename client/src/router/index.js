@@ -17,6 +17,7 @@ const routes = [
       {  path: 'carts', name: 'home.carts', component: () => import('@/views/client/carts/ListCarts.vue') },
       {  path: 'register', name: 'home.register', component: () => import('@/views/client/users/RegisterUser.vue') },
       {  path: 'users', name: 'home.users', component: () => import('@/views/client/users/ListUser.vue') },
+      {  path: 'login', name: 'home.users.login', component: () => import('@/views/client/users/LoginUser.vue') },
 
 
     ],
