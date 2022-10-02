@@ -6,7 +6,7 @@ class BaseForm < ActiveType::Object
   MAX_FREE_TEXT = 16.megabytes - 1
   attr_accessor :model
 
-  delegate :persisted, to: :model
+  delegate :persisted?, to: :model
 
   def assign_model(model, params = {})
     @model = model
