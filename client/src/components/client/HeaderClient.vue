@@ -47,7 +47,7 @@
                 <router-link  class="text-white"  to="/register">Register</router-link>
               </b-button>
               <b-button v-if="this.$store.state.AUTH.state.isActive" variant="warning">
-                <router-link  class="text-danger"  to="/profile">Hi, {{this.$store.state.user.name}}</router-link>
+                <router-link  class="text-danger"  to="/profile">Hi, {{this.$store.state.AUTH.state.user.name}}</router-link>
               </b-button>
               <b-button v-if="this.$store.state.AUTH.state.isActive" variant="danger" @click="logout()">
                 <i class="fa fa-sign-out"></i> Logout
@@ -91,24 +91,17 @@ export default {
       // isOff: true,
     };
   },
-  created() {},
+  created() {
+    this.profile();
+  },
   mounted() {
-    // window.addEventListener("resize", this.getWindowWidth);
-    // this.windowWidth = document.documentElement.clientWidth;
-    // if (this.windowWidth >= 576) {
-    //   this.isOn = true;
-    //   this.isOff = false;
-    // } else {
-    //   this.isOn = false;
-    // }
   },
   methods: {
-    async login() {
-      if (this.validate()) {
-        console.log("login func...");
-        this.$store.dispatch("AUTH/login", { email: this.email, password: this.password }) //conect Store
-
-      };
+    async logout() {
+      await this.$store.dispatch("AUTH/logout") 
+    },
+    async profile() {
+      await this.$store.dispatch("AUTH/profile") 
     },
   },
 };

@@ -60,8 +60,11 @@ export default {
   },
   // computed:mapGetters(['token']),
   created() {
+    this.isActive();
   },
-
+  computed: {
+    
+  },
 
   methods: {
     // ...mapActions([""]),
@@ -94,6 +97,12 @@ export default {
     reset() {
       (this.email = "dominh020195@gmail.com"), (this.password = "12345678");
     },
+    isActive() {
+      if(this.$store.state.AUTH.state.isActive) {
+        window.location.href = "/";
+      }
+     
+    }
   },
 };
 </script>

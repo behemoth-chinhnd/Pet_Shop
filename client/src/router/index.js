@@ -16,8 +16,10 @@ const routes = [
       {  path: 'products/detail/:id', name: 'home.products.detail', component: () => import('@/views/client/products/DetailProducts.vue') },
       {  path: 'carts', name: 'home.carts', component: () => import('@/views/client/carts/ListCarts.vue') },
       {  path: 'register', name: 'home.register', component: () => import('@/views/client/users/RegisterUser.vue') },
-      {  path: 'users', name: 'home.users', component: () => import('@/views/client/users/ListUser.vue') },
       {  path: 'login', name: 'home.users.login', component: () => import('@/views/client/users/LoginUser.vue') },
+      {  path: 'users', name: 'home.users', component: () => import('@/views/client/users/ListUser.vue') },
+      {  path: 'profile', name: 'home.users.profile', component: () => import('@/views/client/users/ProfileUser.vue') },
+
 
 
     ],

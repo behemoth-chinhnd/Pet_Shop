@@ -1,14 +1,13 @@
-import axios from "axios";
+import request from "axios"
 import store from "@/store/store";
 
-const api = axios.create({
-  baseURL: "http://localhost:3000",
-  timeout: 3000,
+const api = request.create({
+  baseURL: process.env.VUE_APP_API
 });
 
 api.interceptors.request.use((config) => {
   config.headers = {
-    Authorization: "Bearer " + store.state.user.token,
+    Authorization: "Bearer " + store.state.AUTH.state.userToken,
   };
   // console.log(config.headers); 
   return config;
@@ -17,6 +16,7 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use((result) => {
   return result;
 });
+
 
 export default api;
 
