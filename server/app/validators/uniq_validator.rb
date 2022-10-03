@@ -12,6 +12,7 @@ class UniqValidator < ActiveModel::EachValidator
     else
       record_org = record
       attribute_org = attribute
+
       record = if record_org.persisted?
                  record_org.model
                else
@@ -35,6 +36,7 @@ class UniqValidator < ActiveModel::EachValidator
       end
 
       relation = scope_relation(record, record_org, relation)
+
       if options[:conditions]
         conditions = options[:conditions]
 
@@ -109,7 +111,6 @@ class UniqValidator < ActiveModel::EachValidator
       relation = relation.where(scope_item => scope_value)
     end
 
-    # relation = relation.where(deleted_at: nil) if (record_org&.model&.class&.respond_to? :with_deleted) || (record.class.respond_to? :with_deleted)
     relation
   end
 

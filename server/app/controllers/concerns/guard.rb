@@ -7,6 +7,8 @@ module Guard
                     admin?
                   when :customer
                     customer?
+                  when :login
+                    login?
                   when :public
                     true
                   else
@@ -19,10 +21,14 @@ module Guard
   end
 
   def admin?
-    Current.admin.present?
+    Current.user && Current.user.instance_of?(Admin)
   end
 
   def customer?
     Current.user && Current.user.instance_of?(User)
+  end
+
+  def login?
+    Current.user.present?
   end
 end

@@ -23,6 +23,21 @@ ActiveRecord::Schema[7.0].define(version: 0) do
     t.index ["email"], name: "index_admin_on_email", unique: true
   end
 
+  create_table "products", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "number", null: false
+    t.string "name", null: false
+    t.integer "master_list_price"
+    t.integer "master_sales_price"
+    t.string "master_sku"
+    t.bigint "creator_id"
+    t.string "creator_type"
+    t.integer "lock_version"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name", "creator_id", "creator_type"], name: "index_products_on_name_creator_id_creator_type", unique: true
+    t.index ["number", "creator_id", "creator_type"], name: "index_products_on_number_creator_id_creator_type", unique: true
+  end
+
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "email", null: false
     t.string "name", null: false

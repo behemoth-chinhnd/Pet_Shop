@@ -7,6 +7,10 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :users
+    resource :user
+
+    get :users, to: "users#index"
+
+    resources :products
   end
 end

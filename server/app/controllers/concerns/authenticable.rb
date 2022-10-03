@@ -8,15 +8,19 @@ module Authenticable
   def current_user
     return nil unless token
 
-    service = ::Shared::Authentications::DecodeTokenService.call(token:)
+    begin
+      decoded = JsonWebToken.decode(token)
+
+      service = if decoded[:type] == "user"
+                  ::Shared::Authentications::DecodeTokenService.call(decoded:)
+                else
+                  ::Shared::Authentications::DecodeTokenAdminService.call(decoded:)
+                end
+    rescue StandardError => _e
+      return nil
+    end
+
     return service.success? ? service.user : nil
-  end
-
-  def current_admin
-    return nil unless token
-
-    service = ::Shared::Authentications::DecodeTokenAdminService.call(token:)
-    return service.success? ? service.admin : nil
   end
 
   def token
