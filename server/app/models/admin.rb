@@ -19,6 +19,8 @@
 class Admin < ApplicationRecord
   devise :database_authenticatable
 
+  has_many :products, foreign_key: "creator_id", foreign_type: "creator_type", as: :products, dependent: :destroy
+
   def jwt_payload
     {
       sub: id,
