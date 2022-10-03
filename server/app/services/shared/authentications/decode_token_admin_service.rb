@@ -4,18 +4,11 @@ module Shared
       include Interactor
 
       def call
-        context.fail!(message: "Token invalid!") if context.token.blank?
+        user = ::Admin.find_by(id: context.decoded["sub"])
 
-        decode_token = JsonWebToken.decode(context.token)
-        context.fail!(message: "Token invalid!") if decode_token["type"] != "admin"
+        context.fail!(message: "Token invalid!") if user.blank? || user.is_logout
 
-        admin = ::Administrator.find_by(id: decode_token["sub"])
-
-        context.fail!(message: "Token invalid!") if admin.blank? || admin.is_logout
-
-        context.admin = admin
-      rescue JWT::DecodeError, JWT::ExpiredSignature, StandardError => e
-        context.fail!(message: e.message)
+        context.user = user
       end
     end
   end

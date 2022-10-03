@@ -9,6 +9,5 @@ class ApplicationController < ActionController::API
 
   def set_user!
     Current.user = current_user
-    Current.admin = current_admin
   end
 end
