@@ -12,5 +12,7 @@ Rails.application.routes.draw do
     get :user, to: 'users#show'
     delete :user, to: 'users#destroy'
     put :user, to: 'users#update'
+
+    resources :products
   end
 end
