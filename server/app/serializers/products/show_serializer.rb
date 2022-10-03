@@ -10,7 +10,7 @@ module Products
                :created_at,
                :updated_at
 
-    belongs_to :user
+    belongs_to :creator
 
     class UserSerializer < ActiveModel::Serializer
       attributes :id, :email, :name

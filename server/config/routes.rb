@@ -7,11 +7,9 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :users , except: [:show, :destroy, :update]
+    resource :user
 
-    get :user, to: 'users#show'
-    delete :user, to: 'users#destroy'
-    put :user, to: 'users#update'
+    get :users, to: "users#index"
 
     resources :products
   end

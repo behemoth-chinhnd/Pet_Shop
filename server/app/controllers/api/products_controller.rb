@@ -13,7 +13,7 @@ module Api
       @pagy, @product = pagy(product, items: params[:per_page] || DEFAULT_PER_PAGE, page: params[:page] || DEFAULT_PAGE)
 
       response_list(@product, { adapter: :json,
-                             each_serializer: ::Products::ShowSerializer })
+                                each_serializer: ::Products::ShowSerializer })
     end
 
     def create
@@ -51,11 +51,11 @@ module Api
     private
 
     def product_params
-      product_params = params.require(:product).permit( :number, 
-                                                        :name, 
-                                                        :master_sku, 
-                                                        :master_list_price, 
-                                                        :master_sales_price)
+      product_params = params.require(:product).permit(:number,
+                                                       :name,
+                                                       :master_sku,
+                                                       :master_list_price,
+                                                       :master_sales_price)
     end
 
     def set_user
