@@ -3,6 +3,7 @@ import Api from "../../apis";
 
 const state = {
     state: {
+        isActive: false,
         userToken: ""
     },
 };
@@ -13,6 +14,9 @@ const mutations = {
     setToken(state, value) {
         state.state.userToken = value;
     },
+    setActive(state, value) {
+        state.state.isActive = value;
+    },
 };
 const actions = {
     async login({ commit }, credentials) {
@@ -21,18 +25,30 @@ const actions = {
         }).then(res => {
             if (res.data) {
                 commit("setToken", res.data);
-
-                localStorage.setItem("token", res.data);
+                commit("setActive", true);
                 con
             } else {
+                commit("setActive", false);
                 console.log(`Login Failed`)
             }
         }).catch((res) => {
             if (res.response) {
-                console.log(res.response)
+                console.log(res.response.data.message)
+                commit("setToken", "");
+                commit("setActive", false);
+                // localStorage.removeItem("email");
+                // localStorage.removeItem("token");
+                // localStorage.removeItem("vuex");
+
+
             }
         })
     },
+
+    async logout(commit) {
+        commit("setToken", "");
+        commit("setActive", false);
+    }
 }
 
 export default {

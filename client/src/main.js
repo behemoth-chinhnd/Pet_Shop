@@ -12,12 +12,12 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 // import "@/assets/js/style.js";
-// import "./assets/css/style.css";
+import "./assets/css/reset.css";
+import "./assets/css/style.css";
 import "./assets/css/mms-style.css";
 import "./assets/css/mms-style-client.css";
 
 
-import "./assets/css/reset.css";
 
 // import Vuex from "vuex";
 // import { createApp } from "vue";

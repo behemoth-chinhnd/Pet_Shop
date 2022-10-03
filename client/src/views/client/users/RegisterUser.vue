@@ -1,15 +1,14 @@
 <template>
   <div class="body">
-    <section id="main-body">
-      <div class="add-user">
-        <div class="container bg-white mgt--20px">
-          <div class="panel-body flex-row-space-between-center">
-            <div class="btn">
+    <div class="container">
+      <div class="register-user bg-default">
+        <div class="container ">
+          <!-- <div class="btn">
               <button class="btn btn-primary text-white">
                 <router-link to="/admin/management/users">Back</router-link>
               </button>
-            </div>
-          </div>
+            </div> -->
+          <h1 class="color-primary center">REGISTER USER</h1>
           <form action="" @submit.prevent="save()" class="needs-validation text-left" novalidate>
             <div class="form-group row">
               <label for="inputName" class="col-md-3 col-form-label">Name</label>
@@ -45,9 +44,17 @@
             </div>
             <div class="form-group row">
               <label for="inputName" class="col-md-3 col-form-label">Sex</label>
-              <div class="col-md-9">
-                <input type="radio"  v-model="user.sex_id" @blur="validate()" value="1" />
-                  <input type="radio"  v-model="user.sex_id" @blur="validate()" value="2" />
+              <div class="col-md-9 flex-row-start-center gap-20px">
+                <div class="form-group flex-row-start-center gap-5px">
+                  <label>Male</label>
+                <input class="mgl-5px" type="radio" v-model="user.sex_id" @blur="validate()" value="1" />
+                </div>
+              
+               <div class="form-group flex-row-start-center gap-5px">
+                <label >Female</label>
+                <input type="radio" v-model="user.sex_id" @blur="validate()" value="2" />
+               </div>
+                
                 <div class="feedback-invalid" v-if="errors.sex_id">
                   {{ errors.sex_id }}
                 </div>
@@ -75,7 +82,7 @@
           </form>
         </div>
       </div>
-    </section>
+    </div>
   </div>
 </template>
 <script>
@@ -113,7 +120,7 @@ export default {
         username: "",
         email: "",
         password: "",
-        birthday:""
+        birthday: ""
       };
       if (!this.user.name) {
         this.errors.name = "Error: Name not Empty";
@@ -159,15 +166,21 @@ export default {
       };
     },
     reset() {
-      (this.user.name = "minhmonster"), 
-      (this.user.email = "dominh020195@gmail.com"), 
-      (this.user.password = "12345678"), 
-      (this.user.birthday = "02/01/1995")
+      (this.user.name = "minhmonster"),
+        (this.user.email = "dominh020195@gmail.com"),
+        (this.user.password = "12345678"),
+        (this.user.birthday = "02/01/1995")
     },
   },
 };
 </script>
-<style>
+<style scoped>
+.register-user {
+  width: 500px;
+  margin: 0 auto;
+  border: 1px solid #a4a4a4;
+}
+
 .form-group {
   margin-bottom: 10px;
 }

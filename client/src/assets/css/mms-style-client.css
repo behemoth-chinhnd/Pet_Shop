@@ -242,14 +242,17 @@
           .table-default table{
               width: 700px;
           }
+         
           #header-bottom{
               display: none;
           }
       
-          #main{
+          /* #main{
               margin-top:110px
+          } */
+          .body{
+            margin-top:150px ;
           }
-      
           .group-icon-right{
               margin-top: 30px;
           }
@@ -343,11 +346,15 @@
       
       
           @media (min-width: 768px){
+            .body{
+                margin-top:40px ;
+              }
       
               #header-bottom.active {
                   display: none;
                   margin-top: 110px;
               }
+              
       
               .button-search{
                   display: none;
@@ -416,6 +423,7 @@
       
           
           @media (min-width: 992px){
+           
       
           .container { max-width: 960px; }
           .box{ max-width: 960px; } 
@@ -1139,9 +1147,19 @@
       .pd-tb-2px { padding: 2px 0; }
       .pd-tb-1px { padding: 1px 0; }
       
-      
-      .gap-10{
+      .gap-5px{
+        gap: 5px;
+      }
+
+      .gap-10px, .gap-10{
           gap: 10px;
+      }
+      .gap-20px{
+        gap: 20px;
+      }
+
+      .gap-30px{
+        gap: 30px;
       }
       
       .mg-auto-0{

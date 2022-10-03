@@ -15,11 +15,11 @@ export default  new Vuex.Store({
       count:0,
       user: {
         id: "",
-        username: "",
+        name: "MinhMonster",
         password: "",
         email: "",
         cash: "",
-        token: "xdcfghj",
+        token: "",
       },
     },
     // mutations: {

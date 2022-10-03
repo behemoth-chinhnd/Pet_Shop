@@ -28,7 +28,7 @@
             </div>
 
             <div class="flex-row-wrap gap-10px">
-              <a class="icon warning" href="">
+              <!-- <a class="icon warning" href="">
                 <img src="images/Cart3.png" alt="" />
               </a>
               <a class="icon primary" href="">
@@ -39,9 +39,19 @@
               </a>
               <a class="icon warning" href="">
                 <img src="images/Layout-4-blocks.png" alt="" />
-              </a>
-              <a class="icon-text" href="#">Hi, Sean</a>
-              <a class="icon-big dark dark-3" href="">S</a>
+              </a> -->
+              <b-button  v-if="!this.$store.state.AUTH.state.isActive" variant="primary">
+                <router-link  class="text-white" to="/login" >Login User</router-link>
+              </b-button>
+              <b-button v-if="!this.$store.state.AUTH.state.isActive" variant="primary">
+                <router-link  class="text-white"  to="/register">Register</router-link>
+              </b-button>
+              <b-button v-if="this.$store.state.AUTH.state.isActive" variant="warning">
+                <router-link  class="text-danger"  to="/profile">Hi, {{this.$store.state.user.name}}</router-link>
+              </b-button>
+              <b-button v-if="this.$store.state.AUTH.state.isActive" variant="danger" @click="logout()">
+                <i class="fa fa-sign-out"></i> Logout
+              </b-button>
             </div>
           </div>
         </div>
@@ -93,16 +103,13 @@ export default {
     // }
   },
   methods: {
-    // getWindowWidth(event) {
-    //   this.windowWidth = document.documentElement.clientWidth;
-    //   if (this.windowWidth >= 576) {
-    //     this.isOn = true;
-    //     this.isOff = false;
-    //   } else {
-    //     this.isOn = false;
-    //     // this.isOff = true;
-    //   }
-    // },
+    async login() {
+      if (this.validate()) {
+        console.log("login func...");
+        this.$store.dispatch("AUTH/login", { email: this.email, password: this.password }) //conect Store
+
+      };
+    },
   },
 };
 </script>

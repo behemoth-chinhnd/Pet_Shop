@@ -1,16 +1,11 @@
 <template>
   <div class="body">
-    <section id="main-body">
-      <div class="login-user">
-        <div class="container bg-white mgt--20px">
-          <div class="panel-body flex-row-space-between-center">
-            <div class="btn">
-              <button class="btn btn-primary text-white">
-                <router-link to="/register">Register</router-link>
-              </button>
-            </div>
-          </div>
-          <h1>Token: {{this.$store.state.AUTH.state.userToken}}</h1>
+    <div class="container">
+      <div class="login-user bg-white">
+        <div class="container">
+          <!-- <div class="panel-body flex-row-space-between-center "> -->
+            <h1 class="center color-primary">LOGIN USER</h1>
+          <!-- </div> -->
           <form action="" @submit.prevent="login()" class="needs-validation text-left" novalidate>
             <div class="form-group row">
               <label for="email" class="col-md-3 col-form-label">Email</label>
@@ -45,7 +40,7 @@
           </form>
         </div>
       </div>
-    </section>
+    </div>
   </div>
 </template>
 <script>
@@ -102,7 +97,12 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
+  .login-user{
+    width: 500px;
+    margin: 0 auto;
+    border: 1px solid #a4a4a4;
+  }
 .form-group {
   margin-bottom: 10px;
 }
