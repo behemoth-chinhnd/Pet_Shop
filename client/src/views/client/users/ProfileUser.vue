@@ -3,9 +3,7 @@
         <div class="container">
             <div class="login-user bg-white">
                 <div class="container">
-                    <!-- <div class="panel-body flex-row-space-between-center "> -->
                     <h1 class="center color-primary">PROFILE USER</h1>
-                    <!-- </div> -->
                     <form action="" @submit.prevent="login()" class="needs-validation text-left" novalidate>
                         <div class="form-group row flex-row-start-center">
                             <label for="name" class="col-md-3 col-form-label">Name:</label>
@@ -35,22 +33,11 @@
                             <label for="type_user" class="col-md-3 col-form-label">User Type:</label>
                             <p id="type_user" class=" col-md-9">{{this.type_user}}</p>
                         </div>
-                       
                         <div class="form-group row flex-row-start-center">
                             <label for="created" class="col-md-3 col-form-label">Created:</label>
                             <p id="created" class=" col-md-9">{{this.created_at}}</p>
                         </div>
-
                         
-                        <div class="form-group row">
-                            <label for="input" class="col-md-3 col-form-label"></label>
-                            <div class="col-md-9">
-                                <div class="left group-btn">
-                                    <!-- <b-button type="submit" variant="primary ">Save</b-button>
-                                    <b-button variant="danger mgl-10px" @click="reset()">Test</b-button> -->
-                                </div>
-                            </div>
-                        </div>
                     </form>
                 </div>
             </div>
@@ -58,27 +45,19 @@
     </div>
 </template>
 <script>
-// import { mapGetters } from "@/store/modules/auth";
-// import api from '@/plugin/axios';
 export default {
-    // name: "LoginUser",
+    name: "ProfileUser",
     data() {
         return {
-            errors: {
-                email: "",
-                password: ""
-            },
             email: '',
             password: '',
             sex: "",
             phone: null,
             type_user:"",
             address_user: null ,
-            
             created_at: "",
         };
     },
-    // computed:mapGetters(['token']),
     created() {
         this.isActive();
         const sex_id = this.$store.state.AUTH.state.user.sex_id;
@@ -91,10 +70,7 @@ export default {
         this.addressUser(address)
         this.created_at = this.$store.state.AUTH.state.user.created_at.slice(0,10)
     },
-    computed: {
-        
-    },
-
+    computed: {},
     methods: {
         sexUser(sex_id) {
             if (sex_id === 1) {
@@ -128,15 +104,11 @@ export default {
                 return this.address_user = address;
             }
         },
-
-        // ...mapActions([""]),
-
         isActive() {
             if (!this.$store.state.AUTH.state.isActive) {
                 window.location.href = "/login";
             }
         },
-
     },
 };
 </script>

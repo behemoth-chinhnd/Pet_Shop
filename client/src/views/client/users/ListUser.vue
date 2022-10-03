@@ -79,8 +79,8 @@
               </thead>
   
               <tbody>
-                <tr v-for="(post, index) in List" :key="index">
-                  <td scope="row">{{ post.uid }}</td>
+                <tr v-for="post in getAllUser" :key="post.id">
+                  <td scope="row">{{ post.id }}</td>
                   <td>{{ post.name }}</td>
                   <!-- <td>{{ post.username }}</td> -->
                   <td>{{ post.email }}</td>
@@ -92,19 +92,19 @@
                       <b-button variant="primary">
                         <i class="fa fa-edit"></i>
                       </b-button>
-                    </router-link>
-                    <b-button variant="danger" @click="onDelete(post.id)">
+                    </router-link> 
+                   <b-button variant="danger" @click="onDelete(post.id)">
                       <i class="fa fa-trash"></i>
-                    </b-button>
+                    </b-button> 
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <div v-if="this.page.count > 1" class="panel-footer">
+          <div v-if="this.params.pages > 1" class="panel-footer">
             <paginate
               v-model="params.page"
-              :page-count="this.page.count"
+              :page-count="this.params.pages"
               :page-range="3"
               :margin-pages="2"
               :click-handler="clickCallback"
@@ -124,6 +124,7 @@
   // import "@/assets/js/style.js";
   // import HeaderTest from "@/components/incfiles/HeaderTest.vue";
   import api from '@/plugin/axios';
+  import listUser from '@/store/modules/auth'
 
   export default {
     name: "ProductForm",
@@ -137,9 +138,8 @@
         currentSort: "time",
         currentSortDir: 1,
         search: {
-          // uid: "",
+          id: "",
           name: "",
-          // username: "",
           email: "",
         },
         page: {
@@ -149,13 +149,15 @@
         },
         params: {
           page: 1,
-          per_page: 1,
+          per_page: 15,
           sort_column: "id",
           direction: "desc",
           search_column: "id",
           search_operator: "equal_to",
           search_query_1: "",
           search_query_2: "",
+          q:{},
+          pages: 1
         },
       };
     },
@@ -163,11 +165,11 @@
       this.getAll();
     },
     mounted() {
-      // this.products = this.products.sort((a, b) => a.price - b.price)
     },
     methods: {
       clickCallback(pageNum) {
-        this.page.pageCount = pageNum - 1;
+        this.params.page = pageNum
+        this.getAll() 
       },
       prev() {
         if (this.model.prev_page_url) {
@@ -182,11 +184,8 @@
         }
       },
       getAll() {
-        api.get("/api/users").then((res) => {
-          this.users = res.data;
-         
-          // this.users = this.users.reverse();
-        });
+          this.$store.dispatch("AUTH/getAllUser", { page: this.params.page, per_page: this.params.per_page, q: {} }) 
+          this.params.pages = this.$store.state.AUTH.state.params.pages;
       },
       onDelete(userId) {
         this.$swal
@@ -208,8 +207,9 @@
           .then((result) => {
             if (result.isConfirmed) {
               api
-                .delete(`h/api/users/${userId}`)
+                .delete(`/api/users`,{id:userId})
                 .then((res) => {
+                  console.log(res)
                   if (res.data.success) {
                     this.$swal.fire("Đã Xóa", "", "success");
                     this.getAll();
@@ -238,67 +238,10 @@
       },
     },
     computed: {
-      getFilter() {
-        // this.getAll()
-        return this.users.filter((post) => {
-          // if (this.search.uid === "") {
-            return (
-              post.name.toLowerCase().includes(this.search.name.toLowerCase()) &&
-              // post.username.toLowerCase().includes(this.search.username.toLowerCase()) &&
-              post.email.toLowerCase().includes(this.search.email.toLowerCase())
-            );
-          // } else {
-        //     return (
-        //       // post.uid == this.search.uid &&
-        //       post.name.toLowerCase().includes(this.search.name.toLowerCase()) &&
-        //       // post.username.toLowerCase().includes(this.search.username.toLowerCase()) &&
-        //       post.email.toLowerCase().includes(this.search.email.toLowerCase())
-        //     );
-        //   }
-        //   // post.price >= 0
-        //   // } else if (this.search.minprice != "" && this.search.maxprice === "") {
-        //   // return post.username.toLowerCase().includes(this.search.name.toLowerCase());
-        //   // post.author.toLowerCase().includes(this.search.author.toLowerCase()) &&
-        //   // post.price >= this.search.minprice
-        //   // } else if (this.search.minprice === "" && this.search.maxprice != "") {
-        //   // return post.username.toLowerCase().includes(this.search.name.toLowerCase());
-        //   // post.author.toLowerCase().includes(this.search.author.toLowerCase()) &&
-        //   // post.price >= 0 &&
-        //   // post.price <= this.search.maxprice
-        //   // } else if (this.minprice != "" && this.maxprice != "") {
-        //   // return post.username.toLowerCase().includes(this.search.name.toLowerCase());
-        //   // post.author.toLowerCase().includes(this.search.author.toLowerCase()) &&
-        //   // post.price >= this.search.minprice &&
-        //   // post.price <= this.search.maxprice
-        //   // }
-        });
-  
-        // }
+      getAllUser() {
+        return this.users = this.$store.state.AUTH.state.users;
       },
-  
-      List() {
-        if (this.getFilter.length % this.page.per_page === 0) {
-          this.page.count = Math.floor(this.getFilter.length / this.page.per_page);
-        } else if (this.getFilter.length <= this.page.per_page) {
-          this.page.count = Math.floor(this.getFilter.length / this.page.per_page + 1);
-          this.page.pageCount = 0;
-        } else if (this.page.pageCount > this.page.count - 1) {
-          this.page.count = Math.floor(this.getFilter.length / this.page.per_page) + 1;
-          this.page.pageCount = 0;
-        } else {
-          this.page.count = Math.floor(this.getFilter.length / this.page.per_page + 1);
-        }
-        console.log(this.page.count);
-        console.log(this.page.pageCount);
-  
-        console.log(this.users);
-  
-        return this.getFilter.slice(
-          this.page.per_page * this.page.pageCount,
-          this.page.per_page * (this.page.pageCount + 1)
-        );
       },
-    },
     // components: { HeaderApp },
   };
   </script>
@@ -314,5 +257,19 @@
     background: var(--primary) !important;
     color: var(--white);
   }
+
+  .pagination li,
+.page-item {
+  background: var(--white);
+  height: 30px;
+  width: 30px;
+  font-weight: 30px;
+  vertical-align: middle;
+  border: 1px solid #000;
+}
+
+.page-item.active {
+  background: var(--primary);
+}
   </style>
   

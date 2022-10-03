@@ -1,15 +1,21 @@
-// import AuthServices from "../../apis/modules/auth";yy
+// import AuthServices from "../../apis/modules/auth";
 // import Api from "../../apis";
 import api from "@/plugin/axios";
 import store from "../store";
-// import header from "@/plugin/axios";
 
 
 const state = {
     state: {
         user: [],
         isActive: false,
-        userToken: ""
+        userToken: "",
+        users: [],
+        params: {
+            page: 1,
+            per_page: 10,
+            q: {},
+            pages: 1
+        }
     },
 };
 const getters = {
@@ -25,9 +31,14 @@ const mutations = {
     setActive(state, value) {
         state.state.isActive = value;
     },
+    getAllUser(state, value) {
+        state.state.users = value;
+    },
+    getPages(state, value) {
+        state.state.params.pages = value;
+    },
 };
 const actions = {
-
     async login({ commit, dispatch }, credentials) {
         await api.post("/api/auths/user_login", {
             email: credentials.email, password: credentials.password
@@ -46,8 +57,6 @@ const actions = {
                 commit("setToken", "");
                 commit("setActive", false);
                 localStorage.removeItem("vuex");
-
-
             }
         })
     },
@@ -55,11 +64,9 @@ const actions = {
     async profile({ commit }) {
         await api.get("/api/user"
         ).then(res => {
-            console.log(res)
             commit("setProfile", res.data);
         }).catch((res) => {
             if (res.response) {
-                console.log(res.response.data.message)
                 commit("setToken", "");
                 commit("setActive", false);
                 commit("setProfile", "");
@@ -74,9 +81,14 @@ const actions = {
         window.location.href = "/login";
 
 
+    },
+    getAllUser({ commit }, credentials) {
+        api.get(`/api/users?page=${credentials.page}&per_page=${credentials.per_page}&q=${credentials.q}`).then((res) => {
+            commit("getAllUser", res.data.users);
+            commit("getPages", res.data.meta.pages);
+        });
     }
 }
-
 export default {
     namespaced: true,
     //namespaced giup dispath den store nao
