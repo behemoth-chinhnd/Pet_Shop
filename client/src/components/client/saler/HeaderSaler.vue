@@ -1,6 +1,6 @@
 <template>
     <div class="body">
-      <section id="main-body">
+      <section id="tab-saler">
         <div class="container">
           <div class="panel-body flex-row tab-menu">
             <router-link to="/saler"> Products</router-link>
@@ -9,7 +9,8 @@
           </div>
         </div>
       </section>
-    </div>
+        
+      </div>
   </template>
   <script>
   import Paginate from "vuejs-paginate";
@@ -38,17 +39,18 @@
   };
   </script>
   <style>
-  #main-body {
+  #tab-saler {
+        background: var(--primary);
   }
   .tab-menu {
-    /* background: #333; */
+    /* background: var(--dark); */
     display: flex;
     align-items: center;
     height: 36px;
-    margin-bottom: -20px;
+    margin-bottom: 0px;
   }
   .tab-menu a {
-    color: #000;
+    color: #fff;
     padding: 10px 20px;
     /* margin-right: 20px; */
     min-width: 100px;

@@ -1,65 +1,17 @@
 <template>
-    <div class="body">
+    <div class="body-child">
         <div class="container">
-            <!-- <div class="pricing-header px-3 py-3 pt-md-5 pd-md-4 mx-auto text-center">
-          <h2 class="display-4">Users Management</h2>
-          <p><router-link to="/admin/management/products/create">Add New</router-link></p>
-        </div> -->
-            <div class="container bg-white mgt--20px">
+            <div class="container bg-white">
                 <div class="panel-body flex-row-space-between-center">
-                    <div class="btn">
+                    <div class="">
                         <button class="btn btn-primary text-white">
-                            <router-link to="/admin/management/products">Users</router-link>
+                            <router-link to="/saler">List Product</router-link>
                         </button>
                     </div>
-                    <div class="btn">
-                        <!-- <button class="btn btn-primary text-white">
-                <router-link :to="{ name: 'admin.management.products.create' }"
-                  >Add New</router-link
-                >
-              </button> -->
-
-                        <button @click="showFilter = !showFilter" class="btn btn-info btn-sm mgl-10px text-white">
-                            <i class="fa fa-search"></i>
+                    <div class="">
+                        <button class="btn btn-primary text-white">
+                            <router-link :to="{ name: 'home.saler.products.create' }">Create New</router-link>
                         </button>
-                    </div>
-                </div>
-                <div v-if="showFilter" class="filter flex-row-space-between-center">
-                    <div class="search-wrapper">
-                        <div class="row">
-                            <!-- <div class="col-md-3">
-                  <input
-                    class="form-control"
-                    type="text"
-                    v-model="search.uid"
-                    placeholder="Uid"
-                  />
-                </div> -->
-                            <!-- <div class="col-md-3">
-                  <input
-                    class="form-control"
-                    type="text"
-                    v-model="search.name"
-                    placeholder="Name"
-                  />
-                </div> -->
-                            <!-- <div class="col-md-3">
-                  <input
-                    class="form-control"
-                    type="text"
-                    v-model.number="search.productname"
-                    placeholder="Username"
-                  />
-                </div> -->
-                            <!-- <div class="col-md-3">
-                  <input
-                    class="form-control"
-                    type="text"
-                    v-model="search.email"
-                    placeholder="Email"
-                  />
-                </div> -->
-                        </div>
                     </div>
                 </div>
                 <div class="card-deck mb-3 text-center scroll-x">
@@ -68,9 +20,10 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Name</th>
-                                <!-- <th scope="col">Username</th> -->
-                                <th scope="col">Email</th>
-                                <!-- <th scope="col">Password</th> -->
+                                <th scope="col">Number</th>
+                                <th scope="col">Master SKU</th>
+                                <th scope="col">Master List Price</th>
+                                <th scope="col">Master Sales Price</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -79,12 +32,12 @@
                             <tr v-for="post in List" :key="post.id">
                                 <td scope="row">{{ post.id }}</td>
                                 <td>{{ post.name }}</td>
-                                <!-- <td>{{ post.productname }}</td> -->
-                                <td>{{ post.email }}</td>
-                                <!-- <td>{{ post.password }}</td> -->
+                                <td>{{ post.number }}</td>
+                                <td>{{ post.master_sku }}</td>
+                                <td>{{ post.master_list_price }}</td>
+                                <td>{{ post.master_sales_price }}</td>
                                 <td class="gap-10px">
-                                    <router-link
-                                        :to="{ name: 'admin.management.products.edit', params: { id: post.id } }">
+                                    <router-link :to="{ name: 'home.saler.products.edit', params: { id: post.id } }">
                                         <b-button variant="primary">
                                             <i class="fa fa-edit"></i>
                                         </b-button>

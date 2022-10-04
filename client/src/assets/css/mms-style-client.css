@@ -251,7 +251,7 @@
               margin-top:110px
           } */
           .body{
-            margin-top:150px ;
+            margin-top:110px ;
           }
           .group-icon-right{
               margin-top: 30px;
@@ -347,7 +347,7 @@
       
           @media (min-width: 768px){
             .body{
-                margin-top:40px ;
+                margin-top: 0px ;
               }
       
               #header-bottom.active {

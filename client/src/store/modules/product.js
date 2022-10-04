@@ -49,7 +49,14 @@ const actions = {
             commit("getAll", res.data.products);
             commit("getPages", res.data.meta.pages);
         });
-    }
+    },
+    async edit({ commit }, credentials) {
+        await api.put(`/api/products/${credentials.id}`, credentials).then(res => {
+            alert(`Đã Edit Thành Công`)
+        }).catch((res) => {
+            alert(res.response.data)
+        })
+    },
 }
 export default {
     namespaced: true,

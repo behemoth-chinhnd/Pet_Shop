@@ -22,9 +22,9 @@ const routes = [
       { path: 'users', name: 'home.users', component: () => import('@/views/client/users/ListUser.vue') },
       { path: 'profile', name: 'home.users.profile', component: () => import('@/views/client/users/ProfileUser.vue') },
       { path: 'saler', name: 'home.saler', component: Saler, children: [
-        { path: '/', name: 'home.saler.index', component: () => import('@/views/client/saler/products/ListProduct.vue') },
+        { path: '/', name: 'home.saler.products', component: () => import('@/views/client/saler/products/ListProduct.vue') },
         { path: 'products/create', name: 'home.saler.products.create', component: () => import('@/views/client/saler/products/CreateProduct.vue') },
-        // { path: 'products/edit/:id', name: 'home.saler.products.edit', component: () => import('@/views/client/saler/products/EditProduct.vue') },
+        { path: 'products/edit/:id', name: 'home.saler.products.edit', component: () => import('@/views/client/saler/products/EditProduct.vue') },
 
         
 
