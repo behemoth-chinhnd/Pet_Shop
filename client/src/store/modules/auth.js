@@ -2,6 +2,7 @@
 // import Api from "../../apis";
 import api from "@/plugin/axios";
 import store from "../store";
+// import fauth from "@/apis/modules/auth"
 
 
 const state = {
@@ -15,13 +16,21 @@ const state = {
             per_page: 10,
             q: {},
             pages: 1
-        }
+        },
+        isErr: false,
+        errors: []
     },
 };
 const getters = {
     getToken: state => state.token
 };
 const mutations = {
+    setErrors(state, value) {
+        state.state.errors = value;
+    },
+    isError(state, value) {
+        state.state.isErr = value;
+    },
     setToken(state, value) {
         state.state.userToken = value;
     },
@@ -39,7 +48,21 @@ const mutations = {
     },
 };
 const actions = {
+    async register({ commit }, credentials) {
+        await api.post("/api/user", credentials).then(res => {
+            if (res) {
+                commit("isError", false);
+                commit("setErrors", "");
+                window.location.href = "/login";
+            }
+        }).catch((res) => {
+            commit("isError", true);
+            commit("setErrors", res.response.data);
+        })
+    },
+
     async login({ commit, dispatch }, credentials) {
+        // console.log(fauth.login)
         await api.post("/api/auths/user_login", {
             email: credentials.email, password: credentials.password
         }).then(res => {
@@ -82,8 +105,8 @@ const actions = {
 
 
     },
-    getAllUser({ commit }, credentials) {
-        api.get(`/api/users?page=${credentials.page}&per_page=${credentials.per_page}&q=${credentials.q}`).then((res) => {
+    async getAllUser({ commit }, credentials) {
+        await api.get(`/api/users?page=${credentials.page}&per_page=${credentials.per_page}&q=${credentials.q}`).then((res) => {
             commit("getAllUser", res.data.users);
             commit("getPages", res.data.meta.pages);
         });

@@ -60,7 +60,7 @@ export default {
   },
   // computed:mapGetters(['token']),
   created() {
-    this.isActive();
+    // this.isActive();
   },
   computed: {
     
@@ -91,18 +91,17 @@ export default {
       if (this.validate()) {
         console.log("login func...");
         this.$store.dispatch("AUTH/login", { email: this.email, password: this.password }) //conect Store
-
       };
     },
     reset() {
       (this.email = "dominh020195@gmail.com"), (this.password = "12345678");
     },
-    isActive() {
-      if(this.$store.state.AUTH.state.isActive) {
-        window.location.href = "/";
-      }
+    // isActive() {
+    //   if(this.$store.state.AUTH.state.isActive) {
+    //     window.location.href = "/";
+    //   }
      
-    }
+    // }
   },
 };
 </script>

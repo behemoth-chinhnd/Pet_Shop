@@ -8,7 +8,6 @@ export default {
             if (res.data) {
                 console.log(res.data)
                 commit("setToken", res.data);
-
                 localStorage.setItem("token", res.data);
                 con
             } else {

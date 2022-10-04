@@ -9,7 +9,7 @@
               </button>
             </div> -->
           <h1 class="color-primary center">REGISTER USER</h1>
-          <form action="" @submit.prevent="save()" class="needs-validation text-left" novalidate>
+          <form action="" @submit.prevent="register()" class="needs-validation text-left" novalidate>
             <div class="form-group row">
               <label for="inputName" class="col-md-3 col-form-label">Name</label>
               <div class="col-md-9">
@@ -47,14 +47,14 @@
               <div class="col-md-9 flex-row-start-center gap-20px">
                 <div class="form-group flex-row-start-center gap-5px">
                   <label>Male</label>
-                <input class="mgl-5px" type="radio" v-model="user.sex_id" @blur="validate()" value="1" />
+                  <input class="mgl-5px" type="radio" v-model="user.sex_id" @blur="validate()" value="1" />
                 </div>
-              
-               <div class="form-group flex-row-start-center gap-5px">
-                <label >Female</label>
-                <input type="radio" v-model="user.sex_id" @blur="validate()" value="2" />
-               </div>
-                
+
+                <div class="form-group flex-row-start-center gap-5px">
+                  <label>Female</label>
+                  <input type="radio" v-model="user.sex_id" @blur="validate()" value="2" />
+                </div>
+
                 <div class="feedback-invalid" v-if="errors.sex_id">
                   {{ errors.sex_id }}
                 </div>
@@ -139,31 +139,11 @@ export default {
     isNumber(value) {
       return /^\d*$/.test(value);
     },
-    async save() {
+    async register() {
       if (this.validate()) {
-        api.post("/api/users", this.user).then((res) => {
-          if (res) {
-            console.log(`Success`)
-          }
-        }).catch((res) => {
-          console.log(res)
-          if (res.response.data.birthday) {
-            this.errors.birthday = res.response.data.birthday;
-          }
-          if (res.response.data.name) {
-            this.errors.name = res.response.data.name;
-          }
-          if (res.response.data.email) {
-            this.errors.email = res.response.data.email;
-          }
-          if (res.response.data.sex_id) {
-            this.errors.sex_id = res.response.data.sex_id;
-          }
-          if (res.response.data.password) {
-            this.errors.password = res.response.data.password;
-          }
-        })
+        await this.$store.dispatch("AUTH/register", this.user)
       };
+      this.checkErrors();
     },
     reset() {
       (this.user.name = "minhmonster"),
@@ -171,6 +151,28 @@ export default {
         (this.user.password = "12345678"),
         (this.user.birthday = "02/01/1995")
     },
+    checkErrors() {
+      const err = this.$store.state.AUTH.state.errors;
+      const isErr = this.$store.state.AUTH.state.isErr
+      if (isErr) {
+        if (err.name) {
+          this.errors.name = err.name
+        }
+        if (err.email) {
+          this.errors.email = err.email
+        }
+        if (err.password) {
+          this.errors.password = err.password
+        }
+        if (err.birthday) {
+          this.errors.birthday = err.password
+        }
+        if (err.sex_id) {
+          this.errors.sex_id = err.sex_id
+        }
+      }
+
+    }
   },
 };
 </script>

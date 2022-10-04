@@ -1,6 +1,6 @@
 <template>
     <div class="body">
-      <section id="main-body">
+      <div class="container">
         <!-- <div class="pricing-header px-3 py-3 pt-md-5 pd-md-4 mx-auto text-center">
           <h2 class="display-4">Users Management</h2>
           <p><router-link to="/admin/management/users/create">Add New</router-link></p>
@@ -79,7 +79,7 @@
               </thead>
   
               <tbody>
-                <tr v-for="post in getAllUser" :key="post.id">
+                <tr v-for="post in List" :key="post.id">
                   <td scope="row">{{ post.id }}</td>
                   <td>{{ post.name }}</td>
                   <!-- <td>{{ post.username }}</td> -->
@@ -116,15 +116,12 @@
             </paginate>
           </div>
         </div>
-      </section>
+      </div>
     </div>
     <!-- <router-view/> -->
   </template>
   <script>
-  // import "@/assets/js/style.js";
-  // import HeaderTest from "@/components/incfiles/HeaderTest.vue";
   import api from '@/plugin/axios';
-  import listUser from '@/store/modules/auth'
 
   export default {
     name: "ProductForm",
@@ -149,7 +146,7 @@
         },
         params: {
           page: 1,
-          per_page: 15,
+          per_page: 10,
           sort_column: "id",
           direction: "desc",
           search_column: "id",
@@ -157,11 +154,14 @@
           search_query_1: "",
           search_query_2: "",
           q:{},
-          pages: 1
+          pages: "",
         },
       };
     },
+    beforeCreate() {
+        },
     created() {
+      this.getAll();
       this.getAll();
     },
     mounted() {
@@ -183,9 +183,9 @@
           this.getAll();
         }
       },
-      getAll() {
-          this.$store.dispatch("AUTH/getAllUser", { page: this.params.page, per_page: this.params.per_page, q: {} }) 
-          this.params.pages = this.$store.state.AUTH.state.params.pages;
+      async getAll() {
+        await this.$store.dispatch("AUTH/getAllUser", { page: this.params.page, per_page: this.params.per_page, q: {} }) 
+           this.params.pages = this.$store.state.AUTH.state.params.pages;
       },
       onDelete(userId) {
         this.$swal
@@ -238,10 +238,13 @@
       },
     },
     computed: {
-      getAllUser() {
+      List() {
         return this.users = this.$store.state.AUTH.state.users;
       },
+      getPages() {
+        return this.params.pages = this.$store.state.AUTH.state.params.pages;
       },
+    },
     // components: { HeaderApp },
   };
   </script>
