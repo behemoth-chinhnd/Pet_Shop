@@ -1,11 +1,12 @@
 <template>
-    <div class="body">
+    <div class="header-saler">
       <section id="tab-saler">
         <div class="container">
           <div class="panel-body flex-row tab-menu">
-            <router-link to="/saler"> Products</router-link>
+            <router-link :to="{name: 'saler.index'}"> Home</router-link>
+            <router-link to="/saler/products"> Products</router-link>
+            <router-link to="/saler/confirm">confirm</router-link>
             <router-link to="/saler/order">Order</router-link>
-            <router-link to="/saler/products/create">Create</router-link>
           </div>
         </div>
       </section>

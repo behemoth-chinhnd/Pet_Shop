@@ -253,6 +253,15 @@
           .body{
             margin-top:110px ;
           }
+
+          .body-saler {
+            padding: 10px;
+            background: var(--white);
+            border-radius: 12px;
+            /* margin-top: 35px; */
+          }
+
+
           .group-icon-right{
               margin-top: 30px;
           }
