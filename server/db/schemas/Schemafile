@@ -1,3 +1,8 @@
 require "users.schema"
 require "admins.schema"
 require "products.schema"
+require "orders.schema"
+require "order_items.schema"
+require "categories.schema"
+require "product_categories.schema"
+require "addresses.schema"

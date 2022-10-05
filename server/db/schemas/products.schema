@@ -6,6 +6,8 @@ create_table "products", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", fo
   t.string :master_sku
   t.bigint :creator_id
   t.string :creator_type
+  t.string :description
+  t.bigint :number_of_items_sold, null: false, default: 0
 
   t.integer :lock_version
   

@@ -1,0 +1,18 @@
+create_table "orders", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  t.bigint :user_id, null: false
+  t.bigint :address_id
+  t.integer :status, null: false, default: 0
+  t.bigint :shipping_fee, null: false, default: 0
+  t.bigint :total, null: false, default: 0
+  t.bigint :tax, null: false, default: 0
+  t.bigint :discount, null: false, default: 0
+  t.bigint :subtotal, null: false, default: 0
+  t.string :number, null: false
+  t.datetime :ordered_at
+  t.integer :payment_method, null: false, default: 0
+
+  t.timestamps
+
+  t.index ["user_id"], name: "index_orders_on_user_id"
+  t.index ["ordered_at"], name: "index_orders_on_ordered_at"
+end

@@ -33,6 +33,10 @@ class User < ApplicationRecord
 
   has_many :products, foreign_key: "creator_id", foreign_type: "creator_type", as: :products, dependent: :destroy
 
+  has_many :orders, dependent: :destroy
+
+  has_many :addresses, dependent: :destroy
+
   def jwt_payload
     {
       sub: id,

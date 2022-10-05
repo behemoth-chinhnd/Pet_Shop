@@ -1,0 +1,16 @@
+create_table "addresses", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  t.bigint :user_id, null: false
+  t.boolean :is_default, null: false, default: false
+  t.string :city
+  t.string :county
+  t.string :street
+  t.string :apartment_number
+  t.string :description
+
+  t.integer :lock_version, null: false
+
+  t.datetime :deleted_at
+  t.timestamps
+
+  t.index ["user_id"], name: "index_adresses_on_user_id"
+end

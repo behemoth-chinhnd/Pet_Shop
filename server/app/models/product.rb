@@ -2,17 +2,19 @@
 #
 # Table name: products
 #
-#  id                 :bigint           not null, primary key
-#  creator_type       :string(255)
-#  lock_version       :integer
-#  master_list_price  :integer
-#  master_sales_price :integer
-#  master_sku         :string(255)
-#  name               :string(255)      not null
-#  number             :string(255)      not null
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
-#  creator_id         :bigint
+#  id                   :bigint           not null, primary key
+#  creator_type         :string(255)
+#  description          :string(255)
+#  lock_version         :integer
+#  master_list_price    :integer
+#  master_sales_price   :integer
+#  master_sku           :string(255)
+#  name                 :string(255)      not null
+#  number               :string(255)      not null
+#  number_of_items_sold :bigint           default(0), not null
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  creator_id           :bigint
 #
 # Indexes
 #
