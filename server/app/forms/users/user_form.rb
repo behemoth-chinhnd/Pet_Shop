@@ -26,7 +26,6 @@ module Users
     with_options if: -> { name.present? } do
       validates :name, length: { maximum: MAX_STRING }
       validates :name, uniq: { klass: User }
-      # validate :validate_name_uniq_with_user, if: -> { user_id.present? }
     end
 
     validates :password, length: { minimum: 6, maximum: MAX_STRING }, if: -> { password.present? }

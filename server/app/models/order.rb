@@ -47,7 +47,7 @@ class Order < ApplicationRecord
 
     update!(subtotal:, discount:, shipping_fee:, total:)
   end
-  
+
   private
 
   def calculate_final_price(subtotal, discount, shipping_fee)

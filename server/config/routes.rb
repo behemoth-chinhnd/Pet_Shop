@@ -23,7 +23,7 @@ Rails.application.routes.draw do
     ## Address
     resources :addresses
 
-    ##Cart
+    ## Cart
     resource :cart, only: [] do
       collection do
         post :add_product

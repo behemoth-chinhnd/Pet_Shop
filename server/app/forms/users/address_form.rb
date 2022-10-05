@@ -7,9 +7,9 @@ module Users
     attribute :description, :string
     attribute :is_default, :boolean
 
-    validates :city, :county, :street , presence: true
+    validates :city, :county, :street, presence: true
 
-    validate :validate_is_default_uniq, if: -> {is_default == true}
+    validate :validate_is_default_uniq, if: -> { is_default == true }
 
     def save
       return unless super
@@ -18,7 +18,7 @@ module Users
       @model.save
     end
 
-    private 
+    private
 
     def validate_is_default_uniq
       errors.add(:is_default, :taken) if ::Address.where.not(id: model.id).where(user_id: @model.user_id).exists?(is_default: true)

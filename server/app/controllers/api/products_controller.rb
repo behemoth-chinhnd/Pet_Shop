@@ -51,11 +51,11 @@ module Api
     private
 
     def product_params
-      product_params = params.require(:product).permit(:number,
-                                                       :name,
-                                                       :master_sku,
-                                                       :master_list_price,
-                                                       :master_sales_price)
+      params.require(:product).permit(:number,
+                                      :name,
+                                      :master_sku,
+                                      :master_list_price,
+                                      :master_sales_price)
     end
 
     def set_user

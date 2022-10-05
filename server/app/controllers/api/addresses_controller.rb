@@ -12,7 +12,7 @@ module Api
       @pagy, @address = pagy(address, items: params[:per_page] || DEFAULT_PER_PAGE, page: params[:page] || DEFAULT_PAGE)
 
       response_list(@address, { adapter: :json,
-                             each_serializer: ::Addresses::ListSerializer })
+                                each_serializer: ::Addresses::ListSerializer })
     end
 
     def create
@@ -44,12 +44,13 @@ module Api
 
     def address_params
       params.require(:address).permit(
-        :city, 
-        :county, 
-        :street, 
-        :apartment_number, 
+        :city,
+        :county,
+        :street,
+        :apartment_number,
         :description,
-        :is_default )
+        :is_default,
+      )
     end
 
     def find_address

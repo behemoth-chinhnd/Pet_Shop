@@ -8,7 +8,7 @@ module Api
     end
 
     def add_product
-      service = ::Orders::AddProductsToCartService.call(user: @user,  **cart_params.to_h)
+      service = ::Orders::AddProductsToCartService.call(user: @user, **cart_params.to_h)
 
       if service.success?
         response_success(message: "Add To Cart Success")

@@ -43,16 +43,17 @@ module Api
 
     def user_params
       user_params = params.require(:user).permit(
-        :is_active, 
-        :name, 
-        :email, 
-        :user_type, 
-        :phone, 
-        :address, 
-        :sex_id, 
-        :birthday)
+        :is_active,
+        :name,
+        :email,
+        :user_type,
+        :phone,
+        :address,
+        :sex_id,
+        :birthday,
+      )
 
-      user_params = params[:password].present? ? user_params.merge(params.permit(:password)) : user_params
+      params[:password].present? ? user_params.merge(params.permit(:password)) : user_params
     end
 
     def set_user
