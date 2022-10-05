@@ -21,19 +21,21 @@ const routes = [
       { path: 'login', name: 'home.users.login', component: () => import('@/views/client/users/LoginUser.vue') },
       { path: 'users', name: 'home.users', component: () => import('@/views/client/users/ListUser.vue') },
       { path: 'profile', name: 'home.users.profile', component: () => import('@/views/client/users/ProfileUser.vue') },
-      { path: 'saler', name: 'home.saler', component: Saler, children: [
-        { path: '/', name: 'home.saler.products', component: () => import('@/views/client/saler/products/ListProduct.vue') },
-        { path: 'products/create', name: 'home.saler.products.create', component: () => import('@/views/client/saler/products/CreateProduct.vue') },
-        { path: 'products/edit/:id', name: 'home.saler.products.edit', component: () => import('@/views/client/saler/products/EditProduct.vue') },
-
-        
-
-        ]},
-
-
 
     ],
   },
+  { path: '/saler', name: 'saler', component: Saler, children: [
+    { path: 'index', name: 'saler.index', component: () => import('@/views/client/saler/products/ListProduct.vue') },
+    { path: 'products', name: 'saler.products', component: () => import('@/views/client/saler/products/ListProduct.vue') },
+    { path: 'products/create', name: 'saler.products.create', component: () => import('@/views/client/saler/products/CreateProduct.vue') },
+    { path: 'products/edit/:id', name: 'saler.products.edit', component: () => import('@/views/client/saler/products/EditProduct.vue') },
+    { path: 'order', name: 'saler.order', component: () => import('@/views/client/saler/order/IndexOrder.vue') },
+    { path: 'confirm', name: 'saler.confirm', component: () => import('@/views/client/saler/confirm/IndexConfirm.vue') },
+
+
+    
+
+    ]},
 
 
   {

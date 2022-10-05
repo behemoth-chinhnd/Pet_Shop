@@ -162,7 +162,6 @@
         },
     created() {
       this.getAll();
-      this.getAll();
     },
     mounted() {
     },
