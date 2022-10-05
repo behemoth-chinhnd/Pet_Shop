@@ -18,17 +18,4 @@
 class OrderItem < ApplicationRecord
   belongs_to :order
   belongs_to :product
-
-  after_create :increase_sold_product
-  before_destroy :reduced_sole_product
-
-  private
-
-  def increase_sold_product
-    product.increment!(:number_of_items_sold, quantity)
-  end
-
-  def reduced_sole_product
-    product.decrement!(:number_of_items_sold, quantity)
-  end
 end

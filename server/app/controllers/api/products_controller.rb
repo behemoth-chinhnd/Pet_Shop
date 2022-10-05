@@ -13,7 +13,7 @@ module Api
       @pagy, @product = pagy(product, items: params[:per_page] || DEFAULT_PER_PAGE, page: params[:page] || DEFAULT_PAGE)
 
       response_list(@product, { adapter: :json,
-                                each_serializer: ::Products::ShowSerializer })
+                                each_serializer: ::Products::ListSerializer })
     end
 
     def create

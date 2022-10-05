@@ -7,10 +7,29 @@ Rails.application.routes.draw do
       end
     end
 
+    ## User
     resource :user
 
     get :users, to: "users#index"
 
+    ## Product
     resources :products
+
+    ## Order
+    resource :order
+
+    get :orders, to: "orders#index"
+
+    ## Address
+    resources :addresses
+
+    ##Cart
+    resource :cart, only: [] do
+      collection do
+        post :add_product
+        post :remove_product
+        get :show
+      end
+    end
   end
 end
