@@ -64,7 +64,6 @@ ActiveRecord::Schema[7.0].define(version: 0) do
     t.integer "status", default: 0, null: false
     t.bigint "shipping_fee", default: 0, null: false
     t.bigint "total", default: 0, null: false
-    t.bigint "tax", default: 0, null: false
     t.bigint "discount", default: 0, null: false
     t.bigint "subtotal", default: 0, null: false
     t.string "number", null: false
@@ -72,6 +71,7 @@ ActiveRecord::Schema[7.0].define(version: 0) do
     t.integer "payment_method", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["address_id"], name: "index_orders_on_address_id"
     t.index ["ordered_at"], name: "index_orders_on_ordered_at"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
