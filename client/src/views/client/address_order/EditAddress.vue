@@ -73,6 +73,16 @@
               </div>
             </div>
           </div>
+          <div class="form-group row">
+            <label for="inputName" class="col-md-3 col-form-label">Default</label>
+            <div class="col-md-9">
+              <input type="text" class="form-control" v-model="address.is_default" @blur="validate()"
+                v-bind:class="{ 'is-invalid': errors.is_default }" required />
+              <div class="feedback-invalid" v-if="errors.is_default">
+                {{ errors.is_default }}
+              </div>
+            </div>
+          </div>
           <div class="row">
             <label for="input" class="col-md-3 col-form-label"></label>
             <div class="col-md-9">
@@ -107,7 +117,8 @@ export default {
         street: "",
         street: "",
         apartment_number:"",
-        description:""
+        description:"",
+        is_default:""
       },
       addresss: [],
       address: {
@@ -118,7 +129,8 @@ export default {
         street: "",
         street: "",
         apartment_number:"",
-        description:""
+        description:"",
+        is_default:""
       },
     };
   },

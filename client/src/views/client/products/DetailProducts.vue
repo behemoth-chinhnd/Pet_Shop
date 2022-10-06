@@ -9,35 +9,37 @@
       <div class="container">
         <div class="row">
           <div class="col-xs-5 col-md-5 col-lg-5">
-            <img class="img-detail-product" src="@/assets/images/products/gai-xinh-1.jpg" alt="">
+            <img
+              class="img-detail-product"
+              src="@/assets/images/products/gai-xinh-1.jpg"
+              alt=""
+            />
           </div>
           <div class="col-md-7">
             <div class="details-name text-left">
-              <h1> {{product.name}} </h1>
+              <h1>{{ product.name }}</h1>
             </div>
 
             <div class="details-price flex-row-space-between">
               <div class="flex-cloumn text-left">
                 <div class="price-sale mgb-10px">
-                  {{product.master_sales_price}} VND
+                  {{ product.master_sales_price }} VND
                 </div>
                 <div class="sale">
-                  {{sales}}%
-                  <span class="saleoff">{{product.master_list_price}} VND</span>
-
+                  {{ sales }}%
+                  <span class="saleoff"
+                    >{{ product.master_list_price }} VND</span
+                  >
                 </div>
               </div>
-              <div class="flex-cloumn text-left ">
-                <div class="mgb-10px"> Time Out</div>
+              <div class="flex-cloumn text-left">
+                <div class="mgb-10px">Time Out</div>
                 <div class="time-out">
-                  {{product.time}}
+                  {{ product.time }}
                 </div>
-
               </div>
-
-
             </div>
-            <div class="content-product flex-cloumn text-left ">
+            <div class="content-product flex-cloumn text-left">
               <div class="list-title">
                 <p>ĐẶC QUYỀN ĐI KÈM</p>
               </div>
@@ -46,45 +48,44 @@
                   <li>Bảo hành sức khỏe 30 ngày.</li>
                   <li>Giảm 10% khi mua bé thứ 2.</li>
                   <li>Giảm trọn đời 5% khi mua phụ kiện.</li>
-                  <li>Giảm trọn đời 20% Spa cắt tỉa – Áp dụng với KH khu vực Hà Nội.</li>
+                  <li>
+                    Giảm trọn đời 20% Spa cắt tỉa – Áp dụng với KH khu vực Hà
+                    Nội.
+                  </li>
                 </ul>
               </div>
             </div>
             <div class="number-product flex-row text-left mgt-10px">
-
               <div class="flex-row-start-center">
-                <div>Quantity: </div>
+                <div>Quantity:</div>
 
                 <div class="prev mgl-10px" @click="prev()">-</div>
-                <div class="quantily">{{cart.quantity}}</div>
+                <div class="quantily">{{ cart.quantity }}</div>
                 <!-- <input class="quantily" v-model="number"/> -->
                 <div class="next mgr-10px" @click="next()">+</div>
 
-
-                <div class="">(Max: {{this.product.number}} Products)</div>
+                <div class="">(Max: {{ this.product.number }} Products)</div>
                 <div v-if="isMinimum" class="message">(Minimum = 1 )</div>
-                <div v-if="isMaximum" class="message">(Maximum = {{this.product.number}} )</div>
-
+                <div v-if="isMaximum" class="message">
+                  (Maximum = {{ this.product.number }} )
+                </div>
               </div>
 
-              <div class="list-content">
-
-              </div>
+              <div class="list-content"></div>
             </div>
 
             <div class="mgt-10px left">
-              <b-button variant="danger">Add To Cart</b-button>
+              <b-button variant="danger" @click="addCart()"
+                >Add To Cart</b-button
+              >
               <!-- <b-button  variant="outline-danger">Danger</b-button> -->
-              <b-button class="mgl-10px" variant="primary" @click="buyItem()">Buy Now</b-button>
-              <p>{{this.$store.state.CART.state.cart}}</p>
+              <b-button class="mgl-10px" variant="primary" @click="buyItem()"
+                >Buy Now</b-button
+              >
+              <p>{{ this.$store.state.CART.state.product }}</p>
             </div>
-
-
           </div>
         </div>
-
-
-
       </div>
     </div>
     <!-- </section> -->
@@ -114,11 +115,7 @@ export default {
       carts: [],
       cart: {
         product_id:"",
-        // name: "",
-        quantity: 1,
-        // master_sku: "",
-        // master_list_price: "",
-        // master_sales_price: ""
+        quantity: 1
       }
     };
   },
@@ -143,6 +140,7 @@ export default {
     },
     async getItem(itemId) {
       await this.$store.dispatch("PROD/getItem", itemId)
+      await this.$store.dispatch("CART/getItem", itemId)
       this.product = this.$store.state.PROD.state.product
     },
 
@@ -182,6 +180,9 @@ export default {
       this.$router.push({path: '/carts/product'})
     },
     async addCart() {
+      console.log(1);
+      this.cart.quantity = parseInt(this.cart.quantity)
+      await this.$store.dispatch("CART/addCart", this.cart.quantity);
     },
 
     async getAll() {
@@ -249,7 +250,6 @@ export default {
 
 .list-content ul li {
   padding: 5px;
-
 }
 
 img.img-detail-product {

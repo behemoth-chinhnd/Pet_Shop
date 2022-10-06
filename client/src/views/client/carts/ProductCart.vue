@@ -54,7 +54,7 @@
               <b-button class="mgl-10px" variant="primary" @click="buyItem()"
                 >Order</b-button
               >
-              <p>{{ this.$store.state.CART.state.cart }}</p>
+              <p>{{ this.$store.state.CART.state.order }}</p>
               <p>{{ this.$store.state.CART.state.product }}</p>
             </div>
           </div>
@@ -95,7 +95,7 @@ export default {
   },
   created() {
     // this.product = this.$store.state.CART.state.cart;
-    const itemId = this.$store.state.CART.state.cart.product_id;
+    const itemId = this.$store.state.CART.state.order.products_data.product_id;
     this.cart.quantity = this.$store.state.CART.state.cart.quantity;
 
     console.log(itemId);

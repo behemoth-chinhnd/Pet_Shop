@@ -5,6 +5,7 @@ const state = {
     state: {
         address: [],
         addresses: [],
+        is_default:[],
         params: {
             page: 1,
             per_page: 3,
@@ -30,6 +31,9 @@ const mutations = {
     getAll(state, value) {
         state.state.addresses = value;
     },
+    getIsDefault(state, value) {
+        state.state.is_default = value;
+    },
      getPage(state, value) {
         state.state.params.page = value;
     },
@@ -54,12 +58,18 @@ const actions = {
     async getAll({ commit }, credentials) {
         
         await api.get(`/api/addresses?page=${credentials.page}&per_page=${credentials.per_page}&q=${credentials.q}`).then((res) => {
-            console.log(res.data)
             commit("getAll", res.data.addresses);
             commit("getPages", res.data.meta.pages);
             commit("getPage", credentials.page);
 
 
+        });
+    },
+    async getIsDefault({ commit }) {
+        
+        await api.get(`/api/addresses/show_default`).then((res) => {
+            console.log(res)
+            commit("getIsDefault", res.data);
         });
     },
     async getAllDelete({ commit }) {
@@ -81,16 +91,21 @@ const actions = {
     async edit({ commit }, credentials) {
         await api.put(`/api/addresses/${credentials.id}`, credentials).then(res => {
             commit("getItem", res.data);
-            console.log(res.data)
             alert(`Đã Edit Thành Công`)
+        }).catch((res) => {
+            alert(res.response.data)
+        })
+    },
+    async isDefault({ commit }, credentials) {
+        await api.put(`/api/addresses/${credentials.id}`, credentials).then(res => {
+            commit("getItem", res.data);
+            alert(`Đã thay đổi địa chỉ mặc định`)
         }).catch((res) => {
             alert(res.response.data)
         })
     },
     async delete({ commit, dispatch }, credentials) {
         await api.delete(`/api/addresses/${credentials}`).then(res => {
-            console.log(credentials)
-            console.log(res)
             dispatch('getAllDelete')
         }).catch((res) => {
             alert(res)

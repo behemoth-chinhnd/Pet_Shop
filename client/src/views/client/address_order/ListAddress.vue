@@ -34,13 +34,16 @@
                       <tr v-for="post in List" :key="post.id">
                           <td scope="row">{{ post.id }}</td>
                           <td>{{ post.name }}</td>
-                          <td>{{ post.phone }}</td>
+                          <td>{{ post.phone }}</td> 
                           <td>{{ post.city }}</td>
                           <td>{{ post.county }}</td>
                           <td>{{ post.street }}</td>
                           <td>{{ post.apartment_number }}</td>
                           <td>{{ post.description }}</td>
-                          <td>{{ post.is_default }}</td>
+                          <td @click="isDefault(post)">
+                            <input v-if="post.is_default" type="radio" name="is_default" checked>
+                            <input v-if="!post.is_default" type="radio" name="is_default">
+                            </td>
                           <td class="gap-10px">
                               <router-link :to="{ name: 'address_order.edit', params: { id: post.id } }">
                                   <b-button variant="primary">
@@ -98,7 +101,7 @@ export default {
           },
           params: {
               page: 1,
-              per_page: 3,
+              per_page: 10,
               sort_column: "id",
               direction: "desc",
               search_column: "id",
@@ -137,6 +140,12 @@ export default {
       async getAll() {
           await this.$store.dispatch("ADDR/getAll", { page: this.params.page, per_page: this.params.per_page, q: {} })
       },
+      async isDefault(address) {
+        console.log(address)
+        address.is_default = true;
+          await this.$store.dispatch("ADDR/isDefault", address)
+          this.getAll();
+    },
       onDelete(addressId) {
           this.$swal
               .fire({
