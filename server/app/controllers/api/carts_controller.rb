@@ -33,7 +33,7 @@ module Api
     end
 
     def cart_params
-      params.require(:cart).permit(cart_items: [:product_id, :quantity])
+      params.require(:cart).permit(:product_id, :quantity)
     end
 
     def set_user

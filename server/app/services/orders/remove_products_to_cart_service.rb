@@ -6,19 +6,17 @@ module Orders
       current_order = Current.user.orders.find_or_create_by!(status: :shopping)
 
       ActiveRecord::Base.transaction do
-        context.cart_items.each do |cart_item|
-          order_item = current_order.order_items.find_by!(product_id: cart_item.dig(:product_id))
+        order_item = current_order.order_items.find_by!(product_id: context.product_id)
 
-          if cart_item.dig(:quantity)
-            order_item.decrement(:quantity, cart_item.dig(:quantity)).save!
+        if context.quantity
+          order_item.decrement(:quantity, context.quantity).save!
 
-            order_item.destroy! if order_item.quantity.zero?
-          else
-            order_item.destroy!
-          end
-
-          current_order.update_price!
+          order_item.destroy! if order_item.quantity <= 0
+        else
+          order_item.destroy!
         end
+
+        current_order.update_price!
       end
       context.message = "Cart item remove success"
     rescue StandardError => e
