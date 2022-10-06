@@ -3,10 +3,10 @@ module Orders
     include Interactor
 
     def call
-      current_order = Current.user.orders.find_or_create_by!(status: :shopping)
+      context.current_order = Current.user.orders.find_or_create_by!(status: :shopping)
 
       ActiveRecord::Base.transaction do
-        order_item = current_order.order_items.find_by!(product_id: context.product_id)
+        order_item = context.current_order.order_items.find_by!(product_id: context.product_id)
 
         if context.quantity
           order_item.decrement(:quantity, context.quantity).save!
@@ -16,7 +16,7 @@ module Orders
           order_item.destroy!
         end
 
-        current_order.update_price!
+        context.current_order.update_price!
       end
       context.message = "Cart item remove success"
     rescue StandardError => e
