@@ -10,14 +10,25 @@ module Products
               :master_list_price, :master_sales_price,
               presence: true
 
-    validates :number, uniq: { klass: Product }
-    validates :name, uniq: { klass: Product }
+    validate :validate_uniq_name_with_creator, if: -> { name.present? }
+
+    validate :validate_uniq_number_with_creator, if: -> { number.present? }
 
     def save
       return unless super
 
       @model.assign_attributes(attributes)
       @model.save
+    end
+
+    private
+
+    def validate_uniq_name_with_creator
+      errors.add(:name, :taken) if ::Product.where.not(id: model.id).where(creator_id: @model.creator_id, creator_type: @model.creator_type).exists?(name: name)
+    end
+
+    def validate_uniq_number_with_creator
+      errors.add(:number, :taken) if ::Product.where.not(id: model.id).where(creator_id: @model.creator_id, creator_type: @model.creator_type).exists?(number: number)
     end
   end
 end
