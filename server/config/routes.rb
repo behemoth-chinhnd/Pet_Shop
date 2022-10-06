@@ -25,10 +25,14 @@ Rails.application.routes.draw do
     get :orders, to: "orders#index"
 
     ## Address
-    resources :addresses
+    resources :addresses do
+      collection do
+        get :show_default
+      end
+    end
 
     ## Cart
-    resource :cart, only: [] do
+    resource :cart, only: [:destroy] do
       collection do
         post :add_product
         post :remove_product

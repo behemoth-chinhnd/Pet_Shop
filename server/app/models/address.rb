@@ -25,4 +25,14 @@ class Address < ApplicationRecord
   belongs_to :user
 
   has_many :orders, dependent: :nullify
+
+  after_save :make_sure_only_1_default
+
+  def make_sure_only_1_default
+    return unless is_default
+
+    user.addresses.where.not(id: id).each do |address|
+      address.update(is_default: false)
+    end
+  end
 end

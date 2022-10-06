@@ -7,6 +7,12 @@ module Api
       response_success(@address, { serializer: ::Addresses::ListSerializer })
     end
 
+    def show_default
+      address_default = @user.addresses.find_by(is_default: true)
+
+      response_success(address_default, { serializer: ::Addresses::ListSerializer })
+    end
+
     def index
       address = @user.addresses.order(id: :desc).ransack(params[:q]).result
       @pagy, @address = pagy(address, items: params[:per_page] || DEFAULT_PER_PAGE, page: params[:page] || DEFAULT_PAGE)
