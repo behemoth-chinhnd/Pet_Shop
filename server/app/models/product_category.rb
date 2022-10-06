@@ -7,11 +7,13 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  category_id :bigint           not null
-#  user_id     :bigint           not null
+#  product_id  :bigint           not null
 #
 # Indexes
 #
-#  index_pc_on_user_id_category_id  (user_id,category_id) UNIQUE
+#  index_pc_on_product_id_category_id  (product_id,category_id) UNIQUE
 #
 class ProductCategory < ApplicationRecord
+  belongs_to :product
+  belongs_to :category
 end
