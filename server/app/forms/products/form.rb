@@ -5,10 +5,13 @@ module Products
     attribute :master_sku, :string
     attribute :name, :string
     attribute :number, :string
+    attribute :quantity, :integer
 
-    validates :name, :number, :master_sku,
+    validates :name, :number, :master_sku, :quantity,
               :master_list_price, :master_sales_price,
               presence: true
+
+    validates :quantity, numericality: { greater_than_or_equal_to: 0, only_integer: true }
 
     validate :validate_uniq_name_with_creator, if: -> { name.present? }
 

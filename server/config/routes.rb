@@ -32,7 +32,7 @@ Rails.application.routes.draw do
     end
 
     ## Cart
-    resource :cart, only: [:destroy] do
+    resource :cart, only: [] do
       collection do
         post :add_product
         post :remove_product

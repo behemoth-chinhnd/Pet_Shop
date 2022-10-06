@@ -19,22 +19,11 @@ module Api
 
     def remove_product
       service = ::Orders::RemoveProductsToCartService.call(**cart_params.to_h)
+
       if service.success?
         response_success(service.current_order, { serializer: ::Orders::CartShowSerializer })
       else
         response_error(service.message)
-      end
-    end
-
-    def destroy
-      order_item = @order.order_items.find_by(product_id: params[:product_id])
-
-      if order_item.destroy
-        @order.update_price!
-
-        response_success(@order, { serializer: ::Orders::CartShowSerializer })
-      else
-        response_error(order_item.errors.to_hash(true))
       end
     end
 

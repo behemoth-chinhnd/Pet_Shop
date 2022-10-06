@@ -55,7 +55,9 @@ module Api
                                       :name,
                                       :master_sku,
                                       :master_list_price,
-                                      :master_sales_price)
+                                      :master_sales_price,
+                                      :quantity,
+                                    )
     end
 
     def set_user

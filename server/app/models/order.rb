@@ -31,6 +31,8 @@ class Order < ApplicationRecord
   belongs_to :address, optional: true
 
   belongs_to :user
+  
+  before_destroy :update_quantity_product
 
   enum status: {
     shopping: 0,
@@ -70,5 +72,14 @@ class Order < ApplicationRecord
 
   def calculate_shipping_fee
     0
+  end
+
+  def update_quantity_product
+    order_items.reload.each do |order_item|
+      product = order_item.product
+
+      product.decrement(:number_of_items_sold, order_item.quantity).save!
+      product.increment(:quantity, order_item.quantity).save!
+    end
   end
 end
