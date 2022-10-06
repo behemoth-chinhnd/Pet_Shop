@@ -107,7 +107,6 @@ export default {
     console.log(itemId);
     if (itemId) {
       this.getItem(itemId);
-      this.product = this.$store.state.PROD.state.product
     }
   },
   methods: {
@@ -150,6 +149,7 @@ export default {
     },
     async getItem(itemId) {
       await this.$store.dispatch("PROD/getItem", itemId)
+      return this.product = this.$store.state.PROD.state.product
     },
   },
   computed: {

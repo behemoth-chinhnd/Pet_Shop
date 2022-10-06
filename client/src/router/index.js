@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 import Admin from '@/layout/Admin.vue'
 import Client from '@/layout/Client.vue'
 import Saler from '@/layout/Saler.vue'
+import Cart from '@/layout/Cart.vue'
+
 import store from '@/store/store'
 
 
@@ -21,6 +23,16 @@ const routes = [
       { path: 'login', name: 'home.users.login', component: () => import('@/views/client/users/LoginUser.vue') },
       { path: 'users', name: 'home.users', component: () => import('@/views/client/users/ListUser.vue') },
       { path: 'profile', name: 'home.users.profile', component: () => import('@/views/client/users/ProfileUser.vue') },
+      { path: 'carts', name: 'home.carts', component: Cart, children: [
+        { path: 'product', name: 'home.cart.product', component: () => import('@/views/client/carts/ProductCart.vue') },
+
+      ] },
+      { path: 'address_order', name: 'address_order', component: Saler, children: [
+        // { path: 'index', name: 'saler.index', component: () => import('@/views/client/saler/products/ListProduct.vue') },
+        { path: '', name: 'address_order.list', component: () => import('@/views/client/address_order/ListAddress.vue') },
+        { path: 'create', name: 'address_order.create', component: () => import('@/views/client/address_order/CreateAddress.vue') },
+        { path: 'edit/:id', name: 'address_order.edit', component: () => import('@/views/client/address_order/EditAddress.vue') },
+        ]},
 
     ],
   },

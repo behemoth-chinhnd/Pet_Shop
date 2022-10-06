@@ -3,6 +3,9 @@ import Vuex from 'vuex'
 import createPersistedState from "vuex-persistedstate";
 import AuthStore from "./modules/auth"
 import ProductStore from "./modules/product"
+import ProductCart from "./modules/cart"
+import AddressOrder from "./modules/address"
+
 
 
 Vue.use(Vuex)
@@ -46,7 +49,9 @@ export default  new Vuex.Store({
     // },
     modules: {
       AUTH: AuthStore,
-      PROD: ProductStore
+      PROD: ProductStore,
+      CART: ProductCart,
+      ADDR: AddressOrder
 
     },
     // getters: {

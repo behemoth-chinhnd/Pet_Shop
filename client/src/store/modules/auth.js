@@ -1,8 +1,6 @@
 // import AuthServices from "../../apis/modules/auth";
-// import Api from "../../apis";
 import api from "@/plugin/axios";
 import store from "../store";
-// import fauth from "@/apis/modules/auth"
 
 
 const state = {

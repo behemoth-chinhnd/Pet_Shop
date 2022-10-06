@@ -486,6 +486,7 @@ GEM
     unf_ext (0.0.8.2)
     unicode-display_width (2.3.0)
     uniform_notifier (1.16.0)
+    uuidtools (2.2.0)
     virtus (1.0.5)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
@@ -554,6 +555,7 @@ DEPENDENCIES
   simplecov
   spring
   tzinfo-data
+  uuidtools
 
 RUBY VERSION
    ruby 3.1.1p18
