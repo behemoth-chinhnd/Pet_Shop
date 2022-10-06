@@ -16,7 +16,11 @@ Rails.application.routes.draw do
     resources :products
 
     ## Order
-    resource :order
+    resource :order do
+      collection do
+        post :submit
+      end
+    end
 
     get :orders, to: "orders#index"
 
