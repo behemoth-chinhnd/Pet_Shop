@@ -10,6 +10,8 @@
 #  description      :string(255)
 #  is_default       :boolean          default(FALSE), not null
 #  lock_version     :integer          not null
+#  name             :string(255)
+#  phone            :string(255)
 #  street           :string(255)
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null

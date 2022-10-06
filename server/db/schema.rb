@@ -19,6 +19,8 @@ ActiveRecord::Schema[7.0].define(version: 0) do
     t.string "street"
     t.string "apartment_number"
     t.string "description"
+    t.string "name"
+    t.string "phone"
     t.integer "lock_version", null: false
     t.datetime "deleted_at"
     t.datetime "created_at", null: false

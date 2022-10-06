@@ -6,6 +6,8 @@ module Addresses
                :street,
                :apartment_number,
                :description,
-               :is_default
+               :is_default,
+               :name,
+               :phone
   end
 end

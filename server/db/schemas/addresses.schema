@@ -6,6 +6,8 @@ create_table "addresses", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", f
   t.string :street
   t.string :apartment_number
   t.string :description
+  t.string :name
+  t.string :phone
 
   t.integer :lock_version, null: false
 

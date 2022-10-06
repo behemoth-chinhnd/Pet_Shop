@@ -50,6 +50,8 @@ module Api
         :apartment_number,
         :description,
         :is_default,
+        :phone,
+        :name,
       )
     end
 

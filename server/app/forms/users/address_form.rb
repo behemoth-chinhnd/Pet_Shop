@@ -6,8 +6,10 @@ module Users
     attribute :street, :string
     attribute :description, :string
     attribute :is_default, :boolean
+    attribute :name, :string
+    attribute :phone, :string
 
-    validates :city, :county, :street, presence: true
+    validates :city, :county, :street, :phone, :name, presence: true
 
     validate :validate_is_default_uniq, if: -> { is_default == true }
 
