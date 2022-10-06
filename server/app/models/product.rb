@@ -22,5 +22,7 @@
 #  index_products_on_number_creator_id_creator_type  (number,creator_id,creator_type) UNIQUE
 #
 class Product < ApplicationRecord
+  has_many :product_categories, dependent: :destroy
+  
   belongs_to :creator, polymorphic: true, foreign_type: "creator_type", inverse_of: :products
 end
