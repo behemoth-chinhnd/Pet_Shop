@@ -14,5 +14,5 @@
 #  index_category_on_name  (name) UNIQUE
 #
 class Category < ApplicationRecord
-  has_many :product_categories
+  has_many :product_categories, dependent: :destroy
 end

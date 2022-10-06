@@ -31,7 +31,7 @@ module Api
 
       if order_item.destroy
         @order.update_price!
-        
+
         response_success(@order, { serializer: ::Orders::CartShowSerializer })
       else
         response_error(order_item.errors.to_hash(true))
