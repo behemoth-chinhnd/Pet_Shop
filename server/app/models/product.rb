@@ -25,5 +25,7 @@
 class Product < ApplicationRecord
   has_many :product_categories, dependent: :destroy
 
+  has_many :order_items, dependent: :destroy
+
   belongs_to :creator, polymorphic: true, foreign_type: "creator_type", inverse_of: :products
 end
