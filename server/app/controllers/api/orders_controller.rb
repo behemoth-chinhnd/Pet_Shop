@@ -4,7 +4,6 @@ module Api
     before_action :find_order, only: [:show, :destroy]
 
     def show
-      binding.pry
       response_success(@order, { serializer: ::Orders::CartShowSerializer })
     end
 
