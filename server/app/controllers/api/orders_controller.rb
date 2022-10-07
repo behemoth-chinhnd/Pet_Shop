@@ -4,7 +4,7 @@ module Api
     before_action :find_order, only: [:show, :destroy]
 
     def show
-      response_success(@order, { serializer: ::Orders::ShowSerializer })
+      response_success(@order, { serializer: ::Orders::CartShowSerializer })
     end
 
     def index
@@ -13,7 +13,7 @@ module Api
       @pagy, @order = pagy(order, items: params[:per_page] || DEFAULT_PER_PAGE, page: params[:page] || DEFAULT_PAGE)
 
       response_list(@order, { adapter: :json,
-                              each_serializer: ::Orders::ListSerializer })
+                              each_serializer: ::Orders::CartShowSerializer })
     end
 
     def create
