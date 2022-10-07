@@ -3,14 +3,28 @@ module Orders
     include Interactor
 
     def call
-      construct_order
-      construct_address
+      context.customer = Current.user
+      context.customer_addresss = context.customer.addresses
 
-      context.order.just_initialized!
+      ActiveRecord::Base.transaction do
+        construct_order
 
-      update_product_sold
+        context.address = if context.customer_address_id
+          context.customer_addresss.find_by(id: context.customer_address_id)
+        else
+          construct_address
+        end
 
-      context.order.update_price!
+        context.fail!(message: "Create Order failed") unless context.order && context.address
+
+        context.order.address_id = context.address.id
+
+        context.order.just_initialized!
+
+        update_product_sold
+
+        context.order.update_price!
+      end
     end
 
     private
@@ -33,8 +47,6 @@ module Orders
     end
 
     def construct_address
-      context.customer_addresss = Current.user.addresses
-
       if context.address_attribute
         form = ::Users::AddressForm.new.assign_model(Current.user.addresses.new, context.address_attribute.to_h)
 
@@ -45,8 +57,6 @@ module Orders
         context.address = context.customer_addresss.find_by(is_default: true)
 
         context.address = context.customer_addresss.last if context.address.blank?
-
-        context.order.address_id = context.address.id
       end
     end
 
