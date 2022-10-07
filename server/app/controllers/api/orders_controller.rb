@@ -8,7 +8,7 @@ module Api
     end
 
     def index
-      order = @user.orders.order(id: :desc).ransack(params[:q]).result
+      order = @user.orders.where.not(status: :shopping).order(id: :desc).ransack(params[:q]).result
 
       @pagy, @order = pagy(order, items: params[:per_page] || DEFAULT_PER_PAGE, page: params[:page] || DEFAULT_PAGE)
 
