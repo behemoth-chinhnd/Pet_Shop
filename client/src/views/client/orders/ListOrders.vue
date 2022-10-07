@@ -64,60 +64,42 @@
               <div class="details-price flex-row-space-between">
                 <div class="flex-cloumn text-left">
                   <div class="price-sale mgb-10px">
-                    ID: #{{ post.product.id }}
-                    - {{ post.product.name }}
+                    ID: #{{ post.id }}
+                    Number Code: {{ post.number }}
+                    <div
+          class="card mgb-10px pd-10px"
+          v-for="(item, index) in getDetail(post.number)"
+          :key="index"
+        >
+        <div>{{item.order_items}}</div>
+        </div>
                   </div>
                 </div>
                 <div class="flex-cloumn text-left"></div>
               </div>
 
               <div class="number-product flex-row text-left mgt-10px">
-                <div class="flex-row-start-center">
-                  <p class="">({{ post.product.master_sales_price }} VND)</p>
+                <div class="flex-column">
+                  <p class="">Total Cash Product{{ post.total }} VND)</p>
+                  <p class="">Shipping Free {{ post.shipping_fee }} VND)</p>
+                  <p class="">Total All{{ post.subtotal }} VND)</p>
                   <p class="saleoff">
-                    ({{ post.product.master_list_price }} VND)
                   </p>
-
-                  <div class="prev mgl-10px" @click="prev(index)">-</div>
-                  <div class="quantily">{{ post.quantity }}</div>
-                  <div class="next mgr-10px" @click="next(index)">+</div>
-                  <div v-if="isMinimum" class="message">(Minimum = 1 )</div>
-                  <div v-if="isMaximum" class="message">
-                    (Maximum = {{ this.product.number }} )
                   </div>
-                  <p class="">
-                    Total:
-                    {{
-                      Intl.NumberFormat().format(
-                        post.product.master_sales_price * post.quantity
-                      )
-                    }}
-                    VND)
-                  </p>
+                 
+                
                 </div>
 
                 <div class="list-content"></div>
               </div>
             </div>
-
             <div class="right">
-              <b-button variant="danger" @click="onDelete(post.product.id)"
-                >Delete</b-button
-              >
             </div>
           </div>
         </div>
         <div class="right">
-          <b-button variant="primary"
-            >({{ this.total_items }} Product) - Total Cash:
-            {{ Intl.NumberFormat().format(this.total) }} VNĐ</b-button
-          >
-          <b-button class="details-price mgl-10px" @click="createOrder()">ORDER</b-button>
         </div>
       </div>
-      <!-- <p>{{ this.$store.state.CART.state.order_items }}</p>
-      <p>{{ this.$store.state.CART.state.total }}</p>
-      <p>{{ this.address_order }}</p> -->
     </div>
   </div>
 </template>
@@ -148,7 +130,7 @@ export default {
         product_id: "",
         quantity: 1,
       },
-      order_items: [],
+      orders: [],
       total: "",
       total_items: "",
       totalCash: "",
@@ -172,11 +154,11 @@ export default {
   },
   computed: {
     List() {
-      this.order_items = this.$store.state.CART.state.order_items;
-      this.total = this.$store.state.CART.state.total;
-      this.total_items = this.$store.state.CART.state.total_items;
-      this.address_order = this.$store.state.ADDR.state.is_default;
-      return (this.order_items = this.$store.state.CART.state.order_items);
+      this.orders = this.$store.state.ORDE.state.orders;
+      // this.total = this.$store.state.ORDE.state.total;
+      // this.total_items = this.$store.state.ORDE.state.total_items;
+      // this.address_order = this.$store.state.ADDR.state.is_default;
+      return (this.orders = this.$store.state.ORDE.state.orders);
     },
   },
   methods: {
@@ -186,122 +168,49 @@ export default {
       return /^\d*$/.test(value);
     },
 
-    sumQuantity() {
-      let sum = 0;
-      for (let i = 0; i < this.List.length; i++) {
-        sum += this.List[i].quantity;
-      }
-      this.total_items = sum;
-      //  this.$store.dispatch("CART/getQuantity", sum)
-    },
-    sumCash() {
-      let sum = 0;
-      for (let i = 0; i < this.List.length; i++) {
-        sum += this.List[i].quantity * this.List[i].product.master_sales_price;
-      }
-      this.total = sum;
-      //  this.$store.dispatch("CART/getCash", sum)
-    },
-
-    async next(id) {
-      this.List[id].quantity += 1;
-      this.List[id].quantity = parseInt(this.List[id].quantity)
-      if (this.List[id].quantity > this.List[id].product.quantity) {
-        this.List[id].quantity = this.List[id].product.quantity
-        alert(`Max = ${this.List[id].product.quantity}`)
-
-        // this.isMaximum = true;
-      } else {
-        await this.$store.dispatch("CART/nextCart", this.List[id]);
-      }
-      this.sumQuantity();
-      this.sumCash();
-    },
-
-    async prev(id) {
-      this.List[id].quantity -= 1;
-
-      this.List[id].quantity = parseInt(this.List[id].quantity)
-      if (this.List[id].quantity < 1) {
-        this.List[id].quantity = 1
-        alert(`Min = 1`)
-        // this.isMaximum = true;
-      } else {
-        await this.$store.dispatch("CART/prevCart", this.List[id]);
-      }
-      this.sumQuantity();
-      this.sumCash();
-    },
-
-    // next() {
-    //   this.cart.quantity += 1;
-    //   console.log(this.cart.quantity);
-    //   console.log(this.product.number);
-    //   this.isMinimum = false;
-    //   this.isMaximum = false;
-    //   if (this.cart.quantity > this.product.number) {
-    //     this.cart.quantity = this.product.number;
-    //     this.isMaximum = true;
+    // sumQuantity() {
+    //   let sum = 0;
+    //   for (let i = 0; i < this.List.length; i++) {
+    //     sum += this.List[i].quantity;
     //   }
+    //   this.total_items = sum;
+    //   //  this.$store.dispatch("ORDE/getQuantity", sum)
     // },
-    // prev() {
-    //   this.cart.quantity -= 1;
-    //   this.isMinimum = false;
-    //   this.isMaximum = false;
-    //   console.log(this.cart.quantity);
-    //   console.log(this.product.number);
-    //   if (this.cart.quantity < 1) {
-    //     this.cart.quantity = 1;
-    //     this.isMinimum = true;
+    // sumCash() {
+    //   let sum = 0;
+    //   for (let i = 0; i < this.List.length; i++) {
+    //     sum += this.List[i].quantity * this.List[i].product.master_sales_price;
     //   }
+    //   this.total = sum;
+    //   //  this.$store.dispatch("ORDE/getCash", sum)
     // },
 
     async getAll() {
-      await this.$store.dispatch("CART/getAll");
-      this.order_items = this.$store.state.CART.state.order_items;
-      this.total = this.$store.state.CART.state.total;
-      this.total_items = this.$store.state.CART.state.total_items;
-      this.address_order = this.$store.state.ADDR.state.is_default;
-      this.sumQuantity();
-      this.sumCash();
-      this.getAddress();
+      await this.$store.dispatch("ORDE/getAll");
+      this.orders = this.$store.state.ORDE.state.orders;
+      // this.total = this.$store.state.ORDE.state.total;
+      // this.total_items = this.$store.state.ORDE.state.total_items;
+      // this.address_order = this.$store.state.ADDR.state.is_default;
+      // this.sumQuantity();
+      // this.sumCash();
+      // this.getAddress();
     },
 
-    async getAddress() {
-      await this.$store.dispatch("ADDR/getIsDefault");
+    async getDetail(number) {
+      await this.$store.dispatch("ORDE/getDetail", number);
+      // return this.$store.state.ORDE.state.orders;
     },
 
-    async createOrder() {
-      console.log(this.address_order)
-      await this.$store.dispatch("ORDE/create", this.address_order );
-    },
+    // async getAddress() {
+    //   await this.$store.dispatch("ADDR/getIsDefault");
+    // },
 
-    onDelete(productId) {
-      this.$swal
-        .fire({
-          title: "Delete?",
-          text: "You won't be able to revert this!",
-          icon: "question",
-          type: "warning",
-          showDenyButton: false,
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Yes, delete it!",
-          cancelButtonText: "No, cancel please!",
-          timer: 5000,
-          // closeOnConfirm: false,
-          // closeOnCancel: false
-        })
-        .then((result) => {
-          if (result.isConfirmed) {
-            this.$store.dispatch("CART/delete", { product_id: productId });
-            this.getAll();
-          }
-        });
-    },
+    // async createOrder() {
+    //   console.log(this.address_order)
+    //   await this.$store.dispatch("ORDE/create", this.address_order );
+    // },
 
-    async addCart() {},
+    // async addCart() {},
   },
 };
 </script>

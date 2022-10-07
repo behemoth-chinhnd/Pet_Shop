@@ -20,7 +20,17 @@
             </div>
           </div>
           <div class="form-group row">
-            <label for="inputProductname" class="col-md-3 col-form-label">Productname</label>
+            <label for="inputProductname" class="col-md-3 col-form-label">Quantity</label>
+            <div class="col-md-9">
+              <input type="text" class="form-control" v-model="product.quantity" @blur="validate()"
+                v-bind:class="{ 'is-invalid': errors.quantity }" required />
+              <div class="feedback-invalid" v-if="errors.quantity">
+                {{ errors.quantity }}
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputProductname" class="col-md-3 col-form-label">Number</label>
             <div class="col-md-9">
               <input type="text" class="form-control" v-model="product.number" @blur="validate()"
                 v-bind:class="{ 'is-invalid': errors.number }" required />
@@ -88,6 +98,7 @@ export default {
       errors: {
         name: "",
         number: "",
+        quantity:"",
         master_sku: "",
         master_list_price: "",
         master_sales_price: ""
@@ -96,6 +107,7 @@ export default {
       product: {
         name: "",
         number: "",
+        quantity:"",
         master_sku: "",
         master_list_price: "",
         master_sales_price: ""

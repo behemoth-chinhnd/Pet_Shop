@@ -88,7 +88,7 @@ const actions = {
             commit("getAll", res.data.products);
             commit("getOrderItem", res.data.order_items);
             commit("getTotal", res.data.total);
-            commit("getTotalItems", res.data.total_items);
+            commit("getTotalItems", res.data.total_quantity);
 
             console.log(res.data.order_items)
 
@@ -96,14 +96,6 @@ const actions = {
             // commit("getPage", credentials.page);
 
 
-        });
-    },
-    async getAllDelete({ commit }) {
-        await api.get(`/api/cart`).then((res) => {
-            commit("getAll", res.data.products);
-            commit("getOrderItem", res.data.order_items);
-            commit("getTotal", res.data.total);
-            commit("getTotalItems", res.data.total_items);
         });
     },
     async getItem({ commit }, credentials) {
@@ -145,14 +137,37 @@ const actions = {
         }
         console.log(input);
         await api.post("/api/cart/add_product", input).then(res => {
-            console.log(`addCart`)
+            alert(`Add to Cart: Success`)
             console.log(res)
         }).catch((res) => {
-
+            alert(`Add to Cart: Failed`)
             console.log(res.response.data)
-            // if(res.response.data))
         })
     
+    },
+    async nextCart({ commit, state }, order_item) {
+        const input = {
+            product_id: order_item.product.id,
+            quantity: 1
+        }
+        console.log(input);
+        await api.post("/api/cart/add_product", input).then(res => {
+            console.log(res)
+        }).catch((res) => {
+            console.log(res.response.data)
+        })
+    },
+    async prevCart({ commit, state }, order_item) {
+        const input = {
+            product_id: order_item.product.id,
+            quantity: -1
+        }
+        console.log(input);
+        await api.post("/api/cart/add_product", input).then(res => {
+            console.log(res)
+        }).catch((res) => {
+            console.log(res.response.data)
+        })
     },
     async edit({ commit }, credentials) {
         await api.put(`/api/products/${credentials.id}`, credentials).then(res => {

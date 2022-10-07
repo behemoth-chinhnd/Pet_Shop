@@ -1,11 +1,6 @@
 <template>
   <div class="body">
-    <!-- <section id="main-body"> -->
     <div class="detail-product">
-      <!-- <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-                <h3 class="display-5">Product Information</h3>
-                <router-link to="/products">Back</router-link>
-            </div> -->
       <div class="container">
         <div class="row">
           <div class="col-xs-5 col-md-5 col-lg-5">
@@ -17,7 +12,7 @@
           </div>
           <div class="col-md-7">
             <div class="details-name text-left">
-              <h1>{{ product.name }}</h1>
+              <h1>ID: #{{ product.id }} - {{ product.name }}</h1>
             </div>
 
             <div class="details-price flex-row-space-between">
@@ -64,10 +59,10 @@
                 <!-- <input class="quantily" v-model="number"/> -->
                 <div class="next mgr-10px" @click="next()">+</div>
 
-                <div class="">(Max: {{ this.product.number }} Products)</div>
+                <div class="">(Max: {{ this.product.quantity }} Products)</div>
                 <div v-if="isMinimum" class="message">(Minimum = 1 )</div>
                 <div v-if="isMaximum" class="message">
-                  (Maximum = {{ this.product.number }} )
+                  (Maximum = {{ this.product.quantity }} )
                 </div>
               </div>
 
@@ -82,7 +77,6 @@
               <b-button class="mgl-10px" variant="primary" @click="buyItem()"
                 >Buy Now</b-button
               >
-              <p>{{ this.$store.state.CART.state.product }}</p>
             </div>
           </div>
         </div>
@@ -147,11 +141,11 @@ export default {
     next() {
       this.cart.quantity += 1;
       console.log(this.cart.quantity);
-      console.log(this.product.number);
+      console.log(this.product.quantity);
       this.isMinimum = false;
       this.isMaximum = false;
-      if (this.cart.quantity > this.product.number) {
-        this.cart.quantity = this.product.number;
+      if (this.cart.quantity > this.product.quantity) {
+        this.cart.quantity = this.product.quantity;
         this.isMaximum = true;
 
       }
@@ -199,7 +193,7 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style >
 .saleoff {
   text-decoration: line-through;
   font-style: italic;

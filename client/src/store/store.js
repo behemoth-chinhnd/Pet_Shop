@@ -5,6 +5,8 @@ import AuthStore from "./modules/auth"
 import ProductStore from "./modules/product"
 import ProductCart from "./modules/cart"
 import AddressOrder from "./modules/address"
+import Order from "./modules/order"
+
 
 
 
@@ -51,7 +53,8 @@ export default  new Vuex.Store({
       AUTH: AuthStore,
       PROD: ProductStore,
       CART: ProductCart,
-      ADDR: AddressOrder
+      ADDR: AddressOrder,
+      ORDE: Order
 
     },
     // getters: {

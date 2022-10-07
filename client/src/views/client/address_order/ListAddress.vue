@@ -3,9 +3,11 @@
       <div class="body-saler">
           <div class="panel-body flex-row-space-between-center">
               <div class="">
-                  <button class="btn btn-primary text-white">
-                      <router-link to="/saler">List Address Order</router-link>
-                  </button>
+                  <router-link :to="{path: '/carts'}">
+                  <b-button variant="danger" class="text-white">
+                    <i class="fa fa-angle-double-left"></i> Go to Cart
+                  </b-button>
+                </router-link>
               </div>
               <div class="">
                   <button class="btn btn-primary text-white">

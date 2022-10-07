@@ -9,8 +9,9 @@
                 <div class="logo">
                   <img src="images/Logo-M-3.png" alt="" />
                 </div>
+                <h1 class="text-white">SHOPPET.VN</h1>
 
-                <select
+                <!-- <select
                   class="select dark color-default"
                   name="select-header"
                   id="select-header"
@@ -19,7 +20,7 @@
                   <option value="2">SAAS Users</option>
                   <option value="3">SAAS Users</option>
                   <option value="4">SAAS Users</option>
-                </select>
+                </select> -->
               </div>
 
               <button class="menu-toggle">
@@ -60,16 +61,27 @@
         <div class="container">
           <div class="list-menu-header-bottom scroll-x">
             <ul id="menu-row" class="btn-list-dark">
-              <li class="active"><a href="#">Dashboard</a></li>
-              <li><a href="#">Components</a></li>
-              <li><a href="#">Crud</a></li>
-              <li><a href="#">Apps</a></li>
-              <li><a href="#">Pages</a></li>
+              <li class="active">
+                <router-link to="/">Home</router-link>
+              </li>
+              <li>
+                <router-link to="/products">Products</router-link>
+              </li>
+              <li>
+                <router-link to="/carts">Carts</router-link>
+              </li>
+              <li>
+                <router-link to="/orders">Order</router-link>
+              </li>
+              <li>
+                <router-link to="/address_order">Address Order</router-link>
+              </li>
+              
             </ul>
             <div class="form-input-search">
-              <i class="icon-search fa fa-search"></i>
+              <!-- <i class="icon-search fa fa-search"></i>
               <input type="text" class="input-search" placeholder="Search" />
-              <button class="icon-text button-search bg-danger-bland">Search</button>
+              <button class="icon-text button-search bg-danger-bland">Search</button> -->
             </div>
           </div>
         </div>

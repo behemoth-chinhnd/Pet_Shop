@@ -4,6 +4,7 @@ import Admin from '@/layout/Admin.vue'
 import Client from '@/layout/Client.vue'
 import Saler from '@/layout/Saler.vue'
 import Cart from '@/layout/Cart.vue'
+import Order from '@/layout/Order.vue'
 
 import store from '@/store/store'
 
@@ -15,7 +16,7 @@ const routes = [
 
   {
     path: '/', name: 'client', component: Client, children: [
-      { path: '/', name: 'home.index', component: () => import('@/components/client/IndexClient.vue') },
+      { path: '/', name: 'home.index', component: () => import('@/views/client/IndexHome.vue') },
       { path: 'products', name: 'home.products', component: () => import('@/views/client/products/ListProducts.vue') },
       { path: 'products/detail/:id', name: 'home.products.detail', component: () => import('@/views/client/products/DetailProducts.vue') },
       { path: 'carts', name: 'home.carts', component: () => import('@/views/client/carts/ListCarts.vue') },
@@ -25,6 +26,10 @@ const routes = [
       { path: 'profile', name: 'home.users.profile', component: () => import('@/views/client/users/ProfileUser.vue') },
       { path: 'carts', name: 'home.carts', component: Cart, children: [
         { path: 'product', name: 'home.cart.product', component: () => import('@/views/client/carts/ProductCart.vue') },
+
+      ] },
+      { path: 'orders', name: 'orders', component: Order, children: [
+        { path: '/', name: 'orders.list', component: () => import('@/views/client/orders/ListOrders.vue') },
 
       ] },
       { path: 'address_order', name: 'address_order', component: Saler, children: [
