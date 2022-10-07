@@ -47,7 +47,7 @@ module Orders
     def update_product_sold
       context.order.order_items.reload.each do |order_item|
         product = order_item.product
- 
+
         context.fail!(message: "Not enough product #{product.name} quantity ") if product.quantity < order_item.quantity
 
         product.increment(:number_of_items_sold, order_item.quantity).save!

@@ -10,10 +10,10 @@ module Orders
         construct_order
 
         context.address = if context.customer_address_id
-          context.customer_addresss.find_by(id: context.customer_address_id)
-        else
-          construct_address
-        end
+                            context.customer_addresss.find_by(id: context.customer_address_id)
+                          else
+                            construct_address
+                          end
 
         context.fail!(message: "Create Order failed") unless context.order && context.address
 
@@ -63,7 +63,7 @@ module Orders
     def update_product_sold
       context.order.order_items.reload.each do |order_item|
         product = order_item.product
- 
+
         context.fail!(message: "Not enough product #{product.name} quantity ") if product.quantity < order_item.quantity
 
         product.increment(:number_of_items_sold, order_item.quantity).save!

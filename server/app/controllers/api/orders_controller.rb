@@ -53,9 +53,9 @@ module Api
     end
 
     def order_params
-      params.require(:order).permit(:customer_address_id, 
-        address_attribute: [:city, :county, :street, :apartment_number, :description, :is_default, :name, :phone], 
-        products_data: [:product_id, :quantity])
+      params.require(:order).permit(:customer_address_id,
+                                    address_attribute: [:city, :county, :street, :apartment_number, :description, :is_default, :name, :phone],
+                                    products_data: [:product_id, :quantity])
     end
 
     def set_user

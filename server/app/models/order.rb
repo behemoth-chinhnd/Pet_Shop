@@ -31,7 +31,7 @@ class Order < ApplicationRecord
   belongs_to :address, optional: true
 
   belongs_to :user
-  
+
   before_destroy :update_quantity_product
 
   enum status: {
