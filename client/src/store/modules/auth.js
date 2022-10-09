@@ -1,5 +1,6 @@
 // import AuthServices from "../../apis/modules/auth";
 import api from "@/plugin/axios";
+import says from "@/plugin/says";
 import store from "../store";
 
 
@@ -16,13 +17,41 @@ const state = {
             pages: 1
         },
         isErr: false,
-        errors: []
+        errors: [],
+        res: {
+            is_res: null,
+            status:"",
+            message:""
+        },
+        birthday: {
+            day:"",
+            month:"",
+            year:""
+        }
     },
 };
 const getters = {
     getToken: state => state.token
 };
 const mutations = {
+    isDay(state, value) {
+        state.state.birthday.day = value;
+    },
+    isMonth(state, value) {
+        state.state.birthday.month = value;
+    },
+    isYear(state, value) {
+        state.state.birthday.year = value;
+    },
+    isRes(state, value) {
+        state.state.res.is_res = value;
+    },
+    resStatus(state, value) {
+        state.state.res.status = value;
+    },
+    resMessage(state, value) {
+        state.state.res.message = value;
+    },
     setErrors(state, value) {
         state.state.errors = value;
     },
@@ -65,10 +94,12 @@ const actions = {
             email: credentials.email, password: credentials.password
         }).then(res => {
             if (res.data) {
+                
                 commit("setToken", res.data);
                 commit("setActive", true);
                 dispatch('profile');
-                setTimeout(() => window.location.href = "/profile", 200)
+                alert(`Login Success`)
+                setTimeout(() => window.location.href = "/user/profile", 200)
             } else {
                 commit("setActive", false);
                 console.log(`Login Failed`)
@@ -77,6 +108,8 @@ const actions = {
             if (res.response) {
                 commit("setToken", "");
                 commit("setActive", false);
+                alert(`Login Faild`)
+                console.log(res.response.data.message)
                 localStorage.removeItem("vuex");
             }
         })
@@ -85,13 +118,38 @@ const actions = {
     async profile({ commit }) {
         await api.get("/api/user"
         ).then(res => {
+            console.log(res.data)
             commit("setProfile", res.data);
+            commit("isYear", Number(res.data.birthday.slice(0,4)));
+            commit("isMonth", Number(res.data.birthday.slice(5,7)));
+            commit("isDay", Number(res.data.birthday.slice(8,10)));
+
         }).catch((res) => {
             if (res.response) {
                 commit("setToken", "");
                 commit("setActive", false);
                 commit("setProfile", "");
             }
+        })
+    },
+
+    async update({ commit, dispatch }, input) {
+        console.log(input)
+        await api.put("/api/user",input
+        ).then(res => {
+            dispatch('profile')
+            console.log(res)
+            commit("setProfile", res.data);
+            commit("isRes", true);
+            commit("resStatus", "success");
+            commit("resMessage", "Update Successful!");
+
+           
+        }).catch((res) => {
+            console.log(res.response.data)
+            commit("isRes", false);
+            commit("resStatus", "error");
+            commit("resMessage","Update Failed!" );
         })
     },
 

@@ -115,7 +115,6 @@ export default {
         city: "",
         county: "",
         street: "",
-        street: "",
         apartment_number:"",
         description:"",
         is_default:""
@@ -126,7 +125,6 @@ export default {
         phone: "",
         city: "",
         county: "",
-        street: "",
         street: "",
         apartment_number:"",
         description:"",

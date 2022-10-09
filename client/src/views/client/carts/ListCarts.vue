@@ -99,20 +99,24 @@
                 <div class="list-content"></div>
               </div>
             </div>
-
             <div class="right">
-              <b-button variant="danger" @click="onDelete(post.product.id)"
-                >Delete</b-button
+              <b-button class="btn submit" @click="buyNow(post.product.id)"
+                >Buy Now</b-button
+              >
+            </div>
+            <div class="right">
+              <b-button variant="danger" title="Delete" @click="onDelete(post.product.id)"
+                ><i class="fa fa-close" aria-hidden="true"></i></b-button
               >
             </div>
           </div>
         </div>
-        <div class="right">
+        <div class="text-right">
           <b-button variant="primary"
-            >({{ this.total_items }} Product) - Total Cash:
+            >({{ this.total_quantity }} Product) - Total Cash:
             {{ Intl.NumberFormat().format(this.total) }} VNĐ</b-button
           >
-          <b-button class="details-price mgl-10px" @click="createOrder()">ORDER</b-button>
+          <b-button class="btn submit mgl-10px" @click="createOrder()">ORDER ALL</b-button>
         </div>
       </div>
       <!-- <p>{{ this.$store.state.CART.state.order_items }}</p>
@@ -151,6 +155,7 @@ export default {
       order_items: [],
       total: "",
       total_items: "",
+      total_quantity: "",
       totalCash: "",
       address_order: this.$store.state.ADDR.state.is_default,
       params: {
@@ -175,6 +180,7 @@ export default {
       this.order_items = this.$store.state.CART.state.order_items;
       this.total = this.$store.state.CART.state.total;
       this.total_items = this.$store.state.CART.state.total_items;
+      this.total_quantity = this.$store.state.CART.state.total_quantity;
       this.address_order = this.$store.state.ADDR.state.is_default;
       return (this.order_items = this.$store.state.CART.state.order_items);
     },
@@ -191,7 +197,7 @@ export default {
       for (let i = 0; i < this.List.length; i++) {
         sum += this.List[i].quantity;
       }
-      this.total_items = sum;
+      this.total_quantity = sum;
       //  this.$store.dispatch("CART/getQuantity", sum)
     },
     sumCash() {
@@ -295,8 +301,11 @@ export default {
         })
         .then((result) => {
           if (result.isConfirmed) {
-            this.$store.dispatch("CART/delete", { product_id: productId });
-            this.getAll();
+            this.$store.dispatch("CART/delete", { product_id: productId })
+            .then(() => {
+              this.getAll();
+                // this.$swal.fire(this.res.message, "", this.res.status);
+              });
           }
         });
     },

@@ -10,6 +10,15 @@ export default {
   cash(number){
     const result = Intl.NumberFormat().format(number)
     return result;
-  }
+  },
+  // year() {
+  //   var List = []
+  //   for(let i= 1; i < 13; i++) {
+  //     if(i>0){
+  //       List.push(i);
+  //     }
+  //   }
+  //   return List
+  // }
   
 }

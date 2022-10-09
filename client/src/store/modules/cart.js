@@ -14,6 +14,7 @@ const state = {
         order_items:[],
         total:"",
         total_items:"",
+        total_quantity:"",
         params: {
             page: 1,
             per_page: 3,
@@ -21,12 +22,30 @@ const state = {
             pages: 1
         },
         isErr: false,
-        errors: []
+        errors: [],
+        res: {
+            is_res: null,
+            status:"",
+            message:"",
+            text:""
+        },
     },
 };
 const getters = {
 };
 const mutations = {
+    isRes(state, value) {
+        state.state.res.is_res = value;
+    },
+    resStatus(state, value) {
+        state.state.res.status = value;
+    },
+    resMessage(state, value) {
+        state.state.res.message = value;
+    },
+    resText(state, value) {
+        state.state.res.text = value;
+    },
     setErrors(state, value) {
         state.state.errors = value;
     },
@@ -56,6 +75,9 @@ const mutations = {
     },
     getTotalItems(state, value) {
         state.state.total_items = value;
+    },
+    getTotalQuantity(state, value) {
+        state.state.total_quantity = value;
     },
     getAll(state, value) {
         state.state.carts = value;
@@ -88,9 +110,10 @@ const actions = {
             commit("getAll", res.data.products);
             commit("getOrderItem", res.data.order_items);
             commit("getTotal", res.data.total);
-            commit("getTotalItems", res.data.total_quantity);
+            commit("getTotalQuantity", res.data.total_quantity);
+            commit("getTotalItems", res.data.total_items);
 
-            console.log(res.data.order_items)
+            console.log(res.data)
 
             // commit("getPages", res.data.meta.pages);
             // commit("getPage", credentials.page);
@@ -137,11 +160,23 @@ const actions = {
         }
         console.log(input);
         await api.post("/api/cart/add_product", input).then(res => {
-            alert(`Add to Cart: Success`)
             console.log(res)
+            commit("getOrderItem", res.data.order_items);
+            commit("getTotal", res.data.total);
+            commit("getTotalQuantity", res.data.total_quantity);
+            commit("getTotalItems", res.data.total_items);
+            commit("isRes", true);
+            commit("resStatus", "success");
+            commit("resMessage", "Add to Cart: Success");
+            commit("resText", "See details in Cart!");
+
         }).catch((res) => {
-            alert(`Add to Cart: Failed`)
-            console.log(res.response.data)
+            console.log(res.response)
+            commit("isRes", false);
+            commit("resStatus", "error");
+            commit("resMessage", "Add to Cart: Failed!");
+            commit("resText", "Product quantity is not enough or sold out!");
+
         })
     
     },

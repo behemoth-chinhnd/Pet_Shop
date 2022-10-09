@@ -1,15 +1,15 @@
 <template>
   <div id="header-client">
     <header id="header" class="">
-      <section id="header-top" class="fixed">
+      <section id="header-top" class="">
         <div class="container">
-          <div class="list-menu-header height-110px">
-            <div class="flex-row-space-between-center">
+          <div class="list-menu-header height-110px gap-30px">
+            <div class="flex-row-space-between-center ">
               <div class="left-item-header flex-row">
                 <div class="logo">
-                  <img src="images/Logo-M-3.png" alt="" />
+                  <img src="/pet2.png" alt="" />
                 </div>
-                <h1 class="text-white">SHOPPET.VN</h1>
+                <!-- <h1 class="text-white mgt-10px">SHOPPET.VN</h1> -->
 
                 <!-- <select
                   class="select dark color-default"
@@ -26,6 +26,12 @@
               <button class="menu-toggle">
                 <i class="fa fa-bars"></i>
               </button>
+            </div>
+            <div class="form-input-search">
+              <input type="text" class="input-search" placeholder="Search" />
+              <!-- <button class="icon-text button-search bg-danger-bland">Search</button> -->
+              <i class="icon-search fa fa-search"></i>
+
             </div>
 
             <div class="flex-row-wrap gap-10px">
@@ -47,12 +53,22 @@
               <b-button v-if="!this.$store.state.AUTH.state.isActive" variant="primary">
                 <router-link  class="text-white"  to="/register">Register</router-link>
               </b-button>
-              <b-button v-if="this.$store.state.AUTH.state.isActive" variant="warning">
-                <router-link  class="text-danger"  to="/profile">Hi, {{this.$store.state.AUTH.state.user.name}}</router-link>
-              </b-button>
-              <b-button v-if="this.$store.state.AUTH.state.isActive" variant="danger" @click="logout()">
+              <div class="cart">
+                <router-link  class="total_items text-white fz-25px"  to="/carts"> 
+                  {{this.$store.state.CART.state.total_items}}
+                  <i class="fa fa-shopping-cart text-white" aria-hidden="true"></i>
+                </router-link>
+
+               
+              </div>
+              <!-- <svg viewBox="0 0 26.6 25.6" class="icon-shopping-cart-2"><polyline fill="none" points="2 1.7 5.5 1.7 9.6 18.3 21.2 18.3 24.6 6.1 7 6.1" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2.5"></polyline><circle cx="10.7" cy="23" r="2.2" stroke="none"></circle><circle cx="19.7" cy="23" r="2.2" stroke="none"></circle></svg> -->
+              <div v-if="this.$store.state.AUTH.state.isActive" class="avatar-icon mgl-20px">
+                <router-link  class="text-danger"  to="/user/profile"> <img src="@/assets/images/icons/avatar-boy.png" alt=""></router-link>
+              </div>
+             
+              <!-- <b-button v-if="this.$store.state.AUTH.state.isActive" variant="danger" @click="logout()">
                 <i class="fa fa-sign-out"></i> Logout
-              </b-button>
+              </b-button> -->
             </div>
           </div>
         </div>
@@ -121,7 +137,10 @@ export default {
 
 <style scoped>
 #header-client #header-top {
-  background: #b90000;
+  /* background: #b90000; */
+  background: linear-gradient(-180deg,#b90000,#f63);
+  transition: transform .2s cubic-bezier(.4,0,.2,1);
+
 }
 
 #header-client #header-bottom {

@@ -2,7 +2,7 @@
   <div class="body">
     <div class="detail-product">
       <div class="container">
-        <div class="address mgb-10px">
+        <div class="address mgb-10px hidden">
           <div class="address-header"></div>
           <div class="address-body">
             <div class="address-titel gap-10px">
@@ -63,7 +63,7 @@
             <div class="flex-1">
               <div class="details-price flex-row-space-between">
                 <div class="flex-cloumn text-left">
-                  <div class="price-sale mgb-10px">
+                  <!-- <div class="price-sale mgb-10px">
                     ID: #{{ post.id }}
                     Number Code: {{ post.number }}
                     <div
@@ -73,7 +73,7 @@
         >
         <div>{{item.order_items}}</div>
         </div>
-                  </div>
+                  </div> -->
                 </div>
                 <div class="flex-cloumn text-left"></div>
               </div>

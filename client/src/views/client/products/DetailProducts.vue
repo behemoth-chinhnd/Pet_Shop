@@ -110,7 +110,13 @@ export default {
       cart: {
         product_id:"",
         quantity: 1
-      }
+      },
+      res: {
+        is_res: null,
+        status: "",
+        message: "",
+        text:""
+      },
     };
   },
   created() {
@@ -176,19 +182,19 @@ export default {
     async addCart() {
       console.log(1);
       this.cart.quantity = parseInt(this.cart.quantity)
-      await this.$store.dispatch("CART/addCart", this.cart.quantity);
+      await this.$store.dispatch("CART/addCart", this.cart.quantity)
+      .then(() => {
+              this.getAll();
+                this.$swal.fire(this.res.message, this.res.text, this.res.status);
+              });
     },
 
     async getAll() {
-      console.log(this.builUrl());
-      await this.$request.get(this.builUrl()).then((res) => {
-        this.carts = res.data;
-        var md5 = require("md5");
-        console.log(md5("message"));
-      });
-    },
-    builUrl() {
-      return `http://localhost:8000/api/carts`;
+        this.res.is_res = this.$store.state.CART.state.res.is_res;
+        this.res.status = this.$store.state.CART.state.res.status;
+        this.res.message = this.$store.state.CART.state.res.message;
+        this.res.text = this.$store.state.CART.state.res.text;
+
     },
   },
 };

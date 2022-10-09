@@ -15,6 +15,16 @@
             </div>
           </div>
           <div class="form-group row">
+            <label for="inputEmail" class="col-md-3 col-form-label">Quantity</label>
+            <div class="col-md-9">
+              <input type="number" name="number" class="form-control" v-model.number="product.quantity" @blur="validate()"
+                v-bind:class="{ 'is-invalid': errors.quantity }" required />
+              <div class="feedback-invalid" v-if="errors.quantity">
+                {{ errors.quantity }}
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
             <label for="inputEmail" class="col-md-3 col-form-label">Number</label>
             <div class="col-md-9">
               <input type="number" name="number" class="form-control" v-model.number="product.number" @blur="validate()"
@@ -88,6 +98,7 @@ export default {
     return {
       errors: {
         name: "",
+        quantity: "",
         number: "",
         master_sku: "",
         master_list_price: "",
@@ -96,6 +107,7 @@ export default {
       products: [],
       product: {
         name: "",
+        quantity: "",
         number: "",
         master_sku: "",
         master_list_price: "",
@@ -111,6 +123,7 @@ export default {
       let isValid = true;
       this.errors = {
         name: "",
+        quantity: "",
         number: "",
         master_sku: "",
         master_list_price: "",

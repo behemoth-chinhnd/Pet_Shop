@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Admin from '@/layout/Admin.vue'
 import Client from '@/layout/Client.vue'
+import User from '@/layout/User.vue'
 import Saler from '@/layout/Saler.vue'
 import Cart from '@/layout/Cart.vue'
 import Order from '@/layout/Order.vue'
@@ -19,13 +20,16 @@ const routes = [
       { path: '/', name: 'home.index', component: () => import('@/views/client/IndexHome.vue') },
       { path: 'products', name: 'home.products', component: () => import('@/views/client/products/ListProducts.vue') },
       { path: 'products/detail/:id', name: 'home.products.detail', component: () => import('@/views/client/products/DetailProducts.vue') },
-      { path: 'carts', name: 'home.carts', component: () => import('@/views/client/carts/ListCarts.vue') },
       { path: 'register', name: 'home.users.register', component: () => import('@/views/client/users/RegisterUser.vue') },
       { path: 'login', name: 'home.users.login', component: () => import('@/views/client/users/LoginUser.vue') },
       { path: 'users', name: 'home.users', component: () => import('@/views/client/users/ListUser.vue') },
-      { path: 'profile', name: 'home.users.profile', component: () => import('@/views/client/users/ProfileUser.vue') },
       { path: 'carts', name: 'home.carts', component: Cart, children: [
-        { path: 'product', name: 'home.cart.product', component: () => import('@/views/client/carts/ProductCart.vue') },
+        { path: 'buynow', name: 'home.carts.buynow', component: () => import('@/views/client/carts/ProductCart.vue') },
+        { path: '/', name: 'home.carts', component: () => import('@/views/client/carts/ListCarts.vue') },
+      ] },
+      { path: 'user', name: 'user', component: User, children: [
+        { path: '/', name: 'user.index', component: () => import('@/views/client/users/ProfileUser.vue') },
+        { path: 'profile', name: 'user.profile', component: () => import('@/views/client/users/ProfileUser.vue') },
 
       ] },
       { path: 'orders', name: 'orders', component: Order, children: [
@@ -84,9 +88,18 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (((to.name ==='home.users.login') || (to.name ==='home.users.register'))  && (store.state.AUTH.state.isActive === true)) {
-    next({name: 'home.users.profile'})
+    next({path: '/user/profile'})
   } else {
     next()
   }
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.path.includes('/user')  && (store.state.AUTH.state.isActive === false)) {
+    next({path: '/login'})
+  } else {
+    next()
+  }
+})
+
 export default router
