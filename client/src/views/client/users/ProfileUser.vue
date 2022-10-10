@@ -140,12 +140,12 @@
                     Other
                   </div>
                 </div>
-                  <div class="form-group row flex-row-start-center">
-                    <label for="phone" class="item-name col-form-label"
-                      >Birthday:</label
-                    >
-                    <div class="item-value birthday">
-                      <!-- <input
+                <div class="form-group row flex-row-start-center">
+                  <label for="phone" class="item-name col-form-label"
+                    >Birthday:</label
+                  >
+                  <div class="item-value birthday">
+                    <!-- <input
                         class="input birthday-year"
                         type="number"
                         placeholder="Year"
@@ -164,79 +164,51 @@
                         value=""
                         v-model="this.birthday_day"
                       /> -->
-                      <select v-model="birthday_year" >
-                        <option
-                          :selected="birthday_year === ''"
-                        >
-                          Year
-                        </option>
-                        <option
-                          v-for="year in years"
-                          :key="year"
-                          v-bind:value="year"
-                          :selected="birthday_year === year"
-                        >
-                          {{ year }}
-                        </option>
-                      </select>
-                      <select class="mgl-10px" v-model="birthday_month" >
-                        <option
-                          :selected="birthday_month === ''"
-                        >
-                          Month
-                        </option>
-                        <option
-                          v-for="month in months"
-                          :key="month"
-                          v-bind:value="month"
-                          :selected="birthday_month === month"
-                        >
-                          Month {{ month }}
-                        </option>
-                      </select>
-                      <select class="mgl-10px"  v-model="birthday_day" >
-                        <option
-                          :selected="birthday_day === ''"
-                        >
-                          Day
-                        </option>
-                        <option
-                          v-for="day in days"
-                          :key="day"
-                          v-bind:value="day"
-                          :selected="birthday_day === day"
-                        >
-                          {{ day }}
-                        </option>
-                      </select>
-                    </div>
+                    <select v-model="birthday_year">
+                      <option :selected="birthday_year === ''">Year</option>
+                      <option
+                        v-for="year in years"
+                        :key="year"
+                        v-bind:value="year"
+                        :selected="birthday_year === year"
+                      >
+                        {{ year }}
+                      </option>
+                    </select>
+                    <select class="mgl-10px" v-model="birthday_month">
+                      <option :selected="birthday_month === ''">Month</option>
+                      <option
+                        v-for="month in months"
+                        :key="month"
+                        v-bind:value="month"
+                        :selected="birthday_month === month"
+                      >
+                        Month {{ month }}
+                      </option>
+                    </select>
+                    <select class="mgl-10px" v-model="birthday_day">
+                      <option :selected="birthday_day === ''">Day</option>
+                      <option
+                        v-for="day in days"
+                        :key="day"
+                        v-bind:value="day"
+                        :selected="birthday_day === day"
+                      >
+                        {{ day }}
+                      </option>
+                    </select>
                   </div>
-                  <div class="form-group row flex-row-start-center">
-                    <label class="item-name col-md-3 col-form-label"></label>
-                    <div class="item-value flex">
-                      <button class="btn submit">Update</button>
-                    </div>
+                </div>
+                <div class="form-group row flex-row-start-center">
+                  <label class="item-name col-md-3 col-form-label"></label>
+                  <div class="item-value flex">
+                    <button class="btn submit">Update</button>
                   </div>
-
-              
-               
+                </div>
               </form>
             </div>
             <div class="col-md-4 user-avatar">
-              <div class="flex-column-space-between-center">
-                <img v-if="this.avatar === null" class="avatar mgb-10px" src="@/assets/images/icons/avatar-boy.png" alt="">
-                <img v-if="this.avatar !== null" class="avatar mgb-10px" :src="this.avatar" alt="">
-
-                <div class="input-avatar mgb-10px">
-                  <label for="inputFile">Choose File</label>
-                  <input id="inputFile" type="file" ref="inputFile" @change="uploadFile()">
-
-                </div>
-                <button class="btn submit mgb-10px" @click="updateAvatar()">Update</button>
-                <p>Dụng lượng file tối đa 1 MB <br/> Định dạng:.JPEG, .PNG</p>
-                
-                
-              </div>
+              <update-avatar-user></update-avatar-user>
             </div>
           </div>
         </div>
@@ -246,7 +218,13 @@
 </template>
 <script>
 import says from "@/plugin/says";
+import UpdateAvatarUser from "@/components/client/users/UpdateAvatarUser.vue";
+
 export default {
+  components: {
+    updateAvatarUser: UpdateAvatarUser,
+
+  },
   name: "ProfileUser",
   data() {
     return {
@@ -276,15 +254,10 @@ export default {
       days: Array.from({ length: 32 }, (v, i) => i).slice(1),
       months: Array.from({ length: 13 }, (v, i) => i).slice(1),
       currentYear: new Date().getFullYear(),
-      // update images
-      avatar:null,
-      inputPicture: null
     };
   },
   created() {
-    
     this.runStart();
-
   },
   computed: {
     start() {
@@ -304,32 +277,8 @@ export default {
     },
   },
   methods: {
-     // Saving the file in our data to send it !
-     uploadFile: function() {
-      this.inputPicture = this.$refs.inputFile.files[0];
-    },
-
-    // Collecting everything inside our FormData object
-    updateAvatar() {
-      const params = {
-        'picture': this.inputPicture
-      }
-
-      let formData = new FormData()
-
-      Object.entries(params).forEach(
-        ([key, value]) => formData.append(key, value)
-      )
-  
-      // Finally, sending the POST request with our beloved Axios
-      this.$request.post('http://localhost:3000/api/user', formData)
-      .then((res) => {
-        console.log(res)
-      })
-    },
     async runStart() {
-      await this.$store.dispatch("ADDR/getIsDefault")
-      .then(() => {
+      await this.$store.dispatch("ADDR/getIsDefault").then(() => {
         this.address_order = this.$store.state.ADDR.state.is_default;
         // update
         this.res.is_res = this.$store.state.AUTH.state.res.is_res;
@@ -343,14 +292,17 @@ export default {
         this.birthday_month = this.$store.state.AUTH.state.birthday.month;
         this.birthday_year = this.$store.state.AUTH.state.birthday.year;
         //create at
-        this.created_at = this.$store.state.AUTH.state.user.created_at.slice(0, 10);
+        this.created_at = this.$store.state.AUTH.state.user.created_at.slice(
+          0,
+          10
+        );
         //phone
         const phone = this.$store.state.AUTH.state.user.phone;
         this.phoneUser(phone);
         //user type
         const type = this.$store.state.AUTH.state.user.user_type;
         this.typeUser(type);
-      })
+      });
     },
 
     phoneUser(phone) {
@@ -402,10 +354,9 @@ export default {
                   this.birthday_day,
               })
               .then(() => {
-                this.runStart()
-                .then(() => {
+                this.runStart().then(() => {
                   this.$swal.fire(this.res.message, "", this.res.status);
-                })
+                });
               });
           }
         });
