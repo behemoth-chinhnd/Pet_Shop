@@ -1475,7 +1475,9 @@
       }
       
       
-          
+    .pointer {
+        cursor: pointer;
+    }
       
       .btn {
           height: 34px;

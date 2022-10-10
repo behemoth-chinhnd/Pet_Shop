@@ -161,6 +161,7 @@ const actions = {
         console.log(input);
         await api.post("/api/cart/add_product", input).then(res => {
             console.log(res)
+            commit("getAll", res.data.order_items);
             commit("getOrderItem", res.data.order_items);
             commit("getTotal", res.data.total);
             commit("getTotalQuantity", res.data.total_quantity);

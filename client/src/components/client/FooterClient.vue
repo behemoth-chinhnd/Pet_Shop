@@ -5,7 +5,7 @@
         <div class="row">
           <div class="col-md-3 left">
             <p class="footer-title">
-              LIÊN HỆ AZPET
+              LIÊN HỆ PETSHOP
             </p>
             <div class="footer-content">
               <p>

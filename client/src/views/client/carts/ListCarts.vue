@@ -39,10 +39,7 @@
 
               <div class="is-default">Default</div>
               <div class="change">
-                <router-link to="/address_order">
-                  Change
-                </router-link>
-                
+                <router-link to="/address_order"> Change </router-link>
               </div>
             </div>
           </div>
@@ -64,8 +61,7 @@
               <div class="details-price flex-row-space-between">
                 <div class="flex-cloumn text-left">
                   <div class="price-sale mgb-10px">
-                    ID: #{{ post.product.id }}
-                    - {{ post.product.name }}
+                    ID: #{{ post.product.id }} - {{ post.product.name }}
                   </div>
                 </div>
                 <div class="flex-cloumn text-left"></div>
@@ -105,20 +101,31 @@
               >
             </div>
             <div class="right">
-              <b-button variant="danger" title="Delete" @click="onDelete(post.product.id)"
-                ><i class="fa fa-close" aria-hidden="true"></i></b-button
-              >
+              <b-button
+                variant="danger"
+                title="Delete"
+                @click="onDelete(post.product.id)"
+                ><i class="fa fa-close" aria-hidden="true"></i
+              ></b-button>
             </div>
           </div>
         </div>
-        <div class="text-right">
+        <div
+          v-if="this.$store.state.CART.state.total_items > 0"
+          class="text-right"
+        >
           <b-button variant="primary"
             >({{ this.total_quantity }} Product) - Total Cash:
             {{ Intl.NumberFormat().format(this.total) }} VNĐ</b-button
           >
-          <b-button class="btn submit mgl-10px" @click="createOrder()">ORDER ALL</b-button>
+          <b-button class="btn submit mgl-10px" @click="createOrder()"
+            >ORDER ALL</b-button
+          >
         </div>
+        <empty-cart></empty-cart>
+      
       </div>
+      
       <!-- <p>{{ this.$store.state.CART.state.order_items }}</p>
       <p>{{ this.$store.state.CART.state.total }}</p>
       <p>{{ this.address_order }}</p> -->
@@ -127,9 +134,13 @@
 </template>
 <script>
 import { mapActions } from "vuex";
+import EmptyCart from "@/components/cart/EmptyCart.vue"
 import func from "@/plugin/func";
 export default {
   name: "ProductDta",
+  components: {
+    emptyCart: EmptyCart,
+  },
   data() {
     return {
       number: 1,
@@ -211,10 +222,10 @@ export default {
 
     async next(id) {
       this.List[id].quantity += 1;
-      this.List[id].quantity = parseInt(this.List[id].quantity)
+      this.List[id].quantity = parseInt(this.List[id].quantity);
       if (this.List[id].quantity > this.List[id].product.quantity) {
-        this.List[id].quantity = this.List[id].product.quantity
-        alert(`Max = ${this.List[id].product.quantity}`)
+        this.List[id].quantity = this.List[id].product.quantity;
+        alert(`Max = ${this.List[id].product.quantity}`);
 
         // this.isMaximum = true;
       } else {
@@ -227,10 +238,10 @@ export default {
     async prev(id) {
       this.List[id].quantity -= 1;
 
-      this.List[id].quantity = parseInt(this.List[id].quantity)
+      this.List[id].quantity = parseInt(this.List[id].quantity);
       if (this.List[id].quantity < 1) {
-        this.List[id].quantity = 1
-        alert(`Min = 1`)
+        this.List[id].quantity = 1;
+        alert(`Min = 1`);
         // this.isMaximum = true;
       } else {
         await this.$store.dispatch("CART/prevCart", this.List[id]);
@@ -278,8 +289,8 @@ export default {
     },
 
     async createOrder() {
-      console.log(this.address_order)
-      await this.$store.dispatch("ORDE/create", this.address_order );
+      console.log(this.address_order);
+      await this.$store.dispatch("ORDE/create", this.address_order);
     },
 
     onDelete(productId) {
@@ -301,9 +312,10 @@ export default {
         })
         .then((result) => {
           if (result.isConfirmed) {
-            this.$store.dispatch("CART/delete", { product_id: productId })
-            .then(() => {
-              this.getAll();
+            this.$store
+              .dispatch("CART/delete", { product_id: productId })
+              .then(() => {
+                this.getAll();
                 // this.$swal.fire(this.res.message, "", this.res.status);
               });
           }

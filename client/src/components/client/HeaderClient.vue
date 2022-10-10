@@ -4,23 +4,11 @@
       <section id="header-top" class="">
         <div class="container">
           <div class="list-menu-header height-110px gap-30px">
-            <div class="flex-row-space-between-center ">
+            <div class="flex-row-space-between-center">
               <div class="left-item-header flex-row">
                 <div class="logo">
                   <img src="/pet2.png" alt="" />
                 </div>
-                <!-- <h1 class="text-white mgt-10px">SHOPPET.VN</h1> -->
-
-                <!-- <select
-                  class="select dark color-default"
-                  name="select-header"
-                  id="select-header"
-                >
-                  <option value="1"><a href="#">SAAS Users</a></option>
-                  <option value="2">SAAS Users</option>
-                  <option value="3">SAAS Users</option>
-                  <option value="4">SAAS Users</option>
-                </select> -->
               </div>
 
               <button class="menu-toggle">
@@ -29,43 +17,64 @@
             </div>
             <div class="form-input-search">
               <input type="text" class="input-search" placeholder="Search" />
-              <!-- <button class="icon-text button-search bg-danger-bland">Search</button> -->
               <i class="icon-search fa fa-search"></i>
-
             </div>
-
             <div class="flex-row-wrap gap-10px">
-              <!-- <a class="icon warning" href="">
-                <img src="images/Cart3.png" alt="" />
-              </a>
-              <a class="icon primary" href="">
-                <img src="images/Compiling.png" alt="" />
-              </a>
-              <a class="icon warning" href="">
-                <img src="images/Equalizer.png" alt="" />
-              </a>
-              <a class="icon warning" href="">
-                <img src="images/Layout-4-blocks.png" alt="" />
-              </a> -->
-              <b-button  v-if="!this.$store.state.AUTH.state.isActive" variant="primary">
-                <router-link  class="text-white" to="/login" >Login User</router-link>
+              <b-button
+                v-if="!this.$store.state.AUTH.state.isActive"
+                variant="primary"
+              >
+                <router-link class="text-white" to="/login"
+                  >Login User</router-link
+                >
               </b-button>
-              <b-button v-if="!this.$store.state.AUTH.state.isActive" variant="primary">
-                <router-link  class="text-white"  to="/register">Register</router-link>
+              <b-button
+                v-if="!this.$store.state.AUTH.state.isActive"
+                variant="primary"
+              >
+                <router-link class="text-white" to="/register"
+                  >Register</router-link
+                >
               </b-button>
-              <div class="cart">
-                <router-link  class="total_items text-white fz-25px"  to="/carts"> 
-                  {{this.$store.state.CART.state.total_items}}
-                  <i class="fa fa-shopping-cart text-white" aria-hidden="true"></i>
+              <div
+                v-if="this.$store.state.AUTH.state.isActive"
+                @click="(isCarts = true), getCarts()"
+                @mouseleave="isCarts = false"
+                class="cart rel"
+              >
+                <router-link class="total_items text-white fz-25px rel" to="#">
+                  <p class="number-cart abs">
+                    {{ this.$store.state.CART.state.total_items }}
+                  </p>
+                  <i
+                    class="fa fa-shopping-cart text-white"
+                    aria-hidden="true"
+                  ></i>
                 </router-link>
 
-               
+                <div v-if="isCarts" class="box-list-cart abs">
+                  <list-cart-header></list-cart-header>
+                  <empty-cart-header></empty-cart-header>
+                </div>
               </div>
-              <!-- <svg viewBox="0 0 26.6 25.6" class="icon-shopping-cart-2"><polyline fill="none" points="2 1.7 5.5 1.7 9.6 18.3 21.2 18.3 24.6 6.1 7 6.1" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2.5"></polyline><circle cx="10.7" cy="23" r="2.2" stroke="none"></circle><circle cx="19.7" cy="23" r="2.2" stroke="none"></circle></svg> -->
-              <div v-if="this.$store.state.AUTH.state.isActive" class="avatar-icon mgl-20px">
-                <router-link  class="text-danger"  to="/user/profile"> <img src="@/assets/images/icons/avatar-boy.png" alt=""></router-link>
+              <div
+                v-if="this.$store.state.AUTH.state.isActive"
+                @mouseover="isActive = true"
+                @mouseleave="isActive = false"
+                class="avatar-icon mgl-20px pointer rel"
+              >
+                <img src="@/assets/images/icons/avatar-boy.png" alt="" />
+                <ul v-if="isActive" class="abs box-menu-user">
+                  <li>
+                    <router-link class="" to="/user/profile">
+                      My Account
+                    </router-link>
+                  </li>
+                  <li>Purchase</li>
+                  <li @click="logout()">Logout</li>
+                </ul>
               </div>
-             
+
               <!-- <b-button v-if="this.$store.state.AUTH.state.isActive" variant="danger" @click="logout()">
                 <i class="fa fa-sign-out"></i> Logout
               </b-button> -->
@@ -92,7 +101,6 @@
               <li>
                 <router-link to="/address_order">Address Order</router-link>
               </li>
-              
             </ul>
             <div class="form-input-search">
               <!-- <i class="icon-search fa fa-search"></i>
@@ -108,40 +116,61 @@
 
 <script>
 // import ClientApp from "@/components/incfiles/ClientApp.vue";
+import ListCartHeader from "@/components/cart/ListCartHeader.vue";
+
+import EmptyCartHeader from "@/components/cart/EmptyCartHeader.vue";
+
 
 export default {
   components: {
-    // clientApp: ClientApp,
+    listCartHeader: ListCartHeader,
+    emptyCartHeader: EmptyCartHeader
+
   },
   data() {
     return {
+      isActive: false,
+      isCarts: false,
+      total_items: "",
+      order_items: [],
+      carts: "",
       // isOn: false,
       // isOff: true,
     };
   },
   created() {
     this.profile();
+    this.getCarts();
   },
-  mounted() {
+  computed: {
+    isRun() {
+      this.order_items = this.$store.state.CART.state.order_items;
+      return (this.order_items = this.$store.state.CART.state.order_items);
+    },
   },
+  mounted() {},
   methods: {
     async logout() {
-      await this.$store.dispatch("AUTH/logout") 
+      await this.$store.dispatch("AUTH/logout");
     },
     async profile() {
-      await this.$store.dispatch("AUTH/profile") 
+      await this.$store.dispatch("AUTH/profile");
+    },
+    async getCarts() {
+      await this.$store.dispatch("CART/getAll").then(() => {
+        this.order_items = this.$store.state.CART.state.order_items;
+        this.total = this.$store.state.CART.state.total;
+        this.total_items = this.$store.state.CART.state.total_items;
+        this.carts = this.$store.state.CART.state.carts;
+        console.log(this.order_items);
+      });
     },
   },
 };
 </script>
 
 <style scoped>
-#header-client #header-top {
-  /* background: #b90000; */
-  background: linear-gradient(-180deg,#b90000,#f63);
-  transition: transform .2s cubic-bezier(.4,0,.2,1);
 
-}
 
 #header-client #header-bottom {
   background: #ffe2e5;
