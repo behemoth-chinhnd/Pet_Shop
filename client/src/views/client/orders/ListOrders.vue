@@ -53,7 +53,7 @@
           :key="index"
         >
           <div class="flex-row-space-between gap-10px">
-            <div class="width-150px">
+            <div class="width-100px">
               <img
                 class="img-detail-product"
                 src="@/assets/images/products/gai-xinh-1.jpg"
@@ -86,11 +86,8 @@
                   <p class="saleoff">
                   </p>
                   </div>
-                 
-                
                 </div>
 
-                <div class="list-content"></div>
               </div>
             </div>
             <div class="right">

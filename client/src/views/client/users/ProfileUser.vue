@@ -77,7 +77,7 @@
                       }}
                     </p>
                     <p class="mgl-10px">
-                      <router-link to="/address_order"> Change </router-link>
+                      <router-link to="/user/account/address_order"> Change </router-link>
                     </p>
                   </div>
                 </div>

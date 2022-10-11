@@ -6,6 +6,7 @@ const state = {
     state: {
         product: [],
         products: [],
+        name_detail:"",
         params: {
             page: 1,
             per_page: 3,
@@ -27,6 +28,9 @@ const mutations = {
     },
     getItem(state, value) {
         state.state.product = value;
+    },
+    getNameDetail(state, value) {
+        state.state.name_detail = value;
     },
     getAll(state, value) {
         state.state.products = value;
@@ -88,6 +92,8 @@ const actions = {
         await api.get(`/api/products/${credentials}`).then(res => {
             console.log(res.data)
             commit("getItem", res.data);
+            commit("getNameDetail", res.data.name);
+            console.log(`getItemProduct`,res.data)
         }).catch((res) => {
             alert(res.response.data)
         })

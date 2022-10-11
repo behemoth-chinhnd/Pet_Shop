@@ -87,11 +87,15 @@
 
                 <ul v-if="isActive" class="abs box-menu-user">
                   <li>
-                    <router-link class="" to="/user/profile">
+                    <router-link class="" to="/user/account/profile">
                       My Account
                     </router-link>
                   </li>
-                  <li>Purchase</li>
+                  <li>
+                    <router-link class="" to="/user/purchase">
+                      Purchase
+                    </router-link>
+                    </li>
                   <li @click="logout()">Logout</li>
                 </ul>
               </div>
@@ -123,6 +127,7 @@
           </div>
         </div>
       </section>
+      <header-user></header-user>
     </header>
   </div>
 </template>
@@ -133,9 +138,11 @@ const mapActionsAUTH = createNamespacedHelpers("AUTH");
 const mapActionsCART = createNamespacedHelpers("CART");
 import ListCartHeader from "@/components/cart/ListCartHeader.vue";
 import EmptyCartHeader from "@/components/cart/EmptyCartHeader.vue";
+import HeaderUser from "@/components/client/users/HeaderUser.vue";
 
 export default {
   components: {
+    headerUser: HeaderUser,
     listCartHeader: ListCartHeader,
     emptyCartHeader: EmptyCartHeader,
   },
