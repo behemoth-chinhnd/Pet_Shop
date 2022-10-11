@@ -106,17 +106,11 @@ export default {
     };
   },
   created() {
-    this.profile();
   },
   mounted() {
   },
-  methods: {
-    async logout() {
-      await this.$store.dispatch("AUTH/logout") 
-    },
-    async profile() {
-      await this.$store.dispatch("AUTH/profile") 
-    },
+  methods: { 
+    
   },
 };
 </script>

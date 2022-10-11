@@ -180,7 +180,6 @@ export default {
       })
     },
     async addToCart() {
-      console.log(1);
       this.cart.quantity = parseInt(this.cart.quantity);
       await this.addCart(this.cart.quantity).then(() => {
         this.getAll();

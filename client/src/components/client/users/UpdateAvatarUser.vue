@@ -1,9 +1,15 @@
 <template>
   <div class="flex-column-space-between-center">
     <img
-      v-if="this.avatar === null"
+      v-if="this.avatar === null & this.$store.state.AUTH.state.user.sex_id === 1"
       class="avatar mgb-10px"
       src="@/assets/images/icons/avatar-boy.png"
+      alt=""
+    />
+    <img
+      v-if="this.avatar === null & this.$store.state.AUTH.state.user.sex_id === 2"
+      class="avatar mgb-10px"
+      src="@/assets/images/icons/avatar-girl.png"
       alt=""
     />
     <img
@@ -39,10 +45,8 @@ export default {
     };
   },
   created() {
-    this.runStart();
   },
-  computed: {
-  },
+  computed: {},
   methods: {
     // Saving the file in our data to send it !
     uploadFile: function () {
@@ -68,7 +72,6 @@ export default {
           console.log(res);
         });
     },
-    
   },
 };
 </script>

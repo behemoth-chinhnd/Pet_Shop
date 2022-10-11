@@ -93,6 +93,8 @@ const actions = {
         })
     },
     async edit({ commit }, credentials) {
+        console.log(credentials)
+
         await api.put(`/api/products/${credentials.id}`, credentials).then(res => {
             commit("getItem", res.data);
             console.log(res.data)

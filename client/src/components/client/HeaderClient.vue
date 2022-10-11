@@ -19,7 +19,7 @@
               <input type="text" class="input-search" placeholder="Search" />
               <i class="icon-search fa fa-search"></i>
             </div>
-            <div class="flex-row-wrap gap-10px">
+            <div class="flex-row-space-between-center gap-10px">
               <b-button
                 v-if="!this.$store.state.AUTH.state.isActive"
                 variant="primary"
@@ -38,7 +38,7 @@
               </b-button>
               <div
                 v-if="this.$store.state.AUTH.state.isActive"
-                @click="(isCarts = true), getCarts()"
+                @click="(isCarts = true)"
                 @mouseleave="isCarts = false"
                 class="cart rel"
               >
@@ -63,7 +63,28 @@
                 @mouseleave="isActive = false"
                 class="avatar-icon mgl-20px pointer rel"
               >
-                <img src="@/assets/images/icons/avatar-boy.png" alt="" />
+                <!-- <div class="flex-row-center-center gap-10px"> -->
+                <img
+                  v-if="this.$store.state.AUTH.state.user.sex_id === 1"
+                  class="avatar"
+                  src="@/assets/images/icons/avatar-boy.png"
+                  alt=""
+                />
+                <img
+                  v-if="this.$store.state.AUTH.state.user.sex_id === 2"
+                  class="avatar"
+                  src="@/assets/images/icons/avatar-girl.png"
+                  alt=""
+                />
+                <img
+                  v-if="this.$store.state.AUTH.state.user.sex_id === 3"
+                  class="avatar"
+                  :src="this.avatar"
+                  alt=""
+                />
+                <!-- <p class="text-white bold">{{this.$store.state.AUTH.state.user.name}}</p> -->
+                <!-- </div> -->
+
                 <ul v-if="isActive" class="abs box-menu-user">
                   <li>
                     <router-link class="" to="/user/profile">
@@ -74,10 +95,6 @@
                   <li @click="logout()">Logout</li>
                 </ul>
               </div>
-
-              <!-- <b-button v-if="this.$store.state.AUTH.state.isActive" variant="danger" @click="logout()">
-                <i class="fa fa-sign-out"></i> Logout
-              </b-button> -->
             </div>
           </div>
         </div>
@@ -102,11 +119,7 @@
                 <router-link to="/address_order">Address Order</router-link>
               </li>
             </ul>
-            <div class="form-input-search">
-              <!-- <i class="icon-search fa fa-search"></i>
-              <input type="text" class="input-search" placeholder="Search" />
-              <button class="icon-text button-search bg-danger-bland">Search</button> -->
-            </div>
+            
           </div>
         </div>
       </section>
@@ -115,17 +128,16 @@
 </template>
 
 <script>
-// import ClientApp from "@/components/incfiles/ClientApp.vue";
+import { createNamespacedHelpers } from "vuex";
+const mapActionsAUTH = createNamespacedHelpers("AUTH");
+const mapActionsCART = createNamespacedHelpers("CART");
 import ListCartHeader from "@/components/cart/ListCartHeader.vue";
-
 import EmptyCartHeader from "@/components/cart/EmptyCartHeader.vue";
-
 
 export default {
   components: {
     listCartHeader: ListCartHeader,
-    emptyCartHeader: EmptyCartHeader
-
+    emptyCartHeader: EmptyCartHeader,
   },
   data() {
     return {
@@ -134,8 +146,6 @@ export default {
       total_items: "",
       order_items: [],
       carts: "",
-      // isOn: false,
-      // isOff: true,
     };
   },
   created() {
@@ -150,28 +160,34 @@ export default {
   },
   mounted() {},
   methods: {
-    async logout() {
-      await this.$store.dispatch("AUTH/logout");
-    },
+    ...mapActionsAUTH.mapActions(['logout'] ),
+    ...mapActionsAUTH.mapActions({ getProfile: 'profile' }),
+    ...mapActionsCART.mapActions({ getAllCart: 'getAll' }),
+
+
     async profile() {
-      await this.$store.dispatch("AUTH/profile");
+      if(this.$store.state.AUTH.state.isActive) {
+        await this.getProfile();
+      }
     },
     async getCarts() {
-      await this.$store.dispatch("CART/getAll").then(() => {
+      if(this.$store.state.AUTH.state.isActive) {
+        await this.getAllCart()
+        .then(() => {
         this.order_items = this.$store.state.CART.state.order_items;
         this.total = this.$store.state.CART.state.total;
         this.total_items = this.$store.state.CART.state.total_items;
         this.carts = this.$store.state.CART.state.carts;
         console.log(this.order_items);
       });
+      }
+
     },
   },
 };
 </script>
 
 <style scoped>
-
-
 #header-client #header-bottom {
   background: #ffe2e5;
 }

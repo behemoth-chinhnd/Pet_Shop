@@ -71,18 +71,26 @@ const mutations = {
 };
 const actions = {
     async create({ commit }, credentials) {
-      //   const input = {
-      //     order: {
-      //       customer_address_id: credentials.id,
-      //       address_attribute: {}
-      //     }
-      // }
-      console.log(credentials.id)
         await api.post("/api/order/submit", {order:{ customer_address_id: credentials.id}}).then(res => {
-          alert(`Order Success`)
+            console.log(`Order All Cart (create)`, res)
         }).catch((res) => {
           console.log(res.response)
         })
+    },
+
+    async buyNow({ commit,rootState }, credentials){
+        const input = {
+            order: {
+              products_data: [credentials],
+              customer_address_id: rootState.ADDR.state.is_default.id
+            }
+          }
+        console.log(credentials)
+        await api.post("/api/order", input).then(res => {
+            console.log(`Order buyNow)`, res)
+        }).catch((res) => {
+            console.log(res.response)
+          })
     },
 
     async getAll({ commit }) {

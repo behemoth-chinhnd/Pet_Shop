@@ -57,18 +57,6 @@
                     </p>
                   </div>
                 </div>
-
-                <!-- <div class="form-group row flex-row-start-center">
-                  <label
-                    for="birthday"
-                    class="item-name col-md-3 col-form-label"
-                    >Birthday:</label
-                  >
-
-                  <p id="birthday" class="item-value">
-                    {{ this.birthday }}
-                  </p>
-                </div> -->
                 <div class="form-group row flex-row-start-center">
                   <label for="address" class="item-name col-md-3 col-form-label"
                     >Address:</label
@@ -145,25 +133,6 @@
                     >Birthday:</label
                   >
                   <div class="item-value birthday">
-                    <!-- <input
-                        class="input birthday-year"
-                        type="number"
-                        placeholder="Year"
-                        v-model="birthday_year"
-                      />
-                      <input
-                        class="input birthday-month mgl-10px"
-                        type="number"
-                        placeholder="Month"
-                        v-model="birthday_month"
-                      />
-                      <input
-                        class="input birthday-day mgl-10px"
-                        type="number"
-                        placeholder="Day"
-                        value=""
-                        v-model="this.birthday_day"
-                      /> -->
                     <select v-model="birthday_year">
                       <option :selected="birthday_year === ''">Year</option>
                       <option
@@ -217,13 +186,16 @@
   </div>
 </template>
 <script>
+import { createNamespacedHelpers } from "vuex";
+const mapActionsAUTH = createNamespacedHelpers("AUTH");
+const mapActionsADDR = createNamespacedHelpers("ADDR");
+
 import says from "@/plugin/says";
 import UpdateAvatarUser from "@/components/client/users/UpdateAvatarUser.vue";
 
 export default {
   components: {
     updateAvatarUser: UpdateAvatarUser,
-
   },
   name: "ProfileUser",
   data() {
@@ -277,8 +249,11 @@ export default {
     },
   },
   methods: {
+    ...mapActionsAUTH.mapActions({updateProfile: 'update'}),
+    ...mapActionsADDR.mapActions({getIsDefaultADDR: "getIsDefault"}),
+
     async runStart() {
-      await this.$store.dispatch("ADDR/getIsDefault").then(() => {
+      await this.getIsDefaultADDR().then(() => {
         this.address_order = this.$store.state.ADDR.state.is_default;
         // update
         this.res.is_res = this.$store.state.AUTH.state.res.is_res;
@@ -321,11 +296,7 @@ export default {
         return (this.type_user = "Unknow");
       }
     },
-    isActive() {
-      if (!this.$store.state.AUTH.state.isActive) {
-        window.location.href = "/login";
-      }
-    },
+
     async getAll() {
       this.res.is_res = this.$store.state.AUTH.state.res.is_res;
       this.res.status = this.$store.state.AUTH.state.res.status;
@@ -333,6 +304,17 @@ export default {
     },
 
     async save() {
+      const input = {
+        password: "12345678",
+        name: this.name,
+        sex_id: this.sex_id,
+        birthday:
+          this.birthday_year +
+          "-" +
+          this.birthday_month +
+          "-" +
+          this.birthday_day
+      };
       this.$swal
         .fire({
           title: "Do you want to save the changes?",
@@ -341,23 +323,13 @@ export default {
         })
         .then((result) => {
           if (result.isConfirmed) {
-            this.$store
-              .dispatch("AUTH/update", {
-                password: "12345678",
-                name: this.name,
-                sex_id: this.sex_id,
-                birthday:
-                  this.birthday_year +
-                  "-" +
-                  this.birthday_month +
-                  "-" +
-                  this.birthday_day,
-              })
+            this.updateProfile(input)
+            .then(() => {
+              this.runStart()
               .then(() => {
-                this.runStart().then(() => {
-                  this.$swal.fire(this.res.message, "", this.res.status);
-                });
+                this.$swal.fire(this.res.message, "", this.res.status);
               });
+            });
           }
         });
     },
