@@ -1372,17 +1372,48 @@
       font-size: 23px;
       line-height: 24px;
       }
+
+    
       
       .left{
-          text-align: left;
+          float: left;
       }
       
       .right{
-          text-align: right;
+          float: right;
+      }
+
+      .text-right {
+        text-align: right;
+      }
+
+      .text-left {
+        text-align: left;
       }
       
       .center{
           text-align: center;
+      }
+
+      .center-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .center-row {
+        display: flex;
+        justify-content: center;
+      }
+
+      .row-reverse {
+        display: flex;
+        flex-direction: row-reverse;
+      }
+
+      .column-reverse {
+        display: flex;
+        flex-direction: column-reverse;
       }
       
       

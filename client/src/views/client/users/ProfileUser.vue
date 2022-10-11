@@ -11,8 +11,8 @@
               Manage profile information for account security
             </div>
           </div>
-          <div class="profile-body row">
-            <div class="col-md-8">
+          <div class="profile-body row  ">
+            <div class="col-md-8 user-info">
               <form
                 action=""
                 @submit.prevent="save()"

@@ -3,7 +3,7 @@
     <footer id="footer" >
       <div class="container">
         <div class="row">
-          <div class="col-md-3 left">
+          <div class="col-md-3 col-sm-6 left">
             <p class="footer-title">
               LIÊN HỆ PETSHOP
             </p>
@@ -27,7 +27,7 @@
             </div>
           </div>
           
-          <div class="col-md-3 left">
+          <div class="col-md-3 col-sm-6 left">
             <p class="footer-title">
               VỀ PETSHOP.VN
             </p>
@@ -46,7 +46,7 @@
               </p>
             </div>
           </div>
-          <div class="col-md-3 left">
+          <div class="col-md-3 col-sm-6 left">
             <p class="footer-title">
               CHÍNH SÁCH MUA HÀNG
             </p>
@@ -65,7 +65,7 @@
               </p>
             </div>
           </div>
-          <div class="col-md-3 left">
+          <div class="col-md-3 col-sm-6 left">
             <p class="footer-title">
               HÌNH THỨC THANH TOÁN
             </p>
