@@ -153,6 +153,9 @@ const actions = {
             // alert(res.response.data)
         // })
     },
+    test(){
+        console.log(`test CART`)
+    },
     async addCart({ commit, state }, quantity) {
         const input = {
             product_id: state.state.product.id,

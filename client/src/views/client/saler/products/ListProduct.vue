@@ -99,7 +99,9 @@ export default {
                 search_operator: "equal_to",
                 search_query_1: "",
                 search_query_2: "",
-                q: {},
+                q: {
+                    name:"minh"
+                },
                 pages: "",
             },
         };
@@ -129,7 +131,7 @@ export default {
         //     }
         // },
         async getAll() {
-            await this.$store.dispatch("PROD/getAll", { page: this.params.page, per_page: this.params.per_page, q: {} })
+            await this.$store.dispatch("PROD/getAll", { page: this.params.page, per_page: this.params.per_page, q: this.params.q })
         },
         onDelete(productId) {
             this.$swal
@@ -185,18 +187,6 @@ table th {
     color: var(--white);
 }
 
-.pagination li,
-.page-item {
-    background: var(--white);
-    height: 30px;
-    width: 30px;
-    font-weight: 30px;
-    vertical-align: middle;
-    border: 1px solid #000;
-}
 
-.page-item.active {
-    background: var(--primary);
-}
 </style>
   

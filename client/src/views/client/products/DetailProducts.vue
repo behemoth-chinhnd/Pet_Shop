@@ -53,12 +53,9 @@
             <div class="number-product flex-row text-left mgt-10px">
               <div class="flex-row-start-center">
                 <div>Quantity:</div>
-
                 <div class="prev mgl-10px" @click="prev()">-</div>
                 <div class="quantily">{{ cart.quantity }}</div>
-                <!-- <input class="quantily" v-model="number"/> -->
                 <div class="next mgr-10px" @click="next()">+</div>
-
                 <div class="">(Max: {{ this.product.quantity }} Products)</div>
                 <div v-if="isMinimum" class="message">(Minimum = 1 )</div>
                 <div v-if="isMaximum" class="message">
@@ -70,10 +67,9 @@
             </div>
 
             <div class="mgt-10px left">
-              <b-button variant="danger" @click="addCart()"
+              <b-button variant="danger" @click="addToCart()"
                 >Add To Cart</b-button
               >
-              <!-- <b-button  variant="outline-danger">Danger</b-button> -->
               <b-button class="mgl-10px" variant="primary" @click="buyItem()"
                 >Buy Now</b-button
               >
@@ -86,10 +82,14 @@
   </div>
 </template>
 <script>
-import { mapActions } from "vuex";
-import func from '@/plugin/func'
+import { createNamespacedHelpers } from "vuex";
+const mapActionsPROD = createNamespacedHelpers("PROD");
+const mapActionsCART = createNamespacedHelpers("CART");
+
+import func from "@/plugin/func";
+
 export default {
-  name: "ProductDta",
+  name: "DetailProduct",
   data() {
     return {
       number: 1,
@@ -99,102 +99,99 @@ export default {
       sales: [],
       products: [],
       product: {
-        id:"",
+        id: "",
         name: "",
         number: "",
         master_sku: "",
         master_list_price: "",
-        master_sales_price: ""
+        master_sales_price: "",
       },
       carts: [],
       cart: {
-        product_id:"",
-        quantity: 1
+        product_id: "",
+        quantity: 1,
       },
       res: {
         is_res: null,
         status: "",
         message: "",
-        text:""
+        text: "",
       },
     };
   },
   created() {
     const itemId = this.$route.params.id;
-
     console.log(itemId);
     if (itemId) {
       this.getItem(itemId);
-      this.product = this.$store.state.PROD.state.product
+      this.product = this.$store.state.PROD.state.product;
     }
-    this.sales = func.saleoff(this.product.master_sales_price, this.product.master_list_price, 0);
-    this.product.number = parseInt(this.product.number)
+    this.sales = func.saleoff(
+      this.product.master_sales_price,
+      this.product.master_list_price,
+      0
+    );
+    this.product.number = parseInt(this.product.number);
   },
-  computed:{
-  },
+  computed: {},
   methods: {
-    ...mapActions([""]),
+    ...mapActionsPROD.mapActions({ getItemPROD: "getItem" }),
+    ...mapActionsCART.mapActions({
+      getItemCART: "getItem",
+      buyItemCART: "buyItem",
+    }),
+    ...mapActionsCART.mapActions(["addCart"]),
 
     isNumber(value) {
       return /^\d*$/.test(value);
     },
+
     async getItem(itemId) {
-      await this.$store.dispatch("PROD/getItem", itemId)
-      await this.$store.dispatch("CART/getItem", itemId)
-      this.product = this.$store.state.PROD.state.product
+      await this.getItemCART(itemId);
+      await this.getItemPROD(itemId);
+      this.product = this.$store.state.PROD.state.product;
     },
 
     next() {
       this.cart.quantity += 1;
-      console.log(this.cart.quantity);
-      console.log(this.product.quantity);
       this.isMinimum = false;
       this.isMaximum = false;
       if (this.cart.quantity > this.product.quantity) {
         this.cart.quantity = this.product.quantity;
         this.isMaximum = true;
-
       }
     },
     prev() {
       this.cart.quantity -= 1;
       this.isMinimum = false;
       this.isMaximum = false;
-      console.log(this.cart.quantity);
-      console.log(this.product.number);
       if (this.cart.quantity < 1) {
         this.cart.quantity = 1;
         this.isMinimum = true;
-
       }
     },
 
     async buyItem() {
-      this.cart.product_id = this.product.id
-      this.cart.quantity = parseInt(this.cart.quantity)
-      // this.cart.name = this.product.name
-      // this.cart.master_sku = this.product.master_sku
-      // this.cart.master_list_price = this.product.master_list_price
-      // this.cart.master_sales_price = this.product.master_sales_price
-      await this.$store.dispatch("CART/buyItem", this.cart);
-      this.$router.push({path: '/carts/product'})
-    },
-    async addCart() {
-      console.log(1);
-      this.cart.quantity = parseInt(this.cart.quantity)
-      await this.$store.dispatch("CART/addCart", this.cart.quantity)
+      this.cart.product_id = this.product.id;
+      this.cart.quantity = parseInt(this.cart.quantity);
+      await this.buyItemCART(this.cart)
       .then(() => {
-              this.getAll();
-                this.$swal.fire(this.res.message, this.res.text, this.res.status);
-              });
+        this.$router.push({ path: "/carts/buynow" });
+      })
     },
-
+    async addToCart() {
+      console.log(1);
+      this.cart.quantity = parseInt(this.cart.quantity);
+      await this.addCart(this.cart.quantity).then(() => {
+        this.getAll();
+        this.$swal.fire(this.res.message, this.res.text, this.res.status);
+      });
+    },
     async getAll() {
-        this.res.is_res = this.$store.state.CART.state.res.is_res;
-        this.res.status = this.$store.state.CART.state.res.status;
-        this.res.message = this.$store.state.CART.state.res.message;
-        this.res.text = this.$store.state.CART.state.res.text;
-
+      this.res.is_res = this.$store.state.CART.state.res.is_res;
+      this.res.status = this.$store.state.CART.state.res.status;
+      this.res.message = this.$store.state.CART.state.res.message;
+      this.res.text = this.$store.state.CART.state.res.text;
     },
   },
 };

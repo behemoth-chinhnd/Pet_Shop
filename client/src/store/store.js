@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex' 
 import createPersistedState from "vuex-persistedstate";
+import VueSweetslert2 from "vue-sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
 import AuthStore from "./modules/auth"
 import ProductStore from "./modules/product"
 import ProductCart from "./modules/cart"
@@ -11,6 +13,7 @@ import Order from "./modules/order"
 
 
 Vue.use(Vuex)
+Vue.use(VueSweetslert2);
 
  createPersistedState(
   { storage: window.sessionStorage }

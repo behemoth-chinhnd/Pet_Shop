@@ -406,6 +406,38 @@ svg {
     font-weight: 500;
 }
 
+
+
+
+/* pagination */
+.panel-footer {
+    display: flex;
+    justify-content: center;
+    /* margin: 0 auto; */
+}
+
+ul.pagination {
+    gap: 10px;
+}
+
+ul.pagination li {
+    font-weight: 700;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 50%;
+    border: 1px solid #fd820a;
+    color: #fd820a;
+}
+
+li.page-item.active {
+    color: #fff;
+    background: linear-gradient(100deg, #ff424e, #fd820a);
+
+}
+
+/* end pagination */
+
 /* end footer client*/
 #menu-left .search {
     display: flex;

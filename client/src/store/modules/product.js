@@ -1,5 +1,6 @@
 
 import api from "@/plugin/axios";
+import qs from "qs"
 
 const state = {
     state: {
@@ -52,15 +53,28 @@ const actions = {
     },
 
     async getAll({ commit }, credentials) {
-        
-        await api.get(`/api/products?page=${credentials.page}&per_page=${credentials.per_page}&q=${credentials.q}`).then((res) => {
-            console.log(res.data.meta)
+        console.log(credentials)
+        const queryParams = {
+            // page: credentials.page,
+            // per_page: credentials.per_page,
+            q: {
+                name_cont: '',
+            },
+        }
+         
+        await api.get(`/api/products?page=${credentials.page}&per_page=${credentials.per_page}`, {params: queryParams, paramsSerializer: params => {
+            return qs.stringify(params)
+          }}).then((res) => {
+            console.log(res.data.products)
             commit("getAll", res.data.products);
             commit("getPages", res.data.meta.pages);
             commit("getPage", credentials.page);
 
 
         });
+    },
+    test(){
+        console.log(`test PROD`)
     },
     async getAllDelete({ commit }) {
         console.log(state)
