@@ -36,7 +36,7 @@
 
         <div class="is-default">Default</div>
         <div class="change">
-          <router-link to="/address_order"> Change </router-link>
+          <router-link to="/user/account/address_order"> Change </router-link>
         </div>
       </div>
     </div>

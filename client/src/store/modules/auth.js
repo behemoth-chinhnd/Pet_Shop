@@ -99,7 +99,7 @@ const actions = {
                 commit("setActive", true);
                 dispatch('profile');
                 alert(`Login Success`)
-                setTimeout(() => window.location.href = "/user/profile", 200)
+                setTimeout(() => window.location.href = "/user/account/profile", 200)
             } else {
                 commit("setActive", false);
                 console.log(`Login Failed`)

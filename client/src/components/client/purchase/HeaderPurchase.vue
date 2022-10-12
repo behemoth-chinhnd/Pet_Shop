@@ -2,8 +2,8 @@
   <div id="header-purchase">
     <div class="header-layout">
       <div class="container">
-        <div class="flex">
-          <ul class="flex-row-space-between-center purchase">
+        <div class=" scroll-x">
+          <ul class="flex-row-space-between-center purchase width-700px ">
             <li :class="{active: (this.$route.path === '/user/purchase' )}">
               <router-link class="purchase-item" to="/user/purchase"> All </router-link>
             </li>

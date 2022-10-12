@@ -96,6 +96,11 @@
                       Purchase
                     </router-link>
                     </li>
+                    <li>
+                    <router-link class="" to="/saler">
+                      Store Manager
+                    </router-link>
+                  </li>
                   <li @click="logout()">Logout</li>
                 </ul>
               </div>

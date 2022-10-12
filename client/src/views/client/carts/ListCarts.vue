@@ -12,63 +12,69 @@
           :key="index"
         >
           <div class="flex-row-space-between gap-10px">
-            <div class="width-150px">
+            <div class="img-cart">
               <img
-                class="img-detail-product"
+                class=""
                 src="@/assets/images/products/gai-xinh-1.jpg"
                 alt=""
               />
             </div>
+
             <div class="flex-1">
-              <div class="details-price flex-row-space-between">
-                <div class="flex-cloumn text-left">
-                  <div class="price-sale mgb-10px">
-                    ID: #{{ post.product.id }} - {{ post.product.name }}
-                  </div>
-                </div>
-                <div class="flex-cloumn text-left"></div>
+              <!-- <div class="flex-row-space-between"> -->
+              <!-- <div class="flex-cloumn text-left"> -->
+              <div class="title bold break-line-1">
+                ID: #{{ post.product.id }} - {{ post.product.name }}
               </div>
-
-              <div class="number-product flex-row text-left mgt-10px">
-                <div class="flex-row-start-center">
-                  <p class="">({{ post.product.master_sales_price }} VND)</p>
-                  <p class="saleoff">
-                    ({{ post.product.master_list_price }} VND)
-                  </p>
-
-                  <div class="prev mgl-10px" @click="prev(index)">-</div>
-                  <div class="quantily">{{ post.quantity }}</div>
-                  <div class="next mgr-10px" @click="next(index)">+</div>
-                  <div v-if="isMinimum" class="message">(Minimum = 1 )</div>
-                  <div v-if="isMaximum" class="message">
-                    (Maximum = {{ this.product.number }} )
+              <!-- </div> -->
+              <!-- <div class="flex-cloumn text-left"></div> -->
+              <!-- </div> -->
+              <div class="flex-row-space-between">
+                <div class="price-product flex-row-space-between-center flex-1 row">
+                  <div class="price flex-row-start-center col-md-4">
+                    <p class="">{{ post.product.master_sales_price }} đ</p>
+                    <p class="sale-off mgl-10px">
+                      ({{ post.product.master_list_price }} đ)
+                    </p>
                   </div>
-                  <p class="">
+                  <div class="quantily-product col-md-4 flex-row">
+                    <div class="prev" @click="prev(index)">-</div>
+                    <div class="quantily">{{ post.quantity }}</div>
+                    <div class="next mgr-10px" @click="next(index)">+</div>
+                    <div v-if="isMinimum" class="message">(Minimum = 1 )</div>
+                    <div v-if="isMaximum" class="message">
+                      (Maximum = {{ this.product.number }}
+                    </div>
+                  </div>
+
+                  <p class="total-cash col-md-4">
                     Total:
                     {{
                       Intl.NumberFormat().format(
                         post.product.master_sales_price * post.quantity
                       )
                     }}
-                    VND)
+                    đ
                   </p>
+                  <!-- </div> -->
                 </div>
-
-                <div class="list-content"></div>
+                <div class="flex-row-center-center pd-10px row">
+                <b-button
+                  class="btn submit width-100px"
+                  @click="buyNow(post.product.id)"
+                  >Buy Now</b-button
+                >
+                <b-button
+                  class="mgl-10px width-30px"
+                  variant="danger"
+                  title="Delete"
+                  @click="onDelete(post.product.id)"
+                  ><i class="fa fa-close" aria-hidden="true"></i
+                ></b-button>
               </div>
-            </div>
-            <div class="right">
-              <b-button class="btn submit" @click="buyNow(post.product.id)"
-                >Buy Now</b-button
-              >
-            </div>
-            <div class="right">
-              <b-button
-                variant="danger"
-                title="Delete"
-                @click="onDelete(post.product.id)"
-                ><i class="fa fa-close" aria-hidden="true"></i
-              ></b-button>
+              </div>
+
+              
             </div>
           </div>
         </div>
@@ -85,9 +91,8 @@
           >
         </div>
         <empty-cart></empty-cart>
-      
       </div>
-      
+
       <!-- <p>{{ this.$store.state.CART.state.order_items }}</p>
       <p>{{ this.$store.state.CART.state.total }}</p>
       <p>{{ this.address_order }}</p> -->
@@ -95,10 +100,10 @@
   </div>
 </template>
 <script>
-import DefaultAdress from '@/components/client/address/DefaultAddressOrder.vue';
+import DefaultAdress from "@/components/client/address/DefaultAddressOrder.vue";
 
 import { mapActions } from "vuex";
-import EmptyCart from "@/components/cart/EmptyCart.vue"
+import EmptyCart from "@/components/cart/EmptyCart.vue";
 import func from "@/plugin/func";
 export default {
   name: "ProductDta",
@@ -292,6 +297,5 @@ export default {
 };
 </script>
 <style scoped>
-
 </style>
   

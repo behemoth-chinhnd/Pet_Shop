@@ -2,66 +2,14 @@
   <div class="body">
     <div class="detail-product">
       <div class="container">
-        <div class="address mgb-10px hidden">
-          <div class="address-header"></div>
-          <div class="address-body">
-            <div class="address-titel gap-10px">
-              <svg
-                height="16"
-                viewBox="0 0 12 16"
-                width="12"
-                class="shop-pet-svg-icon icon-location-marker"
-              >
-                <path
-                  d="M6 3.2c1.506 0 2.727 1.195 2.727 2.667 0 1.473-1.22 2.666-2.727 2.666S3.273 7.34 3.273 5.867C3.273 4.395 4.493 3.2 6 3.2zM0 6c0-3.315 2.686-6 6-6s6 2.685 6 6c0 2.498-1.964 5.742-6 9.933C1.613 11.743 0 8.498 0 6z"
-                  fill-rule="evenodd"
-                ></path>
-              </svg>
-
-              <p>Địa Chỉ Nhận Hàng</p>
-            </div>
-            <div class="address-info flex-row-start-center fz-15 gap-10px">
-              <b style="font-size: 15px">{{
-                address_order.name + " " + address_order.phone + " "
-              }}</b>
-              <span>{{
-                " " +
-                address_order.description +
-                "," +
-                address_order.apartment_number +
-                "," +
-                address_order.street +
-                ", " +
-                address_order.county +
-                ", " +
-                address_order.city
-              }}</span>
-
-              <div class="is-default">Default</div>
-              <div class="change">
-                <router-link to="/address_order">
-                  Change
-                </router-link>
-                
-              </div>
-            </div>
-          </div>
-        </div>
         <div
-          class="card mgb-10px pd-10px"
+          class="card-order mgb-10px pd-10px"
           v-for="(post, index) in List"
           :key="index"
         >
           <div class="flex-row-space-between gap-10px">
-            <div class="width-100px">
-              <img
-                class="img-detail-product"
-                src="@/assets/images/products/gai-xinh-1.jpg"
-                alt=""
-              />
-            </div>
             <div class="flex-1">
-              <div class="details-price flex-row-space-between">
+              <div class="flex-row-space-between">
                 <div class="flex-cloumn text-left">
                   <!-- <div class="price-sale mgb-10px">
                     ID: #{{ post.id }}
@@ -78,27 +26,84 @@
                 <div class="flex-cloumn text-left"></div>
               </div>
 
-              <div class="number-product flex-row text-left mgt-10px">
-                <div class="flex-column">
-                  <p class="">Total Cash Product{{ post.total }} VND)</p>
-                  <p class="">Shipping Free {{ post.shipping_fee }} VND)</p>
-                  <p class="">Total All{{ post.subtotal }} VND)</p>
-                  <p class="saleoff">
-                  </p>
+              <div class="number-product flex-row-space-between text-left mgt-10px">
+                <div class="">
+
+                  <p class=""><i class="fa-solid fa-store pdr-5px"></i>{{ post.number }}</p>
+                </div>
+                <div class="status-order">
+                    Đã Giao Hàng
+                  </div>
+              </div>
+              <div
+                class="order-items mgb-10px pd-10px flex-row-space-between"
+                v-for="(item, index) in post.order_items"
+                :key="index"
+              >
+                <div class="width-50px">
+                  <img
+                    class="img-detail-product width-80px height-40px"
+                    src="@/assets/images/products/gai-xinh-1.jpg"
+                    alt=""
+                  />
+                </div>
+                <div class="detail-item  flex-1 flex-row-space-between">
+                  <div class=" col-md-6 col-sm-9 mgb-5px">
+                    <div class="name break-line-1 mgb-10px">
+                      ID: #{{ item.product.id }} - {{ item.product.name }} 
+                    </div>
+                    <div>Decription</div>
+                  </div>
+                  
+                  <div class="total-price col-md-6 col-sm-3 text-right">
+                    x {{ item.product.quantity }}
+                  <div class="total-cash flex-row-end">
+                    <div class="sale-off mgr-10px">
+                      {{ Intl.NumberFormat().format(item.product.master_list_price) }}đ 
+                    </div>
+                     {{ Intl.NumberFormat().format(item.product.master_sales_price) }}đ
+                    <!-- {{
+                    Intl.NumberFormat().format(item.product.master_sales_price * item.product.quantity)
+                  }}đ -->
+                  </div>
+                  
                   </div>
                 </div>
-
+                
+                  
+                  
+                   
+                </div>
+                <div class="total flex-row-space-between pd-lr-10px">
+                  <div class="content"> {{ post.total_quantity }} product</div>
+                  <!-- <div class="col-md-4 cash-order">Total Cash Product: {{ post.total }}đ</div>
+                  <div class="col-md-4 ship-order" >Total Shipping Free: {{ post.shipping_fee }}đ</div> -->
+                  <div class="all text-right">Into Money: <span class="sub-total">{{ Intl.NumberFormat().format(post.subtotal) }}đ</span></div>
               </div>
+              </div>
+              
             </div>
-            <div class="right">
+              
+           
+        </div>
+        <div v-if="this.params.pages > 1" class="panel-footer">
+                <paginate 
+                v-model="params.page" 
+                :page-count="this.params.pages" 
+                :page-range="3" 
+                :margin-pages="2"
+                :click-handler="clickCallback" 
+                :prev-text="'<<'" 
+                :next-text="'>>'" 
+                :container-class="'pagination'"
+                :page-class="'page-item'">
+                </paginate>
             </div>
-          </div>
-        </div>
-        <div class="right">
-        </div>
       </div>
+      
     </div>
   </div>
+  <!-- </div> -->
 </template>
 <script>
 import { mapActions } from "vuex";
@@ -134,7 +139,7 @@ export default {
       address_order: this.$store.state.ADDR.state.is_default,
       params: {
         page: 1,
-        per_page: 5,
+        per_page: 3,
         sort_column: "id",
         direction: "desc",
         search_column: "id",
@@ -152,9 +157,8 @@ export default {
   computed: {
     List() {
       this.orders = this.$store.state.ORDE.state.orders;
-      // this.total = this.$store.state.ORDE.state.total;
-      // this.total_items = this.$store.state.ORDE.state.total_items;
-      // this.address_order = this.$store.state.ADDR.state.is_default;
+      this.params.page = this.$store.state.ORDE.state.params.page;
+      this.params.pages = this.$store.state.ORDE.state.params.pages;
       return (this.orders = this.$store.state.ORDE.state.orders);
     },
   },
@@ -165,25 +169,16 @@ export default {
       return /^\d*$/.test(value);
     },
 
-    // sumQuantity() {
-    //   let sum = 0;
-    //   for (let i = 0; i < this.List.length; i++) {
-    //     sum += this.List[i].quantity;
-    //   }
-    //   this.total_items = sum;
-    //   //  this.$store.dispatch("ORDE/getQuantity", sum)
-    // },
-    // sumCash() {
-    //   let sum = 0;
-    //   for (let i = 0; i < this.List.length; i++) {
-    //     sum += this.List[i].quantity * this.List[i].product.master_sales_price;
-    //   }
-    //   this.total = sum;
-    //   //  this.$store.dispatch("ORDE/getCash", sum)
-    // },
-
+    clickCallback(pageNum) {
+      this.params.page = pageNum;
+      this.getAll();
+    },
     async getAll() {
-      await this.$store.dispatch("ORDE/getAll");
+      await this.$store.dispatch("ORDE/getAll", {
+        page: this.params.page,
+        per_page: this.params.per_page,
+        q: this.params.q,
+      });
       this.orders = this.$store.state.ORDE.state.orders;
       // this.total = this.$store.state.ORDE.state.total;
       // this.total_items = this.$store.state.ORDE.state.total_items;
