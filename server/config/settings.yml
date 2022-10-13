@@ -1,0 +1,10 @@
+validate:
+  file_upload:
+    file_type: &file_type
+      - .jpg
+      - .jpeg
+      - .png
+      - .pdf
+    default:
+      max_file_size: 31_457_280 # 30MB
+      file_type: *file_type

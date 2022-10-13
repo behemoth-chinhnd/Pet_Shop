@@ -7,6 +7,7 @@ module Products
                :quantity,
                :master_list_price,
                :master_sales_price,
-               :master_sku
+               :master_sku,
+               :image_url
   end
 end

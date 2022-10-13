@@ -8,7 +8,7 @@ module Api
     end
 
     def index
-      product = Product.includes(:creator).order(id: :desc).ransack(params[:q]).result
+      product = Product.includes(:creator, :image_blob).order(id: :desc).ransack(params[:q]).result
 
       @pagy, @product = pagy(product, items: params[:per_page] || DEFAULT_PER_PAGE, page: params[:page] || DEFAULT_PAGE)
 
@@ -56,7 +56,7 @@ module Api
                                       :master_sku,
                                       :master_list_price,
                                       :master_sales_price,
-                                      :quantity)
+                                      :quantity).merge(params.permit(:image_key))
     end
 
     def set_user

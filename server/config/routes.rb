@@ -39,5 +39,9 @@ Rails.application.routes.draw do
         get :show
       end
     end
+
+    namespace :uploads do
+      resources :upload, only: [:create]
+    end
   end
 end

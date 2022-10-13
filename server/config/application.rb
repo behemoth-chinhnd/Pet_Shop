@@ -24,5 +24,8 @@ module EcommerceRestfulApi
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
     config.time_zone = "Hanoi"
+
+    config.default_url_options = { host: ENV.fetch("RAILS_HOST_URL", "localhost:3000") }
+    Rails.application.routes.default_url_options = config.default_url_options
   end
 end
