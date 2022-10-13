@@ -9,6 +9,7 @@ module Users
     attribute :address, :string
     attribute :birthday, :date
     attribute :sex_id, :integer
+    attribute :avatar_key, :string
 
     validates :email,
               :password,
@@ -32,10 +33,12 @@ module Users
 
     validate :validate_sex, if: -> { sex_id.present? }
 
+    validate :validate_avatar_not_found, if: -> { avatar_key.present? }
+
     def save
       return unless super
 
-      @model.assign_attributes(attributes)
+      @model.assign_attributes(attributes.except("avatar_key"))
       @model.save
     end
 
@@ -43,6 +46,14 @@ module Users
 
     def validate_sex
       errors.add(:sex_id, :invalid) unless Sex.all.pluck(:id).include?(sex_id)
+    end
+
+    def validate_avatar_not_found
+      blob = ActiveStorage::Blob.find_by(key: avatar_key)
+
+      errors.add(:avatar_key, :not_found) if blob.blank?
+
+      @model.avatar.attach(blob)
     end
   end
 end

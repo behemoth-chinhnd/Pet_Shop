@@ -37,10 +37,28 @@ class User < ApplicationRecord
 
   has_many :addresses, dependent: :destroy
 
+  has_one_attached :avatar
+
   def jwt_payload
     {
       sub: id,
       type: "user",
     }
+  end
+
+  def avatar_url
+    return nil if avatar.blank?
+
+    if ENV["GOOGLE_CLOUD_BUCKET"].present?
+      avatar.url
+    else
+      Rails.application.routes.url_helpers.url_for(avatar)
+    end
+  end
+
+  def avatar_key
+    return nil if avatar.blank?
+
+    avatar.key
   end
 end

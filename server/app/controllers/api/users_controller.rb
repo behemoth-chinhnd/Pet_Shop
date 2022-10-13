@@ -51,7 +51,7 @@ module Api
         :address,
         :sex_id,
         :birthday,
-      )
+      ).merge(params.permit(:avatar_key))
 
       params[:password].present? ? user_params.merge(params.permit(:password)) : user_params
     end

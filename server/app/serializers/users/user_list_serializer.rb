@@ -6,6 +6,7 @@ module Users
                :phone,
                :user_type,
                :birthday,
+               :avatar_url,
                :sex_id
   end
 end

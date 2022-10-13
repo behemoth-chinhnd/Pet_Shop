@@ -9,6 +9,7 @@ module Users
                :point,
                :sex_id,
                :birthday,
+               :avatar_url,
                :created_at,
                :updated_at,
                :deleted_at
