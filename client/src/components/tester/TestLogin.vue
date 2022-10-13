@@ -317,7 +317,10 @@ export default {
 
     async login() {
       if (this.validate()) {
-        this.LoginUser({ email: this.email, password: this.password }) 
+        this.LoginUser({ email: this.email, password: this.password })
+        .then(() => {
+          
+        })
       };
     },
   },

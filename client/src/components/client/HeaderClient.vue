@@ -65,21 +65,21 @@
               >
                 <!-- <div class="flex-row-center-center gap-10px"> -->
                 <img
-                  v-if="this.$store.state.AUTH.state.user.sex_id === 1"
+                  v-if="this.$store.state.AUTH.state.user.sex_id === 1 && this.$store.state.AUTH.state.user.avatar_url === null"
                   class="avatar"
                   src="@/assets/images/icons/avatar-boy.png"
                   alt=""
                 />
                 <img
-                  v-if="this.$store.state.AUTH.state.user.sex_id === 2"
+                  v-if="this.$store.state.AUTH.state.user.sex_id === 2 && this.$store.state.AUTH.state.user.avatar_url === null"
                   class="avatar"
                   src="@/assets/images/icons/avatar-girl.png"
                   alt=""
                 />
                 <img
-                  v-if="this.$store.state.AUTH.state.user.sex_id === 3"
+                  v-if="this.$store.state.AUTH.state.user.avatar_url !== null"
                   class="avatar"
-                  :src="this.avatar"
+                  :src="this.$store.state.AUTH.state.user.avatar_url "
                   alt=""
                 />
                 <!-- <p class="text-white bold">{{this.$store.state.AUTH.state.user.name}}</p> -->

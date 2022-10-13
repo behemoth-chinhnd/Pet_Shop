@@ -145,7 +145,7 @@
           </div>
         </form>
         <img
-        class="img-edit-product"
+          class="img-edit-product"
           ref="image"
           :src="
             this.product.image_url
@@ -194,7 +194,10 @@ export default {
     }
   },
   methods: {
-    ...mapActionsPROD.mapActions({ editProduct: 'edit', getProduct: 'getItem' }),
+    ...mapActionsPROD.mapActions({
+      editProduct: "edit",
+      getProduct: "getItem",
+    }),
     validate() {
       let isValid = true;
       this.errors = {
@@ -228,7 +231,6 @@ export default {
     uploadFile: function () {
       this.inputPicture = this.$refs.inputFile.files[0];
     },
-  
 
     async edit() {
       if (this.inputPicture === null) {
@@ -238,13 +240,11 @@ export default {
         };
         if (this.validate()) {
           if (this.product.id) {
-            await this.editProduct(input)
-            .then(() => {
-              this.getItem(this.product.id)
-              .then(() => {
+            await this.editProduct(input).then(() => {
+              this.getItem(this.product.id).then(() => {
                 this.$swal.fire("Edit Success", "", "success");
-              })
-            })
+              });
+            });
           }
         }
       } else {
@@ -256,27 +256,24 @@ export default {
         };
         if (this.validate()) {
           if (this.product.id) {
-            await this.editProduct(input)
-            .then(() => {
-              this.getItem(this.product.id)
-              .then(() => {
+            await this.editProduct(input).then(() => {
+              this.getItem(this.product.id).then(() => {
                 this.$swal.fire("Edit Success", "", "success");
-              })
-            })
+              });
+            });
           }
         }
       }
     },
     async getItem(itemId) {
-      await this.getProduct(itemId)
-      .then(() => {
-        this.product = this.$store.state.PROD.state.product
-      })
+      await this.getProduct(itemId).then(() => {
+        this.product = this.$store.state.PROD.state.product;
+      });
     },
   },
   computed: {
     Item() {
-      this.product = this.$store.state.PROD.state.product
+      this.product = this.$store.state.PROD.state.product;
       return (this.product = this.$store.state.PROD.state.product);
     },
   },

@@ -112,7 +112,6 @@ const actions = {
 
     async getDetail({ commit }, value) {
       console.log(value)
-        
       await api.get(`/api/order?number=${value}`).then((res) => {
           console.log(res.data)
           

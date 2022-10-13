@@ -325,6 +325,10 @@ ul.box-menu-user li a {
     padding-left: 20px;
 }
 
+.swal2-title {
+font-size: 20px;
+}
+
 .user-avatar {
     overflow: hidden;
     border-left: 0.0625rem solid #efefef;
@@ -935,6 +939,12 @@ li.page-item.active {
     height: 40px;
     line-height: 40px;
     text-align: center;
+}
+
+.avatar-icon .avatar {
+    height: 40px;
+    width: 40px;
+    border-radius: 100%;
 }
 
 .main-author {

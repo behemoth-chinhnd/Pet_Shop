@@ -267,10 +267,10 @@ export default {
         this.birthday_month = this.$store.state.AUTH.state.birthday.month;
         this.birthday_year = this.$store.state.AUTH.state.birthday.year;
         //create at
-        this.created_at = this.$store.state.AUTH.state.user.created_at.slice(
-          0,
-          10
-        );
+        // this.created_at = this.$store.state.AUTH.state.user.created_at.slice(
+        //   0,
+        //   10
+        // );
         //phone
         const phone = this.$store.state.AUTH.state.user.phone;
         this.phoneUser(phone);
@@ -294,7 +294,7 @@ export default {
         return (this.type_user = "Saler");
       } else {
         return (this.type_user = "Unknow");
-      }
+      } 
     },
 
     async getAll() {

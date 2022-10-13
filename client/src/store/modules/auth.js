@@ -20,13 +20,13 @@ const state = {
         errors: [],
         res: {
             is_res: null,
-            status:"",
-            message:""
+            status: "",
+            message: ""
         },
         birthday: {
-            day:"",
-            month:"",
-            year:""
+            day: "",
+            month: "",
+            year: ""
         }
     },
 };
@@ -94,13 +94,13 @@ const actions = {
             email: credentials.email, password: credentials.password
         }).then(res => {
             if (res.data) {
-                
+
                 commit("setToken", res.data);
                 commit("setActive", true);
                 dispatch('profile');
                 console.log(`Login Success`)
-                setTimeout(() => 
-                window.location.href = "/user/account/profile", 2000)
+                setTimeout(() =>
+                    window.location.href = "/user/account/profile", 2000)
             } else {
                 commit("setActive", false);
             }
@@ -119,9 +119,9 @@ const actions = {
         ).then(res => {
             console.log(res.data)
             commit("setProfile", res.data);
-            commit("isYear", Number(res.data.birthday.slice(0,4)));
-            commit("isMonth", Number(res.data.birthday.slice(5,7)));
-            commit("isDay", Number(res.data.birthday.slice(8,10)));
+            commit("isYear", Number(res.data.birthday.slice(0, 4)));
+            commit("isMonth", Number(res.data.birthday.slice(5, 7)));
+            commit("isDay", Number(res.data.birthday.slice(8, 10)));
 
         }).catch((res) => {
             if (res.response) {
@@ -132,25 +132,71 @@ const actions = {
         })
     },
 
+
+
     async update({ commit, dispatch }, input) {
         console.log(input)
-        await api.put("/api/user",input
+        await api.put("/api/user", input
         ).then(res => {
             dispatch('profile')
             console.log(res)
             commit("setProfile", res.data);
             commit("isRes", true);
             commit("resStatus", "success");
-            commit("resMessage", "Update Successful!");
+            commit("resMessage", "Update Profile Successful!");
 
-           
+
         }).catch((res) => {
             console.log(res.response.data)
             commit("isRes", false);
             commit("resStatus", "error");
-            commit("resMessage","Update Failed!" );
+            commit("resMessage", "Update Profile Failed!");
         })
     },
+
+    async updateAvatar({ commit, dispatch}, credentials) {
+        console.log(`Input updateAvatar`, credentials)
+        console.log(`File`, credentials.file)
+
+
+      
+            await api.post(`/api/uploads/upload`, credentials.file, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            }).then(res => {
+                console.log(`Upload File`, res.data)
+                const avatar_key = res.data.key
+                const input = {
+                    avatar_key: avatar_key,
+                    // user: {
+                    password: "12345678",
+                    name: credentials.data.name,
+                    sex_id: credentials.data.sex_id,
+                    birthday: credentials.data.birthday,
+
+                    // }
+
+                }
+                api.put(`/api/user`, input).then(res => {
+                    console.log(`res Update`, res.data)
+                    dispatch('profile')
+                    console.log(res)
+                    commit("setProfile", res.data);
+                    commit("isRes", true);
+                    commit("resStatus", "success");
+                    commit("resMessage", "Update Avatar Successful!");
+                }).catch((res) => {
+                    commit("isRes", false);
+                    commit("resStatus", "error");
+                    commit("resMessage", "Update Avatar Failed!");
+                })
+            });
+    },
+
+
+
+
 
     logout({ commit }) {
         commit("setToken", "");

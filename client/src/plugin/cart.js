@@ -14,14 +14,14 @@ export default {
     return result;
   },
 
-  async addProduct(input) {
+  async addCart(input) {
     await api.post("/api/cart/add_product", input).then(res => {
       const result = res.data
-      console.log(`prevCart`, res.data);
+      console.log(`addCart`, res.data);
       return result
     }).catch((res) => {
       const result = res.responsi
-      console.log(`prevCart`, res.responsi);
+      console.log(`addCart`, res.responsi);
       return result;
     })
   }

@@ -1,5 +1,6 @@
 
 import api from "@/plugin/axios";
+import cart from "@/plugin/cart"
 
 const state = {
   state: {
@@ -185,11 +186,12 @@ const actions = {
       product_id: order_item.product.id,
       quantity: 1
     }
-    await api.post("/api/cart/add_product", input).then(res => {
-      console.log(`nextCart`, res.data);
-    }).catch((res) => {
-      console.log(`nextCartFailed`, res.response);
-    })
+    cart.addCart(input)
+    // await api.post("/api/cart/add_product", input).then(res => {
+    //   console.log(`nextCart`, res.data);
+    // }).catch((res) => {
+    //   console.log(`nextCartFailed`, res.response);
+    // })
   },
   async prevCart({ commit }, order_item) {
     const input = {
