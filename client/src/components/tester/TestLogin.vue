@@ -73,10 +73,9 @@
                     <form
                       action="" 
                       name="loginForm"
-                      class="loginForm needs-validation"
+                      class="loginForm"
                       method="POST"
                       @submit.prevent="login()"
-                      novalidate
                     >
                       <div class="form-group">
                         <input
@@ -85,11 +84,8 @@
                           name="email"
                           placeholder="Email address"
                           v-model="email"
-                          @blur="validate()"
-                            v-bind:class="{ 'is-invalid': errors.email }"
-                            required
+
                         />
-                        <div class="feedback-invalid" v-if="errors.email">{{this.errors.email}}</div>
                       </div>
                       <div class="form-group">
                         <div class="pwdMask">
@@ -99,11 +95,7 @@
                             name="password"
                             placeholder="Password"
                             v-model="password"
-                            @blur="validate()"
-                            v-bind:class="{ 'is-invalid': errors.password }"
-                            required
                           />
-                          
                           <i
                             class="fa pwd-toggle"
                             :class="{
@@ -113,9 +105,7 @@
                             @click="typeText()"
                           ></i>
                         </div>
-                        <div class="feedback-invalid" v-if="errors.password">{{this.errors.password}}</div>
                       </div>
-                      
                       <!-- start remember-row -->
                       <div class="remember-row flex-row-space-between">
                         <div class="">
@@ -157,7 +147,7 @@
                     </div>
                     <form
                       name="signupForm"
-                      class="signupForm "
+                      class="signupForm"
                       action="#"
                       method="POST"
                     >
@@ -284,7 +274,6 @@ const mapActionsAUTH = createNamespacedHelpers("AUTH");
 export default {
   data() {
     return {
-      // isValid: false,
       errors: {
         email: "",
         password: ""
@@ -328,18 +317,7 @@ export default {
 
     async login() {
       if (this.validate()) {
-        this.LoginUser({ email: this.email, password: this.password })
-        .then(() => {
-          if(this.$store.state.AUTH.state.isActive) {
-            this.$swal.fire('Login Success', "", "success");
-            // this.$router.push({path:'/user/account/profile'})
-            // setTimeout(() => 
-            //         window.location.href = "/user/account/profile", 2000)
-          } else if(!this.$store.state.AUTH.state.isActive) {
-            this.$swal.fire('Login Failed', "", "error");
-          }
-          
-        })
+        this.LoginUser({ email: this.email, password: this.password }) 
       };
     },
   },
@@ -375,6 +353,7 @@ export default {
 body,
 html {
   background-color: #f0f2f5;
+  background-image: url("https://1.bp.blogspot.com/-fd1WXKk-TAc/XyqfngP4PiI/AAAAAAAAVMw/umQz3tkxtg43uPIy8W5og6gAkpCfjaTvACLcBGAsYHQ/w1563-h1563/bg-snell.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 100%;
@@ -385,13 +364,6 @@ html {
 .dust-paarticle {
   position: absolute;
   width: 100%;
-}
-
-.feedback-invalid {
-  margin-top: -15px;
-  margin-bottom: 20px;
-  text-align: left;
-  color: red;
 }
 
 #snell {
@@ -438,6 +410,7 @@ html {
   top: 5%;
 }
 
+@import url("https://fonts.googleapis.com/css?family=Titillium+Web:300,400,600,700,900");
 
 /*--------------------*/
 /* 02. Common CSS */
@@ -666,13 +639,13 @@ a:focus {
 .panel-login .form-control:focus,
 .panel-signup .form-control:focus,
 .panel-forgot .form-control:focus {
-  border-color: #ee4d2d;
+  border-color: #4f77ff;
   z-index: 2;
   outline: 0;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
-    0 0 8px #ee4d2d;
+    0 0 8px rgba(102, 175, 233, 0.6);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
-    0 0 8px #ee4d2d;
+    0 0 8px rgba(102, 175, 233, 0.6);
 }
 
 .pwdMask {

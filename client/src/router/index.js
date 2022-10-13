@@ -24,6 +24,8 @@ const routes = [
       { path: 'register', name: 'home.users.register', component: () => import('@/views/client/users/RegisterUser.vue') },
       { path: 'login', name: 'home.users.login', component: () => import('@/views/client/users/LoginUser.vue') },
       { path: 'users', name: 'home.users', component: () => import('@/views/client/users/ListUser.vue') },
+      { path: 'test_login', name: 'test.login', component: () => import('@/components/tester/TestLogin.vue') },
+
       {
         path: 'carts', name: 'home.carts', component: Cart, children: [
           { path: '/', name: 'home.carts', component: () => import('@/views/client/carts/ListCarts.vue') },
@@ -110,7 +112,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (((to.name === 'home.users.login') || (to.name === 'home.users.register')) && (store.state.AUTH.state.isActive === true)) {
-    next({ path: '/user/profile' })
+    next({ path: '/user/account/profile' })
   } else {
     next()
   }

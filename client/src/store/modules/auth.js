@@ -98,18 +98,17 @@ const actions = {
                 commit("setToken", res.data);
                 commit("setActive", true);
                 dispatch('profile');
-                alert(`Login Success`)
-                setTimeout(() => window.location.href = "/user/account/profile", 200)
+                console.log(`Login Success`)
+                setTimeout(() => 
+                window.location.href = "/user/account/profile", 2000)
             } else {
                 commit("setActive", false);
-                console.log(`Login Failed`)
             }
         }).catch((res) => {
             if (res.response) {
                 commit("setToken", "");
                 commit("setActive", false);
-                alert(`Login Faild`)
-                console.log(res.response.data.message)
+                console.log(`Login Failed`)
                 localStorage.removeItem("vuex");
             }
         })
