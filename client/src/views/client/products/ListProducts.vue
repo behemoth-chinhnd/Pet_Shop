@@ -1,37 +1,65 @@
 <template>
   <div class="body">
     <main id="main" class="">
-
       <!-- <section id="main-body"> -->
       <div class="container bg-white">
         <div v-if="showFilter" class="filter flex-row-space-between-center">
           <div class="search-wrapper">
             <div class="row">
               <div class="col-md-3">
-                <input class="form-control" type="text" v-model="search.name" placeholder="Search Name" />
+                <input
+                  class="form-control"
+                  type="text"
+                  v-model="search.name"
+                  placeholder="Search Name"
+                />
               </div>
               <div class="col-md-3">
-                <input class="form-control" type="text" v-model.number="search.minprice" placeholder="Min Price" />
+                <input
+                  class="form-control"
+                  type="text"
+                  v-model.number="search.minprice"
+                  placeholder="Min Price"
+                />
               </div>
 
               <div class="col-md-3">
-                <input class="form-control" type="text" v-model.number="search.maxprice" placeholder="Max Price.." />
+                <input
+                  class="form-control"
+                  type="text"
+                  v-model.number="search.maxprice"
+                  placeholder="Max Price.."
+                />
               </div>
               <div class="col-md-3">
-                <input class="form-control" type="text" v-model="search.author" placeholder="Author" />
+                <input
+                  class="form-control"
+                  type="text"
+                  v-model="search.author"
+                  placeholder="Author"
+                />
               </div>
             </div>
           </div>
         </div>
 
         <div class="card-deck mb-3 text-center scroll-x">
-
           <div class="cards">
-
             <div class="card" v-for="post in List" :key="post.id">
-              <router-link class="" :to="{ name: 'home.products.detail', params: { id: post.id }, }">
-
-                <img class="img-card" src="@/assets/images/products/gai-xinh-1.jpg" alt="">
+              <router-link
+                class=""
+                :to="{ name: 'home.products.detail', params: { id: post.id } }"
+              >
+                <img
+                  class="img-card"
+                  ref="image"
+                  :src="
+                    post.image_url
+                      ? post.image_url
+                      : require('@/assets/images/plugin/no_photo.jpeg')
+                  "
+                  alt=""
+                />
               </router-link>
 
               <div class="card-top">
@@ -45,25 +73,23 @@
                 <div>Buy: 2899</div>
                 <!-- </div> -->
               </div>
-
             </div>
-
-
           </div>
           <div v-if="this.params.pages > 1" class="panel-footer">
-            <paginate 
-              v-model="params.page" 
-              :page-count="this.params.pages" 
-              :page-range="3" :margin-pages="2"
-              :click-handler="clickCallback" 
-              :prev-text="'<<'" 
-              :next-text="'>>'" 
+            <paginate
+              v-model="params.page"
+              :page-count="this.params.pages"
+              :page-range="3"
+              :margin-pages="2"
+              :click-handler="clickCallback"
+              :prev-text="'<<'"
+              :next-text="'>>'"
               :container-class="'pagination'"
-              :page-class="'page-item'">
+              :page-class="'page-item'"
+            >
             </paginate>
           </div>
         </div>
-
       </div>
       <!-- </section> -->
     </main>
@@ -115,7 +141,7 @@ export default {
         search_operator: "equal_to",
         search_query_1: "",
         search_query_2: "",
-        q: { name_eq: "minh"},
+        q: { name_eq: "minh" },
         pages: "",
       },
     };
@@ -125,11 +151,11 @@ export default {
     this.getAll();
   },
 
-  mounted() { },
+  mounted() {},
   methods: {
     clickCallback(pageNum) {
-      this.params.page = pageNum
-      this.getAll()
+      this.params.page = pageNum;
+      this.getAll();
     },
     prev() {
       if (this.model.prev_page_url) {
@@ -148,22 +174,25 @@ export default {
     //   // this.getAll()
     // },
     async getAll() {
-      await this.$store.dispatch("PROD/getAll", { page: this.params.page, per_page: this.params.per_page, q: this.params.q })
+      await this.$store.dispatch("PROD/getAll", {
+        page: this.params.page,
+        per_page: this.params.per_page,
+        q: this.params.q,
+      });
     },
-
   },
   computed: {
     List() {
       this.products = this.$store.state.PROD.state.products;
       this.params.page = this.$store.state.PROD.state.params.page;
       this.params.pages = this.$store.state.PROD.state.params.pages;
-      return this.products = this.$store.state.PROD.state.products;
+      return (this.products = this.$store.state.PROD.state.products);
     },
   }, // components: { HeaderApp },
 };
 </script>
 <style scoped>
-@media screen and (min-width :1366px) {
+@media screen and (min-width: 1366px) {
   .cards {
     /* khi vào thực tế thay width bằng số khác tùy trường hợp cụ thể. */
     --width: 100%;
@@ -173,7 +202,7 @@ export default {
   }
 }
 
-@media screen and (min-width :1024px) and (max-width :1366px) {
+@media screen and (min-width: 1024px) and (max-width: 1366px) {
   .cards {
     --width: 97%;
     width: var(--width);
@@ -182,7 +211,7 @@ export default {
   }
 }
 
-@media screen and (min-width :800px) and (max-width :1024px) {
+@media screen and (min-width: 800px) and (max-width: 1024px) {
   .cards {
     --width: 90%;
     width: var(--width);
@@ -191,7 +220,7 @@ export default {
   }
 }
 
-@media screen and (min-width :683px) and (max-width :800px) {
+@media screen and (min-width: 683px) and (max-width: 800px) {
   .cards {
     --width: 97%;
     width: var(--width);
@@ -200,7 +229,7 @@ export default {
   }
 }
 
-@media screen and (min-width :500px) and (max-width :683px) {
+@media screen and (min-width: 500px) and (max-width: 683px) {
   .cards {
     --width: 90%;
     width: var(--width);
@@ -209,7 +238,7 @@ export default {
   }
 }
 
-@media screen and (min-width :0px) and (max-width :600px) {
+@media screen and (min-width: 0px) and (max-width: 600px) {
   .cards {
     --width: 97%;
     width: var(--width);
@@ -230,21 +259,20 @@ export default {
 
 .card {
   cursor: pointer;
-  width: calc(100%/var(--column) - var(--padding-card));
+  width: calc(100% / var(--column) - var(--padding-card));
   overflow: hidden;
   font-size: 13px;
   background: var(--white);
   color: var(--dark-2);
   display: flex;
   flex-direction: column;
-  margin: calc(var(--padding-card)/2);
+  margin: calc(var(--padding-card) / 2);
 }
 
 .img-card {
   height: 200px;
   width: 100%;
 }
-
 
 .card-top {
   padding: 10px;
@@ -279,6 +307,5 @@ export default {
   align-items: center;
   justify-content: space-between;
 }
-
 </style>
   

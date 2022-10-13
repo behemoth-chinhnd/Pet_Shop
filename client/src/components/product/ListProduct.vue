@@ -50,9 +50,14 @@
                 class=""
                 :to="{ name: 'home.products.detail', params: { id: post.id } }"
               >
-                <img
+              <img
                   class="img-card"
-                  src="@/assets/images/products/gai-xinh-1.jpg"
+                  ref="image"
+                  :src="
+                    post.image_url
+                      ? post.image_url
+                      : require('@/assets/images/plugin/no_photo.jpeg')
+                  "
                   alt=""
                 />
               </router-link>
@@ -65,12 +70,12 @@
                 <div class=" flex-row-space-between">
                   <div class="flex-cloumn text-left">
                     <div class="price-sale mgb-10px">
-                      {{ post.master_sales_price }} VND
+                      {{ Intl.NumberFormat().format(post.master_sales_price) }} VND
                     </div>
                     <div class="sale">
                       {{ saleoff(post.master_sales_price,post.master_list_price, 0) }}%
                       <span class="saleoff"
-                        >{{ post.master_list_price }} VND</span
+                        >{{ Intl.NumberFormat().format(post.master_list_price) }} VND</span
                       >
                     </div>
                   </div>

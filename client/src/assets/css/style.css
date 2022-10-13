@@ -520,6 +520,10 @@ svg {
     color: #000;
     font-weight: bold;
 }
+
+.img-edit-product {
+    width: 200px;
+}
 /* pagination */
 .panel-footer {
     display: flex;

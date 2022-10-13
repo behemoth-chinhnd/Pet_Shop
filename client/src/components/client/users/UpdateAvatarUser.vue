@@ -56,7 +56,7 @@ export default {
     // Collecting everything inside our FormData object
     updateAvatar() {
       const params = {
-        picture: this.inputPicture,
+        avatar: this.inputPicture,
       };
 
       let formData = new FormData();
