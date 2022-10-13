@@ -1,0 +1,7 @@
+en:
+  services:
+    upload_validate:
+      errors:
+        file_validate_error: File upload failed
+        invalid_file_size: Please create files smaller than 30MB
+        invalid_file_type: This file type cannot be uploaded

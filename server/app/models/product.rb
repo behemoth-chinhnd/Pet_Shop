@@ -28,4 +28,22 @@ class Product < ApplicationRecord
   has_many :order_items, dependent: :destroy
 
   belongs_to :creator, polymorphic: true, foreign_type: "creator_type", inverse_of: :products
+
+  has_one_attached :image
+
+  def image_url
+    return nil if image.blank?
+
+    if ENV["GOOGLE_CLOUD_BUCKET"].present?
+      image.url
+    else
+      Rails.application.routes.url_helpers.url_for(image)
+    end
+  end
+
+  def image_key
+    return nil if image.blank?
+
+    image.key
+  end
 end

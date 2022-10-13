@@ -9,6 +9,7 @@ module Products
                :master_list_price,
                :master_sales_price,
                :master_sku,
+               :image_url,
                :created_at,
                :updated_at
 

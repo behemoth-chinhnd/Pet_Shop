@@ -1,3 +1,5 @@
+require "active_storage_attachments.schema"
+require "active_storage_blobs.schema"
 require "users.schema"
 require "admins.schema"
 require "products.schema"
