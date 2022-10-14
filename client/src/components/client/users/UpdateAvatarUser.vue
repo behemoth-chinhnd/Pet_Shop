@@ -1,19 +1,13 @@
 <template>
   <div class="flex-column-space-between-center">
     <img
-      v-if="
-        (this.avatar === null) &
-        (this.$store.state.AUTH.state.user.sex_id === 1)
-      "
+      v-if="(this.avatar === null) & (this.sex_id === 1)"
       class="avatar mgb-10px"
       src="@/assets/images/icons/avatar-boy.png"
       alt=""
     />
     <img
-      v-if="
-        (this.avatar === null) &
-        (this.$store.state.AUTH.state.user.sex_id === 2)
-      "
+      v-if="(this.avatar === null) & (this.sex_id === 2)"
       class="avatar mgb-10px"
       src="@/assets/images/icons/avatar-girl.png"
       alt=""
@@ -24,7 +18,7 @@
       :src="this.avatar"
       alt=""
     />
-    
+
     <div class="input-avatar mgb-10px">
       <label for="inputFile">Choose File</label>
       <input
@@ -50,32 +44,24 @@ export default {
   data() {
     return {
       // update images
-      avatar: this.$store.state.AUTH.state.user.avatar_url,
+      avatar: null,
       inputPicture: null,
-      res:{
-        is_res:"",
-        status:"",
-        message:""
-      },
       user: null,
-      
-      
+      sex_id: null,
     };
   },
   created() {
-    this.getData();
+    this.getProfile();
   },
-  computed: {
-  },
+  computed: {},
   methods: {
     ...mapActionsAUTH.mapActions(["updateAvatar", "profile"]),
-    // Saving the file in our data to send it !
+
     uploadFile: function () {
       this.inputPicture = this.$refs.inputFile.files[0];
       this.avatar = URL.createObjectURL(this.$refs.inputFile.files[0]);
     },
 
-    // Collecting everything inside our FormData object
     async update() {
       if (this.inputPicture === null) {
         this.$swal.fire("You haven't selected a photo yet!", "", "error");
@@ -84,28 +70,19 @@ export default {
         formData.append("file", this.inputPicture);
         const input = {
           file: formData,
-          data: this.user
+          data: this.user,
         };
-        await this.updateAvatar(input).then(() => {
-          this.getData()
-          .then(() => {
-            this.$swal.fire(this.res.message, "", this.res.status);
-          })
-        });
+        const res = await this.updateAvatar(input);
+        this.$swal.fire(res.message, "", res.status);
+        this.getProfile();
       }
     },
-    async getData() {
-      await this.profile()
-      .then(() => {
-        this.user = this.$store.state.AUTH.state.user;
-        this.avatar = this.$store.state.AUTH.state.user.avatar_url;
-        this.res.is_res = this.$store.state.AUTH.state.res.is_res;
-        this.res.status = this.$store.state.AUTH.state.res.status;
-        this.res.message = this.$store.state.AUTH.state.res.message;
-      })
-        
-      // return this.avatar = this.$store.state.AUTH.state.user.avatar_url;
-    }
+
+    async getProfile() {
+      const res = await this.profile();
+      this.user = res;
+      (this.avatar = this.user.avatar_url), (this.sex_id = this.user.sex_id);
+    },
   },
 };
 </script>

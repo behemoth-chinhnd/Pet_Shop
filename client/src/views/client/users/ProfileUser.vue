@@ -203,12 +203,6 @@ export default {
   data() {
     return {
       user: "",
-      name: "",
-      email: "",
-      password: "",
-      sex_id: "",
-      phone: null,
-      user_type: "",
       address_user: null,
       created_at: "",
       address_order: "",
@@ -216,11 +210,6 @@ export default {
       birthday_year: "",
       birthday_month: "",
       birthday_day: "",
-      // res: {
-      //   is_res: null,
-      //   status: "",
-      //   message: "",
-      // },
       update: {
         name: "",
         sex_id: "",

@@ -1,6 +1,8 @@
 // import AuthServices from "../../apis/modules/auth";
 import api from "@/plugin/axios";
 import api_auth from "@/apis/modules/auth"
+import upload from "@/apis/modules/upload"
+
 import says from "@/plugin/says";
 import store from "../store";
 
@@ -155,44 +157,30 @@ const actions = {
   },
 
 
-  async updateAvatar({ commit, dispatch }, credentials) {
-    console.log(`Input updateAvatar`, credentials)
-    console.log(`File`, credentials.file)
-
-
-
-    await api.post(`/api/uploads/upload`, credentials.file, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    }).then(res => {
-      console.log(`Upload File`, res.data)
-      const avatar_key = res.data.key
-      const input = {
-        avatar_key: avatar_key,
-        // user: {
-        password: "12345678",
-        name: credentials.data.name,
-        sex_id: credentials.data.sex_id,
-        birthday: credentials.data.birthday,
-
-        // }
-
-      }
-      api.put(`/api/user`, input).then(res => {
-        console.log(`res Update`, res.data)
-        dispatch('profile')
-        console.log(res)
-        commit("setProfile", res.data);
-        commit("isRes", true);
-        commit("resStatus", "success");
-        commit("resMessage", "Update Avatar Successful!");
-      }).catch((res) => {
-        commit("isRes", false);
-        commit("resStatus", "error");
-        commit("resMessage", "Update Avatar Failed!");
-      })
-    });
+  async updateAvatar({ commit, dispatch, state }, credentials) {
+    const res = await upload.image(credentials.file)
+    const avatar_key = res.data.key
+    const input = {
+      avatar_key: avatar_key,
+      password: "12345678",
+      name: credentials.data.name,
+      sex_id: credentials.data.sex_id,
+      birthday: credentials.data.birthday,
+    }
+    try {
+      const profile = await api_auth.update(input);
+      console.log(`res Update`, profile.data)
+      dispatch('profile')
+      commit("setProfile", profile.data);
+      commit("isRes", true);
+      commit("resStatus", "success");
+      commit("resMessage", "Update Avatar Successful!");
+    } catch (error) {
+      commit("isRes", false);
+      commit("resStatus", "error");
+      commit("resMessage", "Update Avatar Failed!");
+    }
+    return state.state.res
   },
 
 
