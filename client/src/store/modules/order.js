@@ -22,7 +22,7 @@ const state = {
             q: {},
             pages: 1
         },
-        isErr: false,
+        isErr: "kkkk",
         errors: []
     },
 };
@@ -121,7 +121,6 @@ const actions = {
 }
 export default {
     namespaced: true,
-    //namespaced giup dispath den store nao
     state,
     getters,
     mutations,

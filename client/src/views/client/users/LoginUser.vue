@@ -71,7 +71,7 @@
                 <div class="row">
                   <div class="col-xs-12 col-sm-12">
                     <form
-                      action="" 
+                      action=""
                       name="loginForm"
                       class="loginForm needs-validation"
                       method="POST"
@@ -86,10 +86,12 @@
                           placeholder="Email address"
                           v-model="email"
                           @blur="validate()"
-                            v-bind:class="{ 'is-invalid': errors.email }"
-                            required
+                          v-bind:class="{ 'is-invalid': errors.email }"
+                          required
                         />
-                        <div class="feedback-invalid" v-if="errors.email">{{this.errors.email}}</div>
+                        <div class="feedback-invalid" v-if="errors.email">
+                          {{ this.errors.email }}
+                        </div>
                       </div>
                       <div class="form-group">
                         <div class="pwdMask">
@@ -103,7 +105,7 @@
                             v-bind:class="{ 'is-invalid': errors.password }"
                             required
                           />
-                          
+
                           <i
                             class="fa pwd-toggle"
                             :class="{
@@ -113,9 +115,11 @@
                             @click="typeText()"
                           ></i>
                         </div>
-                        <div class="feedback-invalid" v-if="errors.password">{{this.errors.password}}</div>
+                        <div class="feedback-invalid" v-if="errors.password">
+                          {{ this.errors.password }}
+                        </div>
                       </div>
-                      
+
                       <!-- start remember-row -->
                       <div class="remember-row flex-row-space-between">
                         <div class="">
@@ -140,8 +144,9 @@
                         <button
                           class="btn btn-lg submit btn-block text-white"
                           type="submit"
-                          >Login with Email</button
                         >
+                          Login with Email
+                        </button>
                       </div>
                     </form>
                   </div>
@@ -157,7 +162,7 @@
                     </div>
                     <form
                       name="signupForm"
-                      class="signupForm "
+                      class="signupForm"
                       action="#"
                       method="POST"
                     >
@@ -287,21 +292,21 @@ export default {
       // isValid: false,
       errors: {
         email: "",
-        password: ""
+        password: "",
       },
-      email:"",
-      password:"",
+      email: "",
+      password: "",
       isText: false,
       type: "password",
     };
   },
   methods: {
-    ...mapActionsAUTH.mapActions({LoginUser:"login"}),
+    ...mapActionsAUTH.mapActions({ LoginUser: "login" }),
     validate() {
       let isValid = true;
       this.errors = {
         email: "",
-        password: ""
+        password: "",
       };
       if (!this.email) {
         this.errors.email = "Error: Email not Empty ";
@@ -328,19 +333,12 @@ export default {
 
     async login() {
       if (this.validate()) {
-        this.LoginUser({ email: this.email, password: this.password })
-        .then(() => {
-          if(this.$store.state.AUTH.state.isActive) {
-            this.$swal.fire('Login Success', "", "success");
-            // this.$router.push({path:'/user/account/profile'})
-            // setTimeout(() => 
-            //         window.location.href = "/user/account/profile", 2000)
-          } else if(!this.$store.state.AUTH.state.isActive) {
-            this.$swal.fire('Login Failed', "", "error");
-          }
-          
-        })
-      };
+        const res = await this.LoginUser({
+          email: this.email,
+          password: this.password,
+        });
+        this.$swal.fire(res.message, "", res.status);
+      }
     },
   },
 };
@@ -437,7 +435,6 @@ html {
   position: absolute;
   top: 5%;
 }
-
 
 /*--------------------*/
 /* 02. Common CSS */
@@ -669,10 +666,8 @@ a:focus {
   border-color: #ee4d2d;
   z-index: 2;
   outline: 0;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
-    0 0 8px #ee4d2d;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
-    0 0 8px #ee4d2d;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px #ee4d2d;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px #ee4d2d;
 }
 
 .pwdMask {

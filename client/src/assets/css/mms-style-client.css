@@ -1,4 +1,7 @@
 :root {
+          --master: #ee4d2d;
+          --master-bold:#b90000;
+          --master-bland: #f63;
           --blue: #007bff;
       
           --indigo: #6610f2;
@@ -346,7 +349,7 @@
         overflow: visible;
         outline: 0;
         color: #fff;
-        background: #fb5533;
+        background: var(--master);
         z-index: 2;
         height: 34px;
         line-height: 34px;

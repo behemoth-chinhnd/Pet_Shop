@@ -129,11 +129,6 @@ const actions = {
       console.log(`getProduct Failed`,res.response.data)
     })
   },
-  //   async getTotalItems({ commit }, credentials) {
-
-  //         commit("getTotalItems", credentials);
-
-  // },
   async buyItem({ commit }, credentials) {
     
     commit("postBuyNow", credentials)
@@ -204,16 +199,6 @@ const actions = {
       console.log(`prevCartFailed`, res.response);
     })
   },
-  // async edit({ commit }, credentials) {
-  //   await api.put(`/api/products/${credentials.id}`, credentials).then(res => {
-  //     commit("getItem", res.data);
-  //     console.log(res.data)
-  //     alert(`Đã Edit Thành Công`)
-
-  //   }).catch((res) => {
-  //     alert(res.response.data)
-  //   })
-  // },
   async delete({ commit, dispatch }, credentials) {
     await api.post(`/api/cart/remove_product`, credentials).then(res => {
       console.log(`deleteCart`, res.data);
@@ -226,7 +211,6 @@ const actions = {
 }
 export default {
   namespaced: true,
-  //namespaced giup dispath den store nao
   state,
   getters,
   mutations,

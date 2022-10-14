@@ -14,10 +14,15 @@
           <div class="flex-row-space-between gap-10px">
             <div class="img-cart">
               <img
-                class=""
-                src="@/assets/images/products/gai-xinh-1.jpg"
-                alt=""
-              />
+                  class="img"
+                  ref="image"
+                  :src="
+                    post.product.image_url
+                      ? post.product.image_url
+                      : require('@/assets/images/plugin/no_photo.jpeg')
+                  "
+                  alt=""
+                />
             </div>
 
             <div class="flex-1">
@@ -32,9 +37,9 @@
               <div class="flex-row-space-between">
                 <div class="price-product flex-row-space-between-center flex-1 row">
                   <div class="price flex-row-start-center col-md-4">
-                    <p class="">{{ post.product.master_sales_price }} đ</p>
+                    <p class="">{{ Intl.NumberFormat().format(post.product.master_sales_price) }}đ</p>
                     <p class="sale-off mgl-10px">
-                      ({{ post.product.master_list_price }} đ)
+                      ({{ Intl.NumberFormat().format(post.product.master_list_price) }}đ)
                     </p>
                   </div>
                   <div class="quantily-product col-md-4 flex-row">
@@ -84,7 +89,7 @@
         >
           <b-button variant="primary"
             >({{ this.total_quantity }} Product) - Total Cash:
-            {{ Intl.NumberFormat().format(this.total) }} VNĐ</b-button
+            {{ Intl.NumberFormat().format(this.total) }}đ</b-button
           >
           <b-button class="btn submit mgl-10px" @click="createOrder()"
             >ORDER ALL</b-button

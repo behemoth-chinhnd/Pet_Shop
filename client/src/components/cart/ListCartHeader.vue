@@ -2,17 +2,21 @@
   <div id="list-cart-header">
     <div v-for="(cart, index) in carts" :key="index" class="cart-item">
       <div class="flex-row-space-between-center gap-10px">
-        <div>
+        <div class="image-cart-header">
           <img
-            style="width: 40px"
-            class=""
-            src="@/assets/images/products/gai-xinh-1.jpg"
+            class="img"
+            ref="image"
+            :src="
+              cart.product.image_url
+                ? cart.product.image_url
+                : require('@/assets/images/plugin/no_photo.jpeg')
+            "
             alt=""
           />
         </div>
-        <div class="flex-1 flex-row-space-between-center gap-10px">
+        <div class="flex-1 flex-row-space-between-center break-line-2 gap-10px">
           {{ cart.product.name }}
-          <p class="">({{ cart.product.master_sales_price }} VND)</p>
+          <p class="total-cash">{{ Intl.NumberFormat().format(cart.product.master_sales_price) }}đ</p>
         </div>
       </div>
     </div>
@@ -26,9 +30,7 @@
 </template>
 <script>
 export default {
-  components: {
-
-  },
+  components: {},
   data() {
     return {
       carts: [],
