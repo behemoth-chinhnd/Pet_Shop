@@ -6,6 +6,12 @@ export default {
             email: credentials.email, password: credentials.password
         })
     },
+    profile() {
+        return API.get("/api/user")
+    },
+    update(credentials) {
+        return  API.put("/api/user", credentials)
+    },
     register() {
         return API.post("/api/users");
     },

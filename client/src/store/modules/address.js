@@ -1,11 +1,12 @@
 
 import api from "@/plugin/axios";
+import api_addr from "@/apis/modules/address"
 
 const state = {
     state: {
         address: [],
         addresses: [],
-        is_default:[],
+        is_default: [],
         params: {
             page: 1,
             per_page: 3,
@@ -34,7 +35,7 @@ const mutations = {
     getIsDefault(state, value) {
         state.state.is_default = value;
     },
-     getPage(state, value) {
+    getPage(state, value) {
         state.state.params.page = value;
     },
     getPages(state, value) {
@@ -56,7 +57,7 @@ const actions = {
     },
 
     async getAll({ commit }, credentials) {
-        
+
         await api.get(`/api/addresses?page=${credentials.page}&per_page=${credentials.per_page}&q=${credentials.q}`).then((res) => {
             commit("getAll", res.data.addresses);
             commit("getPages", res.data.meta.pages);
@@ -65,12 +66,16 @@ const actions = {
 
         });
     },
-    async getIsDefault({ commit }) {
-        
-        await api.get(`/api/addresses/show_default`).then((res) => {
-            console.log(res)
+    async getIsDefault({ commit, state }) {
+        try {
+           const res = await api_addr.getIsDefault()
             commit("getIsDefault", res.data);
-        });
+            console.log(`ok`);
+        } catch {
+            commit("getIsDefault", "");
+        }
+        console.log(state.state.is_default)
+        return state.state.is_default
     },
     async getAllDelete({ commit }) {
         console.log(state)

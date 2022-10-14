@@ -21,6 +21,7 @@ const state = {
     errors: [],
     res: {
       isActive: false,
+      is_res: false,
       status: "",
       message: ""
     },
@@ -92,77 +93,67 @@ const actions = {
     })
   },
 
-  async login({ commit, dispatch }, credentials) {
+  async login({ commit, dispatch, state }, credentials) {
     try {
       const res = await api_auth.login(credentials);
-      if (res.data) {
-        commit("setToken", res.data);
-        commit("setActive", true);
-        commit("isRes", true);
-        commit("resStatus", "success");
-        commit("resMessage", "Login Successful!");
-        dispatch('profile');
-        console.log(`Login Success`)
-        setTimeout(() =>
-          window.location.href = "/user/account/profile", 2000)
-      } else {
-        commit("setActive", false);
-      }
+      commit("setToken", res.data);
+      commit("setActive", true);
+      commit("resIsActive", true);
+
+      commit("isRes", true);
+      commit("resStatus", "success");
+      commit("resMessage", "Login Successful!");
+      dispatch('profile');
+      setTimeout(() =>
+        window.location.href = "/user/account/profile", 2000)
+
     } catch (error) {
       if (error.response) {
         commit("setToken", "");
         commit("setActive", false);
-        commit("isRes", true);
+        commit("resIsActive", false);
+        commit("isRes", false);
         commit("resStatus", "error");
         commit("resMessage", "Login Failed!");
-        console.log(`Login Failed`)
         localStorage.removeItem("vuex");
       }
 
     }
+    console.log(state.state.res)
     return state.state.res
-
   },
 
   async profile({ commit }) {
-    await api.get("/api/user"
-    ).then(res => {
-      console.log(res.data)
+    try {
+      const res = await api_auth.profile();
       commit("setProfile", res.data);
       commit("isYear", Number(res.data.birthday.slice(0, 4)));
       commit("isMonth", Number(res.data.birthday.slice(5, 7)));
       commit("isDay", Number(res.data.birthday.slice(8, 10)));
-
-    }).catch((res) => {
-      if (res.response) {
-        commit("setToken", "");
-        commit("setActive", false);
-        commit("setProfile", "");
-      }
-    })
+      return res.data
+    } catch (errors) {
+      commit("setToken", "");
+      commit("setActive", false);
+      commit("setProfile", "");
+    }
   },
 
 
 
-  async update({ commit, dispatch }, input) {
-    console.log(input)
-    await api.put("/api/user", input
-    ).then(res => {
-      dispatch('profile')
-      console.log(res)
-      commit("setProfile", res.data);
+  async update({ commit, state }, credentials) {
+    try {
+      await api_auth.update(credentials);
       commit("isRes", true);
       commit("resStatus", "success");
       commit("resMessage", "Update Profile Successful!");
-
-
-    }).catch((res) => {
-      console.log(res.response.data)
+    } catch (error) {
       commit("isRes", false);
       commit("resStatus", "error");
       commit("resMessage", "Update Profile Failed!");
-    })
+    }
+    return state.state.res
   },
+
 
   async updateAvatar({ commit, dispatch }, credentials) {
     console.log(`Input updateAvatar`, credentials)

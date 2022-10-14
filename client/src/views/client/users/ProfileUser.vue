@@ -11,7 +11,7 @@
               Manage profile information for account security
             </div>
           </div>
-          <div class="profile-body row  ">
+          <div class="profile-body row">
             <div class="col-md-8 user-info">
               <form
                 action=""
@@ -27,8 +27,8 @@
                     <input
                       class="input"
                       type="text"
-                      placeholder="Year"
-                      v-model="name"
+                      placeholder="Name"
+                      v-model="user.name"
                     />
                   </p>
                 </div>
@@ -38,7 +38,7 @@
                   >
                   <div class="item-value flex">
                     <p id="email" class="">
-                      {{ this.$store.state.AUTH.state.user.email }}
+                      {{ this.user.email }}
                     </p>
                     <p class="mgl-10px">
                       <router-link to="/"> Change </router-link>
@@ -50,7 +50,7 @@
                     >Phone:</label
                   >
                   <div class="item-value flex">
-                    <p id="phone">{{ this.phone }}</p>
+                    <p id="phone">{{ this.user.phone }}</p>
 
                     <p class="mgl-10px">
                       <router-link to="/"> Change </router-link>
@@ -77,15 +77,17 @@
                       }}
                     </p>
                     <p class="mgl-10px">
-                      <router-link to="/user/account/address_order"> Change </router-link>
+                      <router-link to="/user/account/address_order">
+                        Change
+                      </router-link>
                     </p>
                   </div>
                 </div>
                 <div class="form-group row flex-row-start-center">
-                  <label for="type_user" class="item-name col-form-label"
+                  <label for="user_type" class="item-name col-form-label"
                     >User Type:</label
                   >
-                  <p id="type_user" class="item-value">{{ this.type_user }}</p>
+                  <p id="user_type" class="item-value">{{ this.user.user_type }}</p>
                 </div>
                 <div class="form-group row flex-row-start-center">
                   <label for="created" class="item-name col-form-label"
@@ -98,32 +100,32 @@
                   <div class="item-value flex">
                     <input
                       class="input-radio"
-                      :class="{ checked: sex_id == 1 }"
+                      :class="{ checked: user.sex_id == 1 }"
                       type="radio"
                       name="sex"
                       value="1"
-                      v-model="sex_id"
-                      v-bind:checked="sex_id == 1"
+                      v-model="user.sex_id"
+                      v-bind:checked="user.sex_id == 1"
                     />
                     Male
                     <input
                       class="input-radio mgl-30px rel"
-                      :class="{ checked: sex_id == 2 }"
+                      :class="{ checked: user.sex_id == 2 }"
                       type="radio"
                       name="sex"
                       value="2"
-                      v-model="sex_id"
-                      v-bind:checked="sex_id == 2"
+                      v-model="user.sex_id"
+                      v-bind:checked="user.sex_id == 2"
                     />
                     Female
                     <input
                       class="input-radio mgl-30px"
-                      :class="{ checked: sex_id == 3 }"
+                      :class="{ checked: user.sex_id == 3 }"
                       type="radio"
                       name="sex"
                       value="3"
-                      v-model="sex_id"
-                      v-bind:checked="sex_id == 3"
+                      v-model="user.sex_id"
+                      v-bind:checked="user.sex_id == 3"
                     />
                     Other
                   </div>
@@ -200,24 +202,25 @@ export default {
   name: "ProfileUser",
   data() {
     return {
-      name: this.$store.state.AUTH.state.user.name,
+      user: "",
+      name: "",
       email: "",
       password: "",
       sex_id: "",
       phone: null,
-      type_user: "",
+      user_type: "",
       address_user: null,
       created_at: "",
-      address_order: this.$store.state.ADDR.state.is_default,
+      address_order: "",
       birthday: [],
       birthday_year: "",
       birthday_month: "",
       birthday_day: "",
-      res: {
-        is_res: null,
-        status: "",
-        message: "",
-      },
+      // res: {
+      //   is_res: null,
+      //   status: "",
+      //   message: "",
+      // },
       update: {
         name: "",
         sex_id: "",
@@ -229,15 +232,10 @@ export default {
     };
   },
   created() {
-    this.runStart();
+    this.profile();
+    this.getAddressDefault();
   },
   computed: {
-    start() {
-      this.birthday_day = this.$store.state.AUTH.state.birthday.day;
-      this.birthday_month = this.$store.state.AUTH.state.birthday.month;
-      this.birthday_year = this.$store.state.AUTH.state.birthday.year;
-    },
-
     years() {
       var List = [];
       for (let i = 1900; i <= this.currentYear; i++) {
@@ -249,71 +247,57 @@ export default {
     },
   },
   methods: {
-    ...mapActionsAUTH.mapActions({updateProfile: 'update'}),
-    ...mapActionsADDR.mapActions({getIsDefaultADDR: "getIsDefault"}),
+    ...mapActionsAUTH.mapActions({ 
+      updateProfile: "update",
+      getProfile: "profile",
+    }),
+    ...mapActionsADDR.mapActions({ getIsDefaultADDR: "getIsDefault" }),
 
-    async runStart() {
-      await this.getIsDefaultADDR().then(() => {
-        this.address_order = this.$store.state.ADDR.state.is_default;
-        // update
-        this.res.is_res = this.$store.state.AUTH.state.res.is_res;
-        this.res.status = this.$store.state.AUTH.state.res.status;
-        this.res.message = this.$store.state.AUTH.state.res.message;
-        //sex
-        this.sex_id = this.$store.state.AUTH.state.user.sex_id;
-        //birthday
-        this.birthday = this.$store.state.AUTH.state.user.birthday;
-        this.birthday_day = this.$store.state.AUTH.state.birthday.day;
-        this.birthday_month = this.$store.state.AUTH.state.birthday.month;
-        this.birthday_year = this.$store.state.AUTH.state.birthday.year;
-        //create at
-        // this.created_at = this.$store.state.AUTH.state.user.created_at.slice(
-        //   0,
-        //   10
-        // );
-        //phone
-        const phone = this.$store.state.AUTH.state.user.phone;
-        this.phoneUser(phone);
-        //user type
-        const type = this.$store.state.AUTH.state.user.user_type;
-        this.typeUser(type);
-      });
+    async profile() {
+      const res = await this.getProfile();
+      this.user = res;
+      this.birthday_day = Number(this.user.birthday.slice(8, 10));
+      this.birthday_month = Number(this.user.birthday.slice(5, 7));
+      this.birthday_year = Number(this.user.birthday.slice(0, 4));
+      this.created_at = this.user.created_at.slice(0, 10);
+      this.phoneUser(this.user.phone);
+      this.typeUser(this.user.user_type);
+    },
+
+    async getAddressDefault() {
+      const res = await this.getIsDefaultADDR();
+         this.address_order = res;
     },
 
     phoneUser(phone) {
       if (phone === null) {
-        return (this.phone = "Empty");
+        return (this.user.phone = "Empty");
       } else {
-        return (this.phone = phone);
+        return (this.user.phone = this.user.phone);
       }
     },
     typeUser(type) {
       if (type === 1) {
-        return (this.type_user = "Member");
+        return (this.user.user_type = "Member");
       } else if (type === 2) {
-        return (this.type_user = "Saler");
+        return (this.user.user_type = "Saler");
       } else {
-        return (this.type_user = "Unknow");
-      } 
+        return (this.user.user_type = "Unknow");
+      }
     },
 
-    async getAll() {
-      this.res.is_res = this.$store.state.AUTH.state.res.is_res;
-      this.res.status = this.$store.state.AUTH.state.res.status;
-      this.res.message = this.$store.state.AUTH.state.res.message;
-    },
 
     async save() {
       const input = {
         password: "12345678",
-        name: this.name,
-        sex_id: this.sex_id,
+        name: this.user.name,
+        sex_id: this.user.sex_id,
         birthday:
           this.birthday_year +
           "-" +
           this.birthday_month +
           "-" +
-          this.birthday_day
+          this.birthday_day,
       };
       this.$swal
         .fire({
@@ -321,15 +305,11 @@ export default {
           showCancelButton: true,
           confirmButtonText: "Save",
         })
-        .then((result) => {
+        .then(async (result) => {
           if (result.isConfirmed) {
-            this.updateProfile(input)
-            .then(() => {
-              this.runStart()
-              .then(() => {
-                this.$swal.fire(this.res.message, "", this.res.status);
-              });
-            });
+            const res = await this.updateProfile(input);
+            this.$swal.fire(res.message, "", res.status);
+            this.profile()
           }
         });
     },
@@ -337,17 +317,6 @@ export default {
 };
 </script>
 <style scoped>
-label {
-  font-weight: 800;
-}
-.login-user {
-  width: 500px;
-  margin: 0 auto;
-  border: 1px solid #a4a4a4;
-}
 
-.form-group {
-  margin-bottom: 15px;
-}
 </style>
       
