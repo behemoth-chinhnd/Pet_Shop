@@ -1,24 +1,24 @@
-<template>
-  <div class="container">
-    <div class="body-saler">
+<template >
+  <div class="body-saler">
+    <div class="panel-body">
       <div class="edit-product">
         <form
           action=""
           @submit.prevent="edit()"
-          class="needs-validation text-left"
+          class="needs-validation text-left row"
           novalidate
         >
-          <div class="form-group row">
-            <label for="inputName" class="col-md-3 col-form-label"></label>
-            <div class="col-md-9">
-              <h1 class="color-primary center">
+          <div class="form-group col-md-12">
+            <label for="inputName" class="col-form-label"></label>
+            <div class="">
+              <h1 class="color-primary">
                 Edit Product - ID: #{{ this.product.id }}
               </h1>
             </div>
           </div>
-          <div class="form-group row">
-            <label for="inputName" class="col-md-3 col-form-label">Name</label>
-            <div class="col-md-9">
+          <div class="form-group col-md-6">
+            <label for="inputName" class="col-form-label">Name</label>
+            <div class="">
               <input
                 type="text"
                 class="form-control"
@@ -32,11 +32,11 @@
               </div>
             </div>
           </div>
-          <div class="form-group row">
-            <label for="inputProductname" class="col-md-3 col-form-label"
+          <div class="form-group col-md-6">
+            <label for="inputProductname" class="col-form-label"
               >Quantity</label
             >
-            <div class="col-md-9">
+            <div class="">
               <input
                 type="text"
                 class="form-control"
@@ -50,11 +50,9 @@
               </div>
             </div>
           </div>
-          <div class="form-group row">
-            <label for="inputProductname" class="col-md-3 col-form-label"
-              >Number</label
-            >
-            <div class="col-md-9">
+          <div class="form-group col-md-6">
+            <label for="inputProductname" class="col-form-label">Number</label>
+            <div class="">
               <input
                 type="text"
                 class="form-control"
@@ -68,11 +66,11 @@
               </div>
             </div>
           </div>
-          <div class="form-group row">
-            <label for="inputmaster_sku" class="col-md-3 col-form-label"
+          <div class="form-group col-md-6">
+            <label for="inputmaster_sku" class="col-form-label"
               >master_sku</label
             >
-            <div class="col-md-9">
+            <div class="">
               <input
                 type="master_sku"
                 name="master_sku"
@@ -87,11 +85,9 @@
               </div>
             </div>
           </div>
-          <div class="form-group row">
-            <label for="input" class="col-md-3 col-form-label"
-              >Master List Price</label
-            >
-            <div class="col-md-9">
+          <div class="form-group col-md-6">
+            <label for="input" class="col-form-label">Master List Price</label>
+            <div class="">
               <input
                 type="text"
                 class="form-control"
@@ -105,23 +101,36 @@
               </div>
             </div>
           </div>
-          <div class="form-group row">
-            <label for="input" class="col-md-3 col-form-label"
-              >Master Sales Price</label
-            >
-            <div class="col-md-9">
+          <div class="form-group col-md-6">
+            <label for="input" class="col-form-label">Master Sales Price</label>
+            <div class="">
               <input
+                v-if="this.hidden.master_list_price"
                 type="text"
                 class="form-control"
                 v-model="product.master_sales_price"
-                @blur="validate()"
+                @blur="validate(), unHiddenPrice()"
                 v-bind:class="{ 'is-invalid': errors.master_sales_price }"
                 required
               />
+              <p class=" form-control" @mouseover="hiddenPrice()" v-if="!this.hidden.master_list_price">
+                {{ Intl.NumberFormat().format(product.master_sales_price) }}
+              </p>
               <div class="feedback-invalid" v-if="errors.master_sales_price">
                 {{ errors.master_sales_price }}
               </div>
             </div>
+          </div>
+          <div class="col-md-12 flex-column">
+            <img
+              class="img-edit-product"
+              ref="image"
+              :src="
+                this.product.image_url
+                  ? this.product.image_url
+                  : require('@/assets/images/plugin/no_photo.jpeg')
+              "
+            />
             <label for="inputFile">Choose File</label>
             <input
               id="inputFile"
@@ -131,8 +140,8 @@
             />
           </div>
           <div class="row">
-            <label for="input" class="col-md-3 col-form-label"></label>
-            <div class="col-md-9">
+            <label for="input" class="col-form-label"></label>
+            <div class="">
               <div class="panel-body flex-row-space-between-center">
                 <router-link :to="{ name: 'saler.products' }">
                   <b-button variant="danger" class="text-white">
@@ -144,15 +153,6 @@
             </div>
           </div>
         </form>
-        <img
-          class="img-edit-product"
-          ref="image"
-          :src="
-            this.product.image_url
-              ? this.product.image_url
-              : require('@/assets/images/plugin/no_photo.jpeg')
-          "
-        />
       </div>
     </div>
   </div>
@@ -162,9 +162,18 @@ import { createNamespacedHelpers } from "vuex";
 const mapActionsPROD = createNamespacedHelpers("PROD");
 
 export default {
-  name: "CreateData",
+  name: 'CurrencyInput',
   data() {
     return {
+      isHover: false,
+      hidden: {
+        name: "",
+        number: "",
+        quantity: "",
+        master_sku: "",
+        master_list_price: false,
+        master_sales_price: "",
+      },
       errors: {
         name: "",
         number: "",
@@ -186,6 +195,7 @@ export default {
       inputPicture: null,
     };
   },
+  
   created() {
     const itemId = this.$route.params.id;
     console.log(itemId);
@@ -198,6 +208,16 @@ export default {
       editProduct: "edit",
       getProduct: "getItem",
     }),
+   
+    hiddenPrice() {
+      this.hidden.master_list_price = true;
+      console.log(this.hidden.master_list_price);
+    },
+
+    unHiddenPrice() {
+      this.hidden.master_list_price = false;
+      console.log(this.hidden.master_list_price);
+    },
     validate() {
       let isValid = true;
       this.errors = {
@@ -272,6 +292,7 @@ export default {
     },
   },
   computed: {
+    
     Item() {
       this.product = this.$store.state.PROD.state.product;
       return (this.product = this.$store.state.PROD.state.product);

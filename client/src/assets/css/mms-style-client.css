@@ -259,12 +259,7 @@
             min-height: 500px;
           }
 
-          .body-saler {
-            padding: 10px;
-            background: var(--white);
-            border-radius: 12px;
-            /* margin-top: 35px; */
-          }
+        
 
 
           .group-icon-right{
@@ -477,10 +472,14 @@
       
       
           @media (min-width: 1300px){
+             
+            #client .container { max-width: 1230px; }
       
-          .container { max-width: 1230px; }
+          #client .box{ max-width: 1230px;}
       
-          .box{ max-width: 1230px;}
+          .container { max-width: 90%; }
+      
+          .box{ max-width: 90%;}
       
       
           .box-1{ width: 8.33%; }

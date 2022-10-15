@@ -7,7 +7,9 @@
     Window height: {{ windowHeight }} -->
     <section id="menu-icon" class="dark" :class="{ active: isActive }">
       <div class="logo">
-        <img src="/images/logo.png" alt="" />
+        <router-link  to="/saler"><img src="/images/logo.png" alt="" /></router-link>
+
+        
       </div>
       <button
         @click="clickToggle()"
@@ -57,37 +59,49 @@
       class="flex-column dark"
       :class="{ on: isActive, off: !isActive }"
     >
+      <h1 class="pd-lr-20px mgt-20px">SALES MANAGER</h1>
       <div class="form-search flex-row-space-between">
         <div class="flex-row-space-between rel">
           <i class="icon-search fa fa-search abs"></i>
           <input type="text" class="input-search" placeholder="Search" />
         </div>
-        <a class="icon default" href="#">
+        <!-- <a class="icon default" href="#">
           <img src="/images/User.png" alt="" />
-        </a>
+        </a> -->
       </div>
 
-      <h1 class="pd-lr-20px">Projects</h1>
+      <ul class="menu-admin">
+        <li class="sub-menu">
+          <a class="active" href="#">PRODUCT</a>
+          <ul>
+            <li>
+              <router-link :class="{'sub-active': (this.$route.path.includes('/saler/products/edit'))}" to="/saler/products">Management Product</router-link>
+            </li>
+            <li>
+              <router-link to="/saler/products/create">Create</router-link>
+            </li>
+            <li>
+              <router-link to="#">ok</router-link>
+            </li>
+          </ul>
+        </li>
+        <li class="sub-menu">
+          <a class="active" href="#">PRODUCT</a>
+          <ul>
+            <li>
+              <router-link to="#">ok</router-link>
+            </li>
+            <li>
+              <router-link to="#">ok</router-link>
+            </li>
+            <li>
+              <router-link to="#">ok</router-link>
+            </li>
+          </ul>
+        </li>
+      </ul>
 
-      <div class="flex-row item-group">
-        <div class="icon bg-default">
-          <img src="/images/Vector.png" alt="" />
-        </div>
-        <div class="mgl-15px">
-          <h6 class="title">Top Authors</h6>
-          <p class="content">Most Successful Fellas</p>
-        </div>
-      </div>
-      <div class="flex item-group">
-        <div class="icon bg-default">
-          <img src="/images/Vector-2.png" alt="" />
-        </div>
-        <div class="mgl-15px">
-          <h6 class="title">Top Authors</h6>
-          <p class="content">Most Successful Fellas</p>
-        </div>
-      </div>
-      <div class="flex-row item-group">
+      <!-- <div class="flex-row item-group">
         <div class="icon bg-default">
           <img src="/images/Vector-3.png" alt="" />
         </div>
@@ -95,65 +109,13 @@
           <h6 class="title">Top Authors</h6>
           <p class="content">Most Successful Fellas</p>
         </div>
-      </div>
-      <div class="flex-row item-group">
-        <div class="icon bg-default">
-          <img src="/images/Vector.png" alt="" />
-        </div>
-        <div class="mgl-15px">
-          <h6 class="title">Top Authors</h6>
-          <p class="content">Most Successful Fellas</p>
-        </div>
-      </div>
-      <div class="flex-row item-group">
-        <div class="icon bg-default">
-          <img src="/images/Vector-2.png" alt="" />
-        </div>
-        <div class="mgl-15px">
-          <h6 class="title">Top Authors</h6>
-          <p class="content">Most Successful Fellas</p>
-        </div>
-      </div>
-      <div class="flex-row item-group">
-        <div class="icon bg-default">
-          <img src="/images/Vector-3.png" alt="" />
-        </div>
-        <div class="mgl-15px">
-          <h6 class="title">Top Authors</h6>
-          <p class="content">Most Successful Fellas</p>
-        </div>
-      </div>
-      <div class="flex-row item-group">
-        <div class="icon bg-default">
-          <img src="/images/Vector.png" alt="" />
-        </div>
-        <div class="mgl-15px">
-          <h6 class="title">Top Authors</h6>
-          <p class="content">Most Successful Fellas</p>
-        </div>
-      </div>
-      <div class="flex-row item-group">
-        <div class="icon bg-default">
-          <img src="/images/Vector-2.png" alt="" />
-        </div>
-        <div class="mgl-15px">
-          <h6 class="title">Top Authors</h6>
-          <p class="content">Most Successful Fellas</p>
-        </div>
-      </div>
-      <div class="flex-row item-group">
-        <div class="icon bg-default">
-          <img src="/images/Vector-3.png" alt="" />
-        </div>
-        <div class="mgl-15px">
-          <h6 class="title">Top Authors</h6>
-          <p class="content">Most Successful Fellas</p>
-        </div>
-      </div>
+      </div> -->
     </section>
   </div>
 </template>
 <script>
+import { createNamespacedHelpers } from "vuex";
+const { mapActions } = createNamespacedHelpers("ADMU");
 export default {
   data() {
     return {
@@ -164,6 +126,7 @@ export default {
     };
   },
   created() {
+    this.isActiveMenuLeft();
     // if (this.windowWidth > 800) {
     //   this.isActive = true;
     //   this.isStart = true;
@@ -179,8 +142,8 @@ export default {
     window.addEventListener("resize", this.getWindowHeight);
 
     //Init
-    this.getWindowWidth();
-    this.getWindowHeight();
+    // this.getWindowWidth();
+    // this.getWindowHeight();
     // if (this.windowWidth > 800) {
     //   this.isActive = true;
     //   this.isStart = true;
@@ -190,33 +153,45 @@ export default {
     // });
   },
   methods: {
-    clickToggle() {
+    ...mapActions({ runMenuLeft: "menuLeft" }),
+    ...mapActions(["getMenuLeft"]),
+
+    async isActiveMenuLeft() {
+      const res = await this.getMenuLeft();
+      this.isActive = res;
+    },
+    async clickToggle() {
       // return {
-      if (this.isActive == false) {
-        this.isActive = true;
-        this.isStart = true;
-      } else {
-        this.isActive = false;
-      }
+      // if (this.isActive == false) {
+      //   this.isActive = true;
+      //   this.isStart = true;
+      // } else {
+      //   this.isActive = false;
+      // }
 
-      this.$emit("clickToggle", this.menuleft);
+      const res = await this.runMenuLeft();
+      this.isActive = res;
+      this.isStart = res;
+      console.log(res);
 
-      // };
+      //  this.$emit("clickToggle", this.menuleft);
     },
-    getWindowWidth(event) {
-      this.windowWidth = document.documentElement.clientWidth;
-      if (this.windowWidth > 1200) {
-        this.isActive = true;
-        this.isStart = true;
-      } else {
-        this.isActive = false;
-        this.isStart = true;
-      }
-    },
+    // async getWindowWidth(event) {
+    //   this.windowWidth = document.documentElement.clientWidth;
+    //   if (this.windowWidth > 1200) {
+    //     this.isActive = true;
+    //     this.isStart = true;
+    //   } else {
+    //     this.isActive = false;
+    //     this.isStart = true;
+    //   }
+    //   const res = await this.runMenuLeft(this.isActive);
+    //  console.log(res)
+    // },
 
-    getWindowHeight(event) {
-      this.windowHeight = document.documentElement.clientHeight;
-    },
+    // getWindowHeight(event) {
+    //   this.windowHeight = document.documentElement.clientHeight;
+    // },
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.getWindowWidth);

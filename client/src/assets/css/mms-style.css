@@ -162,52 +162,6 @@ body{
   /* font-style: normal; */
 }
 
-section#menu-icon{
-  display: none;
-}
-
-section#menu-left{
-  display: none;
-}
-
-
-.menu-icon.menu-left-off  section#menu-left.off {
-  display: none;
-}
-
-.menu-icon.menu-left-on  section#menu-left.on {
-  display: block;
-}
-
-
-  .menu-icon.menu-left-off  + .body section#main-body {
-    margin-left: 100px;
-    width: calc(100% - 100px) ;
-  
-  }
-
-#nav.active  + .menu-icon.menu-left-off section#menu-icon {
-  display: block;
-  }
-#nav.off +.menu-icon.menu-left-on{
-  display: none;
-}
-
-section#main-body{
-  margin-left: 0px;
-  width: calc(100%);
-}
-
-#menu-icon .logo img{
-  height: 30px;
-  width: 50px;
-  margin: 30px 25px;
-}
-
-.logo-header img{
-  height: 40px;
-  width: 50px ;
-}
 
 .box{ 
   /* width: 100%;  */
@@ -339,47 +293,7 @@ section#main-body{
       padding: 0 40px;
   } */
 
-  .menu-toggle{
-      width: 40px;
-      height: 40px;
-      font-size: 20px;
-      color: var(--dark);
-      border-radius: 6px;
-  }
-
-  .menu-left-toggle{
-      width: 40px;
-      height: 40px;
-      font-size: 20px;
-      color: var(--dark);
-      border: 1px solid #a4a4a4;
-      border-radius: 6px;
-      /* margin-left: 30px; */
-      transform: rotate(180deg);
-
-  }
-
-
-
-  #menu-icon.active{
-      display: block;
-      z-index: 210;
-      /* background: #fff; */
-  }
-
-  #menu-left.active{
-      display: block;
-      z-index: 210;
-      /* background: #fff; */
-  }
-
-  .menu-left-toggle.start .fa-solid.fa-angles-right {
-      transform: rotate(180deg);
-  }
-
-  .menu-left-toggle.active .fa-solid.fa-angles-right {
-      transform: rotate(360deg);
-  }
+ 
              
   /* @media (min-width:576px) and (max-width:1100px) {
   }
@@ -467,11 +381,7 @@ section#main-body{
 
 
   @media (min-width:1200px) {
-      section#menu-icon{ display: block; }
-      section#menu-left{ display: block; }
-  
-      section#main-body { margin-left: 440px; }
-      section#main-body { width: calc(100% - 440px); }
+
 
   
       .sales-bottom .row .col-md-6, .sales-bottom .row .col-xs-6, .sales-bottom .row .col-lg-6{
@@ -2104,20 +2014,7 @@ section#menu-icon {
 
 
 /* #menu-left */
-#menu-left {
-  z-index: 2;
-  margin-left: 100px;
 
-  width: 340px;
-  padding: 20px;
-  /* flex-grow: 3; */
-  /* background-color: #ffffff; */
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
 
 
 

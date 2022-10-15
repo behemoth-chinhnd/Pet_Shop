@@ -14,6 +14,7 @@ import store from '@/store/store'
 Vue.use(VueRouter)
 
 const routes = [
+  { path: '/input', name: 'input', component: () => import('@/components/tester/InputCash/ViewInput.vue') },
   { path: '/admin/login', name: 'admin.login', component: () => import('@/views/admin/LoginAdmin.vue') },
 
   {
@@ -111,7 +112,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (((to.name === 'home.users.login') || (to.name === 'home.users.register')) && (store.state.AUTH.state.isActive === true)) {
+  if (((to.path === '/login') || (to.path === '/register')) && (store.state.AUTH.state.isActive === true)) {
     next({ path: '/user/account/profile' })
   } else {
     next()
@@ -119,7 +120,7 @@ router.beforeEach((to, from, next) => {
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.path.includes('/user') && (store.state.AUTH.state.isActive === false)) {
+  if ((to.path.includes('/user') || to.path.includes('/saler') || to.path.includes('/admin')) && (store.state.AUTH.state.isActive === false)) {
     next({ path: '/login' })
   } else {
     next()

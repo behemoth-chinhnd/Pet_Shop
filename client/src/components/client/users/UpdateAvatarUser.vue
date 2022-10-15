@@ -43,11 +43,10 @@ export default {
   name: "UpdateAvatar",
   data() {
     return {
-      // update images
-      avatar: null,
-      inputPicture: null,
       user: null,
+      avatar: null,
       sex_id: null,
+      inputPicture: null,
     };
   },
   created() {

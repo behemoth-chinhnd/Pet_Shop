@@ -1,9 +1,11 @@
 
 import api from "@/plugin/axios";
+import api_product from "@/apis/modules/product"
 import qs from "qs"
 
 const state = {
   state: {
+    total_search: "",
     product: [],
     products: [],
     name_detail: "",
@@ -14,7 +16,11 @@ const state = {
       pages: 1
     },
     isErr: false,
-    errors: []
+    errors: [],
+    res: {
+      status: "",
+      message: ""
+    },
   },
 };
 const getters = {
@@ -34,6 +40,15 @@ const mutations = {
   },
   getAll(state, value) {
     state.state.products = value;
+  },
+  getTotalSearch(state, value) {
+    state.state.total_search = value;
+  },
+  resStatus(state, value) {
+    state.state.res.status = value;
+  },
+  resMessage(state, value) {
+    state.state.res.message = value;
   },
   getPage(state, value) {
     state.state.params.page = value;
@@ -56,39 +71,26 @@ const actions = {
     })
   },
 
-  async getAll({ commit }, credentials) {
-    console.log(credentials)
+  async getAll({ commit, state }, credentials) {
     const queryParams = {
-      // page: credentials.page,
-      // per_page: credentials.per_page,
+      page: credentials.page,
+      per_page: credentials.per_page,
       q: {
-        name_cont: '',
+        name_or_number_cont: credentials.q.name,
       },
     }
-
-    await api.get(`/api/products?page=${credentials.page}&per_page=${credentials.per_page}`, {
-      params: queryParams, paramsSerializer: params => {
-        return qs.stringify(params)
-      }
-    }).then((res) => {
-      console.log(res.data.products)
-      commit("getAll", res.data.products);
-      commit("getPages", res.data.meta.pages);
-      commit("getPage", credentials.page);
-
-
-    });
-  },
-  test() {
-    console.log(`test PROD`)
-  },
-  async getAllDelete({ commit }) {
-    console.log(state)
-    await api.get(`/api/products?page=${state.state.params.page}&per_page=${state.state.params.per_page}&q=${state.state.params.q}`).then((res) => {
-      commit("getAll", res.data.products);
-      commit("getPages", res.data.meta.pages);
-      commit("getPage", res.data.meta.page);
-    });
+    try {
+      const res = await api_product.getAll(queryParams)
+      // console.log(res.data.products)
+      // commit("getAll", res.data.products);
+      // commit("getTotalSearch", res.data.meta.total);
+      // commit("getPages", res.data.meta.pages);
+      // commit("getPage", credentials.page);
+      // console.log(res.data)
+      return res.data
+    } catch (error) {
+      alert(error.response)
+    }
   },
   async getItem({ commit }, credentials) {
     await api.get(`/api/products/${credentials}`).then(res => {
@@ -131,19 +133,20 @@ const actions = {
       });
     }
   },
-  async delete({ commit, dispatch }, credentials) {
-    await api.delete(`/api/products/${credentials}`).then(res => {
-      console.log(credentials)
-      console.log(res)
-      dispatch('getAllDelete')
-    }).catch((res) => {
-      alert(res)
-    })
+  async delete({ commit, state }, credentials) {
+    try {
+      await api_product.delete(credentials)
+      commit("resStatus", "success");
+      commit("resMessage", "Delete Successful!");
+    } catch (error) {
+      commit("resStatus", "error");
+      commit("resMessage", "Delete Failed!");
+    }
+    return state.state.res
   },
 }
 export default {
   namespaced: true,
-  //namespaced giup dispath den store nao
   state,
   getters,
   mutations,

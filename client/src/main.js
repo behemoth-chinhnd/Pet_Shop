@@ -11,10 +11,18 @@ import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import func from "@/plugin/func";
+
+
 import "./assets/css/reset.css";
+
+import "./assets/css/admin-style.css";
+
 import "./assets/css/style.css";
 import "./assets/css/mms-style.css";
 import "./assets/css/mms-style-client.css";
+
+
 
 Vue.config.productionTip = false;
 
@@ -23,6 +31,8 @@ new Vue({
   router,
   render: (h) => h(App)
 }).$mount("#app");
+
+Vue.use(func);
 
 Vue.use(VueSweetslert2);
 Vue.use(BootstrapVue);

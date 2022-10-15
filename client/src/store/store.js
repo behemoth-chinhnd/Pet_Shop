@@ -9,6 +9,9 @@ import ProductCart from "./modules/cart"
 import AddressOrder from "./modules/address"
 import Order from "./modules/order"
 
+import AdminMenu from "./modules/admin/menu"
+
+
 
 
 
@@ -57,7 +60,9 @@ export default  new Vuex.Store({
       PROD: ProductStore,
       CART: ProductCart,
       ADDR: AddressOrder,
-      ORDE: Order
+      ORDE: Order,
+      ADMU: AdminMenu
+
 
     },
     // getters: {
