@@ -2,7 +2,7 @@
   <div class="body-saler">
     <div class="panel-body">
       <div class="register-product bg-white">
-        <h1 class="color-primary center">CREATE PRODUCT</h1>
+        <h1 class="color-primary ">CREATE PRODUCT</h1>
         <form
           action=""
           @submit.prevent="create()"
@@ -26,9 +26,7 @@
             </div>
           </div>
           <div class="form-group col-md-6">
-            <label for="inputEmail" class="col-form-label"
-              >Quantity</label
-            >
+            <label for="inputEmail" class="col-form-label">Quantity</label>
             <div class="">
               <input
                 type="number"
@@ -45,15 +43,13 @@
             </div>
           </div>
           <div class="form-group col-md-6">
-            <label for="inputEmail" class="col-form-label"
-              >Number</label
-            >
+            <label for="inputEmail" class="col-form-label">Number</label>
             <div class="">
               <input
-                type="number"
+                type="text"
                 name="number"
                 class="form-control"
-                v-model.number="product.number"
+                v-model="product.number"
                 @blur="validate()"
                 v-bind:class="{ 'is-invalid': errors.number }"
                 required
@@ -64,12 +60,10 @@
             </div>
           </div>
           <div class="form-group col-md-6">
-            <label for="inputName" class=" col-form-label"
-              >Master SKU</label
-            >
+            <label for="inputName" class="col-form-label">Master SKU</label>
             <div class="">
               <input
-                type="text"
+                type="number"
                 class="form-control"
                 v-model="product.master_sku"
                 @blur="validate()"
@@ -82,12 +76,12 @@
             </div>
           </div>
           <div class="form-group col-md-6">
-            <label for="inputName" class=" col-form-label"
+            <label for="inputName" class="col-form-label"
               >Master List Price</label
             >
             <div class="">
               <input
-                type="text"
+                type="number"
                 class="form-control"
                 v-model="product.master_list_price"
                 @blur="validate()"
@@ -100,12 +94,12 @@
             </div>
           </div>
           <div class="form-group col-md-6">
-            <label for="inputName" class=" col-form-label"
+            <label for="inputName" class="col-form-label"
               >Master Sales Price</label
             >
             <div class="">
               <input
-                type="text"
+                type="number"
                 class="form-control"
                 v-model="product.master_sales_price"
                 @blur="validate()"
@@ -117,8 +111,26 @@
               </div>
             </div>
           </div>
+          <div class="col-md-12 flex-column">
+            <img
+              class="img-edit-product"
+              ref="image"
+              :src="
+                this.product.image_url
+                  ? this.product.image_url
+                  : require('@/assets/images/plugin/no_photo.jpeg')
+              "
+            />
+            <label for="inputFile">Choose File</label>
+            <input
+              id="inputFile"
+              type="file"
+              ref="inputFile"
+              @change="uploadFile()"
+            />
+          </div>
           <div class="row">
-            <label for="input" class=" col-form-label"></label>
+            <label for="input" class="col-form-label"></label>
             <div class="">
               <div class="panel-body flex-row-space-between-center">
                 <router-link :to="{ name: 'saler.products' }">
@@ -144,7 +156,8 @@
   </div>
 </template>
 <script>
-import { mapActions } from "vuex";
+import { createNamespacedHelpers } from "vuex";
+const mapActionsPROD = createNamespacedHelpers("PROD");
 import api from "@/plugin/axios";
 export default {
   name: "CreateUser",
@@ -161,17 +174,21 @@ export default {
       products: [],
       product: {
         name: "",
+        image_url: "",
         quantity: "",
         number: "",
         master_sku: "",
         master_list_price: "",
         master_sales_price: "",
       },
+      inputPicture: null,
     };
   },
   created() {},
   methods: {
-    ...mapActions([""]),
+    ...mapActionsPROD.mapActions({
+      createPROD: "create",
+    }),
     validate() {
       let isValid = true;
       this.errors = {
@@ -207,37 +224,25 @@ export default {
     isNumber(value) {
       return /^\d*$/.test(value);
     },
+    uploadFile: function () {
+      this.inputPicture = this.$refs.inputFile.files[0];
+      this.product.image_url = URL.createObjectURL(
+        this.$refs.inputFile.files[0]
+      );
+    },
     async create() {
-      if (this.validate()) {
-        await this.$store.dispatch("PROD/create", this.product);
-      }
-      this.checkErrors();
-    },
-    reset() {
-      (this.product.name = "minhmonster"),
-        (this.product.number = "100"),
-        (this.product.master_sku = "200"),
-        (this.product.master_list_price = 10000),
-        (this.product.master_sales_price = 20000);
-    },
-    checkErrors() {
-      const err = this.$store.state.PROD.state.errors;
-      const isErr = this.$store.state.PROD.state.isErr;
-      if (isErr) {
-        if (err.name) {
-          this.errors.name = err.name;
-        }
-        if (err.number) {
-          this.errors.number = err.number;
-        }
-        if (err.master_sku) {
-          this.errors.master_sku = err.master_sku;
-        }
-        if (err.master_list_price) {
-          this.errors.master_list_price = err.master_list_price;
-        }
-        if (err.master_sales_price) {
-          this.errors.master_sales_price = err.master_sales_price;
+      if (this.inputPicture === null) {
+        this.$swal.fire("You haven't selected a photo yet!", "", "error");
+      } else {
+        let formData = new FormData();
+        formData.append("file", this.inputPicture);
+        if (this.validate()) {
+          const input = {
+            file: formData,
+            data: this.product,
+          };
+          const res = await this.createPROD(input);
+          this.$swal.fire(res.message, "", res.status);
         }
       }
     },

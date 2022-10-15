@@ -1,6 +1,8 @@
 
 import api from "@/plugin/axios";
 import api_product from "@/apis/modules/product"
+import upload from "@/apis/modules/upload"
+
 import qs from "qs"
 
 const state = {
@@ -59,16 +61,31 @@ const mutations = {
 
 };
 const actions = {
-  async create({ commit }, credentials) {
-    await api.post("/api/products", credentials).then(res => {
-      if (res) {
-        commit("isError", false);
-        commit("setErrors", "");
+
+  async create({ commit, state }, credentials) {
+    try {
+      const res = await upload.image(credentials.file)
+      const image_key = res.data.key
+      const input = {
+        image_key: image_key,
+        product: credentials.data,
       }
-    }).catch((res) => {
-      commit("isError", true);
-      commit("setErrors", res.response.data);
-    })
+      await api_product.create(input)
+      commit("resStatus", "success");
+      commit("resMessage", "Create Successful!");
+    } catch (error) {
+      commit("resStatus", "error");
+      if (error.response.data.name) {
+        commit("resMessage", 'Name has already been taken');
+      } else if (error.response.data.number) {
+        commit("resMessage", 'Number has already been taken');
+      } else if (error.response.data.name && error.response.data.number) {
+        commit("resMessage", 'Name & Numbder has already been taken');
+      } else {
+        commit("resMessage", "Create Failed!");
+      }
+    }
+    return state.state.res
   },
 
   async getAll({ commit, state }, credentials) {
@@ -133,6 +150,7 @@ const actions = {
       });
     }
   },
+
   async delete({ commit, state }, credentials) {
     try {
       await api_product.delete(credentials)

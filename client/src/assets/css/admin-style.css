@@ -377,6 +377,19 @@ ul.menu-admin li.sub-menu li a {
   max-width: 500px;
   border: 1px solid var(--admin-master);
 }
+
+#admin .body-saler table td {
+  vertical-align: middle;
+}
+#admin .body-saler table td.img {
+  padding: 0px;
+  height: 50px;
+  width:50px
+}
+#admin td .img-card {
+  width:50px;
+  height: 50px;
+}
 @media (max-width: 575px) {
   .menu-left-off + .container .body-saler,  #nav.menu-left-off #header-admin{
     width: 100%;

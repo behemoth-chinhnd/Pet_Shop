@@ -2,6 +2,9 @@ import API from "@/apis/index"
 import qs from "qs"
 
 export default {
+  create(input){
+    return API.post("/api/products", input)
+  },
   getAll(queryParams) {
     return API.get(`/api/products`, {
       params: queryParams, paramsSerializer: params => {

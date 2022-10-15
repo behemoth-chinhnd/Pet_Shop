@@ -21,6 +21,7 @@
           <thead>
             <tr>
               <th scope="col">#</th>
+              <th scope="col">Image</th>
               <th scope="col">Name</th>
               <th scope="col">Number</th>
               <th scope="col">Master SKU</th>
@@ -32,6 +33,18 @@
           <tbody>
             <tr v-for="post in this.products" :key="post.id">
               <td scope="row">{{ post.id }}</td>
+              <td class="img">
+                <img
+                  class="img-card"
+                  ref="image"
+                  :src="
+                    post.image_url
+                      ? post.image_url
+                      : require('@/assets/images/plugin/no_photo.jpeg')
+                  "
+                  alt=""
+                />
+              </td>
               <td>{{ post.name }}</td>
               <td>{{ post.number }}</td>
               <td>{{ post.master_sku }}</td>
