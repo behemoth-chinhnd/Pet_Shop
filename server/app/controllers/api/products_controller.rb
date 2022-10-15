@@ -56,6 +56,7 @@ module Api
                                       :master_sku,
                                       :master_list_price,
                                       :master_sales_price,
+                                      :is_display,
                                       :quantity).merge(params.permit(:image_key))
     end
 

@@ -10,6 +10,7 @@ module Products
                :master_sales_price,
                :master_sku,
                :image_url,
+               :is_display,
                :created_at,
                :updated_at
 

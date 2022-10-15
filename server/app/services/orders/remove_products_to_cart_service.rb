@@ -21,7 +21,7 @@ module Orders
       context.message = "Cart item remove success"
     rescue StandardError => e
       Rails.logger.error("remove from cart error, Customer: #{Current.user.id}, error: #{e.message}")
-      context.fail!(message: "Cart item remove failed")
+      context.fail!(message: e.message)
     end
   end
 end

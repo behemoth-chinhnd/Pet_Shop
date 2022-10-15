@@ -7,6 +7,7 @@ module Products
     attribute :number, :string
     attribute :quantity, :integer
     attribute :image_key, :string
+    attribute :is_display, :boolean
 
     validates :name, :number, :master_sku, :quantity,
               :master_list_price, :master_sales_price,

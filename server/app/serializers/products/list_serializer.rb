@@ -8,6 +8,7 @@ module Products
                :master_list_price,
                :master_sales_price,
                :master_sku,
+               :is_display,
                :image_url
   end
 end
