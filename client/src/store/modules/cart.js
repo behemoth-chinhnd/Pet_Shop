@@ -1,13 +1,13 @@
 
 import api from "@/plugin/axios";
-import cart from "@/plugin/cart"
+import api_cart from "@/apis/modules/cart"
 
 const state = {
   state: {
     cart: [],
     carts: [],
     product: [],
-    buy_now:{},
+    buy_now: {},
     order: {
       products_data: [],
       customer_address_id: "",
@@ -26,7 +26,6 @@ const state = {
     isErr: false,
     errors: [],
     res: {
-      is_res: null,
       status: "",
       message: "",
       text: ""
@@ -124,56 +123,44 @@ const actions = {
   async getItem({ commit }, credentials) {
     await api.get(`/api/products/${credentials}`).then(res => {
       commit("getItem", res.data);
-      console.log(`getProduct`,res.data)
+      console.log(`getProduct`, res.data)
     }).catch((res) => {
-      console.log(`getProduct Failed`,res.response.data)
+      console.log(`getProduct Failed`, res.response.data)
     })
   },
   async buyItem({ commit }, credentials) {
-    
+
     commit("postBuyNow", credentials)
-  
+
     // await api.get(`/api/products/${credentials.product_id}`).then(res => {
     //   commit("postProductsData", credentials);
     //   commit("postCustomerAddressId", 7);
     //   commit("postAddressAttribute", null);
     //   console.log(`buyNow`, res.data);
     // })
-          console.log(`buyNow`, credentials);
+    console.log(`buyNow`, credentials);
 
   },
 
-  async deleteBuyNow({ commit,dispatch }, credentials) {
+  async deleteBuyNow({ commit, dispatch }, credentials) {
     commit("postBuyNow", "")
-    dispatch('delete',credentials)
+    dispatch('delete', credentials)
     console.log(`deleteBuyNow`, credentials);
 
   },
-  async addCart({ commit, state }, quantity) {
-    const input = {
-      product_id: state.state.product.id,
-      quantity: quantity
-    }
-    await api.post("/api/cart/add_product", input).then(res => {
-      commit("getAll", res.data.order_items);
-      commit("getOrderItem", res.data.order_items);
-      commit("getTotal", res.data.total);
-      commit("getTotalQuantity", res.data.total_quantity);
+  async addCart({ commit, state }, credentials) {
+    try {
+      const res = await api_cart.addCart(credentials)
       commit("getTotalItems", res.data.total_items);
-      commit("isRes", true);
       commit("resStatus", "success");
       commit("resMessage", "Add to Cart: Success");
-      commit("resText", "See details in Cart!");
-      console.log(`addCart`, res.data);
-
-    }).catch((res) => {
-      console.log(res.response)
-      commit("isRes", false);
+      commit("resText", "See details List product in Cart!");
+    } catch {
       commit("resStatus", "error");
       commit("resMessage", "Add to Cart: Failed!");
       commit("resText", "Product quantity is not enough or sold out!");
-      console.log(`addCartFaild`, res.response);
-    })
+    }
+    return state.state.res
 
   },
   async nextCart({ commit }, order_item) {

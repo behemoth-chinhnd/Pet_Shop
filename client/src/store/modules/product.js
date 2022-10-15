@@ -88,7 +88,7 @@ const actions = {
     return state.state.res
   },
 
-  async getAll({ commit, state }, credentials) {
+  async getAllList({ commit, state }, credentials) {
     const queryParams = {
       page: credentials.page,
       per_page: credentials.per_page,
@@ -97,7 +97,7 @@ const actions = {
       },
     }
     try {
-      const res = await api_product.getAll(queryParams)
+      const res = await api_product.getAllList(queryParams)
       // console.log(res.data.products)
       // commit("getAll", res.data.products);
       // commit("getTotalSearch", res.data.meta.total);
@@ -109,17 +109,23 @@ const actions = {
       alert(error.response)
     }
   },
-  async getItem({ commit }, credentials) {
-    await api.get(`/api/products/${credentials}`).then(res => {
+  async getItem({ commit, state }, credentials) {
+    try {
+      const res = await api_product.getItem(credentials)
+    
       console.log(res.data)
       commit("getItem", res.data);
       commit("getNameDetail", res.data.name);
       console.log(`getItemProduct`, res.data)
-    }).catch((res) => {
-      alert(res.response.data)
-    })
+      return res
+    } catch {
+      commit("resStatus", "error");
+      commit("resMessage", "The product is out of stock or does not exist!");
+      return state.state.res
+    }
+
   },
-  async edit({ commit }, credentials) {
+  async edit({ commit, state }, credentials) {
     console.log(`Input Edit Product`, credentials)
     console.log(`File`, credentials.file)
     if (credentials.file === null) {
@@ -145,7 +151,9 @@ const actions = {
           console.log(`res Edit`, res.data)
           commit("getItem", res.data);
         }).catch((res) => {
-          alert(res.response.data)
+          commit("resStatus", "error");
+          commit("resMessage", "The product is out of stock or does not exist!");
+          return state.state.res
         })
       });
     }

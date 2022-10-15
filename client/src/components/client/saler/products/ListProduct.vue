@@ -121,7 +121,7 @@ export default {
   mounted() {},
   methods: {
     ...mapActionsPROD.mapActions({
-      getAllPROD: "getAll",
+      getAllPROD: "getAllList",
       deletePROD: "delete",
     }),
     clickCallback(pageNum) {

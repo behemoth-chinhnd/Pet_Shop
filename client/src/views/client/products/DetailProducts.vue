@@ -147,9 +147,13 @@ export default {
     },
 
     async getItem(itemId) {
-      await this.getItemCART(itemId);
-      await this.getItemPROD(itemId);
-      this.product = this.$store.state.PROD.state.product;
+      const res = await this.getItemPROD(itemId);
+      console.log(`res`, res);
+      if (res.data) {
+        this.product = res.data;
+      } else {
+        this.$swal.fire(res.message, "", res.status);
+      }
     },
 
     next() {
@@ -172,25 +176,21 @@ export default {
     },
 
     async buyItem() {
+      const input = {
+        product_id: this.product.id,
+        quantity: this.cart.quantity,
+      };
       this.cart.product_id = this.product.id;
-      this.cart.quantity = parseInt(this.cart.quantity);
-      await this.buyItemCART(this.cart)
-      .then(() => {
-        this.$router.push({ path: "/carts/buynow" });
-      })
+      await this.buyItemCART(input);
+      this.$router.push({ path: "/carts/buynow" });
     },
     async addToCart() {
-      this.cart.quantity = parseInt(this.cart.quantity);
-      await this.addCart(this.cart.quantity).then(() => {
-        this.getAll();
-        this.$swal.fire(this.res.message, this.res.text, this.res.status);
-      });
-    },
-    async getAll() {
-      this.res.is_res = this.$store.state.CART.state.res.is_res;
-      this.res.status = this.$store.state.CART.state.res.status;
-      this.res.message = this.$store.state.CART.state.res.message;
-      this.res.text = this.$store.state.CART.state.res.text;
+      const input = {
+        product_id: this.product.id,
+        quantity: this.cart.quantity,
+      };
+      const res = await this.addCart(input);
+      this.$swal.fire(res.message, res.text, res.status);
     },
   },
 };
