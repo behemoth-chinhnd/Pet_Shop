@@ -1,6 +1,6 @@
 module Api
   class UsersController < ApplicationController
-    before_action :set_user, if: :auth?, only: [:show, :update, :destroy]
+    before_action :set_user, if: :auth?, only: [:show, :update, :destroy, :list_product, :show_product]
 
     def show
       response_success(@user, { serializer: ::Users::ShowSerializer })
@@ -37,6 +37,20 @@ module Api
     def destroy
       @user.destroy!
       response_success(@user)
+    end
+
+    def list_product
+      product = @user.products.includes(:creator, :image_blob).order(id: :desc).ransack(params[:q]).result
+
+      @pagy, @product = pagy(product, items: params[:per_page] || DEFAULT_PER_PAGE, page: params[:page] || DEFAULT_PAGE)
+
+      response_list(@product, { adapter: :json,
+                                each_serializer: ::Products::ListSerializer })
+    end
+
+    def show_product
+      product = @user.products.find(params[:product_id])
+      response_success(product, { serializer: ::Products::ShowSerializer })
     end
 
     private

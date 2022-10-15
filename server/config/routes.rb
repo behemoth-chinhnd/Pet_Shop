@@ -8,7 +8,12 @@ Rails.application.routes.draw do
     end
 
     ## User
-    resource :user
+    resource :user do
+      collection do
+        get :list_product
+        get :show_product
+      end
+    end
 
     get :users, to: "users#index"
 

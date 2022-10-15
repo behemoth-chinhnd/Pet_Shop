@@ -8,11 +8,13 @@ class BaseForm < ActiveType::Object
 
   delegate :persisted?, to: :model
 
-  def assign_model(model, params = {})
+  def assign_model(model, params = {}, skip_keys = [])
     @model = model
-    @params = params.with_indifferent_access
+    @params = params.with_indifferent_access.except(skip_keys)
 
     attributes.each do |k, _|
+      next if skip_keys.include?(k.to_sym)
+
       self[k] = @params.key?(k) ? @params[k] : model.try(k)
     end
 

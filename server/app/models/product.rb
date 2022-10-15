@@ -5,6 +5,7 @@
 #  id                   :bigint           not null, primary key
 #  creator_type         :string(255)
 #  description          :string(255)
+#  is_display           :boolean          default(TRUE), not null
 #  lock_version         :integer
 #  master_list_price    :integer
 #  master_sales_price   :integer
@@ -30,6 +31,8 @@ class Product < ApplicationRecord
   belongs_to :creator, polymorphic: true, foreign_type: "creator_type", inverse_of: :products
 
   has_one_attached :image
+
+  scope :show, -> { where("is_display = true AND quantity > 0") }
 
   def image_url
     return nil if image.blank?

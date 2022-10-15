@@ -23,8 +23,16 @@ module Products
     def save
       return unless super
 
-      @model.assign_attributes(attributes.except("image_key"))
-      @model.save
+      ActiveRecord::Base.transaction do
+        @model.image.attach(@blob) if image_key.present?
+
+        @model.assign_attributes(attributes.except("image_key"))
+        @model.save!
+        true
+      end
+    rescue StandardError => e
+      errors.add(:base, e.message)
+      return false
     end
 
     private
@@ -38,11 +46,9 @@ module Products
     end
 
     def validate_image_not_found
-      blob = ActiveStorage::Blob.find_by(key: image_key)
+      @blob = ActiveStorage::Blob.find_by(key: image_key)
 
-      errors.add(:image_key, :not_found) if blob.blank?
-
-      @model.image.attach(blob)
+      errors.add(:image_key, :not_found) if @blob.blank?
     end
   end
 end

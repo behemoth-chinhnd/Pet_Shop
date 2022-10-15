@@ -120,6 +120,7 @@ ActiveRecord::Schema[7.0].define(version: 0) do
     t.string "description"
     t.bigint "number_of_items_sold", default: 0, null: false
     t.integer "quantity", default: 0, null: false
+    t.boolean "is_display", default: true, null: false
     t.integer "lock_version"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

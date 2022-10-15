@@ -11,25 +11,22 @@ module Users
     attribute :sex_id, :integer
     attribute :avatar_key, :string
 
-    validates :email,
-              :password,
-              :name,
-              :birthday,
-              :sex_id,
-              presence: true
+    with_options if: -> { @model.new_record? } do
+      validates :email,
+                :password,
+                :name,
+                :birthday,
+                :sex_id,
+                presence: true
+
+      validates :password, length: { minimum: 6, maximum: MAX_STRING }, if: -> { password.present? }
+    end
 
     with_options if: -> { email.present? } do
       validates :email, length: { maximum: MAX_STRING }
       validates :email, email_format: true
       validates :email, uniq: { klass: User }
     end
-
-    with_options if: -> { name.present? } do
-      validates :name, length: { maximum: MAX_STRING }
-      validates :name, uniq: { klass: User }
-    end
-
-    validates :password, length: { minimum: 6, maximum: MAX_STRING }, if: -> { password.present? }
 
     validate :validate_sex, if: -> { sex_id.present? }
 
@@ -38,8 +35,16 @@ module Users
     def save
       return unless super
 
-      @model.assign_attributes(attributes.except("avatar_key"))
-      @model.save
+      ActiveRecord::Base.transaction do
+        @model.avatar.attach(@blob) if avatar_key.present?
+
+        @model.assign_attributes(attributes.except("avatar_key"))
+        @model.save!
+        true
+      end
+    rescue StandardError => e
+      errors.add(:base, e.message)
+      return false
     end
 
     private
@@ -49,11 +54,9 @@ module Users
     end
 
     def validate_avatar_not_found
-      blob = ActiveStorage::Blob.find_by(key: avatar_key)
+      @blob = ActiveStorage::Blob.find_by(key: avatar_key)
 
-      errors.add(:avatar_key, :not_found) if blob.blank?
-
-      @model.avatar.attach(blob)
+      errors.add(:avatar_key, :not_found) if @blob.blank?
     end
   end
 end

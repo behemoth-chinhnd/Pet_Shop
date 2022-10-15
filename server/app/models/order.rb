@@ -36,9 +36,12 @@ class Order < ApplicationRecord
 
   enum status: {
     shopping: 0,
-    just_initialized: 1,
-    ship: 2,
-    complete: 3,
+    wait_for_confirmation: 1,
+    waiting_for_the_goods: 2,
+    being_transported: 3,
+    delivered: 4,
+    canceled: 5,
+    returns: 6,
   }
 
   def update_price!

@@ -15,7 +15,7 @@ module Guard
                     false
                   end
 
-    raise UnauthorizedError unless authorized
+    return render json: { message: "Unauthorized" }, status: :unauthorized unless authorized
 
     true
   end

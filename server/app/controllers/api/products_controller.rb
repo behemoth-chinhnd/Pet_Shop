@@ -8,7 +8,7 @@ module Api
     end
 
     def index
-      product = Product.includes(:creator, :image_blob).order(id: :desc).ransack(params[:q]).result
+      product = Product.show.includes(:creator, :image_blob).order(id: :desc).ransack(params[:q]).result
 
       @pagy, @product = pagy(product, items: params[:per_page] || DEFAULT_PER_PAGE, page: params[:page] || DEFAULT_PAGE)
 
@@ -72,7 +72,7 @@ module Api
     end
 
     def find_product
-      @product = Product.find(params[:id])
+      @product = Product.show.find(params[:id])
     end
   end
 end

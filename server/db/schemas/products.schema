@@ -9,6 +9,7 @@ create_table "products", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", fo
   t.string :description
   t.bigint :number_of_items_sold, null: false, default: 0
   t.integer :quantity, null: false, default: 0
+  t.boolean :is_display, null: false, default: true
 
   t.integer :lock_version
   
