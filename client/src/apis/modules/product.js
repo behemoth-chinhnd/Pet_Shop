@@ -24,5 +24,11 @@ export default {
   },
   getItem(id) {
     return API.get(`/api/products/${id}`)
+  },
+  getItemSaler(id) {
+    return API.get(`/api/user/show_product?product_id=${id}`)
+  },
+  editItemSaler(credentials) {
+    return API.put(`/api/products/${credentials.product.id}`, credentials)
   }
 }

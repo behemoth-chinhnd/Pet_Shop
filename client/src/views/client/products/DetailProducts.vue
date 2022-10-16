@@ -2,11 +2,19 @@
   <div class="body">
     <div class="detail-product">
       <div class="container">
-        <div class="row">
+        <div v-if="error" class="error">
+          <img src="@/assets/images/plugin/404_error.png" alt="" />
+        </div>
+        <div v-if="!error" class="row">
           <div class="col-xs-5 col-md-5 col-lg-5">
             <img
               class="img-detail-product"
-              src="@/assets/images/products/gai-xinh-1.jpg"
+              ref="image"
+              :src="
+                product.image_url
+                  ? product.image_url
+                  : require('@/assets/images/plugin/no_photo.jpeg')
+              "
               alt=""
             />
           </div>
@@ -117,21 +125,14 @@ export default {
         message: "",
         text: "",
       },
+      error: false,
     };
   },
   created() {
     const itemId = this.$route.params.id;
-    console.log(itemId);
     if (itemId) {
       this.getItem(itemId);
-      this.product = this.$store.state.PROD.state.product;
     }
-    this.sales = func.saleoff(
-      this.product.master_sales_price,
-      this.product.master_list_price,
-      0
-    );
-    this.product.number = parseInt(this.product.number);
   },
   computed: {},
   methods: {
@@ -147,12 +148,19 @@ export default {
     },
 
     async getItem(itemId) {
+      this.error = false;
       const res = await this.getItemPROD(itemId);
-      console.log(`res`, res);
+      console.log(res)
       if (res.data) {
         this.product = res.data;
+        this.sales = func.saleoff(
+          this.product.master_sales_price,
+          this.product.master_list_price,
+          0
+        );
       } else {
         this.$swal.fire(res.message, "", res.status);
+        this.error = true;
       }
     },
 
@@ -184,6 +192,7 @@ export default {
       await this.buyItemCART(input);
       this.$router.push({ path: "/carts/buynow" });
     },
+
     async addToCart() {
       const input = {
         product_id: this.product.id,

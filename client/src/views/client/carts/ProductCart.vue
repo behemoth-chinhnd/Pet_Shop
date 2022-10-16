@@ -4,10 +4,15 @@
       <div class="container">
         <default-address></default-address>
         <div class="flex-row-space-between gap-10px">
-          <div class="width-150px">
+          <div class="img-cart">
             <img
               class="img-detail-product"
-              src="@/assets/images/products/gai-xinh-1.jpg"
+              ref="image"
+              :src="
+                product.image_url
+                  ? product.image_url
+                  : require('@/assets/images/plugin/no_photo.jpeg')
+              "
               alt=""
             />
           </div>
@@ -159,77 +164,6 @@ export default {
 };
 </script>
 <style scoped>
-.saleoff {
-  text-decoration: line-through;
-  font-style: italic;
-}
 
-.message {
-  color: red;
-}
-
-.prev,
-.next,
-.quantily {
-  padding: 5px 10px;
-  border: 1px solid #a4a4a4;
-}
-
-.quantily {
-  width: 50px;
-  text-align: center;
-}
-
-.prev,
-.next {
-  cursor: pointer;
-}
-
-.content-product {
-  border-radius: 10px;
-  margin-top: 1em;
-  border: 1px solid #e2e2e2;
-  border-radius: 6px;
-}
-
-.list-title {
-  background: var(--light);
-  border-radius: 10px 10px 0 0;
-  margin-bottom: 0;
-  padding: 0.5em 1em;
-}
-
-.list-content {
-  padding: 20px;
-}
-
-.list-content ul {
-  list-style: disc;
-}
-
-.list-content ul li {
-  padding: 5px;
-}
-
-img.img-detail-product {
-  width: 100%;
-  margin-bottom: 12px;
-}
-
-.detail-product {
-  margin-top: 12px;
-}
-
-.details-price {
-  color: var(--white);
-  background: linear-gradient(100deg, #ff424e, #fd820a);
-  /* margin: 12px 0 0; */
-  padding: 6px 15px;
-  border-radius: 6px;
-}
-
-.form-group {
-  margin-bottom: 10px;
-}
 </style>
   

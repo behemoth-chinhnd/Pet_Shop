@@ -23,6 +23,7 @@
               <th scope="col">#</th>
               <th scope="col">Image</th>
               <th scope="col">Name</th>
+              <th scope="col">Quantity</th>
               <th scope="col">Number</th>
               <th scope="col">Master SKU</th>
               <th scope="col">Master List Price</th>
@@ -46,6 +47,7 @@
                 />
               </td>
               <td>{{ post.name }}</td>
+              <td>{{ post.quantity }}</td>
               <td>{{ post.number }}</td>
               <td>{{ post.master_sku }}</td>
               <td>{{ Intl.NumberFormat().format(post.master_list_price) }}</td>

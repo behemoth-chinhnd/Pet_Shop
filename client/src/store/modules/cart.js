@@ -148,6 +148,7 @@ const actions = {
     console.log(`deleteBuyNow`, credentials);
 
   },
+  
   async addCart({ commit, state }, credentials) {
     try {
       const res = await api_cart.addCart(credentials)
@@ -161,8 +162,8 @@ const actions = {
       commit("resText", "Product quantity is not enough or sold out!");
     }
     return state.state.res
-
   },
+
   async nextCart({ commit }, order_item) {
     const input = {
       product_id: order_item.product.id,

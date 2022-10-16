@@ -109,10 +109,23 @@ const actions = {
       alert(error.response)
     }
   },
+  async getItemSaler({ commit, state }, credentials) {
+    try {
+      const res = await api_product.getItemSaler(credentials)
+      commit("getItem", res.data);
+      commit("getNameDetail", res.data.name);
+      console.log(`getItemProduct`, res.data)
+      return res
+    } catch (error) {
+      commit("resStatus", "error");
+      commit("resMessage", "Product does not exist!");
+      return state.state.res
+    }
+
+  },
   async getItem({ commit, state }, credentials) {
     try {
       const res = await api_product.getItem(credentials)
-    
       console.log(res.data)
       commit("getItem", res.data);
       commit("getNameDetail", res.data.name);
@@ -126,36 +139,32 @@ const actions = {
 
   },
   async edit({ commit, state }, credentials) {
-    console.log(`Input Edit Product`, credentials)
-    console.log(`File`, credentials.file)
     if (credentials.file === null) {
-      api.put(`/api/products/${credentials.data.id}`, credentials.data).then(res => {
-        console.log(`res Data`, res.data)
+      try {
+        const res = await api_product.editItemSaler(credentials)
         commit("getItem", res.data);
-      }).catch((res) => {
-        alert(res.response.data)
-      })
+        return res
+      } catch {
+        commit("resStatus", "error");
+        commit("resMessage", "Edit Product Failed!");
+        return state.state.res
+      }
     } else {
-      await api.post(`/api/uploads/upload`, credentials.file, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }).then(res => {
-        console.log(`Upload File`, res.data)
+      try {
+        const res = await upload.image(credentials.file)
         const image_key = res.data.key
         const input = {
           image_key: image_key,
-          product: credentials.data
+          product: credentials.product
         }
-        api.put(`/api/products/${credentials.data.id}`, input).then(res => {
-          console.log(`res Edit`, res.data)
-          commit("getItem", res.data);
-        }).catch((res) => {
-          commit("resStatus", "error");
-          commit("resMessage", "The product is out of stock or does not exist!");
-          return state.state.res
-        })
-      });
+        const res2 = await api_product.editItemSaler(input)
+        commit("getItem", res2.data);
+        return res2
+      } catch (error) {
+        commit("resStatus", "error");
+        commit("resMessage", "Edit Product Failed!");
+        return state.state.res
+      }
     }
   },
 

@@ -1,7 +1,10 @@
 <template >
   <div class="body-saler">
     <div class="panel-body">
-      <div class="edit-product">
+      <div v-if="error" class="error">
+        <img src="@/assets/images/plugin/404_error.png" alt="" />
+      </div>
+      <div v-if="!error" class="edit-product">
         <form
           action=""
           @submit.prevent="edit()"
@@ -113,7 +116,11 @@
                 v-bind:class="{ 'is-invalid': errors.master_sales_price }"
                 required
               />
-              <p class=" form-control" @mouseover="hiddenPrice()" v-if="!this.hidden.master_list_price">
+              <p
+                class="form-control"
+                @mouseover="hiddenPrice()"
+                v-if="!this.hidden.master_list_price"
+              >
                 {{ Intl.NumberFormat().format(product.master_sales_price) }}
               </p>
               <div class="feedback-invalid" v-if="errors.master_sales_price">
@@ -162,7 +169,7 @@ import { createNamespacedHelpers } from "vuex";
 const mapActionsPROD = createNamespacedHelpers("PROD");
 
 export default {
-  name: 'CurrencyInput',
+  name: "CurrencyInput",
   data() {
     return {
       isHover: false,
@@ -192,23 +199,21 @@ export default {
         master_list_price: "",
         master_sales_price: "",
       },
+      error: false,
       inputPicture: null,
     };
   },
-  
+
   created() {
     const itemId = this.$route.params.id;
-    console.log(itemId);
-    if (itemId) {
-      this.getItem(itemId);
-    }
+    this.getItem(itemId);
   },
   methods: {
     ...mapActionsPROD.mapActions({
       editProduct: "edit",
-      getProduct: "getItem",
+      getItemSaler: "getItemSaler",
     }),
-   
+
     hiddenPrice() {
       this.hidden.master_list_price = true;
       console.log(this.hidden.master_list_price);
@@ -250,21 +255,24 @@ export default {
 
     uploadFile: function () {
       this.inputPicture = this.$refs.inputFile.files[0];
+      this.product.image_url = URL.createObjectURL(
+        this.$refs.inputFile.files[0]
+      );
     },
 
     async edit() {
       if (this.inputPicture === null) {
         const input = {
           file: null,
-          data: this.product,
+          product: this.product,
         };
         if (this.validate()) {
-          if (this.product.id) {
-            await this.editProduct(input).then(() => {
-              this.getItem(this.product.id).then(() => {
-                this.$swal.fire("Edit Success", "", "success");
-              });
-            });
+          const res = await this.editProduct(input);
+          if (res.data) {
+            this.$swal.fire("Edit Product Success", "", "success");
+            this.product = res.data;
+          } else {
+            this.$swal.fire(res.message, "", res.status);
           }
         }
       } else {
@@ -272,32 +280,31 @@ export default {
         formData.append("file", this.inputPicture);
         const input = {
           file: formData,
-          data: this.product,
+          product: this.product,
         };
         if (this.validate()) {
-          if (this.product.id) {
-            await this.editProduct(input).then(() => {
-              this.getItem(this.product.id).then(() => {
-                this.$swal.fire("Edit Success", "", "success");
-              });
-            });
+          const res = await this.editProduct(input);
+          if (res.data) {
+            this.$swal.fire("Edit Product Success", "", "success");
+            this.product = res.data;
+          } else {
+            this.$swal.fire(res.message, "", res.status);
           }
         }
       }
     },
     async getItem(itemId) {
-      await this.getProduct(itemId).then(() => {
-        this.product = this.$store.state.PROD.state.product;
-      });
+      this.error = false;
+      const res = await this.getItemSaler(itemId);
+      if (res.data) {
+        this.product = res.data;
+      } else {
+        this.error = true;
+        this.$swal.fire(res.message, "", res.status);
+      }
     },
   },
-  computed: {
-    
-    Item() {
-      this.product = this.$store.state.PROD.state.product;
-      return (this.product = this.$store.state.PROD.state.product);
-    },
-  },
+  computed: {},
 };
 </script>
 <style>
