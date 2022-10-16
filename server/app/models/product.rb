@@ -17,6 +17,7 @@
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #  creator_id           :bigint
+#  trademark_id         :bigint
 #
 # Indexes
 #
@@ -24,7 +25,7 @@
 #  index_products_on_number_creator_id_creator_type  (number,creator_id,creator_type) UNIQUE
 #
 class Product < ApplicationRecord
-  has_many :product_categories, dependent: :destroy
+  belongs_to :trademark, optional: true
 
   has_many :order_items, dependent: :destroy
 

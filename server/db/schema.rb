@@ -64,7 +64,7 @@ ActiveRecord::Schema[7.0].define(version: 0) do
 
   create_table "categories", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
-    t.string "description", null: false
+    t.string "description"
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -100,15 +100,6 @@ ActiveRecord::Schema[7.0].define(version: 0) do
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
-  create_table "product_categories", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "product_id", null: false
-    t.bigint "category_id", null: false
-    t.datetime "deleted_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["product_id", "category_id"], name: "index_pc_on_product_id_category_id", unique: true
-  end
-
   create_table "products", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "number", null: false
     t.string "name", null: false
@@ -121,11 +112,32 @@ ActiveRecord::Schema[7.0].define(version: 0) do
     t.bigint "number_of_items_sold", default: 0, null: false
     t.integer "quantity", default: 0, null: false
     t.boolean "is_display", default: true, null: false
+    t.bigint "trademark_id"
     t.integer "lock_version"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name", "creator_id", "creator_type"], name: "index_products_on_name_creator_id_creator_type", unique: true
     t.index ["number", "creator_id", "creator_type"], name: "index_products_on_number_creator_id_creator_type", unique: true
+  end
+
+  create_table "species", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "description"
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_species_on_name", unique: true
+  end
+
+  create_table "trademarks", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "description"
+    t.bigint "category_id", null: false
+    t.bigint "species_id", null: false
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_species_on_name"
   end
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|

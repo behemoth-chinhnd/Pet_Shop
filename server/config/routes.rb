@@ -45,8 +45,17 @@ Rails.application.routes.draw do
       end
     end
 
+    ## upload
     namespace :uploads do
       resources :upload, only: [:create]
+    end
+
+    ## Admin
+    namespace :admins do
+      # Categpry
+      resources :categories
+      # Species
+      resources :species
     end
   end
 end

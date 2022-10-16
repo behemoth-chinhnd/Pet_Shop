@@ -1,9 +1,0 @@
-create_table "product_categories", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-  t.bigint :product_id, null: false
-  t.bigint :category_id, null: false
-
-  t.datetime :deleted_at
-  t.timestamps
-
-  t.index ["product_id", "category_id"], name: "index_pc_on_product_id_category_id", unique: true
-end

@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: categories
+# Table name: trademarks
 #
 #  id          :bigint           not null, primary key
 #  deleted_at  :datetime
@@ -8,13 +8,18 @@
 #  name        :string(255)      not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  category_id :bigint           not null
+#  species_id  :bigint           not null
 #
 # Indexes
 #
-#  index_category_on_name  (name) UNIQUE
+#  index_species_on_name  (name)
 #
-class Category < ApplicationRecord
-  has_many :trademarks, dependent: :destroy
+class Trademark < ApplicationRecord
+  has_many :products, dependent: :nullify
+
+  belongs_to :species
+  belongs_to :category
 
   has_one_attached :image
 

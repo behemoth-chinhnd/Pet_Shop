@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: categories
+# Table name: species
 #
 #  id          :bigint           not null, primary key
 #  deleted_at  :datetime
@@ -11,9 +11,9 @@
 #
 # Indexes
 #
-#  index_category_on_name  (name) UNIQUE
+#  index_species_on_name  (name) UNIQUE
 #
-class Category < ApplicationRecord
+class Species < ApplicationRecord
   has_many :trademarks, dependent: :destroy
 
   has_one_attached :image
