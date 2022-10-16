@@ -61,7 +61,7 @@ module Api
       end
 
       def auth?
-        authenticate!(:admin)
+        authenticate!(:customer)
       end
     end
   end
