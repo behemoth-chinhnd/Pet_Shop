@@ -25,7 +25,7 @@
 class Order < ApplicationRecord
   include RandomNumberGeneratorConcern
 
-  has_many :order_items, dependent: :destroy
+  has_many :order_items, -> { joins(:product).where("products.quantity > 0 AND products.is_display = true") }, dependent: :destroy
   accepts_nested_attributes_for :order_items
 
   belongs_to :address, optional: true

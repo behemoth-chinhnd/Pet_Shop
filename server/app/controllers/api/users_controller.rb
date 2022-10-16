@@ -25,7 +25,7 @@ module Api
     end
 
     def update
-      form = ::Users::UserForm.new.assign_model(@user, user_params.to_h)
+      form = ::Users::UserForm.new.assign_model(@user, user_params.except("password").to_h)
 
       if form.save
         response_success(form.model, { serializer: ::Users::UserListSerializer })

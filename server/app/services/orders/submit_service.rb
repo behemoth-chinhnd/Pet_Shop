@@ -15,15 +15,17 @@ module Orders
                             construct_address
                           end
 
-        context.fail!(message: "Submit Order failed") unless context.order && context.address && context.order.order_items
+        context.fail!(message: "Submit Order failed") unless context.order.present? && context.address.present? && context.order.order_items.present?
 
-        context.order.update!(
-          status: :just_initialized,
+        context.new_order = Order.create!(
+          order_items: context.order.order_items,
+          user: context.order.user,
+          status: :wait_for_confirmation,
           ordered_at: Time.current,
           address_id: context.address.id,
         )
 
-        context.order.update_price!
+        context.new_order.update_price!
         update_product_sold
       end
     end
@@ -45,7 +47,7 @@ module Orders
     end
 
     def update_product_sold
-      context.order.order_items.reload.each do |order_item|
+      context.new_order.order_items.reload.each do |order_item|
         product = order_item.product
 
         context.fail!(message: "Not enough product #{product.name} quantity ") if product.quantity < order_item.quantity

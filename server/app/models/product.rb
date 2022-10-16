@@ -32,6 +32,8 @@ class Product < ApplicationRecord
 
   has_one_attached :image
 
+  before_update :update_cart_quantity
+
   scope :show, -> { where("is_display = true AND quantity > 0") }
 
   def image_url
@@ -48,5 +50,16 @@ class Product < ApplicationRecord
     return nil if image.blank?
 
     image.key
+  end
+
+  def update_cart_quantity
+    return unless order_items
+
+    order_items.each do |order_item|
+      if order_item.quantity > quantity && order_item.order.shopping?
+        order_item.update!(quantity: 1)
+        order_item.order.update_price!
+      end
+    end
   end
 end
