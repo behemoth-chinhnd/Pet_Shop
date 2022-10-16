@@ -2,7 +2,7 @@
   <div class="body">
     <main id="main" class="">
       <!-- <section id="main-body"> -->
-      <div class="container bg-white">
+      <div class="container">
         <div v-if="showFilter" class="filter flex-row-space-between-center">
           <div class="search-wrapper">
             <div class="row">
@@ -45,38 +45,47 @@
 
         <div class="card-deck mb-3 text-center scroll-x">
           <div class="cards">
-            <div class="card" v-for="post in List" :key="post.id">
-              <router-link
-                class=""
-                :to="{ name: 'home.products.detail', params: { id: post.id } }"
-              >
+            <div
+              class="card"
+              v-for="post in this.products"
+              :key="post.id"
+              @click="nextDetail(post.id)"
+            >
               <img
-                  class="img-card"
-                  ref="image"
-                  :src="
-                    post.image_url
-                      ? post.image_url
-                      : require('@/assets/images/plugin/no_photo.jpeg')
-                  "
-                  alt=""
-                />
-              </router-link>
-
+                class="img-card"
+                ref="image"
+                :src="
+                  post.image_url
+                    ? post.image_url
+                    : require('@/assets/images/plugin/no_photo.jpeg')
+                "
+                alt=""
+              />
               <div class="card-top">
                 <span class="item-1">ID: #{{ post.id }} - {{ post.name }}</span>
                 <span class="item-2"></span>
               </div>
-              <div class="card-bottom flex-row-space-between details-price">
-                <div class=" flex-row-space-between">
+              <div class="card-bottom flex-row-space-between">
+                <div class="flex-row-space-between">
                   <div class="flex-cloumn text-left">
                     <div class="price-sale mgb-10px">
-                      {{ Intl.NumberFormat().format(post.master_sales_price) }} VND
+                      {{ Intl.NumberFormat().format(post.master_sales_price) }}đ
                     </div>
-                    <div class="sale">
-                      {{ saleoff(post.master_sales_price,post.master_list_price, 0) }}%
+                    <div class="sale flex-row-space-between-center gap-10px">
+                      <div class="percent">
+                        {{
+                          saleoff(
+                            post.master_sales_price,
+                            post.master_list_price,
+                            0
+                          )
+                        }}%
+                      </div>
                       <span class="saleoff"
-                        >{{ Intl.NumberFormat().format(post.master_list_price) }} VND</span
-                      >
+                        >{{
+                          Intl.NumberFormat().format(post.master_list_price)
+                        }}đ
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -110,7 +119,10 @@
   </div>
 </template>
 <script>
+import { createNamespacedHelpers } from "vuex";
+const mapActionsPROD = createNamespacedHelpers("PROD");
 import Paginate from "vuejs-paginate";
+import { thisExpression } from "@babel/types";
 export default {
   name: "ProductForm",
   components: {
@@ -148,7 +160,7 @@ export default {
       },
       params: {
         page: 1,
-        per_page: 4,
+        per_page: 8,
         sort_column: "id",
         direction: "desc",
         search_column: "id",
@@ -167,6 +179,17 @@ export default {
 
   mounted() {},
   methods: {
+    ...mapActionsPROD.mapActions({
+      getAllPROD: "getAll",
+      deletePROD: "delete",
+    }),
+
+    nextDetail(productId) {
+      this.$router.push({
+        name: "home.products.detail",
+        params: { id: productId },
+      });
+    },
     clickCallback(pageNum) {
       this.params.page = pageNum;
       this.getAll();
@@ -185,19 +208,23 @@ export default {
       }
     },
     saleoff(a, b, c) {
-    const result = ((1 - a / b) * 100).toFixed(c);
-    return result;
-  },
+      const result = ((1 - a / b) * 100).toFixed(c);
+      return result;
+    },
     // changePage (page){
     //   this.page.pageCount = page;
     //   // this.getAll()
     // },
     async getAll() {
-      await this.$store.dispatch("PROD/getAll", {
+      const res = await this.getAllPROD({
         page: this.params.page,
         per_page: this.params.per_page,
         q: {},
       });
+      this.products = res.products;
+      this.total_search = res.meta.total;
+      this.params.page = res.meta.page;
+      this.params.pages = res.meta.pages;
     },
   },
   computed: {
@@ -234,7 +261,7 @@ export default {
     --width: 99%;
     width: var(--width);
     margin: 0 auto;
-    --column: 2;
+    --column: 3;
   }
 }
 
@@ -252,7 +279,7 @@ export default {
     --width: 99%;
     width: var(--width);
     margin: 0 auto;
-    --column: 1;
+    --column: 2;
   }
 }
 
@@ -261,7 +288,7 @@ export default {
     --width: 99%;
     width: var(--width);
     margin: 0 auto;
-    --column: 1;
+    --column: 2;
   }
 }
 
@@ -324,8 +351,8 @@ export default {
 .card-bottom {
   padding: 10px;
   /* background: var(--warning); */
-  background: linear-gradient(100deg, #ff424e, #fd820a);
-color: #fff;
+  /* background: linear-gradient(100deg, #ff424e, #fd820a); */
+  color: #333;
   display: flex;
   align-items: center;
   justify-content: space-between;

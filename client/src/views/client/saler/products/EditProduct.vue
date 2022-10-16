@@ -300,7 +300,7 @@ export default {
         this.product = res.data;
       } else {
         this.error = true;
-        this.$swal.fire(res.message, "", res.status);
+        this.$swal.fire(res.message, "", res.status, 1000);
       }
     },
   },

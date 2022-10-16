@@ -234,7 +234,7 @@ export default {
     --width: 90%;
     width: var(--width);
     margin: 0 auto;
-    --column: 1;
+    --column: 2;
   }
 }
 
@@ -243,7 +243,7 @@ export default {
     --width: 97%;
     width: var(--width);
     margin: 0 auto;
-    --column: 1;
+    --column: 2;
   }
 }
 

@@ -378,6 +378,14 @@ ul.menu-admin li.sub-menu li a {
   border: 1px solid var(--admin-master);
 }
 
+#admin .body-saler .input-search-id {
+  height: 40px;
+  padding: 10px;
+  width:100px;
+  border: 1px solid var(--admin-master);
+}
+
+
 #admin .body-saler table td {
   vertical-align: middle;
 }
@@ -389,6 +397,10 @@ ul.menu-admin li.sub-menu li a {
 #admin td .img-card {
   width:50px;
   height: 50px;
+}
+
+#admin .body-saler .search .fa.fa-search {
+  margin: 0;
 }
 @media (max-width: 575px) {
   .menu-left-off + .container .body-saler,  #nav.menu-left-off #header-admin{

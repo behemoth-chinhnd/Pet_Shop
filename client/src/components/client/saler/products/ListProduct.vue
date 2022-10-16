@@ -1,21 +1,37 @@
 <template>
   <div class="body-saler">
     <div class="panel-body">
-      <form
-        @submit.prevent="getAll()"
-        class="form-search flex-row-space-between-center hidden"
-      >
-        <div class="flex-row-space-between rel">
-          <i type="submit" class="icon-search fa fa-search abs"></i>
+      <div class="search flex-row-center-center gap-10px">
+        <form @submit.prevent="getAll()" class="form-search">
           <input
-            type="text"
-            v-model="params.q.name"
-            class="input-search"
-            placeholder="Search"
+            type="number"
+            v-model="params.q.id"
+            class="input-search-id"
+            placeholder="ID"
           />
-        </div>
-        <p>Result:{{ this.total_search }}</p>
-      </form>
+        </form>
+        <form
+          @submit.prevent="getAll()"
+          class="form-search flex-row-space-between-center flex-1"
+        >
+          <div class="flex-row-space-between rel">
+            <i
+              @click="getAll()"
+              type="submit"
+              class="icon-search fa fa-search abs"
+            ></i>
+
+            <input
+              type="text"
+              v-model="params.q.name"
+              class="input-search"
+              placeholder="Search"
+            />
+          </div>
+          <p>Result:{{ this.total_search }}</p>
+        </form>
+      </div>
+
       <div class="card-deck text-center scroll-x">
         <table class="table table-primary table-bdrs-5px">
           <thead>
@@ -111,6 +127,7 @@ export default {
         per_page: 10,
         pages: "",
         q: {
+          id: null,
           name: "",
         },
       },
@@ -131,11 +148,34 @@ export default {
       this.getAll();
     },
     async getAll() {
-      const res = await this.getAllPROD(this.params);
-      this.products = res.products;
-      this.total_search = res.meta.total;
-      this.params.page = res.meta.page;
-      this.params.pages = res.meta.pages;
+      if (!this.params.q.id) {
+        var input = {
+          page: this.params.page,
+          pages: this.params.pages,
+          per_page: this.params.per_page,
+          q: {
+            name: this.params.q.name,
+          },
+        };
+      } else {
+        var input = {
+          page: this.params.page,
+          pages: this.params.pages,
+          per_page: this.params.per_page,
+          q: {
+            id: this.params.q.id,
+          },
+        };
+      }
+      const res = await this.getAllPROD(input);
+      if (res.products) {
+        this.products = res.products;
+        this.total_search = res.meta.total;
+        this.params.page = res.meta.page;
+        this.params.pages = res.meta.pages;
+      } else {
+        this.$swal.fire(res.message, "", res.status);
+      }
     },
     async onDelete(productId) {
       this.$swal

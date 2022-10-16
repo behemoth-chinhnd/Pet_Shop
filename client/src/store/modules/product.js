@@ -89,6 +89,34 @@ const actions = {
   },
 
   async getAllList({ commit, state }, credentials) {
+    if (credentials.q.id) {
+      var queryParams = {
+        page: credentials.page,
+        per_page: credentials.per_page,
+        q: {
+          id_eq: credentials.q.id,
+        },
+      }
+    } else {
+      var queryParams = {
+        page: credentials.page,
+        per_page: credentials.per_page,
+        q: {
+          name_or_number_cont: credentials.q.name,
+        },
+      }
+    }
+    try {
+      const res = await api_product.getAllList(queryParams)
+      return res.data
+    } catch {
+      commit("resStatus", "error");
+      commit("resMessage", "An error occurs, please contact the Admin to handle it! Thanks!");
+      return state.state.res
+    }
+  },
+
+  async getAll({ commit, state }, credentials) {
     const queryParams = {
       page: credentials.page,
       per_page: credentials.per_page,
@@ -97,7 +125,7 @@ const actions = {
       },
     }
     try {
-      const res = await api_product.getAllList(queryParams)
+      const res = await api_product.getAll(queryParams)
       // console.log(res.data.products)
       // commit("getAll", res.data.products);
       // commit("getTotalSearch", res.data.meta.total);
@@ -109,6 +137,7 @@ const actions = {
       alert(error.response)
     }
   },
+
   async getItemSaler({ commit, state }, credentials) {
     try {
       const res = await api_product.getItemSaler(credentials)

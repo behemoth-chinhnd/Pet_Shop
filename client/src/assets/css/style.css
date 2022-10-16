@@ -716,6 +716,18 @@ li.page-item.active {
     padding: 6px 15px;
     border-radius: 6px;
   }
+
+  .sale .percent {
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    background: linear-gradient(100deg, #ff424e, #fd820a);
+
+  }
+
+  .sale .saleoff {
+    color: #a4a4a4;
+  }
   
   .form-group {
     margin-bottom: 10px;
