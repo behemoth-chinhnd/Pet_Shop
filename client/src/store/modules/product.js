@@ -61,7 +61,6 @@ const mutations = {
 
 };
 const actions = {
-
   async create({ commit, state }, credentials) {
     try {
       const res = await upload.image(credentials.file)
@@ -87,7 +86,6 @@ const actions = {
     }
     return state.state.res
   },
-
   async getAllList({ commit, state }, credentials) {
     if (credentials.q.id) {
       var queryParams = {
@@ -107,7 +105,7 @@ const actions = {
       }
     }
     try {
-      const res = await api_product.getAllList(queryParams)
+      var res = await api_product.getAllList(queryParams)
       return res.data
     } catch {
       commit("resStatus", "error");
@@ -115,7 +113,6 @@ const actions = {
       return state.state.res
     }
   },
-
   async getAll({ commit, state }, credentials) {
     const queryParams = {
       page: credentials.page,

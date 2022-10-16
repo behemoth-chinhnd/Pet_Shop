@@ -2,7 +2,7 @@
   <div class="body-saler">
     <div class="panel-body">
       <div class="search flex-row-center-center gap-10px">
-        <form @submit.prevent="getAll()" class="form-search">
+        <form @submit.prevent="Search()" class="form-search">
           <input
             type="number"
             v-model="params.q.id"
@@ -11,12 +11,12 @@
           />
         </form>
         <form
-          @submit.prevent="getAll()"
+          @submit.prevent="Search()"
           class="form-search flex-row-space-between-center flex-1"
         >
           <div class="flex-row-space-between rel">
             <i
-              @click="getAll()"
+              @click="Search()"
               type="submit"
               class="icon-search fa fa-search abs"
             ></i>
@@ -116,7 +116,7 @@ export default {
     return {
       total_search: "",
       products: [],
-      search: "",
+      // search: "",
       page: {
         pageCount: 0,
         count: 1,
@@ -135,7 +135,7 @@ export default {
   },
   beforeCreate() {},
   created() {
-    this.getAll();
+    this.getAll(this.params);
   },
   mounted() {},
   methods: {
@@ -145,28 +145,9 @@ export default {
     }),
     clickCallback(pageNum) {
       this.params.page = pageNum;
-      this.getAll();
+      this.getAll(this.params);
     },
-    async getAll() {
-      if (!this.params.q.id) {
-        var input = {
-          page: this.params.page,
-          pages: this.params.pages,
-          per_page: this.params.per_page,
-          q: {
-            name: this.params.q.name,
-          },
-        };
-      } else {
-        var input = {
-          page: this.params.page,
-          pages: this.params.pages,
-          per_page: this.params.per_page,
-          q: {
-            id: this.params.q.id,
-          },
-        };
-      }
+    async getAll(input) {
       const res = await this.getAllPROD(input);
       if (res.products) {
         this.products = res.products;
@@ -175,6 +156,29 @@ export default {
         this.params.pages = res.meta.pages;
       } else {
         this.$swal.fire(res.message, "", res.status);
+      }
+    },
+    async Search() {
+      if (!this.params.q.id) {
+        const input = {
+          page: 1,
+          pages: this.params.pages,
+          per_page: this.params.per_page,
+          q: {
+            name: this.params.q.name,
+          },
+        };
+        await this.getAll(input);
+      } else {
+        const input = {
+          page: 1,
+          pages: this.params.pages,
+          per_page: this.params.per_page,
+          q: {
+            id: this.params.q.id,
+          },
+        };
+        await this.getAll(input);
       }
     },
     async onDelete(productId) {
@@ -198,7 +202,7 @@ export default {
           if (result.isConfirmed) {
             const res = await this.deletePROD(productId);
             this.$swal.fire(res.message, "", res.status);
-            await this.getAll();
+            this.Search();
           }
         });
     },
