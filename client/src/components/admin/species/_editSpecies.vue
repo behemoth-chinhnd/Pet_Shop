@@ -1,13 +1,13 @@
 <template >
-  <div class="body row">
-    <div class="panel-body col-md-6">
+  <div class="body-reset row gap-15px">
+    <div class="panel-body col-lg-6 col-md-12 col-sm-12 mgl--7-5px">
       <div v-if="error" class="error">
         <img src="@/assets/images/plugin/404_error.png" alt="" />
       </div>
       <div v-if="!error" class="edit-species">
         <form
           action=""
-          @submit.prevent="edit(), getToList()"
+          @submit.prevent="edit()"
           class="needs-validation text-left row"
           novalidate
         >
@@ -86,7 +86,7 @@
         </form>
       </div>
     </div>
-    <div class="panel-body col-md-6">
+    <div class="panel-body col-lg-6 col-md-12 col-sm-12 mgr--7-5px">
       <list-species :ID="ID" @next="nextEdit" ref="test"></list-species>
     </div>
   </div>
@@ -143,8 +143,7 @@ export default {
     }),
 
     async getToList(){
-      await this.$refs.test.getAll(this.$refs.test.params)
-
+      // await this.$refs.test.getAll(this.$refs.test.params)
       await this.$refs.test.Search()
     },
 
@@ -215,6 +214,7 @@ export default {
           }
         }
       }
+      await this.getToList()
     },
     async getItem(itemId) {
       this.error = false;

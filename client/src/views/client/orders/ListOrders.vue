@@ -61,7 +61,7 @@
                   </div>
                   
                   <div class="total-price col-md-6 col-sm-3 text-right">
-                    x {{ item.product.quantity }}
+                    x {{ item.quantity }}
                   <div class="total-cash flex-row-end">
                     <div class="sale-off mgr-10px">
                       {{ Intl.NumberFormat().format(item.product.master_list_price) }}đ 

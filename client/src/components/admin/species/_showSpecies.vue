@@ -24,7 +24,7 @@
             <input
               type="text"
               v-model="params.q.name"
-              class="input-search"
+              class="input-search-category"
               placeholder="Search"
             />
           </div>
@@ -99,7 +99,6 @@
 <script>
 import { createNamespacedHelpers } from "vuex";
 const {mapActions} = createNamespacedHelpers("ADSP");
-import func from "@/plugin/func";
 
 export default {
   name: "speciesForm",
@@ -132,8 +131,6 @@ export default {
     this.getAll(this.params);
   },
   mounted() {
-    this.getAll(this.params);
-
   },
   props:{
     species2:[]

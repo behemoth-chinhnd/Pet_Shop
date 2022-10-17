@@ -1,6 +1,6 @@
 
 
-import API from "@/apis/index"
+import API from "@/apis/modules/admin/index"
 import qs from "qs"
 
 export default {
