@@ -19,7 +19,7 @@ module Orders
 
         context.order.address_id = context.address.id
 
-        context.order.just_initialized!
+        context.order.wait_for_confirmation!
 
         update_product_sold
 
@@ -42,6 +42,7 @@ module Orders
       context.order = ::Order.new(
         user_id: context.user.id,
         order_items_attributes: construct_order_items,
+        seller: Product.find(context.products_data.first.dig(:product_id)).creator,
         ordered_at: Time.current,
       )
     end

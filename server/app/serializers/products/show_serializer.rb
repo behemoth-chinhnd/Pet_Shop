@@ -15,9 +15,13 @@ module Products
                :updated_at
 
     belongs_to :creator
+    belongs_to :trademark
 
     class UserSerializer < ActiveModel::Serializer
       attributes :id, :email, :name
+    end
+
+    class TrademarkSerializer < Trademarks::ShowSerializer
     end
 
     class AdminSerializer < ActiveModel::Serializer

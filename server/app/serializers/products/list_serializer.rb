@@ -10,5 +10,10 @@ module Products
                :master_sku,
                :is_display,
                :image_url
+
+    belongs_to :trademark
+
+    class TrademarkSerializer < Trademarks::ShowSerializer
+    end
   end
 end
