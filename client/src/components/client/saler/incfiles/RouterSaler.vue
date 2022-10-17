@@ -21,7 +21,7 @@
           <li v-if="this.$route.path.includes('/admin')">
             <router-link :to="{ path: '/admin' }"> Admin </router-link>
           </li>
-          <!-- product -->
+          <!-- Category -->
           <li v-if="this.$route.path.includes('/admin/category')">
             <router-link to="/admin/category"> Category </router-link>
           </li>
@@ -29,6 +29,16 @@
             <router-link to="/admin/category/create"> Create </router-link>
           </li>
           <li v-if="this.$route.path.includes('/admin/category/edit/')">
+            <router-link to=""> Edit </router-link>
+          </li>
+          <!-- Category -->
+          <li v-if="this.$route.path.includes('/admin/spaccy')">
+            <router-link to="/admin/spaccy"> Spaccy </router-link>
+          </li>
+          <li v-if="this.$route.path.includes('/admin/spaccy/create')">
+            <router-link to="/admin/spaccy/create"> Create </router-link>
+          </li>
+          <li v-if="this.$route.path.includes('/admin/spaccy/edit/')">
             <router-link to=""> Edit </router-link>
           </li>
         </ul>

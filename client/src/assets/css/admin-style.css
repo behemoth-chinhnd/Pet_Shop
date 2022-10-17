@@ -48,6 +48,7 @@ body{
   background: #fff;
   padding: 15px;
   border-radius: 6px;
+  margin-bottom:15px ;
 }
 
 #admin .menu-left-on + .body-saler,
@@ -392,7 +393,21 @@ ul.menu-admin li.sub-menu li a {
   border: 1px solid var(--admin-master);
 }
 
+#admin .edit-category label {
+  height: 38px;
+  position: absolute;
+  padding: 10px;
+  color: #fff;
+  background: var(--admin-master);
+  width: 80px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
 
+}
+
+#admin .edit-category input {
+padding-left: 90px;
+}
 #admin .body-saler table td {
   vertical-align: middle;
 }

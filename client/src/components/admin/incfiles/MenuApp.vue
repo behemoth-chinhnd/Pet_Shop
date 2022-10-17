@@ -86,7 +86,9 @@
               >
             </li>
             <li>
-              <router-link to="/saler/products/create">Create Product</router-link>
+              <router-link to="/saler/products/create"
+                >Create Product</router-link
+              >
             </li>
           </ul>
         </li>
@@ -94,18 +96,36 @@
           <a class="active bold" href="#">MANAGEMENT CATEGORY</a>
           <ul>
             <li>
-              <router-link 
-              :class="{
+              <router-link
+                :class="{
                   'sub-active': this.$route.path.includes(
                     '/admin/category/edit'
                   ),
                 }"
-              to="/admin/category"
+                to="/admin/category"
                 >List Category</router-link
               >
             </li>
             <li>
-              <router-link to="/admin/category/create">Create Category</router-link>
+              <router-link to="/admin/category/create"
+                >Create Category</router-link
+              >
+            </li>
+            <li>
+              <router-link
+                :class="{
+                  'sub-active': this.$route.path.includes(
+                    '/admin/species/edit'
+                  ),
+                }"
+                to="/admin/species"
+                >List Species</router-link
+              >
+            </li>
+            <li>
+              <router-link to="/admin/species/create"
+                >Create Species</router-link
+              >
             </li>
           </ul>
         </li>

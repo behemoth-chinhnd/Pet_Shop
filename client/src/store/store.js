@@ -12,6 +12,8 @@ import Order from "./modules/order"
 import AdminMenu from "./modules/admin/menu"
 import AdminAuthStore from "./modules/admin/auth"
 import AdminCategory from "./modules/admin/category"
+import AdminSpaccy from "./modules/admin/species"
+
 
 
 
@@ -67,7 +69,8 @@ export default  new Vuex.Store({
       ORDE: Order,
       ADMU: AdminMenu,
       ADAU: AdminAuthStore,
-      ADCA: AdminCategory
+      ADCA: AdminCategory,
+      ADSP: AdminSpaccy
 
     },
     // getters: {

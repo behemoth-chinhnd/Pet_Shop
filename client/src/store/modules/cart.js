@@ -109,16 +109,16 @@ const actions = {
 
   async getAll({ commit }) {
 
-    await api.get(`/api/cart`).then((res) => {
-      commit("getAll", res.data.products);
-      commit("getOrderItem", res.data.order_items);
-      commit("getTotal", res.data.total);
-      commit("getTotalQuantity", res.data.total_quantity);
-      commit("getTotalItems", res.data.total_items);
+    const res = await api_cart.getAll();
+      // commit("getAll", res.data.products);
+      // commit("getOrderItem", res.data.order_items);
+      // commit("getTotal", res.data.total);
+      // commit("getTotalQuantity", res.data.total_quantity);
+      // commit("getTotalItems", res.data.total_items);
       // commit("getPages", res.data.meta.pages);
       // commit("getPage", credentials.page);
-      console.log(`getAllCart`, res.data)
-    });
+      console.log(`getAllCart`, res)
+      return res;
   },
   async getItem({ commit }, credentials) {
     await api.get(`/api/products/${credentials}`).then(res => {
