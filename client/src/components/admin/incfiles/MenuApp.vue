@@ -127,6 +127,22 @@
                 >Create Species</router-link
               >
             </li>
+            <li>
+              <router-link
+                :class="{
+                  'sub-active': this.$route.path.includes(
+                    '/admin/trademark/edit'
+                  ),
+                }"
+                to="/admin/trademark"
+                >List Trademark</router-link
+              >
+            </li>
+            <li>
+              <router-link to="/admin/trademark/create"
+                >Create Trademark</router-link
+              >
+            </li>
           </ul>
         </li>
       </ul>

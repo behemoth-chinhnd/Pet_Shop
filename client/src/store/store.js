@@ -10,9 +10,11 @@ import AddressOrder from "./modules/address"
 import Order from "./modules/order"
 
 import AdminMenu from "./modules/admin/menu"
-import AdminAuthStore from "./modules/admin/auth"
+import AdminAuth from "./modules/admin/auth"
 import AdminCategory from "./modules/admin/category"
-import AdminSpaccy from "./modules/admin/species"
+import AdminSpecies from "./modules/admin/species"
+import AdminTrademark from "./modules/admin/trademark"
+
 
 
 
@@ -68,9 +70,10 @@ export default  new Vuex.Store({
       ADDR: AddressOrder,
       ORDE: Order,
       ADMU: AdminMenu,
-      ADAU: AdminAuthStore,
+      ADAU: AdminAuth,
       ADCA: AdminCategory,
-      ADSP: AdminSpaccy
+      ADSP: AdminSpecies,
+      ADTR: AdminTrademark
 
     },
     // getters: {

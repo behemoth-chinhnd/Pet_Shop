@@ -108,6 +108,9 @@ const routes = [
       { path: 'species/create', name: 'admin.species.create', component: () => import('@/views/admin/species/CreateSpecies.vue') },
       { path: 'species/edit/:id', name: 'admin.species.edit', component: () => import('@/views/admin/species/EditSpecies.vue') },
 
+      { path: 'trademark', name: 'admin.trademark', component: () => import('@/views/admin/trademark/ListTrademark.vue') },
+      { path: 'trademark/create', name: 'admin.trademark.create', component: () => import('@/views/admin/trademark/CreateTrademark.vue') },
+
     ],
   },
 

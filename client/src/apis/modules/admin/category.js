@@ -14,6 +14,9 @@ export default {
       }
     })
   },
+  getAll() {
+    return API.get(`/api/admins/categories`)
+  },
   getItem(id) {
     return API.get(`/api/admins/categories/${id}`)
   },

@@ -1,6 +1,6 @@
 
 import api from "@/plugin/axios";
-import api_admin_species from "@/apis/modules/admin/species"
+import api_admin_trademark from "@/apis/modules/admin/trademark"
 import upload from "@/apis/modules/upload"
 
 import qs from "qs"
@@ -8,8 +8,8 @@ import qs from "qs"
 const state = {
   state: {
     total_search: "",
-    species: [],
-    speciess: [],
+    trademarks: [],
+    trademarkss: [],
     name_detail: "",
     params: {
       page: 1,
@@ -29,13 +29,13 @@ const getters = {
 };
 const mutations = {
   getItem(state, value) {
-    state.state.species = value;
+    state.state.trademarks = value;
   },
   getNameDetail(state, value) {
     state.state.name_detail = value;
   },
   getAll(state, value) {
-    state.state.speciess = value;
+    state.state.trademarkss = value;
   },
   getTotalSearch(state, value) {
     state.state.total_search = value;
@@ -62,7 +62,7 @@ const actions = {
         const image_key = res.data.key
         var input = {
           image_key: image_key,
-          species: credentials.data,
+          trademark: credentials.data,
         }
       } catch (error) {
         commit("resStatus", "error");
@@ -73,7 +73,7 @@ const actions = {
         }
         return state.state.res
       }
-      await api_admin_species.create(input)
+      await api_admin_trademark.create(input)
       commit("resStatus", "success");
       commit("resMessage", "Create Successful!");
     } catch (error) {
@@ -90,18 +90,6 @@ const actions = {
     }
     return state.state.res
   },
-  async getAll({ commit, state }) {
-    try {
-      var res = await api_admin_species.getAll()
-      console.log(`res`, res)
-      return res.data
-    } catch {
-      commit("resStatus", "error");
-      commit("resMessage", "An error occurs, please contact the Admin to handle it! Thanks!");
-      return state.state.res
-    }
-  },
-
   async getAllList({ commit, state }, credentials) {
     console.log(`input`, credentials)
     if (credentials.q.id) {
@@ -122,7 +110,7 @@ const actions = {
       }
     }
     try {
-      var res = await api_admin_species.getAllList(queryParams)
+      var res = await api_admin_trademark.getAllList(queryParams)
       return res.data
     } catch {
       commit("resStatus", "error");
@@ -133,7 +121,7 @@ const actions = {
 
   async getItem({ commit, state }, credentials) {
     try {
-      const res = await api_admin_species.getItem(credentials)
+      const res = await api_admin_trademark.getItem(credentials)
       commit("getItem", res.data);
       commit("getNameDetail", res.data.name);
       return res
@@ -147,7 +135,7 @@ const actions = {
   async edit({ commit, state }, credentials) {
     try {
       if (credentials.file === null) {
-        const res = await api_admin_species.edit(credentials)
+        const res = await api_admin_trademark.edit(credentials)
         commit("getItem", res.data);
         return res
       } else {
@@ -155,9 +143,9 @@ const actions = {
         const image_key = res.data.key
         const input = {
           image_key: image_key,
-          species: credentials.species
+          trademarks: credentials.trademarks
         }
-        const data = await api_admin_species.edit(input)
+        const data = await api_admin_trademark.edit(input)
         return data
       }
     } catch (error) {
@@ -177,7 +165,7 @@ const actions = {
 
   async delete({ commit, state }, credentials) {
     try {
-      await api_admin_species.delete(credentials)
+      await api_admin_trademark.delete(credentials)
       commit("resStatus", "success");
       commit("resMessage", "Delete Successful!");
     } catch (error) {

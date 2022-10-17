@@ -31,14 +31,24 @@
           <li v-if="this.$route.path.includes('/admin/category/edit/')">
             <router-link to=""> Edit </router-link>
           </li>
-          <!-- Category -->
-          <li v-if="this.$route.path.includes('/admin/spaccy')">
-            <router-link to="/admin/spaccy"> Spaccy </router-link>
+          <!-- Spacies -->
+          <li v-if="this.$route.path.includes('/admin/species')">
+            <router-link to="/admin/species"> Species </router-link>
           </li>
-          <li v-if="this.$route.path.includes('/admin/spaccy/create')">
-            <router-link to="/admin/spaccy/create"> Create </router-link>
+          <li v-if="this.$route.path.includes('/admin/species/create')">
+            <router-link to="/admin/species/create"> Create </router-link>
           </li>
-          <li v-if="this.$route.path.includes('/admin/spaccy/edit/')">
+          <li v-if="this.$route.path.includes('/admin/species/edit/')">
+            <router-link to=""> Edit </router-link>
+          </li>
+           <!-- Trademark -->
+           <li v-if="this.$route.path.includes('/admin/trademark')">
+            <router-link to="/admin/trademark"> Trademark </router-link>
+          </li>
+          <li v-if="this.$route.path.includes('/admin/trademark/create')">
+            <router-link to="/admin/trademark/create"> Create </router-link>
+          </li>
+          <li v-if="this.$route.path.includes('/admin/trademark/edit/')">
             <router-link to=""> Edit </router-link>
           </li>
         </ul>

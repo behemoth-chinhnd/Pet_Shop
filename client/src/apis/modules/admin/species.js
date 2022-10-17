@@ -7,6 +7,9 @@ export default {
   create(input) {
     return API.post("/api/admins/species", input)
   },
+  getAll() {
+    return API.get(`/api/admins/species`)
+  },
   getAllList(queryParams) {
     return API.get(`/api/admins/species`, {
       params: queryParams, paramsSerializer: params => {
