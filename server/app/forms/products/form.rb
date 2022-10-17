@@ -8,12 +8,15 @@ module Products
     attribute :quantity, :integer
     attribute :image_key, :string
     attribute :is_display, :boolean
+    attribute :trademark_id, :integer
 
     validates :name, :number, :master_sku, :quantity,
               :master_list_price, :master_sales_price,
-              presence: true
+              :trademark_id, presence: true
 
     validates :quantity, numericality: { greater_than_or_equal_to: 0, only_integer: true }
+
+    validates :trademark_id, inclusion: { in: Trademark.pluck(:id) }, if: -> { trademark_id.present? }
 
     validate :validate_uniq_name_with_creator, if: -> { name.present? }
 
