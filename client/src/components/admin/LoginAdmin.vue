@@ -213,18 +213,11 @@ export default {
       this.password = "";
     },
     submit() {
-      //       const axios = require("axios").default;
-
-      //       const self = this;
-      //       axios
-      var md5 = require("md5");
-      this.password = md5(this.password);
-      console.log(this.password);
       this.$request
-        .post("http://localhost:8000/api/login", {
-          email: this.email,
-          password: this.password,
-        })
+        .post(`http://localhost:3000/api/auths/admin_login`, {
+    email: "admin@gmail.com",
+    password: "12345678"
+})
         .then((res) => {
           console.log(res);
 

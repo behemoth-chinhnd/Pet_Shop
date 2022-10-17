@@ -7,9 +7,9 @@
     Window height: {{ windowHeight }} -->
     <section id="menu-icon" class="dark" :class="{ active: isActive }">
       <div class="logo">
-        <router-link  to="/saler"><img src="/images/logo.png" alt="" /></router-link>
-
-        
+        <router-link to="/saler"
+          ><img src="/images/logo.png" alt=""
+        /></router-link>
       </div>
       <button
         @click="clickToggle()"
@@ -72,30 +72,40 @@
 
       <ul class="menu-admin">
         <li class="sub-menu">
-          <a class="active" href="#">PRODUCT</a>
+          <a class="active bold" href="#">MANAGEMENT PRODUCT</a>
           <ul>
             <li>
-              <router-link :class="{'sub-active': (this.$route.path.includes('/saler/products/edit'))}" to="/saler/products">Management Product</router-link>
+              <router-link
+                :class="{
+                  'sub-active': this.$route.path.includes(
+                    '/saler/products/edit'
+                  ),
+                }"
+                to="/saler/products"
+                >List Product</router-link
+              >
             </li>
             <li>
-              <router-link to="/saler/products/create">Create</router-link>
-            </li>
-            <li>
-              <router-link to="#">ok</router-link>
+              <router-link to="/saler/products/create">Create Product</router-link>
             </li>
           </ul>
         </li>
         <li class="sub-menu">
-          <a class="active" href="#">PRODUCT</a>
+          <a class="active bold" href="#">MANAGEMENT CATEGORY</a>
           <ul>
             <li>
-              <router-link to="#">ok</router-link>
+              <router-link 
+              :class="{
+                  'sub-active': this.$route.path.includes(
+                    '/admin/category/edit'
+                  ),
+                }"
+              to="/admin/category"
+                >List Category</router-link
+              >
             </li>
             <li>
-              <router-link to="#">ok</router-link>
-            </li>
-            <li>
-              <router-link to="#">ok</router-link>
+              <router-link to="/admin/category/create">Create Category</router-link>
             </li>
           </ul>
         </li>

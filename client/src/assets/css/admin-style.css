@@ -182,6 +182,10 @@ section#main-body{
   margin: 20px 25px;
 }
 
+#admin .img-edit {
+  width: 200px;
+}
+
 .logo-header img{
   height: 40px;
   width: 50px ;

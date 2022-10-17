@@ -100,6 +100,10 @@ const routes = [
           { path: 'products/edit/:id', name: 'admin.management.products.edit', component: () => import('@/components/product/AddProduct.vue') },
         ]
       },
+      { path: 'category', name: 'admin.category', component: () => import('@/views/admin/category/ListCategory.vue') },
+      { path: 'category/create', name: 'admin.category.create', component: () => import('@/views/admin/category/CreateCategory.vue') },
+      { path: 'category/edit/:id', name: 'admin.category.edit', component: () => import('@/views/admin/category/EditCategory.vue') },
+
     ],
   },
 
@@ -120,7 +124,7 @@ router.beforeEach((to, from, next) => {
 })
 
 router.beforeEach((to, from, next) => {
-  if ((to.path.includes('/user') || to.path.includes('/saler') || to.path.includes('/admin')) && (store.state.AUTH.state.isActive === false)) {
+  if ((to.path.includes('/user') || to.path.includes('/saler') ) && (store.state.AUTH.state.isActive === false)) {
     next({ path: '/login' })
   } else {
     next()

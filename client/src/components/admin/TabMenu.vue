@@ -64,144 +64,144 @@ export default {
   },
   props: {},
   created() {
-    this.getAll();
+    // this.getAll();
   },
 
   mounted() {},
   methods: {
-    clickCallback(pageNum) {
-      this.page.pageCount = pageNum - 1;
+  //   clickCallback(pageNum) {
+  //     this.page.pageCount = pageNum - 1;
 
-      // this.params.page = pageNum;
-      // this.getAll();
-      // console.log(pageNum)
-    },
-    prev() {
-      if (this.model.prev_page_url) {
-        this.params.page--;
-        this.getAll();
-      }
-    },
-    next() {
-      if (this.model.next_page_url) {
-        this.params.page--;
-        this.getAll();
-      }
-    },
-    // changePage (page){
-    //   this.page.pageCount = page;
-    //   // this.getAll()
-    // },
-    getAll() {
-      // console.log(this.builUrl());
-      this.$request.get(this.builUrl()).then((res) => {
-        this.products = res.data;
-        // sort price
-        // this.products = this.products.sort((a, b) => a.price - b.price);
-        // sort reverse
-        this.products = this.products.reverse();
-      });
-    },
-    builUrl() {
-      // let p = this.params;
-      // return `http://localhost:8000/api/products?page=${p.page}&per_page=${p.per_page}&sort_column=${p.sort_column}&direction=${p.direction}&search_column=${p.search_column}&search_operator=${p.search_operator}&search_query_1=${p.search_query_1}&search_query_2=${p.search_query_2}`;
-      return `http://localhost:8000/api/products`;
-    },
-    onDelete(productId) {
-      this.$swal
-        .fire({
-          title: "Delete?",
-          text: "You won't be able to revert this!",
-          icon: "question",
-          type: "warning",
-          showDenyButton: false,
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Yes, delete it!",
-          cancelButtonText: "No, cancel please!",
-          timer: 5000,
-          // closeOnConfirm: false,
-          // closeOnCancel: false
-        })
-        .then((result) => {
-          if (result.isConfirmed) {
-            this.$request
-              .delete(`http://localhost:8000/api/products/${productId}`)
-              .then((res) => {
-                if (res.data.success) {
-                  this.$swal.fire("Đã Xóa", "", "success");
-                  this.getAll();
-                }
-              });
-          }
-        });
-      // });
-      // let test ;
-      // const url = `http://localhost:8000/api/products/${productId}`
-      // fetch(url , { method: 'DELETE'}).then(res =>test = res.ok)
-      // if (test){
-      //   this.p
-      // }
-    },
-    sort: function (s) {
-      if (s === this.currentSort) {
-        this.currentSortDir = this.currentSortDir === "asc" ? "desc" : "asc";
-      }
-      this.currentSort = s;
-    },
-    changeCurrentDir() {
-      this.currentSortDir = -this.currentSortDir;
-    },
-  },
-  watch: {
-    currentSortDir(value) {
-      console.log(this.products);
-      this.products.sort((a, b) => this.currentSortDir);
-    },
-  },
-  computed: {
-    getFilter() {
-      // this.getAll()
-      return this.products.filter((post) => {
-        if (this.search.minprice === "" && this.search.maxprice === "") {
-          return (
-            post.name.toLowerCase().includes(this.search.name.toLowerCase()) &&
-            // post.author.toLowerCase().includes(this.search.author.toLowerCase()) &&
-            post.price >= 0
-          );
-        } else if (this.search.minprice != "" && this.search.maxprice === "") {
-          return (
-            post.name.toLowerCase().includes(this.search.name.toLowerCase()) &&
-            post.price >= this.search.minprice
-          );
-        } else if (this.search.minprice === "" && this.search.maxprice != "") {
-          return (
-            post.name.toLowerCase().includes(this.search.name.toLowerCase()) &&
-            post.price >= 0 &&
-            post.price <= this.search.maxprice
-          );
-        } else if (this.minprice != "" && this.maxprice != "") {
-          return (
-            post.name.toLowerCase().includes(this.search.name.toLowerCase()) &&
-            post.price >= this.search.minprice &&
-            post.price <= this.search.maxprice
-          );
-        }
-      });
+  //     // this.params.page = pageNum;
+  //     // this.getAll();
+  //     // console.log(pageNum)
+  //   },
+  //   prev() {
+  //     if (this.model.prev_page_url) {
+  //       this.params.page--;
+  //       this.getAll();
+  //     }
+  //   },
+  //   next() {
+  //     if (this.model.next_page_url) {
+  //       this.params.page--;
+  //       this.getAll();
+  //     }
+  //   },
+  //   // changePage (page){
+  //   //   this.page.pageCount = page;
+  //   //   // this.getAll()
+  //   // },
+  //   getAll() {
+  //     // console.log(this.builUrl());
+  //     this.$request.get(this.builUrl()).then((res) => {
+  //       this.products = res.data;
+  //       // sort price
+  //       // this.products = this.products.sort((a, b) => a.price - b.price);
+  //       // sort reverse
+  //       this.products = this.products.reverse();
+  //     });
+  //   },
+  //   builUrl() {
+  //     // let p = this.params;
+  //     // return `http://localhost:8000/api/products?page=${p.page}&per_page=${p.per_page}&sort_column=${p.sort_column}&direction=${p.direction}&search_column=${p.search_column}&search_operator=${p.search_operator}&search_query_1=${p.search_query_1}&search_query_2=${p.search_query_2}`;
+  //     return `http://localhost:8000/api/products`;
+  //   },
+  //   onDelete(productId) {
+  //     this.$swal
+  //       .fire({
+  //         title: "Delete?",
+  //         text: "You won't be able to revert this!",
+  //         icon: "question",
+  //         type: "warning",
+  //         showDenyButton: false,
+  //         showCancelButton: true,
+  //         confirmButtonColor: "#3085d6",
+  //         cancelButtonColor: "#d33",
+  //         confirmButtonText: "Yes, delete it!",
+  //         cancelButtonText: "No, cancel please!",
+  //         timer: 5000,
+  //         // closeOnConfirm: false,
+  //         // closeOnCancel: false
+  //       })
+  //       .then((result) => {
+  //         if (result.isConfirmed) {
+  //           this.$request
+  //             .delete(`http://localhost:8000/api/products/${productId}`)
+  //             .then((res) => {
+  //               if (res.data.success) {
+  //                 this.$swal.fire("Đã Xóa", "", "success");
+  //                 this.getAll();
+  //               }
+  //             });
+  //         }
+  //       });
+  //     // });
+  //     // let test ;
+  //     // const url = `http://localhost:8000/api/products/${productId}`
+  //     // fetch(url , { method: 'DELETE'}).then(res =>test = res.ok)
+  //     // if (test){
+  //     //   this.p
+  //     // }
+  //   },
+  //   sort: function (s) {
+  //     if (s === this.currentSort) {
+  //       this.currentSortDir = this.currentSortDir === "asc" ? "desc" : "asc";
+  //     }
+  //     this.currentSort = s;
+  //   },
+  //   changeCurrentDir() {
+  //     this.currentSortDir = -this.currentSortDir;
+  //   },
+  // },
+  // watch: {
+  //   currentSortDir(value) {
+  //     console.log(this.products);
+  //     this.products.sort((a, b) => this.currentSortDir);
+  //   },
+  // },
+  // computed: {
+  //   getFilter() {
+  //     // this.getAll()
+  //     return this.products.filter((post) => {
+  //       if (this.search.minprice === "" && this.search.maxprice === "") {
+  //         return (
+  //           post.name.toLowerCase().includes(this.search.name.toLowerCase()) &&
+  //           // post.author.toLowerCase().includes(this.search.author.toLowerCase()) &&
+  //           post.price >= 0
+  //         );
+  //       } else if (this.search.minprice != "" && this.search.maxprice === "") {
+  //         return (
+  //           post.name.toLowerCase().includes(this.search.name.toLowerCase()) &&
+  //           post.price >= this.search.minprice
+  //         );
+  //       } else if (this.search.minprice === "" && this.search.maxprice != "") {
+  //         return (
+  //           post.name.toLowerCase().includes(this.search.name.toLowerCase()) &&
+  //           post.price >= 0 &&
+  //           post.price <= this.search.maxprice
+  //         );
+  //       } else if (this.minprice != "" && this.maxprice != "") {
+  //         return (
+  //           post.name.toLowerCase().includes(this.search.name.toLowerCase()) &&
+  //           post.price >= this.search.minprice &&
+  //           post.price <= this.search.maxprice
+  //         );
+  //       }
+  //     });
 
-      // },
-    },
+  //     // },
+  //   },
 
-    pageList() {
-      if (this.getFilter.length % this.page.per_page === 0) {
-        this.page.count = Math.floor(this.getFilter.length / this.page.per_page);
-      } else {
-        this.page.count = Math.floor(this.getFilter.length / this.page.per_page + 1);
-      }
-      console.log(this.products);
-      return this.getFilter.slice(5 * this.page.pageCount, 5 * (this.page.pageCount + 1));
-    },
+  //   pageList() {
+  //     if (this.getFilter.length % this.page.per_page === 0) {
+  //       this.page.count = Math.floor(this.getFilter.length / this.page.per_page);
+  //     } else {
+  //       this.page.count = Math.floor(this.getFilter.length / this.page.per_page + 1);
+  //     }
+  //     console.log(this.products);
+  //     return this.getFilter.slice(5 * this.page.pageCount, 5 * (this.page.pageCount + 1));
+  //   },
   }, // components: { HeaderApp },
 };
 </script>
