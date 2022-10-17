@@ -19,8 +19,7 @@ module Orders
 
       belongs_to :product
 
-      class ProductSerializer < ActiveModel::Serializer
-        attribute :name
+      class ProductSerializer < Products::ListSerializer
       end
     end
   end

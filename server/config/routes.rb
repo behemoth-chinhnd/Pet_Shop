@@ -56,6 +56,8 @@ Rails.application.routes.draw do
       resources :categories
       # Species
       resources :species
+      # Trademark
+      resources :trademarks
     end
   end
 end
