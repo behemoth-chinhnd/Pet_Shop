@@ -1,10 +1,24 @@
 module Api
   class CartsController < ApplicationController
     before_action :set_user, if: :auth?
-    before_action :find_order
+    before_action :find_order, except: [:show, :add_product]
 
     def show
-      response_success(@order, { serializer: ::Orders::CartShowSerializer })
+      @orders = @user.orders.shopping
+      order_group_by_seller = @orders.group_by { |o| o.seller_id }
+
+      result = {}
+
+      order_group_by_seller.each do |seller_id, orders|
+        result[seller_id] ||= {}
+
+        result[seller_id][:seller] = ::Users::ShowSerializer.new(User.find(seller_id))
+        result[seller_id][:orders] = orders.map { |o| ::Orders::ShowSerializer.new(o) }
+      end      
+
+      response_success(result)
+      # response_success(@orders.map { |k, v| ::Orders::ShowSerializer.new(v)} )
+
     end
 
     def add_product
