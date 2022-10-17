@@ -31,6 +31,7 @@ class Order < ApplicationRecord
   belongs_to :address, optional: true
 
   belongs_to :user
+  belongs_to :seller, class_name: "User"
 
   before_destroy :update_quantity_product
 

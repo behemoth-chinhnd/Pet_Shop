@@ -1,10 +1,13 @@
 module Api
   class CartsController < ApplicationController
     before_action :set_user, if: :auth?
-    before_action :find_order
+    before_action :find_order, except: [:show]
 
     def show
-      response_success(@order, { serializer: ::Orders::CartShowSerializer })
+      @orders = @user.orders.shopping
+
+      response_list(@orders, { adapter: :json,
+                               each_serializer: ::Products::ShowSerializer })
     end
 
     def add_product

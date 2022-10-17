@@ -13,6 +13,8 @@ module Orders
       context.fail!(message: "Not found product") if product.blank?
 
       ActiveRecord::Base.transaction do
+        context.current_order.update!(seller_id: product.creator.id)
+
         order_item = context.current_order.order_items.find_or_create_by!(product_id: context.product_id)
 
         context.fail!(message: "Not enough product #{product.name} quantity ") if product.quantity < context.quantity
