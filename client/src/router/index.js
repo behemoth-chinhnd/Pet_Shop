@@ -86,7 +86,7 @@ const routes = [
 
   {
     path: '/admin/', name: 'admin', component: Admin, children: [
-      { path: '', name: 'admin.home', component: () => import('@/components/product/ListProduct.vue') },
+      { path: '', name: 'admin.home', component: () => import('@/components/product/_showProduct.vue') },
       {
         path: 'management/', name: 'admin.management', component: () => import('@/components/admin/TabMenu.vue'),
         children: [
@@ -94,10 +94,6 @@ const routes = [
           { path: 'users', name: 'admin.management.users', component: () => import('@/components/admin/users/ListUser.vue') },
           { path: 'users/create', name: 'admin.management.users.create', component: () => import('@/components/admin/users/CreateUser.vue') },
           { path: 'users/edit/:id', name: 'admin.management.users.edit', component: () => import('@/components/admin/users/CreateUser.vue') },
-          { path: 'products', name: 'admin.management.products', component: () => import('@/components/product/ListProduct.vue') },
-          { path: 'products', name: 'admin.products', component: () => import('@/components/product/ListProduct.vue') },
-          { path: 'products/create', name: 'admin.management.products.create', component: () => import('@/components/product/AddProduct.vue') },
-          { path: 'products/edit/:id', name: 'admin.management.products.edit', component: () => import('@/components/product/AddProduct.vue') },
         ]
       },
       { path: 'category', name: 'admin.category', component: () => import('@/views/admin/category/ListCategory.vue') },

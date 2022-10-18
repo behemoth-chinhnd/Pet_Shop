@@ -148,8 +148,7 @@ import { createNamespacedHelpers } from "vuex";
 const mapActionsCART = createNamespacedHelpers("CART");
 import DefaultAdress from "@/components/client/address/DefaultAddressOrder.vue";
 
-import EmptyCart from "@/components/cart/EmptyCart.vue";
-import func from "@/plugin/func";
+import EmptyCart from "@/components/client/cart/_emptyCart.vue";
 export default {
   name: "ProductDta",
   components: {
