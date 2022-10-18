@@ -11,11 +11,11 @@ module Trademarks
     belongs_to :category
 
     class SpeciesSerializer < ActiveModel::Serializer
-      attribute :name
+      attributes :id, :name
     end
 
     class CategorySerializer < ActiveModel::Serializer
-      attribute :name
+      attributes :id, :name
     end
   end
 end

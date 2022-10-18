@@ -3,45 +3,6 @@
     <main id="main" class="">
       <!-- <section id="main-body"> -->
       <div class="container">
-        <div v-if="showFilter" class="filter flex-row-space-between-center">
-          <div class="search-wrapper">
-            <div class="row">
-              <div class="col-md-3">
-                <input
-                  class="form-control"
-                  type="text"
-                  v-model="search.name"
-                  placeholder="Search Name"
-                />
-              </div>
-              <div class="col-md-3">
-                <input
-                  class="form-control"
-                  type="text"
-                  v-model.number="search.minprice"
-                  placeholder="Min Price"
-                />
-              </div>
-
-              <div class="col-md-3">
-                <input
-                  class="form-control"
-                  type="text"
-                  v-model.number="search.maxprice"
-                  placeholder="Max Price.."
-                />
-              </div>
-              <div class="col-md-3">
-                <input
-                  class="form-control"
-                  type="text"
-                  v-model="search.author"
-                  placeholder="Author"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
 
         <div class="card-deck mb-3 text-center scroll-x">
           <div class="cards">

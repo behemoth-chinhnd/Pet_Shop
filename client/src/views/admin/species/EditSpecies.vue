@@ -1,6 +1,6 @@
 <template>
   <div class="body-saler">
-    <edit-species></edit-species>
+    <edit-species ></edit-species>
 
  
     <!-- <list-species></list-species> -->

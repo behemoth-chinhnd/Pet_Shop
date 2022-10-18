@@ -21,7 +21,7 @@ export default {
     return API.get(`/api/admins/trademarks/${id}`)
   },
   edit(credentials) {
-    return API.put(`/api/admins/trademarks/${credentials.trademarks.id}`, credentials)
+    return API.put(`/api/admins/trademarks/${credentials.trademark.id}`, credentials)
   },
   delete(id) {
     return API.delete(`/api/admins/trademarks/${id}`)

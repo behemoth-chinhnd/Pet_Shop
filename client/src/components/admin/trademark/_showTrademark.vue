@@ -68,7 +68,7 @@
              
               <td class="gap-10px">
                 <router-link
-                  :to="{ name: 'admin.trademarks.edit', params: { id: post.id } }"
+                  :to="{ name: 'admin.trademark.edit', params: { id: post.id } }"
                 >
                   <b-button variant="primary" @click="nextParams(post.id)">
                     <i class="fa fa-edit"></i>
