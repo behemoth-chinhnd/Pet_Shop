@@ -11,9 +11,18 @@ module Products
                :is_display,
                :image_url
 
+    belongs_to :creator
     belongs_to :trademark
 
+    class UserSerializer < ActiveModel::Serializer
+      attributes :id, :email, :name
+    end
+
     class TrademarkSerializer < Trademarks::ShowSerializer
+    end
+
+    class AdminSerializer < ActiveModel::Serializer
+      attributes :id, :email, :name
     end
   end
 end

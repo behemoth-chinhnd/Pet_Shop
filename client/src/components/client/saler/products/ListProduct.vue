@@ -1,8 +1,68 @@
 <template>
   <div class="body-saler">
     <div class="panel-body">
-      <div class="search flex-row-center-center gap-10px">
-        <form @submit.prevent="Search()" class="form-search">
+      <div class="search flex-row-start gap-10px row left">
+        <form @submit.prevent="Search()" class="form-search col-md-3">
+          <select @change="Search()" v-model="params.q.category_id"
+          class="form-select">
+            <option
+              v-bind:value="null"
+              :selected="this.params.q.category_id === null"
+              class=""
+            >
+            --Category--
+            </option>
+            <option
+              v-for="item in categories"
+              :key="item.id"
+              v-bind:value="item.id"
+              :selected="params.q.category_id === item.id"
+            >
+              {{ item.name }}
+            </option>
+          </select>
+        </form>
+        <form @submit.prevent="Search()" class="form-search col-md-3">
+          <select @change="Search()" v-model="params.q.species_id"
+          class="form-select">
+            <option
+              v-bind:value="null"
+              :selected="this.params.q.species_id === null"
+              class=""
+            >
+            --Species--
+            </option>
+            <option
+              v-for="item in species"
+              :key="item.id"
+              v-bind:value="item.id"
+              :selected="params.q.species_id === item.id"
+            >
+              {{ item.name }}
+            </option>
+          </select>
+        </form>
+        <form @submit.prevent="Search()" class="form-search col-md-3">
+          <select @change="Search()" v-model="params.q.trademark_id"
+          class="form-select">
+            <option
+              v-bind:value="null"
+              :selected="this.params.q.trademark_id === null"
+              class=""
+            >
+            --Trademark--
+            </option>
+            <option
+              v-for="item in trademarks"
+              :key="item.id"
+              v-bind:value="item.id"
+              :selected="params.q.trademark_id === item.id"
+            >
+              {{ item.name }}
+            </option>
+          </select>
+        </form>
+        <form @submit.prevent="Search()" class="form-search col-md-2">
           <input
             type="number"
             v-model="params.q.id"
@@ -10,6 +70,7 @@
             placeholder="ID"
           />
         </form>
+        
         <form
           @submit.prevent="Search()"
           class="form-search flex-row-space-between-center flex-1"
@@ -105,6 +166,9 @@
 <script>
 import { createNamespacedHelpers } from "vuex";
 const mapActionsPROD = createNamespacedHelpers("PROD");
+const mapActionsADTR = createNamespacedHelpers("ADTR");
+const mapActionsADCA = createNamespacedHelpers("ADCA");
+const mapActionsADSP = createNamespacedHelpers("ADSP");
 import func from "@/plugin/func";
 
 export default {
@@ -122,6 +186,9 @@ export default {
         count: 1,
         per_page: 5,
       },
+      categories:[],
+      species:[],
+      trademarks: [],
       params: {
         page: 1,
         per_page: 10,
@@ -129,6 +196,9 @@ export default {
         q: {
           id: null,
           name: "",
+          trademark_id: null,
+          category_id: null,
+          species_id: null,
         },
       },
     };
@@ -136,6 +206,7 @@ export default {
   beforeCreate() {},
   created() {
     this.getAll(this.params);
+    this.SearchTrademark();
   },
   mounted() {},
   methods: {
@@ -143,6 +214,16 @@ export default {
       getAllPROD: "getAllList",
       deletePROD: "delete",
     }),
+    ...mapActionsADTR.mapActions({
+      getAllListADTR: "getAllList",
+    }),
+    ...mapActionsADCA.mapActions({
+      getAllADCA: "getAll",
+    }),
+    ...mapActionsADSP.mapActions({
+      getAllADSP: "getAll",
+    }),
+    
     clickCallback(pageNum) {
       this.params.page = pageNum;
       this.getAll(this.params);
@@ -157,16 +238,17 @@ export default {
       } else {
         this.$swal.fire(res.message, "", res.status);
       }
+      await this.getCategories();
+      await this.getSpecies();
     },
     async Search() {
+      await this.SearchTrademark();
       if (!this.params.q.id) {
         const input = {
           page: 1,
           pages: this.params.pages,
           per_page: this.params.per_page,
-          q: {
-            name: this.params.q.name,
-          },
+          q: this.params.q
         };
         await this.getAll(input);
       } else {
@@ -205,6 +287,53 @@ export default {
             this.Search();
           }
         });
+    },
+    async getCategories() {
+      const res = await this.getAllADCA();
+      console.log(`categories`, res);
+      this.categories = res.categories.reverse();
+    },
+    async getSpecies() {
+      const res = await this.getAllADSP();
+      console.log(`species`, res);
+      this.species = res.species.reverse();
+    },
+    // async getTrademark() {
+    //   const res = await this.getAllADTR();
+    //   this.trademarks = res.trademarks.reverse();
+    // },
+    async getAllTrademark(input) {
+      const res = await this.getAllListADTR(input);
+      if (res.trademarks) {
+        this.trademarks = res.trademarks;
+      } else {
+        this.$swal.fire(res.message, "", res.status);
+      }
+    },
+    async SearchTrademark() {
+      if (!this.params.q.id) {
+        const input = {
+          page: 1,
+          pages: this.params.pages,
+          per_page: 100,
+          q: {
+            category_id: this.params.q.category_id,
+            species_id: this.params.q.species_id,
+
+          },
+        };
+        await this.getAllTrademark(input);
+      } else {
+        const input = {
+          page: 1,
+          pages: this.params.pages,
+          per_page: 100,
+          q: {
+            id: this.params.q.id,
+          },
+        };
+        await this.getAllTrademark(input);
+      }
     },
   },
   watch: {},

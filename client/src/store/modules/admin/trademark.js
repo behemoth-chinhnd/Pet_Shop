@@ -1,6 +1,6 @@
 
 import api from "@/plugin/axios";
-import api_product from "@/apis/modules/product"
+import api_admin_trademark from "@/apis/modules/admin/trademark"
 import upload from "@/apis/modules/upload"
 
 import qs from "qs"
@@ -8,8 +8,8 @@ import qs from "qs"
 const state = {
   state: {
     total_search: "",
-    product: [],
-    products: [],
+    trademarks: [],
+    trademarkss: [],
     name_detail: "",
     params: {
       page: 1,
@@ -28,20 +28,14 @@ const state = {
 const getters = {
 };
 const mutations = {
-  setErrors(state, value) {
-    state.state.errors = value;
-  },
-  isError(state, value) {
-    state.state.isErr = value;
-  },
   getItem(state, value) {
-    state.state.product = value;
+    state.state.trademarks = value;
   },
   getNameDetail(state, value) {
     state.state.name_detail = value;
   },
   getAll(state, value) {
-    state.state.products = value;
+    state.state.trademarkss = value;
   },
   getTotalSearch(state, value) {
     state.state.total_search = value;
@@ -63,21 +57,31 @@ const mutations = {
 const actions = {
   async create({ commit, state }, credentials) {
     try {
-      const res = await upload.image(credentials.file)
-      const image_key = res.data.key
-      const input = {
-        image_key: image_key,
-        product: credentials.data,
+      try {
+        const res = await upload.image(credentials.file)
+        const image_key = res.data.key
+        var input = {
+          image_key: image_key,
+          trademark: credentials.data,
+        }
+      } catch (error) {
+        commit("resStatus", "error");
+        if (error.response.data.message) {
+          commit("resMessage", 'Wrong image type or size too large!');
+        } else {
+          commit("resMessage", "Upload Image Failed!");
+        }
+        return state.state.res
       }
-      await api_product.create(input)
+      await api_admin_trademark.create(input)
       commit("resStatus", "success");
       commit("resMessage", "Create Successful!");
     } catch (error) {
       commit("resStatus", "error");
-      if (error.response.data.name) {
+      if (error.response.data.message) {
+        commit("resMessage", 'This file type cannot be uploaded');
+      } else if (error.response.data.name) {
         commit("resMessage", 'Name has already been taken');
-      } else if (error.response.data.number) {
-        commit("resMessage", 'Number has already been taken');
       } else if (error.response.data.name && error.response.data.number) {
         commit("resMessage", 'Name & Numbder has already been taken');
       } else {
@@ -86,7 +90,19 @@ const actions = {
     }
     return state.state.res
   },
+  async getAll({ commit, state }) {
+    try {
+      var res = await api_admin_trademark.getAll()
+      console.log(`res`, res)
+      return res.data
+    } catch {
+      commit("resStatus", "error");
+      commit("resMessage", "An error occurs, please contact the Admin to handle it! Thanks!");
+      return state.state.res
+    }
+  },
   async getAllList({ commit, state }, credentials) {
+    console.log(`input`, credentials)
     if (credentials.q.id) {
       var queryParams = {
         page: credentials.page,
@@ -100,16 +116,13 @@ const actions = {
         page: credentials.page,
         per_page: credentials.per_page,
         q: {
-          name_or_number_cont: credentials.q.name,
-          trademark_category_id_eq: credentials.q.category_id,
-          trademark_species_id_eq: credentials.q.species_id,
-          trademark_id_eq: credentials.q.trademark_id
-
-        },
+          name_cont: credentials.q.name,
+          category_id_eq: credentials.q.category_id,
+          species_id_eq: credentials.q.species_id,        },
       }
     }
     try {
-      var res = await api_product.getAllList(queryParams)
+      var res = await api_admin_trademark.getAllList(queryParams)
       return res.data
     } catch {
       commit("resStatus", "error");
@@ -117,93 +130,54 @@ const actions = {
       return state.state.res
     }
   },
-  async getAll({ commit, state }, credentials) {
-    const queryParams = {
-      page: credentials.page,
-      per_page: credentials.per_page,
-      q: {
-        name_or_number_cont: credentials.q.name,
 
-
-      },
-    }
-    try {
-      const res = await api_product.getAll(queryParams)
-      // console.log(res.data.products)
-      // commit("getAll", res.data.products);
-      // commit("getTotalSearch", res.data.meta.total);
-      // commit("getPages", res.data.meta.pages);
-      // commit("getPage", credentials.page);
-      // console.log(res.data)
-      return res.data
-    } catch (error) {
-      alert(error.response)
-    }
-  },
-
-  async getItemSaler({ commit, state }, credentials) {
-    try {
-      const res = await api_product.getItemSaler(credentials)
-      commit("getItem", res.data);
-      commit("getNameDetail", res.data.name);
-      console.log(`getItemProduct`, res.data)
-      return res
-    } catch (error) {
-      commit("resStatus", "error");
-      commit("resMessage", "Product does not exist!");
-      return state.state.res
-    }
-
-  },
   async getItem({ commit, state }, credentials) {
     try {
-      const res = await api_product.getItem(credentials)
-      console.log(res.data)
+      const res = await api_admin_trademark.getItem(credentials)
       commit("getItem", res.data);
       commit("getNameDetail", res.data.name);
-      console.log(`getItemProduct`, res.data)
       return res
-    } catch {
+    } catch (error) {
       commit("resStatus", "error");
       commit("resMessage", "The product is out of stock or does not exist!");
       return state.state.res
     }
-
   },
+
   async edit({ commit, state }, credentials) {
-    console.log(`input`,credentials)
-    if (credentials.file === null) {
-      try {
-        const res = await api_product.editItemSaler(credentials)
+    try {
+      if (credentials.file === null) {
+        const res = await api_admin_trademark.edit(credentials)
         commit("getItem", res.data);
         return res
-      } catch {
-        commit("resStatus", "error");
-        commit("resMessage", "Edit Product Failed!");
-        return state.state.res
-      }
-    } else {
-      try {
+      } else {
         const res = await upload.image(credentials.file)
         const image_key = res.data.key
         const input = {
           image_key: image_key,
-          product: credentials.product
+          trademarks: credentials.trademarks
         }
-        const res2 = await api_product.editItemSaler(input)
-        commit("getItem", res2.data);
-        return res2
-      } catch (error) {
-        commit("resStatus", "error");
-        commit("resMessage", "Edit Product Failed!");
-        return state.state.res
+        const data = await api_admin_trademark.edit(input)
+        return data
       }
+    } catch (error) {
+      commit("resStatus", "error");
+      if (error.response.data.message) {
+        commit("resMessage", 'This file type cannot be uploaded');
+      } else if (error.response.data.name) {
+        commit("resMessage", 'Name has already been taken');
+      } else if (error.response.data.name && error.response.data.number) {
+        commit("resMessage", 'Name & Numbder has already been taken');
+      } else {
+        commit("resMessage", "Edit Failed!");
+      }
+      return state.state.res
     }
   },
 
   async delete({ commit, state }, credentials) {
     try {
-      await api_product.delete(credentials)
+      await api_admin_trademark.delete(credentials)
       commit("resStatus", "success");
       commit("resMessage", "Delete Successful!");
     } catch (error) {
@@ -212,6 +186,7 @@ const actions = {
     }
     return state.state.res
   },
+
 }
 export default {
   namespaced: true,

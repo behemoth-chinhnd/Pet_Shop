@@ -47,7 +47,7 @@ const actions = {
   async login({ commit, dispatch, state }, credentials) {
     try {
       const res = await api_admin_auth.login(credentials);
-      commit("setToken", res.data);
+      commit("setAdminToken", res.data);
       commit("setActive", true);
       commit("resIsActive", true);
 

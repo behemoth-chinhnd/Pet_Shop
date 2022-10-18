@@ -104,6 +104,15 @@ const routes = [
       { path: 'category/create', name: 'admin.category.create', component: () => import('@/views/admin/category/CreateCategory.vue') },
       { path: 'category/edit/:id', name: 'admin.category.edit', component: () => import('@/views/admin/category/EditCategory.vue') },
 
+      { path: 'species', name: 'admin.species', component: () => import('@/views/admin/species/ListSpecies.vue') },
+      { path: 'species/create', name: 'admin.species.create', component: () => import('@/views/admin/species/CreateSpecies.vue') },
+      { path: 'species/edit/:id', name: 'admin.species.edit', component: () => import('@/views/admin/species/EditSpecies.vue') },
+
+      { path: 'trademark', name: 'admin.trademark', component: () => import('@/views/admin/trademark/ListTrademark.vue') },
+      { path: 'trademark/create', name: 'admin.trademark.create', component: () => import('@/views/admin/trademark/CreateTrademark.vue') },
+      { path: 'trademark/edit/:id', name: 'admin.trademark.edit', component: () => import('@/views/admin/trademark/EditTrademark.vue') },
+
+
     ],
   },
 

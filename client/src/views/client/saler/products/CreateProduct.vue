@@ -2,7 +2,77 @@
   <div class="body-saler">
     <div class="panel-body">
       <div class="register-product bg-white">
-        <h1 class="color-primary ">CREATE PRODUCT</h1>
+        <h1 class="color-primary">CREATE PRODUCT</h1>
+        <form @submit.prevent="SearchTrademark()" class="form-search col-md-3">
+          <select
+            @change="SearchTrademark()"
+            v-model="params.q.category_id"
+            class="form-select"
+          >
+            <option
+              v-bind:value="null"
+              :selected="this.params.q.category_id === null"
+              class=""
+            >
+              --Category--
+            </option>
+            <option
+              v-for="item in categories"
+              :key="item.id"
+              v-bind:value="item.id"
+              :selected="params.q.category_id === item.id"
+            >
+              {{ item.name }}
+            </option>
+          </select>
+        </form>
+        <form @submit.prevent="SearchTrademark()" class="form-search col-md-3">
+          <select
+            @change="SearchTrademark()"
+            v-model="params.q.species_id"
+            class="form-select"
+          >
+            <option
+              v-bind:value="null"
+              :selected="this.params.q.species_id === null"
+              class=""
+            >
+              --Species--
+            </option>
+            <option
+              v-for="item in species"
+              :key="item.id"
+              v-bind:value="item.id"
+              :selected="params.q.species_id === item.id"
+            >
+              {{ item.name }}
+            </option>
+          </select>
+        </form>
+
+        <form  class="form-search col-md-3">
+          <select
+           
+            v-model="product.trademark_id"
+            class="form-select"
+          >
+            <option
+              v-bind:value="null"
+              :selected="product.trademark_id === null"
+              class=""
+            >
+              --Trademark--
+            </option>
+            <option
+              v-for="item in trademarks"
+              :key="item.id"
+              v-bind:value="item.id"
+              :selected="product.trademark_id === item.id"
+            >
+              {{ item.name }}
+            </option>
+          </select>
+        </form>
         <form
           action=""
           @submit.prevent="create()"
@@ -158,11 +228,29 @@
 <script>
 import { createNamespacedHelpers } from "vuex";
 const mapActionsPROD = createNamespacedHelpers("PROD");
+const mapActionsADTR = createNamespacedHelpers("ADTR");
+const mapActionsADCA = createNamespacedHelpers("ADCA");
+const mapActionsADSP = createNamespacedHelpers("ADSP");
 import api from "@/plugin/axios";
 export default {
   name: "CreateUser",
   data() {
     return {
+      categories: [],
+      species: [],
+      trademarks: [],
+      params: {
+        page: 1,
+        per_page: 10,
+        pages: "",
+        q: {
+          id: null,
+          name: "",
+          trademark_id: null,
+          category_id: null,
+          species_id: null,
+        },
+      },
       errors: {
         name: "",
         quantity: "",
@@ -174,6 +262,7 @@ export default {
       products: [],
       product: {
         name: "",
+        trademark_id:null,
         image_url: "",
         quantity: "",
         number: "",
@@ -184,10 +273,23 @@ export default {
       inputPicture: null,
     };
   },
-  created() {},
+  created() {
+    this.getCategories();
+    this.getSpecies();
+    this.SearchTrademark();
+  },
   methods: {
     ...mapActionsPROD.mapActions({
       createPROD: "create",
+    }),
+    ...mapActionsADTR.mapActions({
+      getAllListADTR: "getAllList",
+    }),
+    ...mapActionsADCA.mapActions({
+      getAllADCA: "getAll",
+    }),
+    ...mapActionsADSP.mapActions({
+      getAllADSP: "getAll",
     }),
     validate() {
       let isValid = true;
@@ -231,6 +333,7 @@ export default {
       );
     },
     async create() {
+      await this.SearchTrademark();
       if (this.inputPicture === null) {
         this.$swal.fire("You haven't selected a photo yet!", "", "error");
       } else {
@@ -241,9 +344,52 @@ export default {
             file: formData,
             data: this.product,
           };
+          console.log(input)
           const res = await this.createPROD(input);
           this.$swal.fire(res.message, "", res.status);
         }
+      }
+    },
+    async getCategories() {
+      const res = await this.getAllADCA();
+      console.log(`categories`, res);
+      this.categories = res.categories.reverse();
+    },
+    async getSpecies() {
+      const res = await this.getAllADSP();
+      console.log(`species`, res);
+      this.species = res.species.reverse();
+    },
+    async getAllTrademark(input) {
+      const res = await this.getAllListADTR(input);
+      if (res.trademarks) {
+        this.trademarks = res.trademarks;
+      } else {
+        this.$swal.fire(res.message, "", res.status);
+      }
+    },
+    async SearchTrademark() {
+      if (!this.params.q.id) {
+        const input = {
+          page: 1,
+          pages: this.params.pages,
+          per_page: 100,
+          q: {
+            category_id: this.params.q.category_id,
+            species_id: this.params.q.species_id,
+          },
+        };
+        await this.getAllTrademark(input);
+      } else {
+        const input = {
+          page: 1,
+          pages: this.params.pages,
+          per_page: 100,
+          q: {
+            id: this.params.q.id,
+          },
+        };
+        await this.getAllTrademark(input);
       }
     },
   },

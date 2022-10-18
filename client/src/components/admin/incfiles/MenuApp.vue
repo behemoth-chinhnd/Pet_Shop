@@ -7,7 +7,7 @@
     Window height: {{ windowHeight }} -->
     <section id="menu-icon" class="dark" :class="{ active: isActive }">
       <div class="logo">
-        <router-link to="/saler"
+        <router-link to="/"
           ><img src="/images/logo.png" alt=""
         /></router-link>
       </div>
@@ -59,7 +59,7 @@
       class="flex-column dark"
       :class="{ on: isActive, off: !isActive }"
     >
-      <h1 class="pd-lr-20px mgt-20px">SALES MANAGER</h1>
+      <h1 class="pd-lr-20px mgt-20px">ADMINISTRATION</h1>
       <div class="form-search flex-row-space-between">
         <div class="flex-row-space-between rel">
           <i class="icon-search fa fa-search abs"></i>
@@ -86,7 +86,9 @@
               >
             </li>
             <li>
-              <router-link to="/saler/products/create">Create Product</router-link>
+              <router-link to="/saler/products/create"
+                >Create Product</router-link
+              >
             </li>
           </ul>
         </li>
@@ -94,18 +96,52 @@
           <a class="active bold" href="#">MANAGEMENT CATEGORY</a>
           <ul>
             <li>
-              <router-link 
-              :class="{
+              <router-link
+                :class="{
                   'sub-active': this.$route.path.includes(
                     '/admin/category/edit'
                   ),
                 }"
-              to="/admin/category"
+                to="/admin/category"
                 >List Category</router-link
               >
             </li>
             <li>
-              <router-link to="/admin/category/create">Create Category</router-link>
+              <router-link to="/admin/category/create"
+                >Create Category</router-link
+              >
+            </li>
+            <li>
+              <router-link
+                :class="{
+                  'sub-active': this.$route.path.includes(
+                    '/admin/species/edit'
+                  ),
+                }"
+                to="/admin/species"
+                >List Species</router-link
+              >
+            </li>
+            <li>
+              <router-link to="/admin/species/create"
+                >Create Species</router-link
+              >
+            </li>
+            <li>
+              <router-link
+                :class="{
+                  'sub-active': this.$route.path.includes(
+                    '/admin/trademark/edit'
+                  ),
+                }"
+                to="/admin/trademark"
+                >List Trademark</router-link
+              >
+            </li>
+            <li>
+              <router-link to="/admin/trademark/create"
+                >Create Trademark</router-link
+              >
             </li>
           </ul>
         </li>

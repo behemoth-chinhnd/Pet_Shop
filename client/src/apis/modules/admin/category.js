@@ -1,6 +1,6 @@
 
 
-import API from "@/apis/index"
+import API from "@/apis/modules/admin/index"
 import qs from "qs"
 
 export default {
@@ -13,6 +13,9 @@ export default {
         return qs.stringify(params)
       }
     })
+  },
+  getAll() {
+    return API.get(`/api/admins/categories`)
   },
   getItem(id) {
     return API.get(`/api/admins/categories/${id}`)

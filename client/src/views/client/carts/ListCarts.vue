@@ -8,79 +8,118 @@
 
         <div
           class="card mgb-10px pd-10px"
-          v-for="(post, index) in List"
+          v-for="(post, index) in this.order_items"
           :key="index"
         >
-          <div class="flex-row-space-between gap-10px">
-            <div class="img-cart">
-              <img
-                  class="img"
-                  ref="image"
-                  :src="
-                    post.product.image_url
-                      ? post.product.image_url
-                      : require('@/assets/images/plugin/no_photo.jpeg')
-                  "
-                  alt=""
-                />
+          <div
+            class="  pd-10px"
+            v-for="(item, index) in post.orders"
+            :key="index"
+          >
+            <div>
+              {{ item.id }}
             </div>
-
-            <div class="flex-1">
-              <!-- <div class="flex-row-space-between"> -->
-              <!-- <div class="flex-cloumn text-left"> -->
-              <div class="title bold break-line-1">
-                ID: #{{ post.product.id }} - {{ post.product.name }}
+            <div
+              class="card mgb-10px pd-10px"
+              v-for="(info, index) in item.order_items"
+              :key="index"
+            >
+              <div>
+                {{ info.product.name }}
               </div>
-              <!-- </div> -->
-              <!-- <div class="flex-cloumn text-left"></div> -->
-              <!-- </div> -->
-              <div class="flex-row-space-between">
-                <div class="price-product flex-row-space-between-center flex-1 row">
-                  <div class="price flex-row-start-center col-md-4">
-                    <p class="">{{ Intl.NumberFormat().format(post.product.master_sales_price) }}đ</p>
-                    <p class="sale-off mgl-10px">
-                      ({{ Intl.NumberFormat().format(post.product.master_list_price) }}đ)
-                    </p>
+              <div class="flex-row-space-between gap-10px">
+                <div class="img-cart">
+                  <img
+                    class="img"
+                    ref="image"
+                    :src="
+                      info.product.image_url
+                        ? info.product.image_url
+                        : require('@/assets/images/plugin/no_photo.jpeg')
+                    "
+                    alt=""
+                  />
+                </div>
+
+                <div class="flex-1">
+                  <div class="title bold break-line-1">
+                    ID: #{{ info.product.id }} - {{ info.product.name }}
                   </div>
-                  <div class="quantily-product col-md-4 flex-row">
-                    <div class="prev" @click="prev(index)">-</div>
-                    <div class="quantily">{{ post.quantity }}</div>
-                    <div class="next mgr-10px" @click="next(index)">+</div>
-                    <div v-if="isMinimum" class="message">(Minimum = 1 )</div>
-                    <div v-if="isMaximum" class="message">
-                      (Maximum = {{ this.product.number }}
+                  <div class="flex-row-space-between">
+                    <div
+                      class="
+                        price-product
+                        flex-row-space-between-center flex-1
+                        row
+                      "
+                    >
+                      <div class="price flex-row-start-center col-md-4">
+                        <p class="">
+                          {{
+                            Intl.NumberFormat().format(
+                              info.product.master_sales_price
+                            )
+                          }}đ
+                        </p>
+                        <p class="sale-off mgl-10px">
+                          ({{
+                            Intl.NumberFormat().format(
+                              info.product.master_list_price
+                            )
+                          }}đ)
+                        </p>
+                      </div>
+                      <div class="quantily-product col-md-4 flex-row">
+                        <div class="prev" @click="prev(index)">-</div>
+                        <div class="quantily">{{ info.quantity }}</div>
+                        <div class="next mgr-10px" @click="next(index)">+</div>
+                        <div v-if="isMinimum" class="message">
+                          (Minimum = 1 )
+                        </div>
+                        <div v-if="isMaximum" class="message">
+                          (Maximum = {{ this.product.number }}
+                        </div>
+                      </div>
+
+                      <p class="total-cash col-md-4">
+                        Total:
+                        {{
+                          Intl.NumberFormat().format(
+                            info.product.master_sales_price * info.quantity
+                          )
+
+                        }}
+                        
+                        đ
+                      </p>
+                    </div>
+                    <div class="flex-row-center-center pd-10px row">
+                      <b-button
+                        class="btn submit width-100px"
+                        @click="buyNow(info.product.id)"
+                        >Buy Now</b-button
+                      >
+                      <b-button
+                        class="mgl-10px width-30px"
+                        variant="danger"
+                        title="Delete"
+                        @click="onDelete(info.product.id)"
+                        ><i class="fa fa-close" aria-hidden="true"></i
+                      ></b-button>
                     </div>
                   </div>
-
-                  <p class="total-cash col-md-4">
-                    Total:
-                    {{
-                      Intl.NumberFormat().format(
-                        post.product.master_sales_price * post.quantity
-                      )
-                    }}
-                    đ
-                  </p>
-                  <!-- </div> -->
                 </div>
-                <div class="flex-row-center-center pd-10px row">
-                <b-button
-                  class="btn submit width-100px"
-                  @click="buyNow(post.product.id)"
-                  >Buy Now</b-button
-                >
-                <b-button
-                  class="mgl-10px width-30px"
-                  variant="danger"
-                  title="Delete"
-                  @click="onDelete(post.product.id)"
-                  ><i class="fa fa-close" aria-hidden="true"></i
-                ></b-button>
+                
               </div>
-              </div>
-
               
             </div>
+            {{
+                          Intl.NumberFormat().format(
+                            item.subtotal
+                          )
+                          
+                        }}
+                        đ
           </div>
         </div>
         <div
@@ -105,9 +144,10 @@
   </div>
 </template>
 <script>
+import { createNamespacedHelpers } from "vuex";
+const mapActionsCART = createNamespacedHelpers("CART");
 import DefaultAdress from "@/components/client/address/DefaultAddressOrder.vue";
 
-import { mapActions } from "vuex";
 import EmptyCart from "@/components/cart/EmptyCart.vue";
 import func from "@/plugin/func";
 export default {
@@ -172,8 +212,9 @@ export default {
     },
   },
   methods: {
-    ...mapActions([""]),
-
+    ...mapActionsCART.mapActions({
+      getAllCART: "getAll",
+    }),
     isNumber(value) {
       return /^\d*$/.test(value);
     },
@@ -249,14 +290,16 @@ export default {
     // },
 
     async getAll() {
-      await this.$store.dispatch("CART/getAll");
-      this.order_items = this.$store.state.CART.state.order_items;
-      this.total = this.$store.state.CART.state.total;
-      this.total_items = this.$store.state.CART.state.total_items;
-      this.address_order = this.$store.state.ADDR.state.is_default;
-      this.sumQuantity();
-      this.sumCash();
-      this.getAddress();
+      const res = await this.getAllCART();
+      this.order_items = res.data;
+      // this.order_items = this.$store.state.CART.state.order_items;
+      // this.total = this.$store.state.CART.state.total;
+      // this.total_items = this.$store.state.CART.state.total_items;
+      // this.address_order = this.$store.state.ADDR.state.is_default;
+      // this.sumQuantity();
+      // this.sumCash();
+      // this.getAddress();
+      console.log(res.data);
     },
 
     async getAddress() {

@@ -57,40 +57,38 @@ const mutations = {
 const actions = {
   async create({ commit, state }, credentials) {
     try {
-      try {
-        const res = await upload.image(credentials.file)
-        const image_key = res.data.key
-        var input = {
-          image_key: image_key,
-          category: credentials.data,
-        }
-      } catch (error) {
-        commit("resStatus", "error");
-        if (error.response.data.message) {
-          commit("resMessage", 'Wrong image type or size too large!');
-        } else {
-          commit("resMessage", "Upload Image Failed!");
-        }
-        return state.state.res
+      const res = await upload.image(credentials.file)
+      const image_key = res.data.key
+      var input = {
+        image_key: image_key,
+        category: credentials.data,
       }
       await api_admin_category.create(input)
       commit("resStatus", "success");
       commit("resMessage", "Create Successful!");
     } catch (error) {
-      console.log(error)
-
       commit("resStatus", "error");
       if (error.response.data.message) {
+        commit("resMessage", 'This file type cannot be uploaded');
+      } else if (error.response.data.name) {
         commit("resMessage", 'Name has already been taken');
-      } else if (error.response.data.number) {
-        commit("resMessage", 'Number has already been taken');
-      } else if (error.response.data.name && error.response.data.number) {
-        commit("resMessage", 'Name & Numbder has already been taken');
       } else {
         commit("resMessage", "Create Failed!");
       }
     }
     return state.state.res
+  },
+  async getAll({ commit, state }) {
+    
+    try {
+      var res = await api_admin_category.getAll()
+      console.log(`res`, res)
+      return res.data
+    } catch {
+      commit("resStatus", "error");
+      commit("resMessage", "An error occurs, please contact the Admin to handle it! Thanks!");
+      return state.state.res
+    }
   },
   async getAllList({ commit, state }, credentials) {
     console.log(`input`, credentials)
@@ -140,21 +138,12 @@ const actions = {
   },
 
   async edit({ commit, state }, credentials) {
-    console.log(credentials)
-
-    if (credentials.file === null) {
-      try {
+    try {
+      if (credentials.file === null) {
         const res = await api_admin_category.edit(credentials)
-        console.log(res)
         commit("getItem", res.data);
         return res
-      } catch {
-        commit("resStatus", "error");
-        commit("resMessage", "Edit Category Failed!");
-        return state.state.res
-      }
-    } else {
-      try {
+      } else {
         const res = await upload.image(credentials.file)
         const image_key = res.data.key
         const input = {
@@ -164,12 +153,21 @@ const actions = {
         const res2 = await api_admin_category.edit(input)
         commit("getItem", res2.data);
         return res2
-      } catch (error) {
-        commit("resStatus", "error");
-        commit("resMessage", "Edit Category Failed!");
-        return state.state.res
       }
+    } catch (error) {
+      commit("resStatus", "error");
+      if (error.response.data.message) {
+        commit("resMessage", 'This file type cannot be uploaded');
+      } else if (error.response.data.name) {
+        commit("resMessage", 'Name has already been taken');
+      } else if (error.response.data.name && error.response.data.number) {
+        commit("resMessage", 'Name & Numbder has already been taken');
+      } else {
+        commit("resMessage", "Create Failed!");
+      }
+      return state.state.res
     }
+
   },
   async delete({ commit, state }, credentials) {
     try {

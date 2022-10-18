@@ -1,5 +1,5 @@
 <template>
-  <div class="body-saler">
+  <!-- <div class="body-saler"> -->
     <div class="panel-body">
       <div class="search flex-row-center-center gap-10px">
         <form @submit.prevent="Search()" class="form-search">
@@ -24,7 +24,7 @@
             <input
               type="text"
               v-model="params.q.name"
-              class="input-search"
+              class="input-search-category"
               placeholder="Search"
             />
           </div>
@@ -44,7 +44,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="post in this.categories" :key="post.id">
+            <tr v-for="post in this.species" :key="post.id">
               <td scope="row">{{ post.id }}</td>
               <td class="img">
                 <img
@@ -64,9 +64,9 @@
              
               <td class="gap-10px">
                 <router-link
-                  :to="{ name: 'admin.category.edit', params: { id: post.id } }"
+                  :to="{ name: 'admin.species.edit', params: { id: post.id } }"
                 >
-                  <b-button variant="primary">
+                  <b-button variant="primary" @click="nextParams(post.id)">
                     <i class="fa fa-edit"></i>
                   </b-button>
                 </router-link>
@@ -93,28 +93,27 @@
         </paginate>
       </div>
     </div>
-  </div>
+  <!-- </div> -->
   <!-- <router-view/> -->
 </template>
 <script>
 import { createNamespacedHelpers } from "vuex";
-const {mapActions} = createNamespacedHelpers("ADCA");
-import func from "@/plugin/func";
+const {mapActions} = createNamespacedHelpers("ADSP");
 
 export default {
-  name: "categoryForm",
+  name: "speciesForm",
   components: {
     // HeaderTest,
   },
   data() {
     return {
       total_search: "",
-      categories: [],
+      species: [],
       // search: "",
       page: {
         pageCount: 0,
         count: 1,
-        per_page: 5,
+        per_page: 10,
       },
       params: {
         page: 1,
@@ -131,20 +130,27 @@ export default {
   created() {
     this.getAll(this.params);
   },
-  mounted() {},
+  mounted() {
+  },
+  props:{
+    species2:[]
+  },
   methods: {
     ...mapActions({
-      getAllADCA: "getAllList",
-      deleteADCA: "delete",
+      getAllADSP: "getAllList",
+      deleteADSP: "delete",
     }),
     clickCallback(pageNum) {
       this.params.page = pageNum;
       this.getAll(this.params);
     },
+    async nextParams(ID){
+      await this.$emit('next', ID )
+    },
     async getAll(input) {
-      const res = await this.getAllADCA(input);
-      if (res.categories) {
-        this.categories = res.categories;
+      const res = await this.getAllADSP(input);
+      if (res.species) {
+        this.species = res.species;
         this.total_search = res.meta.total;
         this.params.page = res.meta.page;
         this.params.pages = res.meta.pages;
@@ -175,7 +181,7 @@ export default {
         await this.getAll(input);
       }
     },
-    async onDelete(categoryId) {
+    async onDelete(speciesId) {
       this.$swal
         .fire({
           title: "Delete?",
@@ -194,7 +200,7 @@ export default {
         })
         .then(async (result) => {
           if (result.isConfirmed) {
-            const res = await this.deleteADCA(categoryId);
+            const res = await this.deleteADSP(speciesId);
             this.$swal.fire(res.message, "", res.status);
             this.Search();
           }
@@ -202,7 +208,9 @@ export default {
     },
   },
   watch: {},
-  computed: {},
+  computed: {
+    
+  },
 };
 </script>
 <style>

@@ -85,11 +85,15 @@ const actions = {
   async register({ commit }, credentials) {
     await api.post("/api/user", credentials).then(res => {
       if (res) {
+        console.log(res)
+
         commit("isError", false);
         commit("setErrors", "");
-        window.location.href = "/login";
+        // window.location.href = "/login";
       }
     }).catch((res) => {
+      console.log(res)
+
       commit("isError", true);
       commit("setErrors", res.response.data);
     })
