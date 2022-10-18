@@ -1,5 +1,5 @@
 <template>
-  <div class="client">
+  <div class="client hidden">
     <section id="client" class="text-white">
       <div v-if="this.client.login == 'online'" class="flex-row-space-between-center">
         <h1>Xin chào: {{ client.username }}</h1>

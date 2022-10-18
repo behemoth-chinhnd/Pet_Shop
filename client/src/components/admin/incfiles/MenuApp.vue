@@ -7,7 +7,7 @@
     Window height: {{ windowHeight }} -->
     <section id="menu-icon" class="dark" :class="{ active: isActive }">
       <div class="logo">
-        <router-link to="/saler"
+        <router-link to="/"
           ><img src="/images/logo.png" alt=""
         /></router-link>
       </div>
@@ -59,7 +59,7 @@
       class="flex-column dark"
       :class="{ on: isActive, off: !isActive }"
     >
-      <h1 class="pd-lr-20px mgt-20px">SALES MANAGER</h1>
+      <h1 class="pd-lr-20px mgt-20px">ADMINISTRATION</h1>
       <div class="form-search flex-row-space-between">
         <div class="flex-row-space-between rel">
           <i class="icon-search fa fa-search abs"></i>

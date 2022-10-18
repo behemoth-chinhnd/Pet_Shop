@@ -20,6 +20,21 @@
             </div>
           </div>
           <div class="form-group col-md-6">
+            <label for="inputEmail" class="col-form-label">Species</label>
+            <div class="">
+              <select v-model="product.trademark_id">
+                <option
+                  v-for="item in trademarks"
+                  :key="item.id"
+                  v-bind:value="item.id"
+                  :selected="product.trademark_id === item.id"
+                >
+                  {{ item.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
             <label for="inputName" class="col-form-label">Name</label>
             <div class="">
               <input
@@ -167,11 +182,13 @@
 <script>
 import { createNamespacedHelpers } from "vuex";
 const mapActionsPROD = createNamespacedHelpers("PROD");
+const mapActionsADTR = createNamespacedHelpers("ADTR");
 
 export default {
   name: "CurrencyInput",
   data() {
     return {
+      trademarks:"",
       isHover: false,
       hidden: {
         name: "",
@@ -193,6 +210,8 @@ export default {
       product: {
         name: "",
         image_key: "",
+        trademark_id:"",
+        trademark:"",
         number: "",
         quantity: "",
         master_sku: "",
@@ -212,6 +231,9 @@ export default {
     ...mapActionsPROD.mapActions({
       editProduct: "edit",
       getItemSaler: "getItemSaler",
+    }),
+    ...mapActionsADTR.mapActions({
+      getAllADTR: "getAll",
     }),
 
     hiddenPrice() {
@@ -292,17 +314,27 @@ export default {
           }
         }
       }
+      await this.getItem(this.product.id)
     },
     async getItem(itemId) {
       this.error = false;
       const res = await this.getItemSaler(itemId);
       if (res.data) {
         this.product = res.data;
+        console.log(`res`,res)
+        if(this.product.trademark) {
+          this.product.trademark_id = this.product.trademark.id
+        }
       } else {
         this.error = true;
         this.$swal.fire(res.message, "", res.status, 1000);
       }
+      this.getListTrademark()
     },
+    async getListTrademark(){
+      const res = await this.getAllADTR();
+      this.trademarks = res.trademarks
+    }
   },
   computed: {},
 };

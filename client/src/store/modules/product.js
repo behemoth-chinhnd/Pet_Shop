@@ -101,6 +101,10 @@ const actions = {
         per_page: credentials.per_page,
         q: {
           name_or_number_cont: credentials.q.name,
+          trademark_category_id_eq: credentials.q.category_id,
+          trademark_species_id_eq: credentials.q.species_id,
+          trademark_id_eq: credentials.q.trademark_id
+
         },
       }
     }
@@ -119,6 +123,8 @@ const actions = {
       per_page: credentials.per_page,
       q: {
         name_or_number_cont: credentials.q.name,
+
+
       },
     }
     try {
@@ -165,6 +171,7 @@ const actions = {
 
   },
   async edit({ commit, state }, credentials) {
+    console.log(`input`,credentials)
     if (credentials.file === null) {
       try {
         const res = await api_product.editItemSaler(credentials)

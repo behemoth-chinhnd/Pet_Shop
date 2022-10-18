@@ -7,6 +7,9 @@ export default {
   create(input) {
     return API.post("/api/admins/trademarks", input)
   },
+  getAll() {
+    return API.get(`/api/admins/trademarks`)
+  },
   getAllList(queryParams) {
     return API.get(`/api/admins/trademarks`, {
       params: queryParams, paramsSerializer: params => {

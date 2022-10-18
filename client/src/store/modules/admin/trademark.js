@@ -90,6 +90,17 @@ const actions = {
     }
     return state.state.res
   },
+  async getAll({ commit, state }) {
+    try {
+      var res = await api_admin_trademark.getAll()
+      console.log(`res`, res)
+      return res.data
+    } catch {
+      commit("resStatus", "error");
+      commit("resMessage", "An error occurs, please contact the Admin to handle it! Thanks!");
+      return state.state.res
+    }
+  },
   async getAllList({ commit, state }, credentials) {
     console.log(`input`, credentials)
     if (credentials.q.id) {
@@ -106,7 +117,8 @@ const actions = {
         per_page: credentials.per_page,
         q: {
           name_cont: credentials.q.name,
-        },
+          category_id_eq: credentials.q.category_id,
+          species_id_eq: credentials.q.species_id,        },
       }
     }
     try {

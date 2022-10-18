@@ -126,6 +126,8 @@ export default {
         q: {
           id: null,
           name: "",
+          category_id:null,
+          species_id:null,
         },
       },
     };
