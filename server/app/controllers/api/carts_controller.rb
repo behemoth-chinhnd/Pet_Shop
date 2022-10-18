@@ -4,11 +4,13 @@ module Api
 
     def show
       @orders = @user.orders.shopping
-      order_group_by_seller = @orders.group_by { |o| o.seller_id }
+      order_group_by_seller = @orders.group_by(&:seller_id)
 
       result = {}
 
       order_group_by_seller.each do |seller_id, orders|
+        next if orders.last.order_items.blank?
+
         result[seller_id] ||= {}
 
         result[seller_id][:seller] = ::Users::ShowSerializer.new(User.find(seller_id))

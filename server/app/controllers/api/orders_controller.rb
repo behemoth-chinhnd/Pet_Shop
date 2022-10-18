@@ -30,7 +30,7 @@ module Api
       service = ::Orders::SubmitService.call(**order_params.to_h)
 
       if service.success?
-        response_success(service.new_order, { serializer: ::Orders::ShowSerializer })
+        response_success(service.list_order, { each_serializer: ::Orders::ShowSerializer })
       else
         response_error(service.message)
       end

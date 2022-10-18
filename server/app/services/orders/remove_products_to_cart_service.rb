@@ -6,7 +6,7 @@ module Orders
       product = Product.show.find_by(id: context.product_id)
       context.fail!(message: "Not found product") if product.blank?
 
-      context.current_order = Current.user.orders.find_or_create_by!(status: :shopping, seller_id: product.creator.id)
+      context.current_order = Current.user.orders.find_or_create_by!(status: :shopping, seller_id: product.creator_id)
 
       ActiveRecord::Base.transaction do
         order_item = context.current_order.order_items.find_by!(product_id: context.product_id)

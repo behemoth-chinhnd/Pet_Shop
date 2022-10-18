@@ -3,30 +3,37 @@ module Orders
     include Interactor
 
     def call
+      context.list_order = []
       context.customer = Current.user
       context.customer_addresss = context.customer.addresses
 
       ActiveRecord::Base.transaction do
-        context.order = context.customer.orders.shopping.last
+        context.fail!(message: "Not exist order") if context.customer.orders.shopping.blank?
 
-        context.address = if context.customer_address_id
-                            context.customer_addresss.find_by(id: context.customer_address_id)
-                          else
-                            construct_address
-                          end
+        context.customer.orders.shopping.each do |order|
+          context.address = if context.customer_address_id
+                              context.customer_addresss.find_by(id: context.customer_address_id)
+                            else
+                              construct_address
+                            end
 
-        context.fail!(message: "Submit Order failed") unless context.order.present? && context.address.present? && context.order.order_items.present?
+          context.fail!(message: "Address cant be blank") if context.address.blank?
+          context.fail!(message: "Order item not exist") if order.order_items.blank?
 
-        context.new_order = Order.create!(
-          order_items: context.order.order_items,
-          user: context.order.user,
-          status: :wait_for_confirmation,
-          ordered_at: Time.current,
-          address_id: context.address.id,
-        )
+          context.new_order = Order.create!(
+            order_items: order.order_items,
+            user: order.user,
+            seller: order.seller,
+            status: :wait_for_confirmation,
+            ordered_at: Time.current,
+            address_id: context.address.id,
+          )
 
-        context.new_order.update_price!
-        update_product_sold
+          context.new_order.update_price!
+          update_product_sold
+
+          context.list_order.push(context.new_order)
+        end
       end
     end
 
