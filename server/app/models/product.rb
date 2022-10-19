@@ -69,6 +69,9 @@ class Product < ApplicationRecord
   def update_shopping_order_price
     order_ids = order_items.map(&:order_id).flatten
 
-    Order.shopping.where(id: order_ids).map(&:update_price!)
+    Order.shopping.where(id: order_ids).each do |order|
+      order.order_items.map(:save)
+      order.update_price!
+    end
   end
 end
