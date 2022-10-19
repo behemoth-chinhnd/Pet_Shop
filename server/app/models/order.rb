@@ -55,6 +55,14 @@ class Order < ApplicationRecord
     update!(subtotal:, discount:, shipping_fee:, total:)
   end
 
+  def number_of_items
+    order_items.count
+  end
+
+  def total_quantity
+    order_items.map(&:quantity).sum
+  end
+
   private
 
   def calculate_final_price(subtotal, discount, shipping_fee)
