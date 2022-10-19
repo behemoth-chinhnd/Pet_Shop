@@ -23,6 +23,5 @@ class OrderItem < ApplicationRecord
 
   def calculate_total
     self.total = quantity * product.master_sales_price
-    save
   end
 end
