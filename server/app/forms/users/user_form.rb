@@ -64,7 +64,7 @@ module Users
     end
 
     def validate_store_name
-      errors.add(:store_name, :invalid) unless ::User.exists?(store_name:)
+      errors.add(:store_name, :invalid) if ::User.exists?(store_name:)
     end
   end
 end
