@@ -20,7 +20,7 @@ module Orders
     end
 
     class OrderItemSerializer < ActiveModel::Serializer
-      attribute :quantity
+      attribute :quantity, :total
 
       belongs_to :product
 

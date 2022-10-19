@@ -76,6 +76,7 @@ ActiveRecord::Schema[7.0].define(version: 0) do
     t.bigint "product_id"
     t.integer "quantity"
     t.string "description"
+    t.bigint "total"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["order_id"], name: "index_order_items_on_order_id"
@@ -99,15 +100,6 @@ ActiveRecord::Schema[7.0].define(version: 0) do
     t.index ["address_id"], name: "index_orders_on_address_id"
     t.index ["ordered_at"], name: "index_orders_on_ordered_at"
     t.index ["user_id"], name: "index_orders_on_user_id"
-  end
-
-  create_table "product_categories", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "product_id", null: false
-    t.bigint "category_id", null: false
-    t.datetime "deleted_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["product_id", "category_id"], name: "index_pc_on_product_id_category_id", unique: true
   end
 
   create_table "products", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|

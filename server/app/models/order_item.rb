@@ -18,4 +18,11 @@
 class OrderItem < ApplicationRecord
   belongs_to :order
   belongs_to :product
+
+  before_save :calculate_total
+
+  def calculate_total
+    self.total = quantity * product.master_sales_price
+    save
+  end
 end

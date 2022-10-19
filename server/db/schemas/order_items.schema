@@ -3,6 +3,7 @@ create_table "order_items", charset: "utf8mb4", collation: "utf8mb4_unicode_ci",
   t.bigint :product_id
   t.integer :quantity
   t.string :description
+  t.bigint :total
   
   t.timestamps
 

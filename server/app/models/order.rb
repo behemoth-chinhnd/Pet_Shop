@@ -73,7 +73,7 @@ class Order < ApplicationRecord
     sum = 0
 
     order_items.reload.each do |order_item|
-      sum += order_item.product.master_sales_price * order_item.quantity
+      sum += order_item.total
     end
 
     sum
