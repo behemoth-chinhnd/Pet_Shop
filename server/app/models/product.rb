@@ -63,4 +63,12 @@ class Product < ApplicationRecord
       end
     end
   end
+
+  after_update :update_shopping_order_price
+
+  def update_shopping_order_price
+    order_ids = order_items.map(&:order_id)
+
+    Order.shopping.where(id: order_ids).map(&:update_price!)
+  end
 end
