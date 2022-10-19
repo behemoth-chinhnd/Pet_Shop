@@ -15,6 +15,8 @@ create_table "users", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force
   t.string :password_reset_token
   t.datetime :password_reset_token_valid_datetime
   t.boolean :is_logout, null: false, default: false
+  t.bigint :shipping_fee, null: false, default: 0
+  t.string :store_name
 
   t.datetime :deleted_at
   t.integer :lock_version, default: 0, null: false

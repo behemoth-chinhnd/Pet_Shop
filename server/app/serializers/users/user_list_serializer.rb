@@ -7,6 +7,8 @@ module Users
                :user_type,
                :birthday,
                :avatar_url,
-               :sex_id
+               :sex_id,
+               :store_name,
+               :shipping_fee
   end
 end

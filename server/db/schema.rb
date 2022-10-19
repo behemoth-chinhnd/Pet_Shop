@@ -159,6 +159,8 @@ ActiveRecord::Schema[7.0].define(version: 0) do
     t.string "password_reset_token"
     t.datetime "password_reset_token_valid_datetime"
     t.boolean "is_logout", default: false, null: false
+    t.bigint "shipping_fee", default: 0, null: false
+    t.string "store_name"
     t.datetime "deleted_at"
     t.integer "lock_version", default: 0, null: false
     t.datetime "created_at", null: false

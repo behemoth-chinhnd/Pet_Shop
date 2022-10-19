@@ -10,6 +10,8 @@ module Users
     attribute :birthday, :date
     attribute :sex_id, :integer
     attribute :avatar_key, :string
+    attribute :shipping_fee, :integer
+    attribute :store_name, :string
 
     with_options if: -> { @model.new_record? } do
       validates :email,
@@ -31,6 +33,8 @@ module Users
     validate :validate_sex, if: -> { sex_id.present? }
 
     validate :validate_avatar_not_found, if: -> { avatar_key.present? }
+
+    validate :validate_store_name, if: -> { store_name.present? }
 
     def save
       return unless super
@@ -57,6 +61,10 @@ module Users
       @blob = ActiveStorage::Blob.find_by(key: avatar_key)
 
       errors.add(:avatar_key, :not_found) if @blob.blank?
+    end
+
+    def validate_store_name
+      errors.add(:store_name, :invalid) unless ::User.exists?(store_name:)
     end
   end
 end

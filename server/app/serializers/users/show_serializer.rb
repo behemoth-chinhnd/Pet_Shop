@@ -12,6 +12,8 @@ module Users
                :avatar_url,
                :created_at,
                :updated_at,
-               :deleted_at
+               :deleted_at,
+               :shipping_fee,
+               :store_name
   end
 end
