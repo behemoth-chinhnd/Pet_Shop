@@ -1,6 +1,7 @@
 
 import api from "@/plugin/axios";
 import api_cart from "@/apis/modules/cart"
+import api_product from "@/apis/modules/product"
 
 const state = {
   state: {
@@ -164,37 +165,37 @@ const actions = {
     return state.state.res
   },
 
-  async nextCart({ commit }, order_item) {
+  async nextCart({ commit }, credentials) {
     const input = {
-      product_id: order_item.product.id,
+      product_id: credentials,
       quantity: 1
     }
-    cart.addCart(input)
-    // await api.post("/api/cart/add_product", input).then(res => {
-    //   console.log(`nextCart`, res.data);
-    // }).catch((res) => {
-    //   console.log(`nextCartFailed`, res.response);
-    // })
+    try {
+      const res = await api_cart.addCart(input)
+    } catch (error){
+      commit("resStatus", "error");
+      commit("resMessage", "Add to Cart: Failed!");
+      commit("resText", "Product quantity is not enough or sold out!");
+      return state.state.res
+    }
   },
-  async prevCart({ commit }, order_item) {
+  async prevCart({ commit }, credentials) {
     const input = {
-      product_id: order_item.product.id,
+      product_id: credentials,
       quantity: -1
     }
-    await api.post("/api/cart/add_product", input).then(res => {
-      console.log(`prevCart`, res.data);
-    }).catch((res) => {
-      console.log(`prevCartFailed`, res.response);
-    })
+    try {
+      const res = await api_cart.addCart(input)
+    } catch (error){
+      commit("resStatus", "error");
+      commit("resMessage", "Failed!");
+      commit("resText", "Product quantity is not enough or sold out!");
+      return state.state.res
+    }
   },
-  async delete({ commit, dispatch }, credentials) {
-    await api.post(`/api/cart/remove_product`, credentials).then(res => {
-      console.log(`deleteCart`, res.data);
-
-      // dispatch('getAllDelete')
-    }).catch((res) => {
-      alert(res)
-    })
+  async remove({ }, credentials) {
+    const res = await api_cart.remove(credentials)
+    return res
   },
 }
 export default {
