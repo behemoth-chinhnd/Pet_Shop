@@ -10,15 +10,16 @@ module Orders
       ActiveRecord::Base.transaction do
         context.fail!(message: "Not exist order") if context.customer.orders.shopping.blank?
 
-        context.customer.orders.shopping.each do |order|
-          context.address = if context.customer_address_id
-                              context.customer_addresss.find_by(id: context.customer_address_id)
-                            else
-                              construct_address
-                            end
+        context.address = if context.customer_address_id
+                            context.customer_addresss.find_by(id: context.customer_address_id)
+                          else
+                            construct_address
+                          end
 
-          context.fail!(message: "Address cant be blank") if context.address.blank?
-          context.fail!(message: "Order item not exist") if order.order_items.blank?
+        context.fail!(message: "Address cant be blank") if context.address.blank?
+
+        context.customer.orders.shopping.each do |order|
+          next if order.order_items.blank?
 
           context.new_order = Order.create!(
             order_items: order.order_items,
