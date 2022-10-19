@@ -429,12 +429,13 @@ ul.menu-admin li.sub-menu li a {
   border: 1px solid var(--admin-master);
 }
 
-#admin .body-saler .form-select option{
+/* #admin .body-saler .form-select option, #admin .body-saler select, #admin .body-saler input.input{
   height: 40px;
   line-height: 40px;
-padding: 20px;
-padding-bottom: 30px;
-}
+padding: 10px;
+font-size: 15px;
+} */
+
 
 
 #admin .body-saler .input-search-id {

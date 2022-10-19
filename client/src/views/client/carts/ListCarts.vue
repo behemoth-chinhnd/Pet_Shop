@@ -12,7 +12,7 @@
           :key="index"
         >
           <div
-            class="  pd-10px"
+            class="pd-10px"
             v-for="(item, index) in post.orders"
             :key="index"
           >
@@ -70,15 +70,10 @@
                         </p>
                       </div>
                       <div class="quantily-product col-md-4 flex-row">
-                        <div class="prev" @click="prev(index)">-</div>
+                        <div class="prev" @click="prev(info)">-</div>
                         <div class="quantily">{{ info.quantity }}</div>
-                        <div class="next mgr-10px" @click="next(index)">+</div>
-                        <div v-if="isMinimum" class="message">
-                          (Minimum = 1 )
-                        </div>
-                        <div v-if="isMaximum" class="message">
-                          (Maximum = {{ this.product.number }}
-                        </div>
+                        <!-- <div class="next mgr-10px" @click="next((order_items), (post.orders), (item.order_items), info.quantity)">+</div> -->
+                        <div class="next mgr-10px" @click="next(info)">+</div>
                       </div>
 
                       <p class="total-cash col-md-4">
@@ -87,9 +82,8 @@
                           Intl.NumberFormat().format(
                             info.product.master_sales_price * info.quantity
                           )
-
                         }}
-                        
+
                         đ
                       </p>
                     </div>
@@ -103,23 +97,16 @@
                         class="mgl-10px width-30px"
                         variant="danger"
                         title="Delete"
-                        @click="onDelete(info.product.id)"
+                        @click="remove(info.product.id)"
                         ><i class="fa fa-close" aria-hidden="true"></i
                       ></b-button>
                     </div>
                   </div>
                 </div>
-                
               </div>
-              
             </div>
-            {{
-                          Intl.NumberFormat().format(
-                            item.subtotal
-                          )
-                          
-                        }}
-                        đ
+            {{ Intl.NumberFormat().format(item.subtotal) }}
+            đ
           </div>
         </div>
         <div
@@ -130,7 +117,7 @@
             >({{ this.total_quantity }} Product) - Total Cash:
             {{ Intl.NumberFormat().format(this.total) }}đ</b-button
           >
-          <b-button class="btn submit mgl-10px" @click="createOrder()"
+          <b-button class="btn submit mgl-10px" @click="orderAll()"
             >ORDER ALL</b-button
           >
         </div>
@@ -146,12 +133,12 @@
 <script>
 import { createNamespacedHelpers } from "vuex";
 const mapActionsCART = createNamespacedHelpers("CART");
+const mapActionsPROD = createNamespacedHelpers("PROD");
 import DefaultAdress from "@/components/client/address/DefaultAddressOrder.vue";
 
-import EmptyCart from "@/components/cart/EmptyCart.vue";
-import func from "@/plugin/func";
+import EmptyCart from "@/components/client/cart/_emptyCart.vue";
 export default {
-  name: "ProductDta",
+  name: "ShowCarts",
   components: {
     defaultAddress: DefaultAdress,
     emptyCart: EmptyCart,
@@ -201,19 +188,16 @@ export default {
   created() {
     this.getAll();
   },
-  computed: {
-    List() {
-      this.order_items = this.$store.state.CART.state.order_items;
-      this.total = this.$store.state.CART.state.total;
-      this.total_items = this.$store.state.CART.state.total_items;
-      this.total_quantity = this.$store.state.CART.state.total_quantity;
-      this.address_order = this.$store.state.ADDR.state.is_default;
-      return (this.order_items = this.$store.state.CART.state.order_items);
-    },
-  },
+  computed: {},
   methods: {
     ...mapActionsCART.mapActions({
       getAllCART: "getAll",
+      nextCART: "nextCart",
+      prevCART: "prevCart",
+      removeCART: "remove",
+    }),
+    ...mapActionsPROD.mapActions({
+      getItemPROD: "getItem",
     }),
     isNumber(value) {
       return /^\d*$/.test(value);
@@ -236,86 +220,46 @@ export default {
       //  this.$store.dispatch("CART/getCash", sum)
     },
 
-    async next(id) {
-      this.List[id].quantity += 1;
-      this.List[id].quantity = parseInt(this.List[id].quantity);
-      if (this.List[id].quantity > this.List[id].product.quantity) {
-        this.List[id].quantity = this.List[id].product.quantity;
-        alert(`Max = ${this.List[id].product.quantity}`);
-
-        // this.isMaximum = true;
+    async next(info) {
+      info.quantity += 1;
+      if (info.quantity > info.product.quantity) {
+        info.quantity = info.product.quantity;
+        this.$swal.fire("Exceeded the allowed amount", "", "error");
       } else {
-        await this.$store.dispatch("CART/nextCart", this.List[id]);
+        await this.nextCART(info.product.id);
       }
-      this.sumQuantity();
-      this.sumCash();
+      await this.getAll();
     },
 
-    async prev(id) {
-      this.List[id].quantity -= 1;
-
-      this.List[id].quantity = parseInt(this.List[id].quantity);
-      if (this.List[id].quantity < 1) {
-        this.List[id].quantity = 1;
-        alert(`Min = 1`);
-        // this.isMaximum = true;
+    async prev(info) {
+      info.quantity -= 1;
+      if (info.quantity < 1) {
+        await this.remove(info.product.id);
       } else {
-        await this.$store.dispatch("CART/prevCart", this.List[id]);
+        await this.prevCART(info.product.id);
       }
-      this.sumQuantity();
-      this.sumCash();
+      await this.getAll();
     },
-
-    // next() {
-    //   this.cart.quantity += 1;
-    //   console.log(this.cart.quantity);
-    //   console.log(this.product.number);
-    //   this.isMinimum = false;
-    //   this.isMaximum = false;
-    //   if (this.cart.quantity > this.product.number) {
-    //     this.cart.quantity = this.product.number;
-    //     this.isMaximum = true;
-    //   }
-    // },
-    // prev() {
-    //   this.cart.quantity -= 1;
-    //   this.isMinimum = false;
-    //   this.isMaximum = false;
-    //   console.log(this.cart.quantity);
-    //   console.log(this.product.number);
-    //   if (this.cart.quantity < 1) {
-    //     this.cart.quantity = 1;
-    //     this.isMinimum = true;
-    //   }
-    // },
 
     async getAll() {
       const res = await this.getAllCART();
       this.order_items = res.data;
-      // this.order_items = this.$store.state.CART.state.order_items;
-      // this.total = this.$store.state.CART.state.total;
-      // this.total_items = this.$store.state.CART.state.total_items;
-      // this.address_order = this.$store.state.ADDR.state.is_default;
-      // this.sumQuantity();
-      // this.sumCash();
-      // this.getAddress();
-      console.log(res.data);
     },
 
     async getAddress() {
       await this.$store.dispatch("ADDR/getIsDefault");
     },
 
-    async createOrder() {
-      console.log(this.address_order);
+    async orderAll() {
       await this.$store.dispatch("ORDE/create", this.address_order);
+      await this.getAll();
     },
 
-    onDelete(productId) {
+    async remove(productId) {
       this.$swal
         .fire({
-          title: "Delete?",
-          text: "You won't be able to revert this!",
+          title: "Remove Product?",
+          text: "Want to remove this product from your cart?",
           icon: "question",
           type: "warning",
           showDenyButton: false,
@@ -328,19 +272,13 @@ export default {
           // closeOnConfirm: false,
           // closeOnCancel: false
         })
-        .then((result) => {
+        .then(async (result) => {
           if (result.isConfirmed) {
-            this.$store
-              .dispatch("CART/delete", { product_id: productId })
-              .then(() => {
-                this.getAll();
-                // this.$swal.fire(this.res.message, "", this.res.status);
-              });
+            await this.removeCART({ product_id: productId });
+            await this.getAll();
           }
         });
     },
-
-    async addCart() {},
   },
 };
 </script>

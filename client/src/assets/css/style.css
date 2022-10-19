@@ -564,8 +564,17 @@ ul.pagination li {
     color: #fd820a;
 }
 
-li.page-item.active {
-    color: #fff;
+.panel-footer ul.pagination li.page-item.disabled a, ul.pagination li.page-item.disabled + li a, .panel-footer ul.pagination li.page-item.active + li a{
+    color: #fd820a !important;
+
+}
+
+.panel-footer ul.pagination li.page-item.active a{
+    color: #fff !important;
+
+}
+.panel-footer ul.pagination li.page-item.active {
+    color: #fff !important;
     background: linear-gradient(100deg, #ff424e, #fd820a);
 
 }

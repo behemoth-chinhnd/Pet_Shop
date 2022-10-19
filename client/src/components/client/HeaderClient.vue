@@ -141,8 +141,8 @@
 import { createNamespacedHelpers } from "vuex";
 const mapActionsAUTH = createNamespacedHelpers("AUTH");
 const mapActionsCART = createNamespacedHelpers("CART");
-import ListCartHeader from "@/components/cart/ListCartHeader.vue";
-import EmptyCartHeader from "@/components/cart/EmptyCartHeader.vue";
+import ListCartHeader from "@/components/client/cart/_showCartHeader.vue";
+import EmptyCartHeader from "@/components/client/cart/_emptyCartHeader.vue";
 import HeaderUser from "@/components/client/users/HeaderUser.vue";
 
 export default {

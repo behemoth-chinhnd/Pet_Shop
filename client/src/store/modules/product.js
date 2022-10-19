@@ -171,19 +171,14 @@ const actions = {
 
   },
   async edit({ commit, state }, credentials) {
-    console.log(`input`,credentials)
-    if (credentials.file === null) {
-      try {
+    console.log(`input`, credentials)
+    try {
+      if (credentials.file === null) {
+
         const res = await api_product.editItemSaler(credentials)
         commit("getItem", res.data);
         return res
-      } catch {
-        commit("resStatus", "error");
-        commit("resMessage", "Edit Product Failed!");
-        return state.state.res
-      }
-    } else {
-      try {
+      } else {
         const res = await upload.image(credentials.file)
         const image_key = res.data.key
         const input = {
@@ -193,11 +188,27 @@ const actions = {
         const res2 = await api_product.editItemSaler(input)
         commit("getItem", res2.data);
         return res2
-      } catch (error) {
-        commit("resStatus", "error");
-        commit("resMessage", "Edit Product Failed!");
-        return state.state.res
+        
       }
+    } catch (error) {
+      console.log(error)
+      commit("resStatus", "error");
+      if (error.response.data.message) {
+        commit("resMessage", 'This file type cannot be uploaded');
+      } else if (error.response.data.trademark_id = "Trademark cant be blank") {
+        commit("resMessage", 'Trademark cant be blank');
+      } else if (error.response.data.trademark_id = "Trademark is not included in the list") {
+        commit("resMessage", 'Trademark is not included in the list');
+      } else if (error.response.data.name) {
+        commit("resMessage", 'Name has already been taken');
+      } else if (error.response.data.number) {
+        commit("resMessage", 'Number has already been taken');
+      } else if (error.response.data.name && error.response.data.number) {
+        commit("resMessage", 'Name & Numbder has already been taken');
+      } else {
+        commit("resMessage", "Create Failed!");
+      }
+      return state.state.res
     }
   },
 

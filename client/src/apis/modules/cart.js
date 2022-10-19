@@ -7,5 +7,8 @@ export default {
   },
   getAll() {
     return API.get(`/api/cart`)
+  },
+  remove(credentials) {
+    return API.post(`/api/cart/remove_product`, credentials)
   }
 }
