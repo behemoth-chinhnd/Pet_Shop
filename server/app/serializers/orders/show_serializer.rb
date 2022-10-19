@@ -5,7 +5,17 @@ module Orders
                :total,
                :shipping_fee,
                :subtotal,
-               :discount
+               :discount,
+               :number_of_items,
+               :total_quantity
+
+    def number_of_items
+      order_items.count
+    end
+
+    def total_quantity
+      order_items.map(&:quantity).sum
+    end
 
     has_many :order_items
 
