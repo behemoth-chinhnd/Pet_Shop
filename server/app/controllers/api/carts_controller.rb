@@ -6,15 +6,34 @@ module Api
       @orders = @user.orders.shopping
       order_group_by_seller = @orders.group_by(&:seller_id)
 
-      result = {}
+      result = {
+        data: [],
+        infos: {
+          discount: 0,
+          number_of_items: 0,
+          shipping_fee: 0,
+          subtotal: 0,
+          total: 0,
+          total_quantity: 0
+        },
+      }
 
       order_group_by_seller.each do |seller_id, orders|
         next if orders.last.order_items.blank?
 
-        result[seller_id] ||= {}
+        result[:data].push(
+          seller: ::Users::ShowSerializer.new(User.find(seller_id)),
+          orders: orders.map { |o| ::Orders::ShowSerializer.new(o) },
+        )
 
-        result[seller_id][:seller] = ::Users::ShowSerializer.new(User.find(seller_id))
-        result[seller_id][:orders] = orders.map { |o| ::Orders::ShowSerializer.new(o) }
+        orders.each do |order|
+          result[:infos][:discount] += order.discount
+          result[:infos][:number_of_items] += order.number_of_items
+          result[:infos][:shipping_fee] += order.shipping_fee
+          result[:infos][:subtotal] += order.subtotal
+          result[:infos][:total] += order.total
+          result[:infos][:total_quantity] += order.total_quantity
+        end
       end
 
       response_success(result)

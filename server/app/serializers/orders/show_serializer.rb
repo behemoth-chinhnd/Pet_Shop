@@ -10,11 +10,11 @@ module Orders
                :total_quantity
 
     def number_of_items
-      object.order_items.count
+      object.number_of_items
     end
 
     def total_quantity
-      object.order_items.map(&:quantity).sum
+      object.total_quantity
     end
 
     has_many :order_items
