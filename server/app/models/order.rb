@@ -31,6 +31,8 @@ class Order < ApplicationRecord
   has_many :order_items, -> { joins(:product).where("products.quantity > 0 AND products.is_display = true AND order_items.quantity > 0") }, dependent: :destroy
   accepts_nested_attributes_for :order_items
 
+  has_many :all_order_items, class_name: "OrderItem", inverse_of: :order
+
   has_many :order_histories, dependent: :destroy
 
   belongs_to :address, optional: true

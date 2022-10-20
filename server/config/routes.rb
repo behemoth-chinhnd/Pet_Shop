@@ -32,6 +32,7 @@ Rails.application.routes.draw do
     end
 
     get :orders, to: "orders#index"
+    get :seller_orders, to: "orders#seller_order_index"
 
     ## Order History
     resource :order_history, only: [:show]
@@ -61,10 +62,15 @@ Rails.application.routes.draw do
     namespace :admins do
       # Categpry
       resources :categories
+
       # Species
       resources :species
+
       # Trademark
       resources :trademarks
+
+      # Order
+      resources :orders
     end
   end
 end
