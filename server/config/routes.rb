@@ -33,6 +33,9 @@ Rails.application.routes.draw do
 
     get :orders, to: "orders#index"
 
+    ## Order History
+    resource :order_history, only: [:show]
+
     ## Address
     resources :addresses do
       collection do
