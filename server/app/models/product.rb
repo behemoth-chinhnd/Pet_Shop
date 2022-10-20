@@ -14,6 +14,8 @@
 #  number               :string(255)      not null
 #  number_of_items_sold :bigint           default(0), not null
 #  quantity             :integer          default(0), not null
+#  total_cancel         :integer          default(0), not null
+#  total_return         :integer          default(0), not null
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #  creator_id           :bigint

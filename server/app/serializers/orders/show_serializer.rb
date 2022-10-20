@@ -7,7 +7,8 @@ module Orders
                :subtotal,
                :discount,
                :number_of_items,
-               :total_quantity
+               :total_quantity,
+               :status
 
     def number_of_items
       object.number_of_items
@@ -25,7 +26,7 @@ module Orders
     end
 
     class OrderItemSerializer < ActiveModel::Serializer
-      attribute :quantity
+      attributes :quantity, :total
 
       belongs_to :product
 

@@ -10,7 +10,6 @@ module Api
       end
 
       def index
-        # binding.pry
         species = Species.includes(:image_blob).order(id: :desc).ransack(params[:q]).result
         @pagy, @species = pagy(species, items: params[:per_page] || DEFAULT_PER_PAGE, page: params[:page] || DEFAULT_PAGE)
 

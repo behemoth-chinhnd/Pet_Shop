@@ -5,6 +5,7 @@
 #  id          :bigint           not null, primary key
 #  description :string(255)
 #  quantity    :integer
+#  total       :bigint
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  order_id    :bigint

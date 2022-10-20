@@ -20,6 +20,8 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
+    aasm (5.4.0)
+      concurrent-ruby (~> 1.0)
     actioncable (7.0.3.1)
       actionpack (= 7.0.3.1)
       activesupport (= 7.0.3.1)
@@ -98,6 +100,9 @@ GEM
       activesupport (>= 5.2, < 7.1)
     addressable (2.8.1)
       public_suffix (>= 2.0.2, < 6.0)
+    after_commit_everywhere (1.2.2)
+      activerecord (>= 4.2)
+      activesupport
     annotate (3.2.0)
       activerecord (>= 3.2, < 8.0)
       rake (>= 10.4, < 14.0)
@@ -508,12 +513,14 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  aasm
   active_hash (~> 2.3.0)
   active_model_serializers!
   active_type
   activerecord-import
   activestorage-validator
   acts_as_paranoid
+  after_commit_everywhere (~> 1.0)
   annotate
   awesome_print
   bootsnap

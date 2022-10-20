@@ -9,7 +9,9 @@ module Products
                :master_sales_price,
                :master_sku,
                :is_display,
-               :image_url
+               :image_url,
+               :total_cancel,
+               :total_return
 
     belongs_to :creator
     belongs_to :trademark

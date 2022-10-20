@@ -25,13 +25,13 @@ module Orders
             order_items: order.order_items,
             user: order.user,
             seller: order.seller,
-            status: :wait_for_confirmation,
             ordered_at: Time.current,
             address_id: context.address.id,
           )
 
+          context.new_order.submit!
           context.new_order.update_price!
-          update_product_sold
+          update_product_quantity
 
           context.list_order.push(context.new_order)
         end
@@ -58,9 +58,6 @@ module Orders
       context.new_order.order_items.reload.each do |order_item|
         product = order_item.product
 
-        context.fail!(message: "Not enough product #{product.name} quantity ") if product.quantity < order_item.quantity
-
-        product.increment(:number_of_items_sold, order_item.quantity).save!
         product.decrement(:quantity, order_item.quantity).save!
       end
     end

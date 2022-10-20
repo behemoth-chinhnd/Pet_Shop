@@ -19,7 +19,7 @@ module Orders
 
         context.order.address_id = context.address.id
 
-        context.order.wait_for_confirmation!
+        context.order.submit!
 
         update_product_sold
 

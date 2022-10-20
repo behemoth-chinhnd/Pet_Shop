@@ -24,10 +24,17 @@ Rails.application.routes.draw do
     resource :order do
       collection do
         post :submit
+        post :status_confirm
+        post :status_transported
+        post :status_delivered
+        post :status_canceled
       end
     end
 
     get :orders, to: "orders#index"
+
+    ## Order History
+    resource :order_history, only: [:show]
 
     ## Address
     resources :addresses do

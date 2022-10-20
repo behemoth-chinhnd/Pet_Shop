@@ -71,6 +71,20 @@ ActiveRecord::Schema[7.0].define(version: 0) do
     t.index ["name"], name: "index_category_on_name", unique: true
   end
 
+  create_table "order_histories", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "order_status_before"
+    t.string "order_status_after"
+    t.string "description"
+    t.bigint "order_id"
+    t.bigint "executor_id"
+    t.string "executor_type"
+    t.integer "user_type"
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id", "executor_id", "executor_type"], name: "index_order_histories_on_order_id_executor_id_executor_type"
+  end
+
   create_table "order_items", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "order_id"
     t.bigint "product_id"
@@ -86,6 +100,7 @@ ActiveRecord::Schema[7.0].define(version: 0) do
   create_table "orders", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "seller_id"
+    t.bigint "shipper_id"
     t.bigint "address_id"
     t.integer "status", default: 0, null: false
     t.bigint "shipping_fee", default: 0, null: false
@@ -124,6 +139,8 @@ ActiveRecord::Schema[7.0].define(version: 0) do
     t.integer "quantity", default: 0, null: false
     t.boolean "is_display", default: true, null: false
     t.bigint "trademark_id"
+    t.integer "total_cancel", default: 0, null: false
+    t.integer "total_return", default: 0, null: false
     t.integer "lock_version"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
