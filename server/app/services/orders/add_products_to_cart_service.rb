@@ -12,7 +12,7 @@ module Orders
 
       context.current_order = context.user.orders.find_by(status: :shopping, seller_id: product.creator.id)
 
-      context.current_order = context.user.orders.create(seller_id: product.creator.id) if  context.current_order.blank?
+      context.current_order = context.user.orders.create(seller_id: product.creator.id) if context.current_order.blank?
 
       ActiveRecord::Base.transaction do
         order_item = OrderItem.find_by(product_id: context.product_id, order_id: context.current_order.id)

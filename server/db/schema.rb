@@ -130,6 +130,8 @@ ActiveRecord::Schema[7.0].define(version: 0) do
     t.integer "quantity", default: 0, null: false
     t.boolean "is_display", default: true, null: false
     t.bigint "trademark_id"
+    t.integer "total_cancel", default: 0, null: false
+    t.integer "total_return", default: 0, null: false
     t.integer "lock_version"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

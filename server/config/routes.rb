@@ -26,6 +26,8 @@ Rails.application.routes.draw do
         post :submit
         post :status_confirm
         post :status_transported
+        post :status_delivered
+        post :status_canceled
       end
     end
 

@@ -14,7 +14,7 @@ module Api
           shipping_fee: 0,
           subtotal: 0,
           total: 0,
-          total_quantity: 0
+          total_quantity: 0,
         },
       }
 

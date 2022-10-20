@@ -11,6 +11,8 @@ create_table "products", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", fo
   t.integer :quantity, null: false, default: 0
   t.boolean :is_display, null: false, default: true
   t.bigint :trademark_id
+  t.integer :total_cancel, null: false, default: 0
+  t.integer :total_return, null: false, default: 0
 
   t.integer :lock_version
   

@@ -22,7 +22,7 @@ class Admin < ApplicationRecord
   has_many :products, foreign_key: "creator_id", foreign_type: "creator_type", as: :products, dependent: :destroy
 
   has_many :order_histories, foreign_key: "executor_id", foreign_type: "executor_type", as: :order_histories, dependent: :destroy
-  
+
   def jwt_payload
     {
       sub: id,

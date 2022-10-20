@@ -1,7 +1,8 @@
 module Api
   class OrdersController < ApplicationController
     before_action :set_user, if: :auth?
-    before_action :find_order, only: [:show, :destroy, :status_confirm, :status_transported]
+    before_action :find_my_order, only: [:show, :destroy]
+    before_action :find_order, only: [:status_confirm, :status_transported, :status_delivered, :status_canceled]
 
     def show
       response_success(@order, { serializer: ::Orders::ShowSerializer })
@@ -47,24 +48,47 @@ module Api
     def status_confirm
       @order.confirm!
       response_success(@order, { serializer: ::Orders::ShowSerializer })
-    rescue StandardError, AASM::InvalidTransition => e
-      # binding.pry
+    rescue StandardError, AASM::InvalidTransition => _e
       response_error("Change Status Failed")
     end
 
     def status_transported
       @order.being_transported!
       response_success(@order, { serializer: ::Orders::ShowSerializer })
-    rescue StandardError, AASM::InvalidTransition => e
+    rescue StandardError, AASM::InvalidTransition => _e
+      response_error("Change Status Failed")
+    end
+
+    def status_delivered
+      @order.delivered!
+      response_success(@order, { serializer: ::Orders::ShowSerializer })
+    rescue StandardError, AASM::InvalidTransition => _e
+      response_error("Change Status Failed")
+    end
+
+    def status_canceled
+      @order.canceled!
+      response_success(@order, { serializer: ::Orders::ShowSerializer })
+    rescue StandardError, AASM::InvalidTransition => _e
       response_error("Change Status Failed")
     end
 
     private
 
-    def find_order
+    def find_my_order
       @order = ::Order.includes(order_items: [:product]).
         where.not(status: :shopping).
         where(user_id: @user.id, number: params[:number]).first
+
+      response_error("Order not found") if @order.blank?
+    end
+
+    def find_order
+      @order = ::Order.includes(order_items: [:product]).
+        where.not(status: :shopping).
+        where(number: params[:number]).first
+
+      response_error("Order not found") if @order.blank?
     end
 
     def order_params

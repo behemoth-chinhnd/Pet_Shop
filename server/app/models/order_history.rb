@@ -16,9 +16,9 @@
 #
 # Indexes
 #
-#  index_order_histories_on_order_id_executor_id_executor_type  (order_id,executor_id,executor_type) UNIQUE
+#  index_order_histories_on_order_id_executor_id_executor_type  (order_id,executor_id,executor_type)
 #
-class OrderHistory < ActiveRecord::Base
+class OrderHistory < ApplicationRecord
   belongs_to :order
 
   belongs_to :executor, polymorphic: true, foreign_type: "executor_type", inverse_of: :order_histories

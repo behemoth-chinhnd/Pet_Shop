@@ -11,6 +11,8 @@ module Products
                :master_sku,
                :image_url,
                :is_display,
+               :total_cancel,
+               :total_return,
                :created_at,
                :updated_at
 
