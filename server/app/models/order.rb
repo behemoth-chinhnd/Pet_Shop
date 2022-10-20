@@ -25,14 +25,18 @@
 #
 class Order < ApplicationRecord
   include RandomNumberGeneratorConcern
+  include AASM
 
-  has_many :order_items, -> { joins(:product).where("products.quantity > 0 AND products.is_display = true") }, dependent: :destroy
+  has_many :order_items, -> { joins(:product).where("products.quantity > 0 AND products.is_display = true AND order_items.quantity > 0") }, dependent: :destroy
   accepts_nested_attributes_for :order_items
+
+  has_many :order_histories, dependent: :destroy
 
   belongs_to :address, optional: true
 
   belongs_to :user
   belongs_to :seller, class_name: "User"
+  belongs_to :shipper, class_name: "User", optional: true
 
   before_destroy :update_quantity_product
 
@@ -45,6 +49,68 @@ class Order < ApplicationRecord
     canceled: 5,
     returns: 6,
   }
+
+  aasm column: :status, enum: true, no_direct_assignment: true, requires_new_transaction: false do
+    state :shopping, initial: true
+
+    state :wait_for_confirmation, :waiting_for_the_goods, :being_transported,
+          :delivered, :canceled, :returns
+
+    before_all_events :create_order_history
+    after_all_events :update_order_history
+
+    event :submit do
+      transitions from: :shopping, to: :wait_for_confirmation
+    end
+
+    event :confirm do
+      transitions from: :wait_for_confirmation, to: :waiting_for_the_goods, guard: :check_confirm?
+    end
+
+    event :being_transported do
+      transitions from: :waiting_for_the_goods, to: :being_transported, guard: :check_transported?
+    end
+
+    event :delivered do
+      transitions from: :being_transported, to: :delivered
+    end
+
+    event :canceled do
+      transitions from: [:wait_for_confirmation, :being_transported, :waiting_for_the_goods, :being_transported], to: :canceled
+    end
+
+    event :returns do
+      transitions form: :delivered, to: :returns
+    end
+  end
+
+  def check_confirm?
+    return true if Current.user.instance_of?(Admin) || Current.user.id == seller_id
+  end
+
+  def check_transported?
+    return true if Current.user.instance_of?(Admin) || Current.user.id == seller_id || Current.user.id == shipper_id
+  end
+
+  def create_order_history
+    order_histories.find_or_create_by!(order_status_before: status, executor: Current.user, user_type: user_type)
+  end
+
+  def user_type
+    if Current.user == user
+      user_type = :buyer 
+    elsif Current.user == seller
+      user_type = :seller
+    elsif Current.user.instance_of?(Admin)
+      user_type = :admin
+    else
+      user_type = :shipper
+    end
+  end
+
+  def update_order_history
+    order_histories.last.update!(order_status_after: status)
+  end
 
   def update_price!
     subtotal = calculate_total_price

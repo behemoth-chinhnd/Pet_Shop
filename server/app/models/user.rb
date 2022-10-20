@@ -19,7 +19,9 @@
 #  password_reset_token_valid_datetime     :datetime
 #  phone                                   :string(255)
 #  point                                   :integer          default(0)
-#  user_type                               :integer          default(1)
+#  shipping_fee                            :bigint           default(0), not null
+#  store_name                              :string(255)
+#  user_type                               :integer          default("seller")
 #  created_at                              :datetime         not null
 #  updated_at                              :datetime         not null
 #  sex_id                                  :integer
@@ -33,11 +35,19 @@ class User < ApplicationRecord
 
   has_many :products, foreign_key: "creator_id", foreign_type: "creator_type", as: :products, dependent: :destroy
 
+  has_many :order_histories, foreign_key: "executor_id", foreign_type: "executor_type", as: :order_histories, dependent: :destroy
+
   has_many :orders, dependent: :destroy
 
   has_many :addresses, dependent: :destroy
 
   has_one_attached :avatar
+
+  enum user_type: {
+    buyer: 0,
+    seller: 1,
+    shipper: 2,
+  }
 
   def jwt_payload
     {

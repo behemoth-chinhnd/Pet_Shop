@@ -25,11 +25,12 @@ module Orders
             order_items: order.order_items,
             user: order.user,
             seller: order.seller,
-            status: :wait_for_confirmation,
             ordered_at: Time.current,
             address_id: context.address.id,
           )
 
+          # binding.pry
+          context.new_order.submit!
           context.new_order.update_price!
           update_product_sold
 

@@ -1,10 +1,10 @@
 module Api
   class OrdersController < ApplicationController
     before_action :set_user, if: :auth?
-    before_action :find_order, only: [:show, :destroy]
+    before_action :find_order, only: [:show, :destroy, :status_confirm, :status_transported]
 
     def show
-      response_success(@order, { serializer: ::Orders::CartShowSerializer })
+      response_success(@order, { serializer: ::Orders::ShowSerializer })
     end
 
     def index
@@ -13,7 +13,7 @@ module Api
       @pagy, @order = pagy(order, items: params[:per_page] || DEFAULT_PER_PAGE, page: params[:page] || DEFAULT_PAGE)
 
       response_list(@order, { adapter: :json,
-                              each_serializer: ::Orders::CartShowSerializer })
+                              each_serializer: ::Orders::ShowSerializer })
     end
 
     def create
@@ -42,6 +42,21 @@ module Api
       else
         response_error(@order.errors.to_hash(true))
       end
+    end
+
+    def status_confirm
+      @order.confirm!
+      response_success(@order, { serializer: ::Orders::ShowSerializer })
+    rescue StandardError, AASM::InvalidTransition => e
+      # binding.pry
+      response_error("Change Status Failed")
+    end
+
+    def status_transported
+      @order.being_transported!
+      response_success(@order, { serializer: ::Orders::ShowSerializer })
+    rescue StandardError, AASM::InvalidTransition => e
+      response_error("Change Status Failed")
     end
 
     private

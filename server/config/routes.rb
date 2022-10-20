@@ -24,6 +24,8 @@ Rails.application.routes.draw do
     resource :order do
       collection do
         post :submit
+        post :status_confirm
+        post :status_transported
       end
     end
 
