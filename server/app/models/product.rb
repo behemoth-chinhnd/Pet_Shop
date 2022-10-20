@@ -33,7 +33,7 @@ class Product < ApplicationRecord
 
   has_one_attached :image
 
-  before_update :update_cart_quantity
+  after_update :update_cart_quantity
 
   scope :show, -> { where("is_display = true AND quantity > 0") }
 
@@ -58,7 +58,7 @@ class Product < ApplicationRecord
 
     order_items.each do |order_item|
       if order_item.quantity > quantity && order_item.order.shopping?
-        order_item.update!(quantity: 1)
+        order_item.update!(quantity: quantity)
         order_item.order.update_price!
       end
     end
