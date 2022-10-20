@@ -3,7 +3,7 @@
     <header id="header" class="">
       <section id="header-top" class="">
         <div class="container">
-          <div class="list-menu-header height-110px gap-30px">
+          <div class="list-menu-header">
             <div class="flex-row-space-between-center">
               <div class="left-item-header flex-row">
                 <div class="logo">
@@ -19,6 +19,7 @@
               <input type="text" class="input-search" placeholder="Search" />
               <i class="icon-search fa fa-search"></i>
             </div>
+
             <div class="flex-row-space-between-center gap-10px">
               <b-button
                 v-if="!this.$store.state.AUTH.state.isActive"
@@ -38,7 +39,7 @@
               </b-button>
               <div
                 v-if="this.$store.state.AUTH.state.isActive"
-                @click="(isCarts = true)"
+                @click="isCarts = true"
                 @mouseleave="isCarts = false"
                 class="cart rel"
               >
@@ -65,13 +66,19 @@
               >
                 <!-- <div class="flex-row-center-center gap-10px"> -->
                 <img
-                  v-if="this.$store.state.AUTH.state.user.sex_id === 1 && this.$store.state.AUTH.state.user.avatar_url === null"
+                  v-if="
+                    this.$store.state.AUTH.state.user.sex_id === 1 &&
+                    this.$store.state.AUTH.state.user.avatar_url === null
+                  "
                   class="avatar"
                   src="@/assets/images/icons/avatar-boy.png"
                   alt=""
                 />
                 <img
-                  v-if="this.$store.state.AUTH.state.user.sex_id === 2 && this.$store.state.AUTH.state.user.avatar_url === null"
+                  v-if="
+                    this.$store.state.AUTH.state.user.sex_id === 2 &&
+                    this.$store.state.AUTH.state.user.avatar_url === null
+                  "
                   class="avatar"
                   src="@/assets/images/icons/avatar-girl.png"
                   alt=""
@@ -79,7 +86,7 @@
                 <img
                   v-if="this.$store.state.AUTH.state.user.avatar_url !== null"
                   class="avatar"
-                  :src="this.$store.state.AUTH.state.user.avatar_url "
+                  :src="this.$store.state.AUTH.state.user.avatar_url"
                   alt=""
                 />
                 <!-- <p class="text-white bold">{{this.$store.state.AUTH.state.user.name}}</p> -->
@@ -95,8 +102,8 @@
                     <router-link class="" to="/user/purchase">
                       Purchase
                     </router-link>
-                    </li>
-                    <li>
+                  </li>
+                  <li>
                     <router-link class="" to="/saler">
                       Store Manager
                     </router-link>
@@ -108,35 +115,10 @@
           </div>
         </div>
       </section>
-      <section id="header-bottom" class="top-110px">
-        <div class="container">
-          <div class="list-menu-header-bottom scroll-x">
-            <ul id="menu-row" class="btn-list-dark">
-              <li class="active">
-                <router-link to="/">Home</router-link>
-              </li>
-              <li>
-                <router-link to="/products">Products</router-link>
-              </li>
-              <li>
-                <router-link to="/carts">Carts</router-link>
-              </li>
-              <li>
-                <router-link to="/orders">Order</router-link>
-              </li>
-              <li>
-                <router-link to="/address_order">Address Order</router-link>
-              </li>
-            </ul>
-            
-          </div>
-        </div>
-      </section>
       <header-user></header-user>
     </header>
   </div>
 </template>
-
 <script>
 import { createNamespacedHelpers } from "vuex";
 const mapActionsAUTH = createNamespacedHelpers("AUTH");
@@ -144,12 +126,13 @@ const mapActionsCART = createNamespacedHelpers("CART");
 import ListCartHeader from "@/components/client/cart/_showCartHeader.vue";
 import EmptyCartHeader from "@/components/client/cart/_emptyCartHeader.vue";
 import HeaderUser from "@/components/client/users/HeaderUser.vue";
-
+import SliderBanner from "@/components/incfiles/_sliderBanner.vue";
 export default {
   components: {
     headerUser: HeaderUser,
     listCartHeader: ListCartHeader,
     emptyCartHeader: EmptyCartHeader,
+    sliderBanner: SliderBanner,
   },
   data() {
     return {
@@ -172,28 +155,25 @@ export default {
   },
   mounted() {},
   methods: {
-    ...mapActionsAUTH.mapActions(['logout'] ),
-    ...mapActionsAUTH.mapActions({ getProfile: 'profile' }),
-    ...mapActionsCART.mapActions({ getAllCart: 'getAll' }),
-
+    ...mapActionsAUTH.mapActions(["logout"]),
+    ...mapActionsAUTH.mapActions({ getProfile: "profile" }),
+    ...mapActionsCART.mapActions({ getAllCart: "getAll" }),
 
     async profile() {
-      if(this.$store.state.AUTH.state.isActive) {
+      if (this.$store.state.AUTH.state.isActive) {
         await this.getProfile();
       }
     },
     async getCarts() {
-      if(this.$store.state.AUTH.state.isActive) {
-        await this.getAllCart()
-        .then(() => {
-        this.order_items = this.$store.state.CART.state.order_items;
-        this.total = this.$store.state.CART.state.total;
-        this.total_items = this.$store.state.CART.state.total_items;
-        this.carts = this.$store.state.CART.state.carts;
-        console.log(this.order_items);
-      });
+      if (this.$store.state.AUTH.state.isActive) {
+        await this.getAllCart().then(() => {
+          this.order_items = this.$store.state.CART.state.order_items;
+          this.total = this.$store.state.CART.state.total;
+          this.total_items = this.$store.state.CART.state.total_items;
+          this.carts = this.$store.state.CART.state.carts;
+          console.log(this.order_items);
+        });
       }
-
     },
   },
 };

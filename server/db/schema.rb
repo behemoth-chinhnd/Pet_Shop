@@ -102,6 +102,15 @@ ActiveRecord::Schema[7.0].define(version: 0) do
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
+  create_table "product_categories", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.bigint "category_id", null: false
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id", "category_id"], name: "index_pc_on_product_id_category_id", unique: true
+  end
+
   create_table "products", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "number", null: false
     t.string "name", null: false

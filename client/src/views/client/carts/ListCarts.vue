@@ -7,26 +7,16 @@
         <!-- end is default address order -->
 
         <div
-          class="card mgb-10px pd-10px"
+          class="card card-cart mgb-10px"
           v-for="(post, index) in this.order_items"
           :key="index"
         >
-          <div
-            class="pd-10px"
-            v-for="(item, index) in post.orders"
-            :key="index"
-          >
-            <div>
-              {{ item.id }}
-            </div>
+          <div class="" v-for="(item, index) in post.orders" :key="index">
             <div
-              class="card mgb-10px pd-10px"
+              class="product-item"
               v-for="(info, index) in item.order_items"
               :key="index"
             >
-              <div>
-                {{ info.product.name }}
-              </div>
               <div class="flex-row-space-between gap-10px">
                 <div class="img-cart">
                   <img
@@ -83,7 +73,6 @@
                             info.product.master_sales_price * info.quantity
                           )
                         }}
-
                         đ
                       </p>
                     </div>
@@ -105,14 +94,21 @@
                 </div>
               </div>
             </div>
-            {{ Intl.NumberFormat().format(item.subtotal) }}
-            đ
+            <div
+              data-v-70cbe303=""
+              class="total flex-row-space-between mgt-10px"
+            >
+              <div data-v-70cbe303="" class="content">4 product</div>
+              <div data-v-70cbe303="" class="all text-right">
+                Into Money:
+                <span data-v-70cbe303="" class="sub-total"
+                  >{{ Intl.NumberFormat().format(item.subtotal) }}đ</span
+                >
+              </div>
+            </div>
           </div>
         </div>
-        <div
-          v-if="this.$store.state.CART.state.total_items > 0"
-          class="text-right"
-        >
+        <div v-if="this.infos.number_of_items > 0" class="text-right">
           <b-button variant="primary"
             >({{ this.total_quantity }} Product) - Total Cash:
             {{ Intl.NumberFormat().format(this.total) }}đ</b-button
@@ -121,12 +117,18 @@
             >ORDER ALL</b-button
           >
         </div>
-        <empty-cart></empty-cart>
+        <!-- <empty-cart></empty-cart> -->
+        <div
+          v-if="this.infos.number_of_items <= 0"
+          class="empty-cart bg-white height-400px"
+        >
+          <img class="img-empty" src="@/assets/images/icons/cart.png" alt="" />
+          <p class="mgb-20px">Cart Empty!</p>
+          <router-link to="/products">
+            <button class="btn submit right">Buy Now</button>
+          </router-link>
+        </div>
       </div>
-
-      <!-- <p>{{ this.$store.state.CART.state.order_items }}</p>
-      <p>{{ this.$store.state.CART.state.total }}</p>
-      <p>{{ this.address_order }}</p> -->
     </div>
   </div>
 </template>
@@ -134,6 +136,8 @@
 import { createNamespacedHelpers } from "vuex";
 const mapActionsCART = createNamespacedHelpers("CART");
 const mapActionsPROD = createNamespacedHelpers("PROD");
+const mapActionsORDE = createNamespacedHelpers("ORDE");
+const mapActionsADDR = createNamespacedHelpers("ADDR");
 import DefaultAdress from "@/components/client/address/DefaultAddressOrder.vue";
 
 import EmptyCart from "@/components/client/cart/_emptyCart.vue";
@@ -166,11 +170,12 @@ export default {
         quantity: 1,
       },
       order_items: [],
+      infos: "",
       total: "",
       total_items: "",
       total_quantity: "",
       totalCash: "",
-      address_order: this.$store.state.ADDR.state.is_default,
+      address_order: null,
       params: {
         page: 1,
         per_page: 5,
@@ -187,6 +192,7 @@ export default {
   },
   created() {
     this.getAll();
+    this.getAddress();
   },
   computed: {},
   methods: {
@@ -199,43 +205,31 @@ export default {
     ...mapActionsPROD.mapActions({
       getItemPROD: "getItem",
     }),
+    ...mapActionsORDE.mapActions({
+      orderAllORDE: "create",
+    }),
+    ...mapActionsADDR.mapActions({
+      getDefaultADDR: "getIsDefault",
+    }),
+
     isNumber(value) {
       return /^\d*$/.test(value);
     },
-
-    sumQuantity() {
-      let sum = 0;
-      for (let i = 0; i < this.List.length; i++) {
-        sum += this.List[i].quantity;
-      }
-      this.total_quantity = sum;
-      //  this.$store.dispatch("CART/getQuantity", sum)
-    },
-    sumCash() {
-      let sum = 0;
-      for (let i = 0; i < this.List.length; i++) {
-        sum += this.List[i].quantity * this.List[i].product.master_sales_price;
-      }
-      this.total = sum;
-      //  this.$store.dispatch("CART/getCash", sum)
-    },
-
     async next(info) {
-      info.quantity += 1;
-      if (info.quantity > info.product.quantity) {
-        info.quantity = info.product.quantity;
+      if (info.quantity >= info.product.quantity) {
         this.$swal.fire("Exceeded the allowed amount", "", "error");
       } else {
+        info.quantity += 1;
         await this.nextCART(info.product.id);
       }
       await this.getAll();
     },
 
     async prev(info) {
-      info.quantity -= 1;
-      if (info.quantity < 1) {
+      if (info.quantity <= 1) {
         await this.remove(info.product.id);
       } else {
+        info.quantity -= 1;
         await this.prevCART(info.product.id);
       }
       await this.getAll();
@@ -243,15 +237,18 @@ export default {
 
     async getAll() {
       const res = await this.getAllCART();
-      this.order_items = res.data;
+      this.order_items = res.data.data;
+      this.infos = res.data.infos;
     },
 
     async getAddress() {
-      await this.$store.dispatch("ADDR/getIsDefault");
+      const res = await this.getDefaultADDR();
+      console.log(res);
+      this.address_order = res;
     },
 
     async orderAll() {
-      await this.$store.dispatch("ORDE/create", this.address_order);
+      await this.orderAllORDE(this.address_order);
       await this.getAll();
     },
 

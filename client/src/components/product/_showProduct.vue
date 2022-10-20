@@ -1,9 +1,13 @@
 <template>
-  <div class="body">
+  <div class="">
+    <tab-menu-dog :ID="ID" @next="SearchProduct"></tab-menu-dog>
+    <tab-menu-pet
+      v-if="this.params.q.species_id === 1"
+      :CAID="CAID"
+      @nextCategory="SearchCategory"
+    ></tab-menu-pet>
     <main id="main" class="">
-      <!-- <section id="main-body"> -->
       <div class="container">
-
         <div class="card-deck mb-3 text-center scroll-x">
           <div class="cards">
             <div
@@ -59,6 +63,22 @@
               </div>
             </div>
           </div>
+
+          <div
+            v-if="products.length <= 0"
+            class="empty-cart bg-white height-400px mg-lr-10px"
+          >
+            <img
+              class="img-empty"
+              src="@/assets/images/icons/cart.png"
+              alt=""
+            />
+            <p class="mgb-20px">Cart Empty!</p>
+            <router-link to="/products">
+              <button class="btn submit right">Buy Now</button>
+            </router-link>
+          </div>
+
           <div v-if="this.params.pages > 1" class="panel-footer">
             <paginate
               v-model="params.page"
@@ -80,17 +100,29 @@
   </div>
 </template>
 <script>
+import TabMenuDog from "@/components/incfiles/_tabMenuDog.vue";
+import TabMenuPet from "@/components/incfiles/_tabMenuPet.vue";
+
 import { createNamespacedHelpers } from "vuex";
 const mapActionsPROD = createNamespacedHelpers("PROD");
 import Paginate from "vuejs-paginate";
-import { thisExpression } from "@babel/types";
+import { Glide } from "vue-glide-js";
+
+// import { thisExpression } from "@babel/types";
 export default {
   name: "ProductForm",
   components: {
     Paginate,
+    tabMenuDog: TabMenuDog,
+    tabMenuPet: TabMenuPet,
+    vueGlide: Glide,
   },
   data() {
     return {
+      active: 1,
+      ID: "",
+      CAID: "",
+      total_search: null,
       search: {
         author: "",
         name: "",
@@ -104,12 +136,6 @@ export default {
         count: 1,
         per_page: 5,
       },
-      currentSort: "time",
-      currentSortDir: 1,
-      title: "product",
-      showFilter: false,
-      filters: ["id", "name", "price", "time"],
-      nPage: [],
       operators: {
         equal_to: "=",
         less_than: "<",
@@ -121,21 +147,21 @@ export default {
       },
       params: {
         page: 1,
-        per_page: 8,
-        sort_column: "id",
-        direction: "desc",
-        search_column: "id",
-        search_operator: "equal_to",
-        search_query_1: "",
-        search_query_2: "",
-        q: {},
+        per_page: 12,
         pages: "",
+        q: {
+          id: null,
+          name: "",
+          trademark_id: null,
+          category_id: null,
+          species_id: null,
+        },
       },
     };
   },
   props: {},
   created() {
-    this.getAll();
+    this.getAll(this.params);
   },
 
   mounted() {},
@@ -153,7 +179,7 @@ export default {
     },
     clickCallback(pageNum) {
       this.params.page = pageNum;
-      this.getAll();
+      this.getAll(this.params);
     },
 
     prev() {
@@ -176,26 +202,47 @@ export default {
     //   this.page.pageCount = page;
     //   // this.getAll()
     // },
-    async getAll() {
-      const res = await this.getAllPROD({
-        page: this.params.page,
+    async getAll(input) {
+      const res = await this.getAllPROD(input);
+      if (res.products) {
+        this.products = res.products;
+        this.total_search = res.meta.total;
+        this.params.page = res.meta.page;
+        this.params.pages = res.meta.pages;
+      } else {
+        this.$swal.fire(res.message, "", res.status);
+      }
+    },
+    async SearchProduct(ID) {
+      console.log(`ID`, ID);
+      this.params.q.species_id = ID;
+      if (this.params.q.species_id !== 1) {
+        this.params.q.category_id = "";
+      }
+
+      const input = {
+        page: 1,
+        pages: this.params.pages,
         per_page: this.params.per_page,
-        q: {},
-      });
-      this.products = res.products;
-      this.total_search = res.meta.total;
-      this.params.page = res.meta.page;
-      this.params.pages = res.meta.pages;
+        q: this.params.q,
+      };
+      await this.getAll(input);
+    },
+    async SearchCategory(CAID) {
+      console.log(`ID`, CAID);
+      // this.params.q.species_id = ID
+      this.params.q.category_id = CAID;
+
+      const input = {
+        page: 1,
+        pages: this.params.pages,
+        per_page: this.params.per_page,
+        q: this.params.q,
+      };
+      await this.getAll(input);
     },
   },
-  computed: {
-    List() {
-      this.products = this.$store.state.PROD.state.products;
-      this.params.page = this.$store.state.PROD.state.params.page;
-      this.params.pages = this.$store.state.PROD.state.params.pages;
-      return (this.products = this.$store.state.PROD.state.products);
-    },
-  }, // components: { HeaderApp },
+  computed: {}, // components: { HeaderApp },
 };
 </script>
 <style scoped>

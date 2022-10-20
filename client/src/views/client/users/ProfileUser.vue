@@ -278,6 +278,8 @@ export default {
 
     async save() {
       const input = {
+        store_name: "zxcvbn",
+        shipping_fee: 50000,
         password: "12345678",
         name: this.user.name,
         sex_id: this.user.sex_id,

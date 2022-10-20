@@ -123,18 +123,14 @@ const actions = {
       per_page: credentials.per_page,
       q: {
         name_or_number_cont: credentials.q.name,
-
+        trademark_category_id_eq: credentials.q.category_id,
+        trademark_species_id_eq: credentials.q.species_id,
+        trademark_id_eq: credentials.q.trademark_id
 
       },
     }
     try {
       const res = await api_product.getAll(queryParams)
-      // console.log(res.data.products)
-      // commit("getAll", res.data.products);
-      // commit("getTotalSearch", res.data.meta.total);
-      // commit("getPages", res.data.meta.pages);
-      // commit("getPage", credentials.page);
-      // console.log(res.data)
       return res.data
     } catch (error) {
       alert(error.response)
@@ -188,7 +184,7 @@ const actions = {
         const res2 = await api_product.editItemSaler(input)
         commit("getItem", res2.data);
         return res2
-        
+
       }
     } catch (error) {
       console.log(error)

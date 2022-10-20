@@ -169,6 +169,8 @@ const actions = {
       password: "12345678",
       name: credentials.data.name,
       sex_id: credentials.data.sex_id,
+      store_name: "234567erth",
+      shipping_fee: 30000,
       birthday: credentials.data.birthday,
     }
     try {

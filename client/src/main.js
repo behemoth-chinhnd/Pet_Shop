@@ -6,6 +6,9 @@ import axios from "axios";
 import VueAxios from "vue-axios";
 import VueSweetslert2 from "vue-sweetalert2";
 import Paginate from 'vuejs-paginate'
+import VueAgile from 'vue-agile'
+import VueGlide from 'vue-glide-js'
+import 'vue-glide-js/dist/vue-glide.css'
 import "sweetalert2/dist/sweetalert2.min.css";
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 import "bootstrap/dist/css/bootstrap.css";
@@ -39,5 +42,8 @@ Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.use(VueAxios, { $request: axios });
 Vue.component('paginate', Paginate)
+Vue.use(VueAgile)
+Vue.use(VueGlide)
+
 
 
