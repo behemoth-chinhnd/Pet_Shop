@@ -17,14 +17,14 @@ module Products
     belongs_to :trademark
 
     class UserSerializer < ActiveModel::Serializer
-      attributes :id, :email, :name
+      attributes :id, :email, :name, :store_name
     end
 
     class TrademarkSerializer < Trademarks::ShowSerializer
     end
 
     class AdminSerializer < ActiveModel::Serializer
-      attributes :id, :email, :name
+      attributes :id, :email, :name, :store_name
     end
   end
 end

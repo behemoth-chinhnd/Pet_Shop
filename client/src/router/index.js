@@ -108,6 +108,9 @@ const routes = [
       { path: 'trademark/create', name: 'admin.trademark.create', component: () => import('@/views/admin/trademark/CreateTrademark.vue') },
       { path: 'trademark/edit/:id', name: 'admin.trademark.edit', component: () => import('@/views/admin/trademark/EditTrademark.vue') },
 
+      { path: 'order', name: 'admin.order', component: () => import('@/views/admin/order/ListOrderAdmin.vue') },
+
+
 
     ],
   },
