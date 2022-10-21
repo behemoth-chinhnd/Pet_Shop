@@ -25,7 +25,6 @@ const routes = [
       { path: 'register', name: 'home.users.register', component: () => import('@/views/client/users/RegisterUser.vue') },
       { path: 'login', name: 'home.users.login', component: () => import('@/views/client/users/LoginUser.vue') },
       { path: 'users', name: 'home.users', component: () => import('@/views/client/users/ListUser.vue') },
-      { path: 'test_login', name: 'test.login', component: () => import('@/components/tester/TestLogin.vue') },
 
       {
         path: 'carts', name: 'home.carts', component: Cart, children: [
@@ -87,15 +86,14 @@ const routes = [
   {
     path: '/admin/', name: 'admin', component: Admin, children: [
       { path: '', name: 'admin.home', component: () => import('@/components/product/_showProduct.vue') },
-      {
-        path: 'management/', name: 'admin.management', component: () => import('@/components/admin/TabMenu.vue'),
-        children: [
-          { path: 'login', name: 'admin.management.login', component: () => import('@/components/admin/LoginAdmin.vue') },
-          { path: 'users', name: 'admin.management.users', component: () => import('@/components/admin/users/ListUser.vue') },
-          { path: 'users/create', name: 'admin.management.users.create', component: () => import('@/components/admin/users/CreateUser.vue') },
-          { path: 'users/edit/:id', name: 'admin.management.users.edit', component: () => import('@/components/admin/users/CreateUser.vue') },
-        ]
-      },
+      // {
+      //   path: 'management/', name: 'admin.management', component: () => import('@/components/admin/TabMenu.vue'),
+      //   children: [
+      //     { path: 'users', name: 'admin.management.users', component: () => import('@/components/admin/users/ListUser.vue') },
+      //     { path: 'users/create', name: 'admin.management.users.create', component: () => import('@/components/admin/users/CreateUser.vue') },
+      //     { path: 'users/edit/:id', name: 'admin.management.users.edit', component: () => import('@/components/admin/users/CreateUser.vue') },
+      //   ]
+      // },
       { path: 'category', name: 'admin.category', component: () => import('@/views/admin/category/ListCategory.vue') },
       { path: 'category/create', name: 'admin.category.create', component: () => import('@/views/admin/category/CreateCategory.vue') },
       { path: 'category/edit/:id', name: 'admin.category.edit', component: () => import('@/views/admin/category/EditCategory.vue') },
@@ -108,9 +106,17 @@ const routes = [
       { path: 'trademark/create', name: 'admin.trademark.create', component: () => import('@/views/admin/trademark/CreateTrademark.vue') },
       { path: 'trademark/edit/:id', name: 'admin.trademark.edit', component: () => import('@/views/admin/trademark/EditTrademark.vue') },
 
-      { path: 'order', name: 'admin.order', component: () => import('@/views/admin/order/ListOrderAdmin.vue') },
-      { path: 'order/waiting-goods', name: 'admin.order.waiting-goods', component: () => import('@/views/admin/order/ListOrderComfirmedAdmin.vue') },
-      { path: 'order/shipping', name: 'admin.order.shipping', component: () => import('@/views/admin/order/ListOrderShippingAdmin.vue') },
+      { path: 'order/', name: 'admin.order', component: () => import('@/layout/admin/OrderAdmin.vue'),
+     
+        children: [
+          { path: '', name: 'admin.order', component: () => import('@/views/admin/order/ListOrderAdmin.vue')},
+          { path: 'wait-goods', name: 'admin.order.wait-goods', component: () => import('@/views/admin/order/ListOrderComfirmedAdmin.vue') },
+          { path: 'delivering', name: 'admin.order.delivering', component: () => import('@/views/admin/order/ListOrderDeliveringAdmin.vue') },
+          { path: 'cancelled', name: 'admin.order.cancelled', component: () => import('@/views/admin/order/ListOrderCancelledAdmin.vue') },
+          { path: 'delivered', name: 'admin.order.delivered', component: () => import('@/views/admin/order/ListOrderDeliveredAdmin.vue') },
+        ]
+      },
+
 
 
 
@@ -134,7 +140,7 @@ router.beforeEach((to, from, next) => {
 })
 
 router.beforeEach((to, from, next) => {
-  if ((to.path.includes('/user') || to.path.includes('/saler') ) && (store.state.AUTH.state.isActive === false)) {
+  if ((to.path.includes('/user') || to.path.includes('/saler') || to.path.includes('/admin')) && (store.state.AUTH.state.isActive === false)) {
     next({ path: '/login' })
   } else {
     next()

@@ -47,30 +47,29 @@ const actions = {
   async login({ commit, dispatch, state }, credentials) {
     try {
       const res = await api_admin_auth.login(credentials);
+      console.log(res)
       commit("setAdminToken", res.data);
       commit("setActive", true);
       commit("resIsActive", true);
 
-      commit("isRes", true);
       commit("resStatus", "success");
       commit("resMessage", "Login Successful!");
       dispatch('profile');
       setTimeout(() =>
-        window.location.href = "/admin/management/user", 2000)
+        window.location.href = "/admin", 3000)
 
     } catch (error) {
       if (error.response) {
         commit("setToken", "");
         commit("setActive", false);
         commit("resIsActive", false);
-        commit("isRes", false);
         commit("resStatus", "error");
         commit("resMessage", "Login Failed!");
         localStorage.removeItem("vuex");
       }
-
     }
- 
+    return state.state.res
+
   },
 
   logout({ commit }) {

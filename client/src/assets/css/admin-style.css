@@ -13,10 +13,15 @@ body {
 
 #admin .body-saler,
 #admin #nav.menu-left-off #header-admin,
-#admin #nav.menu-left-off #header-site {
+#admin #nav.menu-left-off #header-site,
+#admin #layout-order #header-order {
   margin-left: 100px;
   animation-name: menu-left-off;
   animation-duration: 0.3s;
+}
+
+#header-order {
+  padding: 15px;
 }
 
 @keyframes menu-left-off {
@@ -60,10 +65,18 @@ body {
 
 #admin .menu-left-on+.body-saler,
 #admin .menu-left-on #header-admin,
-#admin .menu-left-on #header-site {
+#admin .menu-left-on #header-site,
+#admin .menu-left-on +  #layout-order #header-order,
+#admin .menu-left-on +  #layout-order #header-order + .body-saler,
+#admin .menu-left-on + .show-product
+{
   margin-left: 350px;
   animation-name: body-saler;
   animation-duration: 0.3s;
+}
+
+#admin .menu-left-off + .show-product {
+  margin-left: 100px ;
 }
 
 @keyframes body-saler {
@@ -119,7 +132,9 @@ body {
 
 }
 
-
+#menu-icon {
+  z-index: 1000000;
+}
 
 #menu-icon.active {
   display: block;

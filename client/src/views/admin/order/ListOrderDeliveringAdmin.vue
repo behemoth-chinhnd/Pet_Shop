@@ -1,16 +1,16 @@
 <template>
   <div class="body-saler">
-    <list-order-shipping-admin></list-order-shipping-admin>
+    <list-order-delivering-admin></list-order-delivering-admin>
 
   </div>
 </template>
 <script>
-import ListOrderShippingAdmin from "@/components/admin/order/_showOrderShippingAdmin.vue";
+import ListOrderDeliveringAdmin from "@/components/admin/order/_showOrderDeliveringAdmin.vue";
 
 export default {
 name: "ListTrademark",
 components: {
-  listOrderShippingAdmin: ListOrderShippingAdmin,
+  listOrderDeliveringAdmin: ListOrderDeliveringAdmin,
 },
 data() {
   return {}

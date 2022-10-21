@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="show-product">
     <tab-menu-dog :ID="ID" @next="SearchProduct"></tab-menu-dog>
     <tab-menu-pet
       v-if="this.params.q.species_id === 1"
