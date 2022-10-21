@@ -123,12 +123,12 @@ export default {
       total: "",
       total_items: "",
       totalCash: "",
-      address_order: this.$store.state.ADDR.state.is_default,
+      address_order: "",
       params: {
         page: 1,
         per_page: 10,
         q: {
-          status :"wait_for_confirmation"
+          status :1
         },
         pages: "",
       },
@@ -157,18 +157,13 @@ export default {
       if (status === "wait_for_confirmation") {
         status = "Wait For Confirmation";
       }
-      // else if (type === 2) {
-      //   return (this.user.user_type = "Saler");
-      // } else {
-      //   return (this.user.user_type = "Unknow");
-      // }
     },
 
     async confirm(numberOrder) {
       const res = await this.confirmADOR({ number: numberOrder });
       console.log(res)
       this.$swal.fire(res.message, "", res.status);
-
+      this.getAll(this.params);
     },
     
 
@@ -190,7 +185,7 @@ export default {
           pages: this.params.pages,
           per_page: this.params.per_page,
           q: {
-            name: this.params.q.name,
+            starus: this.params.q.status,
           },
         };
         await this.getAll(input);

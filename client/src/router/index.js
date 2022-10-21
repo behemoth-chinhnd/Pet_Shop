@@ -30,7 +30,7 @@ const routes = [
       {
         path: 'carts', name: 'home.carts', component: Cart, children: [
           { path: '/', name: 'home.carts', component: () => import('@/views/client/carts/ListCarts.vue') },
-          { path: 'buynow', name: 'home.carts.buynow', component: () => import('@/views/client/carts/ProductCart.vue') },
+          { path: 'buynow', name: 'home.carts.buynow', component: () => import('@/views/client/carts/BuyNow.vue') },
         ]
       },
       {

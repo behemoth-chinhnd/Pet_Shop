@@ -81,7 +81,7 @@ const actions = {
         page: credentials.page,
         per_page: credentials.per_page,
         q: {
-          // status_eq: credentials.q.status,
+          status_eq: credentials.q.status,
         },
       }
     }
@@ -98,14 +98,15 @@ const actions = {
     console.log(`input`, credentials)
     try {
       var res = await api_admin_order.confirmOrder(credentials)
-      return res
+      commit("resStatus", "success");
+      commit("resMessage", "Order has been confirmed, please wait for the carrier to pick up the goods! Thanks!");
     } catch (error){
       console.log(error)
       if(error.response.data.message = "Unauthorized")
       commit("resStatus", "error");
-      commit("resMessage", "You are not authorized to confirm this order! Thanks!");
-      return state.state.res
+      commit("resMessage", "An error occurred, You may have confirmed this order before! Thanks!");
     }
+    return state.state.res
   },
 }
 export default {
