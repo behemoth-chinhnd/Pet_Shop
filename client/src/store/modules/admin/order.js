@@ -22,7 +22,8 @@ const state = {
         res: {
           is_res: false,
           status: "",
-          message: ""
+          message: "",
+          text:"",
         },
     },
 };
@@ -38,6 +39,9 @@ const mutations = {
     },
     resMessage(state, value) {
       state.state.res.message = value;
+    },
+    resText(state, value) {
+      state.state.res.text = value;
     },
     getOrderItem(state, value) {
         state.state.order_items = value;
@@ -94,6 +98,7 @@ const actions = {
       return state.state.res
     }
   },
+  
   async confirmOrder({ commit, state }, credentials) {
     console.log(`input`, credentials)
     try {
@@ -105,6 +110,23 @@ const actions = {
       if(error.response.data.message = "Unauthorized")
       commit("resStatus", "error");
       commit("resMessage", "An error occurred, You may have confirmed this order before! Thanks!");
+    }
+    return state.state.res
+  },
+  async confirmTransport({ commit, state }, credentials) {
+    console.log(`input`, credentials)
+    try {
+      var res = await api_admin_order.confirmTransport(credentials)
+      commit("resStatus", "success");
+      commit("resMessage", "Successfully confirmed!");
+      commit("resText", "Please Ship the goods to the recipient! Thank you!");
+
+    } catch (error){
+      console.log(error)
+      if(error.response.data.message = "Unauthorized")
+      commit("resStatus", "error");
+      commit("resMessage", "An error occurred!");
+      commit("resText", " This order has been confirmed! Thank!");
     }
     return state.state.res
   },

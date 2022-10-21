@@ -10,7 +10,9 @@ module Api
       # end
 
       def index
-        order = Order.includes(:seller, :user, :address, all_order_items: [product: [:creator, :image_blob, trademark: [:image_blob, :category, :species]]]).order(id: :desc).ransack(params[:q]).result
+        order = Order.includes(:seller, :user, :address,
+                               all_order_items: [product: [:creator, :image_blob, trademark: [:image_blob, :category, :species]]]).
+          order(id: :desc).ransack(params[:q]).result
 
         @pagy, @order = pagy(order, items: params[:per_page] || DEFAULT_PER_PAGE, page: params[:page] || DEFAULT_PAGE)
 

@@ -10,8 +10,21 @@ module Api
       response_success(@order, { serializer: ::Orders::ShowSerializer })
     end
 
+    def index
+      order = @user.orders.includes(:seller, :user, :address,
+                                    all_order_items: [product: [:creator, :image_blob, trademark: [:image_blob, :category, :species]]]).
+        where.not(status: :shopping).order(id: :desc).ransack(params[:q]).result
+
+      @pagy, @order = pagy(order, items: params[:per_page] || DEFAULT_PER_PAGE, page: params[:page] || DEFAULT_PAGE)
+
+      response_list(@order, { adapter: :json,
+                              each_serializer: ::Orders::AdminShowSerializer })
+    end
+
     def seller_order_index
-      order = Order.includes(:seller, :user, :address, all_order_items: [product: [:creator, :image_blob, trademark: [:image_blob, :category, :species]]]).where.not(status: :shopping).where(seller_id: @user.id).order(id: :desc).ransack(params[:q]).result
+      order = Order.includes(:seller, :user, :address,
+                             all_order_items: [product: [:creator, :image_blob, trademark: [:image_blob, :category, :species]]]).
+        where.not(status: :shopping).where(seller_id: @user.id).order(id: :desc).ransack(params[:q]).result
 
       @pagy, @order = pagy(order, items: params[:per_page] || DEFAULT_PER_PAGE, page: params[:page] || DEFAULT_PAGE)
 

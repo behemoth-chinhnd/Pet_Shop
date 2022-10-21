@@ -14,7 +14,11 @@ export default {
   getAll() {
     return API.get(`/api/admins/orders`)
   },
+  
   confirmOrder(params) {
     return API.post(`/api/order/status_confirm`, params)
+  },
+  confirmTransport(params) {
+    return API.post(`/api/order/status_transported`, params)
   }
 }

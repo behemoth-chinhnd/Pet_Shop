@@ -109,6 +109,8 @@ const routes = [
       { path: 'trademark/edit/:id', name: 'admin.trademark.edit', component: () => import('@/views/admin/trademark/EditTrademark.vue') },
 
       { path: 'order', name: 'admin.order', component: () => import('@/views/admin/order/ListOrderAdmin.vue') },
+      { path: 'order/transport', name: 'admin.order.transport', component: () => import('@/views/admin/order/ListOrderTransportAdmin.vue') },
+
 
 
 
