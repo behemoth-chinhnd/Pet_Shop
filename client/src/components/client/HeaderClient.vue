@@ -18,7 +18,7 @@
                 <i class="fa fa-bars"></i>
               </button>
             </div>
-            <div class="form-input-search mgb-20px">
+            <div class="form-input-search mg-tb-20px">
               <input type="text" class="input-search" placeholder="Search" />
               <i class="icon-search fa fa-search"></i>
             </div>

@@ -1,11 +1,6 @@
-// import AuthServices from "../../apis/modules/auth";
 import api from "@/plugin/axios";
 import api_auth from "@/apis/modules/auth"
 import upload from "@/apis/modules/upload"
-
-import says from "@/plugin/says";
-import store from "../store";
-
 
 const state = {
   state: {
@@ -25,7 +20,11 @@ const state = {
       isActive: false,
       is_res: false,
       status: "",
-      message: ""
+      message: "",
+      errName: false,
+      erremail: false,
+      errBirthday: false,
+      errPassword: false
     },
     birthday: {
       day: "",
@@ -56,6 +55,18 @@ const mutations = {
   resMessage(state, value) {
     state.state.res.message = value;
   },
+  resName(state, value) {
+    state.state.res.errName = value;
+  },
+  resEmail(state, value) {
+    state.state.res.errEmail = value;
+  },
+  resPassword(state, value) {
+    state.state.res.errPassword = value;
+  },
+  resBirthday(state, value) {
+    state.state.res.errBirthday = value;
+  },
   resIsActive(state, value) {
     state.state.res.isActive = value;
   },
@@ -82,21 +93,38 @@ const mutations = {
   },
 };
 const actions = {
-  async register({ commit }, credentials) {
-    await api.post("/api/user", credentials).then(res => {
-      if (res) {
-        console.log(res)
-
-        commit("isError", false);
-        commit("setErrors", "");
-        // window.location.href = "/login";
+  async register({ commit, state }, credentials) {
+    try {
+      const res = await api_auth.register(credentials)
+      commit("resStatus", "success");
+      commit("resMessage", "Register Successful!");
+      setTimeout(() =>
+        window.location.href = "/login", 3000)
+    } catch (error) {
+      commit("resStatus", "error");
+      commit("resMessage", "Register Failed!");
+      if (error.response.data.birthday) {
+        commit("resBirthday", "Birthday Error!");
+      } else {
+        commit("resBirthday", false);
       }
-    }).catch((res) => {
-      console.log(res)
-
-      commit("isError", true);
-      commit("setErrors", res.response.data);
-    })
+      if (error.response.data.name) {
+        commit("resName", "Name Error!");
+      } else {
+        commit("resName", false);
+      }
+      if (error.response.data.password) {
+        commit("resPassword", "Password is too short (minimum is 6 characters)");
+      } else {
+        commit("resPassword", false);
+      }
+      if (error.response.data.email) {
+        commit("resEmail", "Email has already been taken");
+      } else {
+        commit("resEmail", false);
+      }
+    }
+    return state.state.res
   },
 
   async login({ commit, dispatch, state }, credentials) {
@@ -105,14 +133,12 @@ const actions = {
       commit("setToken", res.data);
       commit("setActive", true);
       commit("resIsActive", true);
-
       commit("isRes", true);
       commit("resStatus", "success");
       commit("resMessage", "Login Successful!");
       dispatch('profile');
       setTimeout(() =>
         window.location.href = "/user/account/profile", 2000)
-
     } catch (error) {
       if (error.response) {
         commit("setToken", "");
@@ -123,12 +149,10 @@ const actions = {
         commit("resMessage", "Login Failed!");
         localStorage.removeItem("vuex");
       }
-
     }
     console.log(state.state.res)
     return state.state.res
   },
-
   async profile({ commit }) {
     try {
       const res = await api_auth.profile();
@@ -143,9 +167,6 @@ const actions = {
       commit("setProfile", "");
     }
   },
-
-
-
   async update({ commit, state }, credentials) {
     try {
       await api_auth.update(credentials);
@@ -159,8 +180,6 @@ const actions = {
     }
     return state.state.res
   },
-
-
   async updateAvatar({ commit, dispatch, state }, credentials) {
     const res = await upload.image(credentials.file)
     const avatar_key = res.data.key
@@ -188,18 +207,11 @@ const actions = {
     }
     return state.state.res
   },
-
-
-
-
-
   logout({ commit }) {
     commit("setToken", "");
     commit("setActive", false);
     localStorage.removeItem("vuex");
     window.location.href = "/login";
-
-
   },
   async getAllUser({ commit }, credentials) {
     await api.get(`/api/users?page=${credentials.page}&per_page=${credentials.per_page}&q=${credentials.q}`).then((res) => {
@@ -210,7 +222,6 @@ const actions = {
 }
 export default {
   namespaced: true,
-  //namespaced giup dispath den store nao
   state,
   getters,
   mutations,
