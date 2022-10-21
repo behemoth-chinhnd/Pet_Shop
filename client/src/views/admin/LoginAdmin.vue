@@ -5,7 +5,7 @@
 import LoginAdmin from "@/components/admin/_loginAdmin.vue";
 
 export default {
-name: "CreateTrademark",
+name: "LoginAdmin",
 components: {
   loginAdmin: LoginAdmin,
 },

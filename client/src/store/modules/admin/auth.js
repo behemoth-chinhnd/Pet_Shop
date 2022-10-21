@@ -75,16 +75,12 @@ const actions = {
   logout({ commit }) {
     commit("setToken", "");
     commit("setActive", false);
-    localStorage.removeItem("vuex");
-    window.location.href = "/login";
-
-  
+    window.location.href = "/admin/login";
   },
 
 }
 export default {
   namespaced: true,
-  //namespaced giup dispath den store nao
   state,
   getters,
   mutations,

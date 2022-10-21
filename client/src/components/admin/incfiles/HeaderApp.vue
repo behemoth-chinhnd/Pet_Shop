@@ -18,10 +18,13 @@
           <!-- <div class="flex-row-space-between rel">
             <i class="icon-search fa fa-search abs"></i>
             <input type="text" class="input-search" placeholder="Search" />
-          </div>
-          <a class="icon default" href="#">
+          </div> -->
+          <!-- <a class="icon default" href="#">
             <img src="/images/User.png" alt="" />
           </a> -->
+          <b-button variant="danger" @click="logoutAdmin">
+            Logout
+          </b-button>
         </div>
         <client-app></client-app>
         <button
@@ -39,6 +42,7 @@
 <script>
 import RouterSaler from "@/components/client/saler/incfiles/RouterSaler.vue";
 import { createNamespacedHelpers } from "vuex";
+const ADAU = createNamespacedHelpers("ADAU");
 const { mapActions, mapState } = createNamespacedHelpers("ADMU");
 import ClientApp from "@/components/admin/incfiles/ClientApp.vue";
 
@@ -81,6 +85,10 @@ export default {
   methods: {
     ...mapActions({ runMenuLeft: "menuLeft" }),
     ...mapActions(["getMenuLeft"]),
+
+    ...ADAU.mapActions({
+      logoutAdmin:'logout'
+    }),
 
     async isActiveMenuLeft() {
       const res = await this.getMenuLeft();
