@@ -54,7 +54,7 @@ module Orders
       end
     end
 
-    def update_product_sold
+    def update_product_quantity
       context.new_order.order_items.reload.each do |order_item|
         product = order_item.product
 

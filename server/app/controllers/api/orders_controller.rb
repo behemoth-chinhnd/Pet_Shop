@@ -1,6 +1,8 @@
 module Api
   class OrdersController < ApplicationController
-    before_action :set_user, if: :auth?
+    before_action :auth?, except: [:status_confirm, :status_transported, :status_delivered, :status_canceled]
+    before_action :login_auth?, only: [:status_confirm, :status_transported, :status_delivered, :status_canceled]
+    before_action :set_user
     before_action :find_my_order, only: [:show, :destroy]
     before_action :find_order, only: [:status_confirm, :status_transported, :status_delivered, :status_canceled]
 
@@ -9,7 +11,7 @@ module Api
     end
 
     def seller_order_index
-      order = Order.includes(:seller, :user, :address, all_order_items: [product: [:creator, :image_blob, trademark: [:image_blob ,:category, :species]]]).where.not(status: :shopping).where(seller_id: @user.id).order(id: :desc).ransack(params[:q]).result
+      order = Order.includes(:seller, :user, :address, all_order_items: [product: [:creator, :image_blob, trademark: [:image_blob, :category, :species]]]).where.not(status: :shopping).where(seller_id: @user.id).order(id: :desc).ransack(params[:q]).result
 
       @pagy, @order = pagy(order, items: params[:per_page] || DEFAULT_PER_PAGE, page: params[:page] || DEFAULT_PAGE)
 
@@ -103,6 +105,10 @@ module Api
 
     def auth?
       authenticate!(:customer)
+    end
+
+    def login_auth?
+      authenticate!(:login)
     end
   end
 end
