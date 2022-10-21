@@ -68,15 +68,7 @@
             v-if="products.length <= 0"
             class="empty-cart bg-white height-400px mg-lr-10px"
           >
-            <img
-              class="img-empty"
-              src="@/assets/images/icons/cart.png"
-              alt=""
-            />
-            <p class="mgb-20px">Cart Empty!</p>
-            <router-link to="/products">
-              <button class="btn submit right">Buy Now</button>
-            </router-link>
+            <empty-product></empty-product>
           </div>
 
           <div v-if="this.params.pages > 1" class="panel-footer">
@@ -102,6 +94,8 @@
 <script>
 import TabMenuDog from "@/components/incfiles/_tabMenuDog.vue";
 import TabMenuPet from "@/components/incfiles/_tabMenuPet.vue";
+import EmptyProduct from "@/components/incfiles/_emptyProduct.vue";
+
 
 import { createNamespacedHelpers } from "vuex";
 const mapActionsPROD = createNamespacedHelpers("PROD");
@@ -116,6 +110,7 @@ export default {
     tabMenuDog: TabMenuDog,
     tabMenuPet: TabMenuPet,
     vueGlide: Glide,
+    emptyProduct:EmptyProduct
   },
   data() {
     return {
