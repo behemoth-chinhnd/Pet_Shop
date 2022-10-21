@@ -25,7 +25,7 @@
                   class="status-order"
                   :class="{ warning: (post.status = 'wait_for_confirmation') }"
                 >
-                Waiting for the goods
+                Being shipped
                 </div>
               </div>
               <div
@@ -77,10 +77,15 @@
               </div>
             </div>
           </div>
-          
-          <div  class="text-right" v-if=" post.status === 'wait_for_confirmation'">
-            <b-button @click="confirmTransport(post.number)" variant="warning">Shipper: Confirm pick up</b-button>
+          <div class="flex-row-end gap-10px">
+            <div  class="text-right" v-if=" post.status === 'wait_for_confirmation'">
+            <b-button @click="cancel(post.number)" variant="danger">Cancel</b-button>
           </div>
+          <div  class="text-right" v-if=" post.status === 'wait_for_confirmation'">
+            <b-button @click="complete(post.number)" variant="success">Complete</b-button>
+          </div>
+          </div>
+          
         </div>
 
         <div v-if="this.params.pages > 1" class="panel-footer">
@@ -144,8 +149,9 @@ export default {
   methods: {
     ...ADOR.mapActions({
       getAllADOR: "getAllList",
-      getDetailADOR: "getDetail",
-      confirmTransportADOR: "confirmTransport",
+      cancelADOR: "cancel",
+      completeADOR: "complete",
+      
 
     }),
     clickCallback(pageNum) {
@@ -159,8 +165,14 @@ export default {
       }
     },
 
-    async confirmTransport(numberOrder) {
-      const res = await this.confirmTransportADOR({ number: numberOrder });
+    async cancel(numberOrder) {
+      const res = await this.cancelADOR({ number: numberOrder });
+      console.log(res)
+      this.$swal.fire(res.message, res.text, res.status);
+      this.getAll(this.params);
+    },
+    async complete(numberOrder) {
+      const res = await this.completeADOR({ number: numberOrder });
       console.log(res)
       this.$swal.fire(res.message, res.text, res.status);
       this.getAll(this.params);

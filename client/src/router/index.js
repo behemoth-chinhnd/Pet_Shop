@@ -110,7 +110,7 @@ const routes = [
 
       { path: 'order', name: 'admin.order', component: () => import('@/views/admin/order/ListOrderAdmin.vue') },
       { path: 'order/waiting-goods', name: 'admin.order.waiting-goods', component: () => import('@/views/admin/order/ListOrderComfirmedAdmin.vue') },
-
+      { path: 'order/shipping', name: 'admin.order.shipping', component: () => import('@/views/admin/order/ListOrderShippingAdmin.vue') },
 
 
 

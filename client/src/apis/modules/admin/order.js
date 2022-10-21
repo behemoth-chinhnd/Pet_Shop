@@ -20,5 +20,11 @@ export default {
   },
   confirmTransport(params) {
     return API.post(`/api/order/status_transported`, params)
+  },
+  cancel(params) {
+    return API.post(`/api/order/status_canceled`, params)
+  },
+  complete(params) {
+    return API.post(`/api/order/status_delivered`, params)
   }
 }
