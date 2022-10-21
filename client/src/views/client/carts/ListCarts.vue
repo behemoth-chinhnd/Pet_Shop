@@ -248,7 +248,8 @@ export default {
     },
 
     async orderAll() {
-      await this.orderAllORDE(this.address_order);
+      const res = await this.orderAllORDE(this.address_order);
+      this.$swal.fire(res.message, "", res.status);
       await this.getAll();
     },
 

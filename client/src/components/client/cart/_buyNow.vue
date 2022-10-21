@@ -3,8 +3,8 @@
     <div class="buy-now">
       <div class="container">
         <default-address></default-address>
-        <div class="flex-row-space-between gap-10px">
-          <div class="img-cart">
+        <div class="flex-row-space-between row gap-10px">
+          <div class="col-md-4">
             <img
               class="img-detail-product"
               ref="image"
@@ -58,8 +58,7 @@
               <b-button class="mgl-10px" variant="primary" @click="order()"
                 >Order</b-button
               >
-              <p>buy_now: {{ this.$store.state.CART.state.buy_now }}</p>
-              <p>product: {{ this.$store.state.CART.state.product }}</p>
+            
             </div>
           </div>
         </div>
@@ -158,7 +157,9 @@ export default {
     },
 
     async order(){
-      await this.buyNowORDE(this.buy_now);
+      const res = await this.buyNowORDE(this.buy_now);
+      this.$swal.fire(res.message, "", res.status);
+
     }
   },
 };

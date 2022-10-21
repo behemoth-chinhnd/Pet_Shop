@@ -4,24 +4,13 @@
       <div class="container">
         <div
           class="card-order mgb-10px pd-10px"
-          v-for="(post, index) in List"
+          v-for="(post, index) in this.orders"
           :key="index"
         >
           <div class="flex-row-space-between gap-10px">
             <div class="flex-1">
               <div class="flex-row-space-between">
                 <div class="flex-cloumn text-left">
-                  <!-- <div class="price-sale mgb-10px">
-                    ID: #{{ post.id }}
-                    Number Code: {{ post.number }}
-                    <div
-          class="card mgb-10px pd-10px"
-          v-for="(item, index) in getDetail(post.number)"
-          :key="index"
-        >
-        <div>{{item.order_items}}</div>
-        </div>
-                  </div> -->
                 </div>
                 <div class="flex-cloumn text-left"></div>
               </div>
@@ -37,7 +26,7 @@
               </div>
               <div
                 class="order-items mgb-10px pd-10px flex-row-space-between"
-                v-for="(item, index) in post.order_items"
+                v-for="(item, index) in post.all_order_items"
                 :key="index"
               >
                 <div class="images-order">
@@ -164,12 +153,13 @@ export default {
       this.getAll();
     },
     async getAll() {
-      await this.getAllORDE({
+      const res = await this.getAllORDE({
         page: this.params.page,
         per_page: this.params.per_page,
         q: this.params.q,
       });
-      this.orders = this.$store.state.ORDE.state.orders;
+      console.log(res)
+      this.orders = res.orders;
     },
   },
 };
