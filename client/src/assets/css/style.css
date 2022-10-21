@@ -1615,6 +1615,15 @@ td .info-author .button-view-offer {
     align-items: center;
 }
 
+.login-header-mobile {
+    display: block;
+}
+
+.login-header {
+    display: none;
+}
+
+
 @media screen and (min-width:1000px) {
 
     ul.purchase {
@@ -1650,6 +1659,13 @@ td .info-author .button-view-offer {
 @media screen and (min-width:767px) {
     .slide.slider-banner, .box.banner-mobile{
         display: none;
+    }
+    .login-header-mobile {
+        display: none;
+    }
+    
+    .login-header {
+        display: block;
     }
 
 }
@@ -1725,3 +1741,4 @@ td .info-author .button-view-offer {
         width: 50%;
     }
 }
+

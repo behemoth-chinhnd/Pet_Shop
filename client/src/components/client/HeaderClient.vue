@@ -5,112 +5,25 @@
         <div class="container">
           <div class="list-menu-header">
             <div class="flex-row-space-between-center">
-              <div class="left-item-header flex-row">
+              <div class="left-item-header flex-row-space-between-center">
                 <div class="logo">
                   <img src="/pet2.png" alt="" />
                 </div>
+               
               </div>
-
+              <div class="login-header-mobile">
+                  <login-header></login-header>
+                </div>
               <button class="menu-toggle">
                 <i class="fa fa-bars"></i>
               </button>
             </div>
-            <div class="form-input-search">
+            <div class="form-input-search mgb-20px">
               <input type="text" class="input-search" placeholder="Search" />
               <i class="icon-search fa fa-search"></i>
             </div>
-
-            <div class="flex-row-space-between-center gap-10px">
-              <b-button
-                v-if="!this.$store.state.AUTH.state.isActive"
-                variant="primary"
-              >
-                <router-link class="text-white" to="/login"
-                  >Login User</router-link
-                >
-              </b-button>
-              <b-button
-                v-if="!this.$store.state.AUTH.state.isActive"
-                variant="primary"
-              >
-                <router-link class="text-white" to="/register"
-                  >Register</router-link
-                >
-              </b-button>
-              <div
-                v-if="this.$store.state.AUTH.state.isActive"
-                @click="isCarts = true"
-                @mouseleave="isCarts = false"
-                class="cart rel"
-              >
-                <router-link class="total_items text-white fz-25px rel" to="#">
-                  <p class="number-cart abs">
-                    {{ this.$store.state.CART.state.total_items }}
-                  </p>
-                  <i
-                    class="fa fa-shopping-cart text-white"
-                    aria-hidden="true"
-                  ></i>
-                </router-link>
-
-                <div v-if="isCarts" class="box-list-cart abs">
-                  <list-cart-header></list-cart-header>
-                  <empty-cart-header></empty-cart-header>
-                </div>
-              </div>
-              <div
-                v-if="this.$store.state.AUTH.state.isActive"
-                @mouseover="isActive = true"
-                @mouseleave="isActive = false"
-                class="avatar-icon mgl-20px pointer rel"
-              >
-                <!-- <div class="flex-row-center-center gap-10px"> -->
-                <img
-                  v-if="
-                    this.$store.state.AUTH.state.user.sex_id === 1 &&
-                    this.$store.state.AUTH.state.user.avatar_url === null
-                  "
-                  class="avatar"
-                  src="@/assets/images/icons/avatar-boy.png"
-                  alt=""
-                />
-                <img
-                  v-if="
-                    this.$store.state.AUTH.state.user.sex_id === 2 &&
-                    this.$store.state.AUTH.state.user.avatar_url === null
-                  "
-                  class="avatar"
-                  src="@/assets/images/icons/avatar-girl.png"
-                  alt=""
-                />
-                <img
-                  v-if="this.$store.state.AUTH.state.user.avatar_url !== null"
-                  class="avatar"
-                  :src="this.$store.state.AUTH.state.user.avatar_url"
-                  alt=""
-                />
-                <!-- <p class="text-white bold">{{this.$store.state.AUTH.state.user.name}}</p> -->
-                <!-- </div> -->
-
-                <ul v-if="isActive" class="abs box-menu-user">
-                  <li>
-                    <router-link class="" to="/user/account/profile">
-                      My Account
-                    </router-link>
-                  </li>
-                  <li>
-                    <router-link class="" to="/user/purchase">
-                      Purchase
-                    </router-link>
-                  </li>
-                  <li>
-                    <router-link class="" to="/saler">
-                      Store Manager
-                    </router-link>
-                  </li>
-                  <li @click="logout()">Logout</li>
-                </ul>
-              </div>
+            <div class="login-header">
+              <login-header></login-header>
             </div>
           </div>
         </div>
@@ -125,18 +38,20 @@ const mapActionsAUTH = createNamespacedHelpers("AUTH");
 const mapActionsCART = createNamespacedHelpers("CART");
 import ListCartHeader from "@/components/client/cart/_showCartHeader.vue";
 import EmptyCartHeader from "@/components/client/cart/_emptyCartHeader.vue";
-import HeaderUser from "@/components/client/users/HeaderUser.vue";
 import SliderBanner from "@/components/incfiles/_sliderBanner.vue";
+import LoginHeader from "@/components/incfiles/_loginHeader.vue";
+import HeaderUser from "@/components/client/users/HeaderUser.vue";
 export default {
   components: {
-    headerUser: HeaderUser,
     listCartHeader: ListCartHeader,
     emptyCartHeader: EmptyCartHeader,
     sliderBanner: SliderBanner,
+    loginHeader: LoginHeader,
+    headerUser: HeaderUser,
+
   },
   data() {
     return {
-      isActive: false,
       isCarts: false,
       total_items: "",
       order_items: [],
