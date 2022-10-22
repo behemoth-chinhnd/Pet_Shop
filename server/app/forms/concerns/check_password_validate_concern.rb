@@ -4,7 +4,7 @@ module CheckPasswordValidateConcern
   included do
     attribute :password, :string
 
-    validates :password, presence: :true
+    validates :password, presence: true
 
     with_options if: -> { password.present? } do
       validates :password, length: { minimum: 6, maximum: 255 }

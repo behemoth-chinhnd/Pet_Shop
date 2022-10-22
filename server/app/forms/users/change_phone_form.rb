@@ -5,9 +5,9 @@ module Users
     attribute :phone, :string
 
     validates :phone, presence: true
-    
+
     validates :phone, uniq: { klass: User },
-                      length: { minimum: 3, maximum: 12 }, 
+                      length: { minimum: 3, maximum: 12 },
                       numericality: { only_integer: true }, if: -> { phone.present? }
 
     def save

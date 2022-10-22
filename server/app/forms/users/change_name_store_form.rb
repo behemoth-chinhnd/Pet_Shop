@@ -8,7 +8,7 @@ module Users
     validates :store_name, presence: true
 
     validates :store_name, uniq: { klass: User }, if: -> { store_name.present? }
-    
+
     validates :shipping_fee, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, if: -> { shipping_fee.present? }
 
     def save

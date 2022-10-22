@@ -26,7 +26,7 @@ module Api
     end
 
     def update
-      form = ::Users::UserForm.new.assign_model(@user, user_params.except("email","password").to_h)
+      form = ::Users::UserForm.new.assign_model(@user, user_params.except("email", "password").to_h)
 
       if form.save
         response_success(form.model, { serializer: ::Users::UserListSerializer })
@@ -65,8 +65,8 @@ module Api
     end
 
     def change_password
-      form = ::Users::ChangePasswordForm.new.assign_model(@user, 
-        password_params.merge(params.permit(:new_password, :new_password_confirmation)).to_h)
+      form = ::Users::ChangePasswordForm.new.assign_model(@user,
+                                                          password_params.merge(params.permit(:new_password, :new_password_confirmation)).to_h)
 
       if form.save
         response_success(form.model, { serializer: ::Users::UserListSerializer })

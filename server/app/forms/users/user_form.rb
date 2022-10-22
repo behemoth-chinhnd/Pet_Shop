@@ -19,11 +19,11 @@ module Users
                 :sex_id,
                 presence: true
 
-                with_options if: -> { email.present? } do
-                  validates :email, length: { maximum: MAX_STRING }
-                  validates :email, email_format: true
-                  validates :email, uniq: { klass: User }
-                end
+      with_options if: -> { email.present? } do
+        validates :email, length: { maximum: MAX_STRING }
+        validates :email, email_format: true
+        validates :email, uniq: { klass: User }
+      end
 
       validates :password, length: { minimum: 6, maximum: MAX_STRING }, if: -> { password.present? }
     end
