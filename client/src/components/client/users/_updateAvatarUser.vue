@@ -43,6 +43,7 @@ export default {
   name: "UpdateAvatar",
   data() {
     return {
+      namePage: "Update Avatar",
       user: null,
       avatar: null,
       sex_id: null,
@@ -72,7 +73,12 @@ export default {
           data: this.user,
         };
         const res = await this.updateAvatar(input);
-        this.$swal.fire(res.message, "", res.status);
+        this.errors = res.errors;
+        this.$swal.fire(
+          this.namePage + " " + res.alert.message,
+          "",
+          res.alert.status
+        );
         this.getProfile();
       }
     },
@@ -80,7 +86,8 @@ export default {
     async getProfile() {
       const res = await this.profile();
       this.user = res;
-      (this.avatar = this.user.avatar_url), (this.sex_id = this.user.sex_id);
+      this.avatar = this.user.avatar_url;
+      this.sex_id = this.user.sex_id;
     },
   },
 };

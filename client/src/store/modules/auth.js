@@ -120,7 +120,7 @@ const actions = {
       commit("setProfile", "");
     }
   },
-  async update({}, credentials) {
+  async update({ }, credentials) {
     try {
       const res = await api_auth.update(credentials);
       const result = check.success(res)
@@ -138,19 +138,14 @@ const actions = {
       sex_id: credentials.data.sex_id,
     }
     try {
-      const profile = await api_auth.update(input);
-      console.log(`res Update`, profile.data)
-      dispatch('profile')
-      commit("setProfile", profile.data);
-      commit("isRes", true);
-      commit("resStatus", "success");
-      commit("resMessage", "Update Avatar Successful!");
+      const res = await api_auth.update(input);
+      commit("setProfile", res.data);
+      const result = check.success(res)
+      return result
     } catch (error) {
-      commit("isRes", false);
-      commit("resStatus", "error");
-      commit("resMessage", "Update Avatar Failed!");
+      const result = check.errors(error)
+      return result
     }
-    return state.state.res
   },
   logout({ commit }) {
     commit("setToken", "");

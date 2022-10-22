@@ -227,8 +227,7 @@ import { createNamespacedHelpers } from "vuex";
 const mapActionsAUTH = createNamespacedHelpers("AUTH");
 const mapActionsADDR = createNamespacedHelpers("ADDR");
 
-import says from "@/plugin/says";
-import UpdateAvatarUser from "@/components/client/users/UpdateAvatarUser.vue";
+import UpdateAvatarUser from "@/components/client/users/_updateAvatarUser.vue";
 
 export default {
   components: {
