@@ -6,6 +6,12 @@
     <b-button v-if="!this.$store.state.AUTH.state.isActive" variant="primary">
       <router-link class="text-white" to="/register">Register</router-link>
     </b-button>
+    <!-- <div
+      v-if="this.$store.state.AUTH.state.isActive"
+      @click="isCarts = true"
+      @mouseleave="isCarts = false"
+      class="cart rel"
+    > -->
     <div
       v-if="this.$store.state.AUTH.state.isActive"
       @click="isCarts = true"
@@ -76,22 +82,38 @@
   </div>
 </template>
 <script>
+import ListCartHeader from "@/components/client/cart/_showCartHeader.vue";
+import EmptyCartHeader from "@/components/client/cart/_emptyCartHeader.vue";
 import { createNamespacedHelpers } from "vuex";
+const mapActionsCART = createNamespacedHelpers("CART");
 const mapActionsAUTH = createNamespacedHelpers("AUTH");
 export default {
   name: "categoriesForm",
   components: {
-
+    listCartHeader: ListCartHeader,
+    emptyCartHeader: EmptyCartHeader,
   },
   data() {
     return {
+      isCarts: false,
       isActive: false,
-
+      params: {
+        page: 1,
+        per_page: 5,
+        sort_column: "id",
+        direction: "desc",
+        search_column: "id",
+        search_operator: "equal_to",
+        search_query_1: "",
+        search_query_2: "",
+        q: {},
+        pages: "",
+      },
     };
   },
   beforeCreate() {},
   created() {
-    this.getAll(this.params);
+    this.getAll();
     // this.isActive(1);
   },
   mounted() {},
@@ -100,7 +122,17 @@ export default {
   },
   methods: {
     ...mapActionsAUTH.mapActions(["logout"]),
-
+    ...mapActionsCART.mapActions({
+      getAllCART: "getAll",
+      nextCART: "nextCart",
+      prevCART: "prevCart",
+      removeCART: "remove",
+    }),
+    async getAll() {
+      const res = await this.getAllCART();
+      this.order_items = res.data.data;
+      this.infos = res.data.infos;
+    },
   },
   watch: {},
   computed: {},

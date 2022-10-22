@@ -63,9 +63,7 @@
                   <h3 class="auth-title">REGISTER NEW ACCOUNT</h3>
                   <p>
                     If you already have an account
-                    <router-link to="/login">
-                      Login Now!
-                    </router-link>
+                    <router-link to="/login"> Login Now! </router-link>
                   </p>
                 </div>
                 <div class="row">
@@ -96,10 +94,9 @@
                       <div class="form-group row">
                         <input
                           type="email"
-                          name="email"
                           class="form-control"
                           placeholder="Email"
-                          v-model.number="user.email"
+                          v-model="user.email"
                           @blur="validate()"
                           v-bind:class="{ 'is-invalid': errors.email }"
                           required
@@ -196,47 +193,43 @@
 import { createNamespacedHelpers } from "vuex";
 const mapActionsAUTH = createNamespacedHelpers("AUTH");
 export default {
-  name: "CreateUser",
   data() {
     return {
-      errors: {
-        name: "",
-        email: "",
-        password: "",
-        sex_id: "",
-        birthday: "",
-      },
+      namePage: "Register",
+      errors: [],
       users: [],
-      user: {
+      user:  {
         name: "",
         email: "",
         password: "",
         birthday: "",
         sex_id: 1,
-      },
+      }
     };
   },
   created() {},
   methods: {
     ...mapActionsAUTH.mapActions({ registerUser: "register" }),
+
     validate() {
       let isValid = true;
       this.errors = {
         name: "",
-        username: "",
         email: "",
         password: "",
         birthday: "",
+        sex_id: "",
       };
       if (!this.user.name) {
         this.errors.name = "Error: Name not Empty";
         isValid = false;
-      }
-      if (!this.user.email) {
+      } else if (!this.user.email) {
         this.errors.email = "Error: Email not Empty ";
         isValid = false;
-      }
-      if (!this.user.password) {
+      } else if (!this.user.birthday) {
+        this.errors.birthday = "Error: Birthday not Empty ";
+        isValid = false;
+      } else if (!this.user.password) {
         this.errors.password = "Error: Password not Empty ";
         isValid = false;
       }
@@ -245,45 +238,17 @@ export default {
     isNumber(value) {
       return /^\d*$/.test(value);
     },
+
     async register() {
       if (this.validate()) {
         const res = await this.registerUser(this.user);
-        await this.checkErrors(res);
-        this.$swal.fire(res.message, "", res.status);
+        this.errors = res.errors;
+        this.$swal.fire(
+          this.namePage + " " + res.alert.message,
+          "",
+          res.alert.status
+        );
       }
-    },
-    checkErrors(res) {
-      console.log(res);
-      let isValid = true;
-      this.errors = {
-        name: "",
-        username: "",
-        email: "",
-        password: "",
-        birthday: "",
-      };
-      if (res.errName) {
-        isValid = false;
-        this.errors.name = res.errName;
-      }
-      if (res.errEmail) {
-        isValid = false;
-        this.errors.email = res.errEmail;
-      }
-      if (res.errPassword) {
-        isValid = false;
-        this.errors.password = res.errPassword;
-      }
-      if (res.errBirthday) {
-        isValid = false;
-        this.errors.birthday = res.errBirthday;
-      }
-      if (res.sex_id) {
-        isValid = false;
-        this.errors.sex_id = res.sex_id;
-      }
-      console.log(this.errors);
-      return isValid;
     },
   },
 };

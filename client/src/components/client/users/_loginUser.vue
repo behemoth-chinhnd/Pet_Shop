@@ -337,6 +337,7 @@ export default {
           email: this.email,
           password: this.password,
         });
+        this.errors = 1
         this.$swal.fire(res.message, "", res.status);
       }
     },

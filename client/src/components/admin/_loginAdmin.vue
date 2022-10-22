@@ -148,6 +148,11 @@ export default {
     ...mapActions({
       loginAdmin: "login",
     }),
+    async getAll() {
+      const res = await this.getAllCART();
+      this.order_items = res.data.data;
+      this.infos = res.data.infos;
+    },
     async submit() {
      const res = await this.loginAdmin( {
           email: this.email,

@@ -36,15 +36,12 @@
 import { createNamespacedHelpers } from "vuex";
 const mapActionsAUTH = createNamespacedHelpers("AUTH");
 const mapActionsCART = createNamespacedHelpers("CART");
-import ListCartHeader from "@/components/client/cart/_showCartHeader.vue";
-import EmptyCartHeader from "@/components/client/cart/_emptyCartHeader.vue";
 import SliderBanner from "@/components/incfiles/_sliderBanner.vue";
 import LoginHeader from "@/components/incfiles/_loginHeader.vue";
 import HeaderUser from "@/components/client/users/HeaderUser.vue";
 export default {
   components: {
-    listCartHeader: ListCartHeader,
-    emptyCartHeader: EmptyCartHeader,
+
     sliderBanner: SliderBanner,
     loginHeader: LoginHeader,
     headerUser: HeaderUser,
@@ -52,10 +49,10 @@ export default {
   },
   data() {
     return {
-      isCarts: false,
+      // isCarts: false,
       total_items: "",
       order_items: [],
-      carts: "",
+      carts: false,
     };
   },
   created() {

@@ -1,6 +1,7 @@
 import api from "@/plugin/axios";
 import api_auth from "@/apis/modules/auth"
 import upload from "@/apis/modules/upload"
+import check from "@/plugin/check";
 
 const state = {
   state: {
@@ -17,14 +18,16 @@ const state = {
     isErr: false,
     errors: [],
     res: {
-      isActive: false,
-      is_res: false,
-      status: "",
-      message: "",
-      errName: false,
-      erremail: false,
-      errBirthday: false,
-      errPassword: false
+      alert: false,
+      error: false
+      // isActive: false,
+      // is_res: false,
+      // status: "",
+      // message: "",
+      // errName: false,
+      // erremail: false,
+      // errBirthday: false,
+      // errPassword: false
     },
     birthday: {
       day: "",
@@ -93,38 +96,17 @@ const mutations = {
   },
 };
 const actions = {
-  async register({ commit, state }, credentials) {
+  async register({}, credentials) {
     try {
       const res = await api_auth.register(credentials)
-      commit("resStatus", "success");
-      commit("resMessage", "Register Successful!");
+      const result = check.success(res)
       setTimeout(() =>
-        window.location.href = "/login", 3000)
+        window.location.href = "/login", 2000)
+      return result
     } catch (error) {
-      commit("resStatus", "error");
-      commit("resMessage", "Register Failed!");
-      if (error.response.data.birthday) {
-        commit("resBirthday", "Birthday Error!");
-      } else {
-        commit("resBirthday", false);
-      }
-      if (error.response.data.name) {
-        commit("resName", "Name Error!");
-      } else {
-        commit("resName", false);
-      }
-      if (error.response.data.password) {
-        commit("resPassword", "Password is too short (minimum is 6 characters)");
-      } else {
-        commit("resPassword", false);
-      }
-      if (error.response.data.email) {
-        commit("resEmail", "Email has already been taken");
-      } else {
-        commit("resEmail", false);
-      }
+      const result = check.errors(error)
+      return result
     }
-    return state.state.res
   },
 
   async login({ commit, dispatch, state }, credentials) {
