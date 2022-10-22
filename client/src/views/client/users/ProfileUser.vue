@@ -33,6 +33,39 @@
                   </p>
                 </div>
                 <div class="form-group row flex-row-start-center">
+                  <label for="store_name" class="item-name col-form-label"
+                    >Store Name:</label
+                  >
+                  <div id="store_name" class="item-value">
+                    <input
+                      class="input"
+                      type="text"
+                      placeholder="Store Name"
+                      v-model="user.store_name"
+                      v-bind:class="{
+                        'is-invalid': errors.store_name,
+                      }"
+                      required
+                    />
+                    <p class="feedback-invalid" v-if="errors.store_name">
+                      {{ errors.store_name }}
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group row flex-row-start-center">
+                  <label for="shipping_fee" class="item-name col-form-label"
+                    >Shipping Fee:</label
+                  >
+                  <p id="shipping_fee" class="item-value">
+                    <input
+                      class="input"
+                      type="number"
+                      placeholder="Shipping Fee"
+                      v-model.number="user.shipping_fee"
+                    />
+                  </p>
+                </div>
+                <div class="form-group row flex-row-start-center">
                   <label for="email" class="item-name col-form-label"
                     >Email:</label
                   >
@@ -87,7 +120,9 @@
                   <label for="user_type" class="item-name col-form-label"
                     >User Type:</label
                   >
-                  <p id="user_type" class="item-value">{{ this.user.user_type }}</p>
+                  <p id="user_type" class="item-value">
+                    {{ this.user.user_type }}
+                  </p>
                 </div>
                 <div class="form-group row flex-row-start-center">
                   <label for="created" class="item-name col-form-label"
@@ -202,6 +237,7 @@ export default {
   name: "ProfileUser",
   data() {
     return {
+      namePage: "Update",
       user: "",
       address_user: null,
       created_at: "",
@@ -214,7 +250,9 @@ export default {
         name: "",
         sex_id: "",
         birthday: "",
+        store_name:""
       },
+      errors: [],
       days: Array.from({ length: 32 }, (v, i) => i).slice(1),
       months: Array.from({ length: 13 }, (v, i) => i).slice(1),
       currentYear: new Date().getFullYear(),
@@ -236,7 +274,7 @@ export default {
     },
   },
   methods: {
-    ...mapActionsAUTH.mapActions({ 
+    ...mapActionsAUTH.mapActions({
       updateProfile: "update",
       getProfile: "profile",
     }),
@@ -255,7 +293,7 @@ export default {
 
     async getAddressDefault() {
       const res = await this.getIsDefaultADDR();
-         this.address_order = res;
+      this.address_order = res;
     },
 
     phoneUser(phone) {
@@ -275,13 +313,11 @@ export default {
       }
     },
 
-
     async save() {
       const input = {
-        store_name: "zxcvbn",
-        shipping_fee: 50000,
-        password: "12345678",
         name: this.user.name,
+        store_name: this.user.store_name,
+        shipping_fee: this.user.shipping_fee,
         sex_id: this.user.sex_id,
         birthday:
           this.birthday_year +
@@ -299,8 +335,13 @@ export default {
         .then(async (result) => {
           if (result.isConfirmed) {
             const res = await this.updateProfile(input);
-            this.$swal.fire(res.message, "", res.status);
-            this.profile()
+            this.errors = res.errors;
+            this.$swal.fire(
+              this.namePage + " " + res.alert.message,
+              "",
+              res.alert.status
+            );
+            this.profile();
           }
         });
     },
@@ -308,6 +349,5 @@ export default {
 };
 </script>
 <style scoped>
-
 </style>
       

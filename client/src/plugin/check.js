@@ -1,6 +1,7 @@
 
 export default {
   errors(check) {
+    console.log(`check`, check)
     const res = {
       errors: [],
       alert: []
@@ -15,7 +16,8 @@ export default {
     }
     return res;
   },
-  success() {
+  success(check) {
+    console.log(`check`, check)
     const res = {
       alert: []
     };

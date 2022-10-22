@@ -62,12 +62,6 @@ const mutations = {
   resBirthday(state, value) {
     state.state.res.errBirthday = value;
   },
-  setErrors(state, value) {
-    state.state.errors = value;
-  },
-  isError(state, value) {
-    state.state.isErr = value;
-  },
   setToken(state, value) {
     state.state.userToken = value;
   },
@@ -115,7 +109,7 @@ const actions = {
   async profile({ commit }) {
     try {
       const res = await api_auth.profile();
-      commit("setProfile", res.data);
+      // commit("setProfile", res.data);
       commit("isYear", Number(res.data.birthday.slice(0, 4)));
       commit("isMonth", Number(res.data.birthday.slice(5, 7)));
       commit("isDay", Number(res.data.birthday.slice(8, 10)));
@@ -126,30 +120,22 @@ const actions = {
       commit("setProfile", "");
     }
   },
-  async update({ commit, state }, credentials) {
+  async update({}, credentials) {
     try {
-      await api_auth.update(credentials);
-      commit("isRes", true);
-      commit("resStatus", "success");
-      commit("resMessage", "Update Profile Successful!");
+      const res = await api_auth.update(credentials);
+      const result = check.success(res)
+      return result
     } catch (error) {
-      commit("isRes", false);
-      commit("resStatus", "error");
-      commit("resMessage", "Update Profile Failed!");
+      const result = check.errors(error)
+      return result
     }
-    return state.state.res
   },
   async updateAvatar({ commit, dispatch, state }, credentials) {
     const res = await upload.image(credentials.file)
     const avatar_key = res.data.key
     const input = {
       avatar_key: avatar_key,
-      password: "12345678",
-      name: credentials.data.name,
       sex_id: credentials.data.sex_id,
-      store_name: "234567erth",
-      shipping_fee: 30000,
-      birthday: credentials.data.birthday,
     }
     try {
       const profile = await api_auth.update(input);
