@@ -12,6 +12,10 @@ Rails.application.routes.draw do
       collection do
         get :list_product
         get :show_product
+        post :change_email
+        post :change_password
+        post :change_name_store
+        post :change_phone
       end
     end
 

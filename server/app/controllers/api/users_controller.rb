@@ -1,6 +1,7 @@
 module Api
   class UsersController < ApplicationController
-    before_action :set_user, if: :auth?, only: [:show, :update, :destroy, :list_product, :show_product]
+    before_action :auth?, except: [:index, :create]
+    before_action :set_user
 
     def show
       response_success(@user, { serializer: ::Users::ShowSerializer })
@@ -25,7 +26,7 @@ module Api
     end
 
     def update
-      form = ::Users::UserForm.new.assign_model(@user, user_params.except("password").to_h)
+      form = ::Users::UserForm.new.assign_model(@user, user_params.except("email","password").to_h)
 
       if form.save
         response_success(form.model, { serializer: ::Users::UserListSerializer })
@@ -53,6 +54,47 @@ module Api
       response_success(product, { serializer: ::Products::ShowSerializer })
     end
 
+    def change_email
+      form = ::Users::ChangeEmailForm.new.assign_model(@user, password_params.merge(params.permit(:email)).to_h)
+
+      if form.save
+        response_success(form.model, { serializer: ::Users::UserListSerializer })
+      else
+        response_error(form.errors.to_hash(true))
+      end
+    end
+
+    def change_password
+      form = ::Users::ChangePasswordForm.new.assign_model(@user, 
+        password_params.merge(params.permit(:new_password, :new_password_confirmation)).to_h)
+
+      if form.save
+        response_success(form.model, { serializer: ::Users::UserListSerializer })
+      else
+        response_error(form.errors.to_hash(true))
+      end
+    end
+
+    def change_name_store
+      form = ::Users::ChangeNameStoreForm.new.assign_model(@user, password_params.merge(params.permit(:store_name, :shipping_fee)).to_h)
+
+      if form.save
+        response_success(form.model, { serializer: ::Users::UserListSerializer })
+      else
+        response_error(form.errors.to_hash(true))
+      end
+    end
+
+    def change_phone
+      form = ::Users::ChangePhoneForm.new.assign_model(@user, password_params.merge(params.permit(:phone)).to_h)
+
+      if form.save
+        response_success(form.model, { serializer: ::Users::UserListSerializer })
+      else
+        response_error(form.errors.to_hash(true))
+      end
+    end
+
     private
 
     def user_params
@@ -65,11 +107,13 @@ module Api
         :address,
         :sex_id,
         :birthday,
-        :store_name,
-        :shipping_fee,
       ).merge(params.permit(:avatar_key))
 
       params[:password].present? ? user_params.merge(params.permit(:password)) : user_params
+    end
+
+    def password_params
+      params.permit(:password)
     end
 
     def set_user
