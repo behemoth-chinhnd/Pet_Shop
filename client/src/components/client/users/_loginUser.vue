@@ -63,9 +63,7 @@
                   <h3 class="auth-title">LOGIN TO PETSHOP</h3>
                   <p>
                     Don’t have an account?
-                    <router-link to="/register">
-                      Sign Up Free!
-                    </router-link>
+                    <router-link to="/register"> Sign Up Free! </router-link>
                   </p>
                 </div>
                 <div class="row">
@@ -290,10 +288,8 @@ export default {
   data() {
     return {
       // isValid: false,
-      errors: {
-        email: "",
-        password: "",
-      },
+      namePage: "Login",
+      errors: [],
       email: "",
       password: "",
       isText: false,
@@ -311,8 +307,7 @@ export default {
       if (!this.email) {
         this.errors.email = "Error: Email not Empty ";
         isValid = false;
-      }
-      if (!this.password) {
+      } else if (!this.password) {
         this.errors.password = "Error: Password not Empty ";
         isValid = false;
       }
@@ -337,13 +332,17 @@ export default {
           email: this.email,
           password: this.password,
         });
-        this.errors = 1
-        this.$swal.fire(res.message, "", res.status);
+        this.errors = res.errors;
+        this.$swal.fire(
+          this.namePage + " " + res.alert.message,
+          "",
+          res.alert.status
+        );
       }
     },
   },
 };
 </script>
 <style scoped>
-  @import '@/assets/css/login-user.css';
+@import "@/assets/css/login-user.css";
 </style>

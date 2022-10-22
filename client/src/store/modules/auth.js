@@ -20,14 +20,6 @@ const state = {
     res: {
       alert: false,
       error: false
-      // isActive: false,
-      // is_res: false,
-      // status: "",
-      // message: "",
-      // errName: false,
-      // erremail: false,
-      // errBirthday: false,
-      // errPassword: false
     },
     birthday: {
       day: "",
@@ -70,9 +62,6 @@ const mutations = {
   resBirthday(state, value) {
     state.state.res.errBirthday = value;
   },
-  resIsActive(state, value) {
-    state.state.res.isActive = value;
-  },
   setErrors(state, value) {
     state.state.errors = value;
   },
@@ -96,7 +85,7 @@ const mutations = {
   },
 };
 const actions = {
-  async register({}, credentials) {
+  async register({ }, credentials) {
     try {
       const res = await api_auth.register(credentials)
       const result = check.success(res)
@@ -109,31 +98,19 @@ const actions = {
     }
   },
 
-  async login({ commit, dispatch, state }, credentials) {
+  async login({ commit }, credentials) {
     try {
       const res = await api_auth.login(credentials);
       commit("setToken", res.data);
       commit("setActive", true);
-      commit("resIsActive", true);
-      commit("isRes", true);
-      commit("resStatus", "success");
-      commit("resMessage", "Login Successful!");
-      dispatch('profile');
+      const result = check.success(res)
       setTimeout(() =>
         window.location.href = "/user/account/profile", 2000)
+      return result
     } catch (error) {
-      if (error.response) {
-        commit("setToken", "");
-        commit("setActive", false);
-        commit("resIsActive", false);
-        commit("isRes", false);
-        commit("resStatus", "error");
-        commit("resMessage", "Login Failed!");
-        localStorage.removeItem("vuex");
-      }
+      const result = check.errors(error)
+      return result
     }
-    console.log(state.state.res)
-    return state.state.res
   },
   async profile({ commit }) {
     try {
