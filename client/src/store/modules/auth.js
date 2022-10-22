@@ -153,12 +153,6 @@ const actions = {
     localStorage.removeItem("vuex");
     window.location.href = "/login";
   },
-  async getAllUser({ commit }, credentials) {
-    await api.get(`/api/users?page=${credentials.page}&per_page=${credentials.per_page}&q=${credentials.q}`).then((res) => {
-      commit("getAllUser", res.data.users);
-      commit("getPages", res.data.meta.pages);
-    });
-  }
 }
 export default {
   namespaced: true,

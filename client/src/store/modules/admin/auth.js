@@ -1,6 +1,7 @@
 // import AuthServices from "../../apis/modules/auth";
 import api from "@/plugin/axios";
 import api_admin_auth from "@/apis/modules/admin/auth"
+import check from "@/plugin/check";
 import upload from "@/apis/modules/upload"
 
 import says from "@/plugin/says";
@@ -10,7 +11,7 @@ const state = {
   state: {
     isActive: false,
     adminToken: "",
- 
+
     res: {
       isActive: false,
       is_res: false,
@@ -44,32 +45,37 @@ const mutations = {
   },
 };
 const actions = {
-  async login({ commit, dispatch, state }, credentials) {
+
+  async login({ commit }, credentials) {
+    try {
+      const res = await api_auth.login(credentials);
+      commit("setToken", res.data);
+      commit("setActive", true);
+      const result = check.success(res)
+      setTimeout(() =>
+        window.location.href = "/user/account/profile", 2000)
+      return result
+    } catch (error) {
+      const result = check.errors(error)
+      return result
+    }
+  },
+
+
+  async login({ commit }, credentials) {
     try {
       const res = await api_admin_auth.login(credentials);
       console.log(res)
       commit("setAdminToken", res.data);
-      commit("setActive", true);
       commit("resIsActive", true);
-
-      commit("resStatus", "success");
-      commit("resMessage", "Login Successful!");
-      dispatch('profile');
+      const result = check.success(res)
       setTimeout(() =>
-        window.location.href = "/admin", 3000)
-
+        window.location.href = "/admin", 2000)
+      return result
     } catch (error) {
-      if (error.response) {
-        commit("setToken", "");
-        commit("setActive", false);
-        commit("resIsActive", false);
-        commit("resStatus", "error");
-        commit("resMessage", "Login Failed!");
-        localStorage.removeItem("vuex");
-      }
+      const result = check.errors(error)
+      return result
     }
-    return state.state.res
-
   },
 
   logout({ commit }) {
@@ -77,7 +83,41 @@ const actions = {
     commit("setActive", false);
     window.location.href = "/admin/login";
   },
-
+  // async getAllUser({ commit }, credentials) {
+  //   await api.get(`/api/users?page=${credentials.page}&per_page=${credentials.per_page}&q=${credentials.q}`).then((res) => {
+  //     commit("getAllUser", res.data.users);
+  //     commit("getPages", res.data.meta.pages);
+  //   });
+  // },
+  async getAllList({ commit, state }, credentials) {
+    console.log(`input`, credentials)
+    if (credentials.q.id) {
+      var queryParams = {
+        page: credentials.page,
+        per_page: credentials.per_page,
+        q: {
+          id_eq: credentials.q.id,
+        },
+      }
+    } else {
+      var queryParams = {
+        page: credentials.page,
+        per_page: credentials.per_page,
+        q: {
+          name_cont: credentials.q.name,
+        },
+      }
+    }
+    try {
+      var res = await api_admin_auth.getAllList(queryParams)
+      console.log(`res`, res)
+      return res.data
+    } catch {
+      commit("resStatus", "error");
+      commit("resMessage", "An error occurs, please contact the Admin to handle it! Thanks!");
+      return state.state.res
+    }
+  },
 }
 export default {
   namespaced: true,

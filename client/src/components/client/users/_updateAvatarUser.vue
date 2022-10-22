@@ -85,9 +85,14 @@ export default {
 
     async getProfile() {
       const res = await this.profile();
-      this.user = res;
-      this.avatar = this.user.avatar_url;
-      this.sex_id = this.user.sex_id;
+      if (res.errors) {
+        this.errors = res.errors;
+        this.$swal.fire("Errors", "", res.alert.status);
+      } else {
+        this.user = res;
+        this.avatar = this.user.avatar_url;
+        this.sex_id = this.user.sex_id;
+      }
     },
   },
 };
