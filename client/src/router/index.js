@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Admin from '@/layout/Admin.vue'
 import Client from '@/layout/Client.vue'
 import User from '@/layout/User.vue'
-import Saler from '@/layout/Saler.vue'
+import Seller from '@/layout/Seller.vue'
 import Cart from '@/layout/Cart.vue'
 import Order from '@/layout/Order.vue'
 import Purchase from '@/layout/Purchase.vue'
@@ -40,6 +40,7 @@ const routes = [
               { path: '/', name: 'user.index', component: () => import('@/views/client/users/ProfileUser.vue') },
               { path: 'profile', name: 'account.profile', component: () => import('@/views/client/users/ProfileUser.vue') },
               { path: 'change_phone', name: 'account.change_phone', component: () => import('@/views/client/users/ChangePhone.vue') },
+              { path: 'change_email', name: 'account.change_email', component: () => import('@/views/client/users/ChangeEmail.vue') },
 
               {
                 path: 'address_order', name: 'address_order', component: User, children: [
@@ -69,15 +70,15 @@ const routes = [
     ],
   },
   {
-    path: '/saler', name: 'saler', component: Saler, children: [
-      { path: 'index', name: 'saler.index', component: () => import('@/views/client/saler/products/ListProduct.vue') },
-      { path: 'products', name: 'saler.products', component: () => import('@/views/client/saler/products/ListProduct.vue') },
-      { path: 'products/create', name: 'saler.products.create', component: () => import('@/views/client/saler/products/CreateProduct.vue') },
-      { path: 'products/edit/:id', name: 'saler.products.edit', component: () => import('@/views/client/saler/products/EditProduct.vue') },
-      { path: 'order', name: 'saler.order', component: () => import('@/views/client/saler/order/IndexOrder.vue') },
-      { path: 'confirm', name: 'saler.confirm', component: () => import('@/views/client/saler/confirm/IndexConfirm.vue') },
+    path: '/seller', name: 'seller', component: Seller, children: [
+      { path: 'index', name: 'seller.index', component: () => import('@/views/client/seller/products/ListProduct.vue') },
+      { path: 'products', name: 'seller.products', component: () => import('@/views/client/seller/products/ListProduct.vue') },
+      { path: 'products/create', name: 'seller.products.create', component: () => import('@/views/client/seller/products/CreateProduct.vue') },
+      { path: 'products/edit/:id', name: 'seller.products.edit', component: () => import('@/views/client/seller/products/EditProduct.vue') },
+      { path: 'order', name: 'seller.order', component: () => import('@/views/client/seller/order/IndexOrder.vue') },
+      { path: 'confirm', name: 'seller.confirm', component: () => import('@/views/client/seller/confirm/IndexConfirm.vue') },
 
-      { path: 'profile', name: 'seller.profile', component: () => import('@/views/client/saler/profile/Index.vue') },
+      { path: 'profile', name: 'seller.profile', component: () => import('@/views/client/seller/profile/Index.vue') },
 
 
 
@@ -144,7 +145,7 @@ router.beforeEach((to, from, next) => {
 })
 
 router.beforeEach((to, from, next) => {
-  if ((to.path.includes('/user') || to.path.includes('/saler') || to.path.includes('/admin')) && (store.state.AUTH.state.isActive === false)) {
+  if ((to.path.includes('/user') || to.path.includes('/seller') || to.path.includes('/admin')) && (store.state.AUTH.state.isActive === false)) {
     next({ path: '/login' })
   } else {
     next()

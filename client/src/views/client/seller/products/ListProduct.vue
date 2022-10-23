@@ -2,7 +2,7 @@
     <list-product></list-product>
 </template>
 <script>
-import ListProduct from "@/components/client/saler/products/_showProduct.vue";
+import ListProduct from "@/components/client/seller/products/_showProduct.vue";
 
 export default {
   name: "ViewListProduct",

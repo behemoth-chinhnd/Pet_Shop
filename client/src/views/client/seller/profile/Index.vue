@@ -2,7 +2,7 @@
   <profile-seller></profile-seller>
 </template>
 <script>
-import ProfileSeller from "@/components/client/saler/profile/_profileSeller.vue";
+import ProfileSeller from "@/components/client/seller/profile/_profileSeller.vue";
 export default {
   name: "ViewListTrademark",
   components: {

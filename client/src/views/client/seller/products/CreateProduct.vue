@@ -1,13 +1,13 @@
 <template>
-  <edit-product></edit-product>
+  <create-product></create-product>
 </template>
 <script>
-import EditProduct from "@/components/client/saler/products/_editProduct.vue";
+import CreateProduct from "@/components/client/seller/products/_createProduct.vue";
 
 export default {
-name: "ViewEditProduct",
+name: "ViewCreateProduct",
 components: {
-  editProduct: EditProduct,
+  createProduct: CreateProduct,
 },
 data() {
   return {
