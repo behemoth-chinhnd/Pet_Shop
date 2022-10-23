@@ -1,12 +1,12 @@
 <template>
-  <profile-user></profile-user>
+  <change-phone></change-phone>
 </template>
 <script>
-import ProfileUser from "@/components/client/users/_profileUser.vue";
+import ChangePhone from "@/components/client/users/_changePhone.vue";
 export default {
-  name: "ViewListTrademark",
+  name: "ChangePhone",
   components: {
-    profileUser: ProfileUser,
+    changePhone: ChangePhone,
   },
   data() {
     return {};

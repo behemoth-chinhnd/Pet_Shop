@@ -147,6 +147,36 @@ const actions = {
       return result
     }
   },
+  async changeEmail({ }, credentials) {
+    try {
+      const res = await api_auth.changeEmail(credentials);
+      const result = check.success(res)
+      return result
+    } catch (error) {
+      const result = check.errors(error)
+      return result
+    }
+  },
+  async changePhone({ }, credentials) {
+    try {
+      const res = await api_auth.changePhone(credentials);
+      const result = check.success(res)
+      return result
+    } catch (error) {
+      const result = check.errors(error)
+      return result
+    }
+  },
+  async changePassword({ }, credentials) {
+    try {
+      const res = await api_auth.changePassword(credentials);
+      const result = check.success(res)
+      return result
+    } catch (error) {
+      const result = check.errors(error)
+      return result
+    }
+  },
   logout({ commit }) {
     commit("setToken", "");
     commit("setActive", false);

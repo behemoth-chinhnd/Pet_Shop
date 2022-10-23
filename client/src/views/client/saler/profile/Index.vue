@@ -1,12 +1,12 @@
 <template>
-  <profile-user></profile-user>
+  <profile-seller></profile-seller>
 </template>
 <script>
-import ProfileUser from "@/components/client/users/_profileUser.vue";
+import ProfileSeller from "@/components/client/saler/profile/_profileSeller.vue";
 export default {
   name: "ViewListTrademark",
   components: {
-    profileUser: ProfileUser,
+    profileSeller: ProfileSeller,
   },
   data() {
     return {};

@@ -1623,6 +1623,10 @@ td .info-author .button-view-offer {
     display: none;
 }
 
+.feedback-invalid {
+    color: red;
+}
+
 
 @media screen and (min-width:1000px) {
 

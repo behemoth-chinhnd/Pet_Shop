@@ -48,22 +48,6 @@ const actions = {
 
   async login({ commit }, credentials) {
     try {
-      const res = await api_auth.login(credentials);
-      commit("setToken", res.data);
-      commit("setActive", true);
-      const result = check.success(res)
-      setTimeout(() =>
-        window.location.href = "/user/account/profile", 2000)
-      return result
-    } catch (error) {
-      const result = check.errors(error)
-      return result
-    }
-  },
-
-
-  async login({ commit }, credentials) {
-    try {
       const res = await api_admin_auth.login(credentials);
       console.log(res)
       commit("setAdminToken", res.data);

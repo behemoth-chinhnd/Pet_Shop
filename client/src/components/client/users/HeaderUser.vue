@@ -17,6 +17,9 @@
             <li v-if="this.$route.path.includes('/user/account/profile')">
               <router-link to="/user/account/profile"> Profile </router-link>
             </li>
+            <li v-if="this.$route.path.includes('/user/account/change_phone')">
+              <router-link to="/user/account/change_phone"> Change Phone </router-link>
+            </li>
            
              <!-- User Address Order-->
              <li v-if="this.$route.path.includes('/user/account/address_order')">

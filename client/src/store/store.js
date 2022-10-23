@@ -16,6 +16,9 @@ import AdminSpecies from "./modules/admin/species"
 import AdminTrademark from "./modules/admin/trademark"
 import AdminOrder from "./modules/admin/order"
 
+import SellerProfile from "./modules/seller/profile"
+
+
 
 
 
@@ -76,7 +79,9 @@ export default  new Vuex.Store({
       ADCA: AdminCategory,
       ADSP: AdminSpecies,
       ADTR: AdminTrademark,
-      ADOR: AdminOrder
+      ADOR: AdminOrder,
+
+      SLPR: SellerProfile
 
     },
     // getters: {

@@ -39,6 +39,7 @@ const routes = [
             path: 'account', name: 'user.account', component: User, children: [
               { path: '/', name: 'user.index', component: () => import('@/views/client/users/ProfileUser.vue') },
               { path: 'profile', name: 'account.profile', component: () => import('@/views/client/users/ProfileUser.vue') },
+              { path: 'change_phone', name: 'account.change_phone', component: () => import('@/views/client/users/ChangePhone.vue') },
 
               {
                 path: 'address_order', name: 'address_order', component: User, children: [
@@ -75,6 +76,9 @@ const routes = [
       { path: 'products/edit/:id', name: 'saler.products.edit', component: () => import('@/views/client/saler/products/EditProduct.vue') },
       { path: 'order', name: 'saler.order', component: () => import('@/views/client/saler/order/IndexOrder.vue') },
       { path: 'confirm', name: 'saler.confirm', component: () => import('@/views/client/saler/confirm/IndexConfirm.vue') },
+
+      { path: 'profile', name: 'seller.profile', component: () => import('@/views/client/saler/profile/Index.vue') },
+
 
 
 
