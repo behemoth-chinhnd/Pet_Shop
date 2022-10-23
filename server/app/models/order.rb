@@ -172,7 +172,7 @@ class Order < ApplicationRecord
   end
 
   def calculate_shipping_fee
-    0
+    seller.shipping_fee
   end
 
   def update_quantity_product
