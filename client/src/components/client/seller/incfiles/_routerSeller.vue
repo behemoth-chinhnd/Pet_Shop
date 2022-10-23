@@ -3,17 +3,21 @@
     <div class="header-layout">
       <div class="flex">
         <ul class="flex header-site">
-          <li v-if="this.$route.path.includes('/saler')">
-            <router-link :to="{ path: '/saler' }"> Saler </router-link>
+          <li v-if="this.$route.path.includes('/seller')">
+            <router-link :to="{ path: '/seller' }"> Seller </router-link>
+          </li>
+          <li v-if="this.$route.path.includes('/seller/profile')">
+            <router-link to="/seller/profile"> Profile </router-link>
           </li>
           <!-- product -->
-          <li v-if="this.$route.path.includes('/saler/products')">
-            <router-link to="/saler/products"> Products </router-link>
+          <li v-if="this.$route.path.includes('/seller/products')">
+            <router-link to="/seller/products"> Products </router-link>
           </li>
-          <li v-if="this.$route.path.includes('/saler/products/create')">
-            <router-link to="/saler/products/create"> Create </router-link>
+
+          <li v-if="this.$route.path.includes('/seller/products/create')">
+            <router-link to="/seller/products/create"> Create </router-link>
           </li>
-          <li v-if="this.$route.path.includes('/saler/products/edit/')">
+          <li v-if="this.$route.path.includes('/seller/products/edit/')">
             <router-link to=""> Edit </router-link>
           </li>
 

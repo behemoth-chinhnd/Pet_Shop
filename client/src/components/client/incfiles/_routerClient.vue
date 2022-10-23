@@ -17,20 +17,43 @@
             <li v-if="this.$route.path.includes('/user/account/profile')">
               <router-link to="/user/account/profile"> Profile </router-link>
             </li>
-            <li v-if="this.$route.path.includes('/user/account/change_phone')">
-              <router-link to="/user/account/change_phone"> Change Phone </router-link>
+            <!-- change info User -->
+            <li v-if="this.$route.path.includes('/user/account/change_email')">
+              <router-link :to="{ path: '/user/account/change_email' }">
+                Change Email
+              </router-link>
             </li>
-           
-             <!-- User Address Order-->
-             <li v-if="this.$route.path.includes('/user/account/address_order')">
+            <li v-if="this.$route.path.includes('/user/account/change_phone')">
+              <router-link :to="{ path: '/user/account/change_phone' }">
+                Change Phone
+              </router-link>
+            </li>
+            <li
+              v-if="this.$route.path.includes('/user/account/change_password')"
+            >
+              <router-link :to="{ path: '/user/account/change_password' }">
+                Change Password
+              </router-link>
+            </li>
+
+            <!-- User Address Order-->
+            <li v-if="this.$route.path.includes('/user/account/address_order')">
               <router-link :to="{ path: '/user/account/address_order' }">
                 Address
               </router-link>
             </li>
-            <li v-if="this.$route.path.includes('/user/account/address_order/edit')">
+            <li
+              v-if="
+                this.$route.path.includes('/user/account/address_order/edit')
+              "
+            >
               <router-link :to="{ path: '' }"> Edit </router-link>
             </li>
-            <li v-if="this.$route.path.includes('/user/account/address_order/create')">
+            <li
+              v-if="
+                this.$route.path.includes('/user/account/address_order/create')
+              "
+            >
               <router-link :to="{ path: '/user/account/address_order/create' }">
                 Create
               </router-link>
@@ -38,6 +61,7 @@
             <li v-if="this.$route.path.includes('/user/purchase')">
               <router-link to="/user/purchase"> Purchase </router-link>
             </li>
+
             <!-- product -->
             <li v-if="this.$route.path.includes('/products')">
               <router-link :to="{ path: '/products' }"> Products </router-link>
@@ -56,7 +80,6 @@
                 Buy Now
               </router-link>
             </li>
-           
           </ul>
         </div>
       </div>

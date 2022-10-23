@@ -139,8 +139,7 @@ export default {
         image_url: "",
         description: "",
         species_id: "",
-        category_id:""
-
+        category_id: "",
       },
       inputPicture: null,
     };
@@ -192,7 +191,7 @@ export default {
             file: formData,
             data: this.trademark,
           };
-          console.log(`input`,input)
+          console.log(`input`, input);
           const res = await this.createADTR(input);
           this.$swal.fire(res.message, "", res.status);
         }

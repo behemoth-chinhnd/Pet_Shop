@@ -41,6 +41,7 @@ const routes = [
               { path: 'profile', name: 'account.profile', component: () => import('@/views/client/users/ProfileUser.vue') },
               { path: 'change_phone', name: 'account.change_phone', component: () => import('@/views/client/users/ChangePhone.vue') },
               { path: 'change_email', name: 'account.change_email', component: () => import('@/views/client/users/ChangeEmail.vue') },
+              { path: 'change_password', name: 'account.change_password', component: () => import('@/views/client/users/ChangePassword.vue') },
 
               {
                 path: 'address_order', name: 'address_order', component: User, children: [

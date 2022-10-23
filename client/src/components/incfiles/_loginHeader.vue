@@ -74,7 +74,7 @@
           <router-link class="" to="/user/purchase"> Purchase </router-link>
         </li>
         <li>
-          <router-link class="" to="/saler"> Store Manager </router-link>
+          <router-link class="" to="/seller/profile"> Store Manager </router-link>
         </li>
         <li @click="this.logout">Logout</li>
       </ul>

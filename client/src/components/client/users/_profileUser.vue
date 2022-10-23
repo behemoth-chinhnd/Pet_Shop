@@ -41,7 +41,7 @@
                       {{ this.user.email }}
                     </p>
                     <p class="mgl-10px">
-                      <router-link to="/"> Change </router-link>
+                      <router-link to="/user/account/change_email"> Change </router-link>
                     </p>
                   </div>
                 </div>

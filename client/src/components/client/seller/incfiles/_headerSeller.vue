@@ -3,10 +3,10 @@
       <section id="tab-saler">
         <div class="container">
           <div class="panel-body flex-row tab-menu">
-            <router-link :to="{name: 'saler.index'}"> Home</router-link>
-            <router-link to="/saler/products"> Products</router-link>
-            <router-link to="/saler/confirm">confirm</router-link>
-            <router-link to="/saler/order">Order</router-link>
+            <router-link :to="{name: 'seller.index'}"> Home</router-link>
+            <router-link to="/seller/products"> Products</router-link>
+            <router-link to="/seller/confirm">confirm</router-link>
+            <router-link to="/seller/order">Order</router-link>
           </div>
         </div>
       </section>

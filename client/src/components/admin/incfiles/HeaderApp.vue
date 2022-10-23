@@ -34,13 +34,13 @@
           <i class="fa fa-bars"></i>
         </button>
       </header>
-      <router-saler></router-saler>
+      <router-seller></router-seller>
     </section>
   </div>
 </template>
 
 <script>
-import RouterSaler from "@/components/client/saler/incfiles/RouterSaler.vue";
+import RouterSeller from "@/components/client/seller/incfiles/_routerSeller.vue";
 import { createNamespacedHelpers } from "vuex";
 const ADAU = createNamespacedHelpers("ADAU");
 const { mapActions, mapState } = createNamespacedHelpers("ADMU");
@@ -49,7 +49,7 @@ import ClientApp from "@/components/admin/incfiles/ClientApp.vue";
 export default {
   components: {
     clientApp: ClientApp,
-    routerSaler: RouterSaler,
+    RouterSeller: RouterSeller,
   },
   data() {
     return {

@@ -7,9 +7,7 @@
     Window height: {{ windowHeight }} -->
     <section id="menu-icon" class="dark" :class="{ active: isActive }">
       <div class="logo">
-        <router-link to="/"
-          ><img src="/images/logo.png" alt=""
-        /></router-link>
+        <router-link to="/"><img src="/images/logo.png" alt="" /></router-link>
       </div>
       <button
         @click="clickToggle()"
@@ -72,21 +70,37 @@
 
       <ul class="menu-admin">
         <li class="sub-menu">
+          <a class="active bold" href="#">MANAGEMENT PROFILE</a>
+          <ul>
+            <li>
+              <router-link
+                :class="{
+                  'sub-active': this.$route.path.includes(
+                    '/seller/profile'
+                  ),
+                }"
+                to="/seller/profile"
+                >Profile</router-link
+              >
+            </li>
+          </ul>
+        </li>
+        <li class="sub-menu">
           <a class="active bold" href="#">MANAGEMENT PRODUCT</a>
           <ul>
             <li>
               <router-link
                 :class="{
                   'sub-active': this.$route.path.includes(
-                    '/saler/products/edit'
+                    '/seller/products/edit'
                   ),
                 }"
-                to="/saler/products"
+                to="/seller/products"
                 >List Product</router-link
               >
             </li>
             <li>
-              <router-link to="/saler/products/create"
+              <router-link to="/seller/products/create"
                 >Create Product</router-link
               >
             </li>

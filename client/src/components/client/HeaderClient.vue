@@ -28,7 +28,7 @@
           </div>
         </div>
       </section>
-      <header-user></header-user>
+      <router-client></router-client>
     </header>
   </div>
 </template>
@@ -38,13 +38,13 @@ const mapActionsAUTH = createNamespacedHelpers("AUTH");
 const mapActionsCART = createNamespacedHelpers("CART");
 import SliderBanner from "@/components/incfiles/_sliderBanner.vue";
 import LoginHeader from "@/components/incfiles/_loginHeader.vue";
-import HeaderUser from "@/components/client/users/HeaderUser.vue";
+import RouterClient from "@/components/client/incfiles/_routerClient.vue";
 export default {
   components: {
 
     sliderBanner: SliderBanner,
     loginHeader: LoginHeader,
-    headerUser: HeaderUser,
+    routerClient: RouterClient,
 
   },
   data() {

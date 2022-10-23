@@ -26,7 +26,7 @@
                   <div id="email" class="item-value">
                     <input
                       class="input"
-                      type="text"
+                      type="email"
                       placeholder="Email"
                       v-model="user.email"
                       @blur="validate()"
