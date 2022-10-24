@@ -112,7 +112,7 @@ module Api
 
       user = ::User.find_by(password_reset_token:)
 
-      if user.present?
+      if user.present? && user.password_reset_token_valid_datetime >= Time.current
         form = ::Publics::PasswordResetForm.new.assign_model(user, password_params.merge(params.permit(:password_confirmation)).to_h)
 
         if form.save
