@@ -16,6 +16,8 @@ Rails.application.routes.draw do
         post :change_password
         post :change_name_store
         post :change_phone
+        post :send_email_reset_passsword
+        post :reset_password
       end
     end
 
