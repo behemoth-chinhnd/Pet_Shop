@@ -139,7 +139,7 @@ export default {
       },
       params: {
         page: 1,
-        per_page: 12,
+        per_page: 15,
         pages: "",
         q: {
           id: null,
@@ -153,7 +153,7 @@ export default {
   },
   props: {},
   created() {
-    this.getAll(this.params);
+    // this.getAll(this.params);
   },
 
   mounted() {},
@@ -206,7 +206,6 @@ export default {
       }
     },
     async SearchProduct(ID) {
-      console.log(`ID`, ID);
       this.params.q.species_id = ID;
       if (this.params.q.species_id !== 1) {
         this.params.q.category_id = "";
@@ -221,10 +220,7 @@ export default {
       await this.getAll(input);
     },
     async SearchCategory(CAID) {
-      console.log(`ID`, CAID);
-      // this.params.q.species_id = ID
       this.params.q.category_id = CAID;
-
       const input = {
         page: 1,
         pages: this.params.pages,
@@ -243,7 +239,7 @@ export default {
     --width: 100%;
     width: var(--width);
     margin: 0 auto;
-    --column: 4;
+    --column: 5;
   }
 }
 
@@ -252,7 +248,7 @@ export default {
     --width: 99%;
     width: var(--width);
     margin: 0 auto;
-    --column: 3;
+    --column: 4;
   }
 }
 
@@ -270,7 +266,7 @@ export default {
     --width: 99%;
     width: var(--width);
     margin: 0 auto;
-    --column: 2;
+    --column: 3;
   }
 }
 

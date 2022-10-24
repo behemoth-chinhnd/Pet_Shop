@@ -35,7 +35,7 @@
 <script>
 import { createNamespacedHelpers } from "vuex";
 const mapActionsAUTH = createNamespacedHelpers("AUTH");
-const mapActionsCART = createNamespacedHelpers("CART");
+const CART = createNamespacedHelpers("CART");
 import SliderBanner from "@/components/incfiles/_sliderBanner.vue";
 import LoginHeader from "@/components/incfiles/_loginHeader.vue";
 import RouterClient from "@/components/client/incfiles/_routerClient.vue";
@@ -50,14 +50,12 @@ export default {
   data() {
     return {
       // isCarts: false,
-      total_items: "",
+      // total_items: "",
       order_items: [],
       carts: false,
     };
   },
   created() {
-    this.profile();
-    this.getCarts();
   },
   computed: {
     isRun() {
@@ -68,25 +66,6 @@ export default {
   mounted() {},
   methods: {
     ...mapActionsAUTH.mapActions(["logout"]),
-    ...mapActionsAUTH.mapActions({ getProfile: "profile" }),
-    ...mapActionsCART.mapActions({ getAllCart: "getAll" }),
-
-    async profile() {
-      if (this.$store.state.AUTH.state.isActive) {
-        await this.getProfile();
-      }
-    },
-    async getCarts() {
-      if (this.$store.state.AUTH.state.isActive) {
-        await this.getAllCart().then(() => {
-          this.order_items = this.$store.state.CART.state.order_items;
-          this.total = this.$store.state.CART.state.total;
-          this.total_items = this.$store.state.CART.state.total_items;
-          this.carts = this.$store.state.CART.state.carts;
-          console.log(this.order_items);
-        });
-      }
-    },
   },
 };
 </script>

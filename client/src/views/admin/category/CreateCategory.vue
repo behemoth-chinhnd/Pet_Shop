@@ -2,7 +2,7 @@
   <create-category></create-category>
 </template>
 <script>
-import CreateCategory from "@/components/admin/category/CreateCategory.vue";
+import CreateCategory from "@/components/admin/category/_createCategory.vue";
 
 export default {
 name: "CreateCategory",

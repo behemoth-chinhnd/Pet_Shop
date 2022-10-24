@@ -88,6 +88,8 @@ const actions = {
     try {
       const res = await api_order.create(credentials)
       const result = check.success(res)
+      setTimeout(() =>
+        window.location.href = "/user/purchase", 2000)
       return result
     } catch {
       const result = check.errors(error)

@@ -79,7 +79,7 @@ const actions = {
     return state.state.res
   },
   async getAll({ commit, state }) {
-    
+
     try {
       var res = await api_admin_category.getAll()
       console.log(`res`, res)
@@ -111,16 +111,12 @@ const actions = {
     }
     try {
       var res = await api_admin_category.getAllList(queryParams)
-      console.log(`res`, res)
-
       return res.data
     } catch {
-      commit("resStatus", "error");
-      commit("resMessage", "An error occurs, please contact the Admin to handle it! Thanks!");
-      return state.state.res
+      const result = check.errors(error)
+      return result
     }
   },
-
   async getItem({ commit, state }, credentials) {
     try {
       const res = await api_admin_category.getItem(credentials)

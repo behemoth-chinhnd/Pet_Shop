@@ -8,6 +8,7 @@ const state = {
     user: [],
     isActive: false,
     userToken: "",
+    avatar_url:"",
     users: [],
     params: {
       page: 1,
@@ -92,11 +93,12 @@ const actions = {
     }
   },
 
-  async login({ commit }, credentials) {
+  async login({ commit, dispatch }, credentials) {
     try {
       const res = await api_auth.login(credentials);
       commit("setToken", res.data);
       commit("setActive", true);
+      dispatch("profile")
       const result = check.success(res)
       setTimeout(() =>
         window.location.href = "/user/account/profile", 2000)
@@ -109,7 +111,7 @@ const actions = {
   async profile({ commit }) {
     try {
       const res = await api_auth.profile();
-      // commit("setProfile", res.data);
+      commit("setProfile", res.data);
       commit("isYear", Number(res.data.birthday.slice(0, 4)));
       commit("isMonth", Number(res.data.birthday.slice(5, 7)));
       commit("isDay", Number(res.data.birthday.slice(8, 10)));

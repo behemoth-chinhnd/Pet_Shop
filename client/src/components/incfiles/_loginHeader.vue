@@ -1,9 +1,9 @@
 <template>
   <div class="flex-row-space-between-center gap-10px">
-    <b-button v-if="!this.$store.state.AUTH.state.isActive" variant="primary">
+    <b-button v-if="!online" variant="primary">
       <router-link class="text-white" to="/login">Login User</router-link>
     </b-button>
-    <b-button v-if="!this.$store.state.AUTH.state.isActive" variant="primary">
+    <b-button v-if="!online" variant="primary">
       <router-link class="text-white" to="/register">Register</router-link>
     </b-button>
     <!-- <div
@@ -13,14 +13,14 @@
       class="cart rel"
     > -->
     <div
-      v-if="this.$store.state.AUTH.state.isActive"
+      v-if="online"
       @click="isCarts = true"
       @mouseleave="isCarts = false"
       class="cart rel"
     >
       <router-link class="total_items text-white fz-25px rel" to="#">
         <p class="number-cart abs">
-          {{ this.$store.state.CART.state.total_items }}
+          {{ this.total_items }}
         </p>
         <i class="fa fa-shopping-cart text-white" aria-hidden="true"></i>
       </router-link>
@@ -31,34 +31,28 @@
       </div>
     </div>
     <div
-      v-if="this.$store.state.AUTH.state.isActive"
+      v-if="online"
       @mouseover="isActive = true"
       @mouseleave="isActive = false"
       class="avatar-icon mgl-20px pointer rel"
     >
       <!-- <div class="flex-row-center-center gap-10px"> -->
       <img
-        v-if="
-          this.$store.state.AUTH.state.user.sex_id === 1 &&
-          this.$store.state.AUTH.state.user.avatar_url === null
-        "
+        v-if="client.sex_id === 1 && client.avatar_url === null"
         class="avatar"
         src="@/assets/images/icons/avatar-boy.png"
         alt=""
       />
       <img
-        v-if="
-          this.$store.state.AUTH.state.user.sex_id === 2 &&
-          this.$store.state.AUTH.state.user.avatar_url === null
-        "
+        v-if="client.sex_id === 2 && client.avatar_url === null"
         class="avatar"
         src="@/assets/images/icons/avatar-girl.png"
         alt=""
       />
       <img
-        v-if="this.$store.state.AUTH.state.user.avatar_url !== null"
+        v-if="client.avatar_url !== null"
         class="avatar"
-        :src="this.$store.state.AUTH.state.user.avatar_url"
+        :src="client.avatar_url"
         alt=""
       />
       <!-- <p class="text-white bold">{{this.$store.state.AUTH.state.user.name}}</p> -->
@@ -74,7 +68,9 @@
           <router-link class="" to="/user/purchase"> Purchase </router-link>
         </li>
         <li>
-          <router-link class="" to="/seller/profile"> Store Manager </router-link>
+          <router-link class="" to="/seller/profile">
+            Store Manager
+          </router-link>
         </li>
         <li @click="this.logout">Logout</li>
       </ul>
@@ -85,8 +81,8 @@
 import ListCartHeader from "@/components/client/cart/_showCartHeader.vue";
 import EmptyCartHeader from "@/components/client/cart/_emptyCartHeader.vue";
 import { createNamespacedHelpers } from "vuex";
-const mapActionsCART = createNamespacedHelpers("CART");
-const mapActionsAUTH = createNamespacedHelpers("AUTH");
+const CART = createNamespacedHelpers("CART");
+const AUTH = createNamespacedHelpers("AUTH");
 export default {
   name: "categoriesForm",
   components: {
@@ -100,12 +96,6 @@ export default {
       params: {
         page: 1,
         per_page: 5,
-        sort_column: "id",
-        direction: "desc",
-        search_column: "id",
-        search_operator: "equal_to",
-        search_query_1: "",
-        search_query_2: "",
         q: {},
         pages: "",
       },
@@ -114,28 +104,37 @@ export default {
   beforeCreate() {},
   created() {
     this.getAll();
-    // this.isActive(1);
   },
-  mounted() {},
+  mounted() {
+  },
   props: {
-    categories2: [],
+  },
+  computed: {
+    ...CART.mapState({
+      total_items: (state) => state.state.total_items,
+    }),
+    ...AUTH.mapState({
+      client: (state) => state.state.user,
+      online: (state) => state.state.isActive,
+    }),
   },
   methods: {
-    ...mapActionsAUTH.mapActions(["logout"]),
-    ...mapActionsCART.mapActions({
+    ...AUTH.mapActions(["logout"]),
+    ...CART.mapActions({
       getAllCART: "getAll",
       nextCART: "nextCart",
       prevCART: "prevCart",
       removeCART: "remove",
     }),
     async getAll() {
-      const res = await this.getAllCART();
+      if(this.online) {
+        const res = await this.getAllCART();
       this.order_items = res.data.data;
       this.infos = res.data.infos;
+      }
     },
   },
   watch: {},
-  computed: {},
 };
 </script>
 <style>

@@ -75,7 +75,6 @@ const mapActionsORDE = createNamespacedHelpers("ORDE");
 import mixins from "@/mixins/index"
 
 
-import func from "@/plugin/func";
 export default {
   name: "buyNow",
   mixins:[mixins],
@@ -106,16 +105,12 @@ export default {
     };
   },
   created() {
-    this.buy_now = this.$store.state.CART.state.buy_now;
-    const productId = this.$store.state.CART.state.buy_now.product_id;
+    this.buy_now = this.$store.state.CART.state.buy_now
+    const productId = this.$store.state.CART.state.buy_now.product_id
     if (productId) {
-      this.getItem(productId);
+      this.getItem(productId)
     }
-    this.sales = func.saleoff(
-      this.product.master_sales_price,
-      this.product.master_list_price,
-      0
-    );
+
   },
   computed: {
   },

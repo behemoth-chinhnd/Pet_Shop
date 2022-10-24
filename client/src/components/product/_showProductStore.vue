@@ -1,10 +1,10 @@
 <template>
   <div class="show-product">
-    <tab-menu-species :ID="ID" @next="SearchProduct"></tab-menu-species>
+    <tab-menu-species :ID="ID" @next="searchProduct"></tab-menu-species>
     <tab-menu-pet
       v-if="this.params.q.species_id === 1"
       :CAID="CAID"
-      @nextCategory="SearchCategory"
+      @nextCategory="searchCategory"
     ></tab-menu-pet>
     <main id="main" class="">
       <div class="container">
@@ -38,13 +38,7 @@
                     </div>
                     <div class="sale flex-row-space-between-center gap-10px">
                       <div class="percent">
-                        {{
-                          saleoff(
-                            post.master_sales_price,
-                            post.master_list_price,
-                            0
-                          )
-                        }}%
+                        {{ saleoff(post) }}%
                       </div>
                       <span class="saleoff"
                         >{{
@@ -94,7 +88,6 @@
 import TabMenuSpecies from "@/components/incfiles/_tabMenuSpecies.vue";
 import TabMenuPet from "@/components/incfiles/_tabMenuPet.vue";
 import EmptyProduct from "@/components/incfiles/_emptyProduct.vue";
-
 
 import { createNamespacedHelpers } from "vuex";
 const mapActionsPROD = createNamespacedHelpers("PROD");
@@ -158,11 +151,8 @@ export default {
   props: {},
   created() {
     const storeName = this.$route.params.id;
-    console.log(`store`,storeName)
     this.params.q.store_name = storeName
-    console.log(`params`,this.params)
-
-    this.getAll(this.params);
+    // this.getAll(this.params);
   },
 
   mounted() {},
@@ -195,14 +185,6 @@ export default {
         this.getAll();
       }
     },
-    saleoff(a, b, c) {
-      const result = ((1 - a / b) * 100).toFixed(c);
-      return result;
-    },
-    // changePage (page){
-    //   this.page.pageCount = page;
-    //   // this.getAll()
-    // },
     async getAll(input) {
       const res = await this.getAllPROD(input);
       if (res.products) {
@@ -214,13 +196,11 @@ export default {
         this.$swal.fire(res.message, "", res.status);
       }
     },
-    async SearchProduct(ID) {
-      console.log(`ID`, ID);
+    async searchProduct(ID) {
       this.params.q.species_id = ID;
       if (this.params.q.species_id !== 1) {
         this.params.q.category_id = "";
       }
-
       const input = {
         page: 1,
         pages: this.params.pages,
@@ -229,11 +209,8 @@ export default {
       };
       await this.getAll(input);
     },
-    async SearchCategory(CAID) {
-      console.log(`ID`, CAID);
-      // this.params.q.species_id = ID
+    async searchCategory(CAID) {
       this.params.q.category_id = CAID;
-
       const input = {
         page: 1,
         pages: this.params.pages,
@@ -243,7 +220,7 @@ export default {
       await this.getAll(input);
     },
   },
-  computed: {}, // components: { HeaderApp },
+  computed: {},
 };
 </script>
 <style scoped>

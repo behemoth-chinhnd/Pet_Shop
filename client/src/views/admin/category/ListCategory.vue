@@ -2,7 +2,7 @@
   <list-category></list-category>
 </template>
 <script>
-import ListCategory from "@/components/admin/category/ListCategory.vue";
+import ListCategory from "@/components/admin/category/_showCategory.vue";
 
 export default {
 name: "ViewListcategory",

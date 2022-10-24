@@ -111,7 +111,8 @@ const actions = {
   async getAll({ commit }) {
 
     const res = await api_cart.getAll();
-      // commit("getAll", res.data.products);
+    commit("getTotalItems", res.data.infos.number_of_items);
+    // commit("getAll", res.data.products);
       // commit("getOrderItem", res.data.order_items);
       // commit("getTotal", res.data.total);
       // commit("getTotalQuantity", res.data.total_quantity);
@@ -150,10 +151,11 @@ const actions = {
 
   },
   
-  async addCart({ commit, state }, credentials) {
+  async addCart({ commit, dispatch, state }, credentials) {
     try {
       const res = await api_cart.addCart(credentials)
-      commit("getTotalItems", res.data.total_items);
+      console.log(`cart`,res)
+      dispatch('getAll')
       commit("resStatus", "success");
       commit("resMessage", "Add to Cart: Success");
       commit("resText", "See details List product in Cart!");

@@ -74,9 +74,7 @@ export default {
     this.getAll(this.params)
   },
   mounted() {},
-  props: {
-    categories2: [],
-  },
+  props: {},
   methods: {
     ...mapActions({
       getAllADCA: "getAllList",

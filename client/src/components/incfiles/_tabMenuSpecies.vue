@@ -61,11 +61,6 @@ export default {
       is_active: 1,
       total_search: "",
       species: false,
-      page: {
-        pageCount: 0,
-        count: 1,
-        per_page: 10,
-      },
       params: {
         page: 1,
         per_page: 10,
@@ -90,43 +85,24 @@ export default {
   },
   beforeCreate() {},
   created() {
-    this.getAll(this.params);
-    this.isActive(1);
-    this.getWindowWidth();
+    this.getAll(this.params)
+    this.isActive(1)
   },
-  mounted() {
-    window.addEventListener("resize", this.getWindowWidth);
-  },
-  props: {
-    species2: [],
-  },
+  mounted() {},
+  props: {},
   methods: {
     ...mapActions({
       getAllADSP: "getAllList",
       deleteADSP: "delete",
     }),
-
-    getWindowWidth(event) {
-      this.windowWidth = document.documentElement.clientWidth;
-      if (this.windowWidth <= 1000) {
-        this.numberItem = 4;
-      } else if (this.windowWidth > 1000 && this.windowWidth <= 1300) {
-        this.numberItem = 5;
-      } else if (this.windowWidth > 1300) {
-        this.numberItem = 6;
-      }
-      console.log(`number`, this.numberItem);
-    },
-
-    isActive(ID) {
+    async isActive(ID) {
       this.is_active = ID;
       this.$emit("next", ID);
     },
-
-    searchIndex(index) {
+    async searchIndex(index) {
       if (index >= 0) {
         const ID = this.species[index].id;
-        this.isActive(ID);
+        await this.isActive(ID);
       }
     },
     async getAll(input) {

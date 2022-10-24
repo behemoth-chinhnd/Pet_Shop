@@ -24,11 +24,13 @@
       v-if="this.$store.state.CART.state.total_items > 0"
       to="/carts"
     >
-      <button class="btn submit right">Go to Cart</button>
+      <button class="btn submit right">Go to Cart [{{this.total_items}}]</button>
     </router-link>
   </div>
 </template>
 <script>
+import { createNamespacedHelpers } from "vuex";
+const {mapActions, mapState} = createNamespacedHelpers("CART");
 import mixins from "@/mixins/index"
 
 export default {
@@ -43,12 +45,17 @@ export default {
     this.getCarts();
   },
   computed: {
+    ...mapState({
+      total_items: (state) => state.state.total_items,
+    }),
     isRun() {
       this.carts = this.$store.state.CART.state.order_items;
       return (this.carts = this.$store.state.CART.state.order_items);
     },
   },
-  mounted() {},
+  mounted() {
+    console.log(`map`,this.total_items);
+  },
   methods: {
     async getCarts() {
       await this.$store.dispatch("CART/getAll").then(() => {

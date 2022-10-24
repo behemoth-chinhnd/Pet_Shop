@@ -45,18 +45,10 @@
                     >
                       <div class="price flex-row-start-center col-md-4">
                         <p class="">
-                          {{
-                            format_number(
-                              info.product.master_sales_price
-                            )
-                          }}đ
+                          {{ format_number(info.product.master_sales_price) }}đ
                         </p>
                         <p class="sale-off mgl-10px">
-                          ({{
-                            format_number(
-                              info.product.master_list_price
-                            )
-                          }}đ)
+                          ({{ format_number(info.product.master_list_price) }}đ)
                         </p>
                       </div>
                       <div class="quantily-product col-md-4 flex-row">
@@ -96,48 +88,36 @@
             </div>
             <div
               data-v-70cbe303=""
-              class="total flex-row-space-between mgt-10px"
+              class="total flex-row-space-between-center mg-tb-10px"
             >
               <div data-v-70cbe303="" class="content">4 product</div>
               <div data-v-70cbe303="" class="all flex-column text-right">
                 <div class="shipping-fee mgb-10px">
                   Shipping Fee:
-                <span data-v-70cbe303="" class="sub-total"
-                  >{{ format_number(item.shipping_fee) }}đ</span
-                >
+                  <span data-v-70cbe303="" class="sub-total"
+                    >{{ format_number(item.shipping_fee) }}đ</span
+                  >
                 </div>
                 <div>
-
-                Into Money:
-                <span data-v-70cbe303="" class="sub-total"
-                  >{{ format_number(item.total) }}đ</span
-                >
+                  Into Money:
+                  <span data-v-70cbe303="" class="sub-total"
+                    >{{ format_number(item.total) }}đ</span
+                  >
                 </div>
-                
               </div>
             </div>
           </div>
         </div>
         <div v-if="this.infos.number_of_items > 0" class="text-right">
           <b-button variant="primary"
-            >({{ this.total_quantity }} Product) - Total Cash:
-            {{ format_number(this.total) }}đ</b-button
+            >({{ this.infos.total_quantity }} Product) - Total Cash:
+            {{ format_number(this.infos.total) }}đ</b-button
           >
           <b-button class="btn submit mgl-10px" @click="orderAll()"
             >ORDER ALL</b-button
           >
         </div>
-        <!-- <empty-cart></empty-cart> -->
-        <div
-          v-if="this.infos.number_of_items <= 0"
-          class="empty-cart bg-white height-400px"
-        >
-          <img class="img-empty" src="@/assets/images/icons/cart.png" alt="" />
-          <p class="mgb-20px">Cart Empty!</p>
-          <router-link to="/products">
-            <button class="btn submit right">Buy Now</button>
-          </router-link>
-        </div>
+        <empty-cart v-if="this.infos.number_of_items <= 0"></empty-cart>
       </div>
     </div>
   </div>
@@ -150,7 +130,7 @@ const mapActionsORDE = createNamespacedHelpers("ORDE");
 const mapActionsADDR = createNamespacedHelpers("ADDR");
 import DefaultAdress from "@/components/client/address/DefaultAddressOrder.vue";
 import EmptyCart from "@/components/client/cart/_emptyCart.vue";
-import mixins from "@/mixins/index"
+import mixins from "@/mixins/index";
 export default {
   mixins: [mixins],
   name: "ShowCarts",
@@ -260,7 +240,7 @@ export default {
 
     async orderAll() {
       const res = await this.orderAllORDE(this.address_order);
-      this.$swal.fire(res.message, "", res.status);
+      this.$swal.fire(res.alert.message, "", res.alert.status);
       await this.getAll();
     },
 
