@@ -2,6 +2,9 @@ import API from "@/apis/index"
 import qs from "qs"
 
 export default {
+  create(credentials){
+    return API.post("/api/order/submit", { order: { customer_address_id: credentials.id } })
+  },
   getAll(input) {
     return API.get(`/api/orders`, input)
   },

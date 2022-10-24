@@ -42,7 +42,7 @@
                 <p class="">
                   Total:
                   {{
-                    Intl.NumberFormat().format(
+                    format_number(
                       product.master_sales_price * buy_now.quantity
                     )
                   }}
@@ -72,12 +72,13 @@ import DefaultAdress from '@/components/client/address/DefaultAddressOrder.vue';
 import { createNamespacedHelpers } from "vuex";
 const mapActionsCART = createNamespacedHelpers("CART");
 const mapActionsORDE = createNamespacedHelpers("ORDE");
-
+import mixins from "@/mixins/index"
 
 
 import func from "@/plugin/func";
 export default {
   name: "buyNow",
+  mixins:[mixins],
   components:{
     defaultAddress: DefaultAdress,
   },

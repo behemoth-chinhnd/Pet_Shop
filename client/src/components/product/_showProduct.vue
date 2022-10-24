@@ -37,21 +37,15 @@
                 <div class="flex-row-space-between">
                   <div class="flex-cloumn text-left">
                     <div class="price-sale mgb-10px">
-                      {{ Intl.NumberFormat().format(post.master_sales_price) }}đ
+                      {{ format_number(post.master_sales_price) }}đ
                     </div>
                     <div class="sale flex-row-space-between-center gap-10px">
                       <div class="percent">
-                        {{
-                          saleoff(
-                            post.master_sales_price,
-                            post.master_list_price,
-                            0
-                          )
-                        }}%
+                        {{ saleoff(post) }}%
                       </div>
                       <span class="saleoff"
                         >{{
-                          Intl.NumberFormat().format(post.master_list_price)
+                          format_number(post.master_list_price)
                         }}đ
                       </span>
                     </div>
@@ -104,10 +98,10 @@ import { createNamespacedHelpers } from "vuex";
 const mapActionsPROD = createNamespacedHelpers("PROD");
 import Paginate from "vuejs-paginate";
 import { Glide } from "vue-glide-js";
-
-// import { thisExpression } from "@babel/types";
+import mixins from "@/mixins/index"
 export default {
   name: "ProductForm",
+  mixins: [mixins],
   components: {
     Paginate,
     tabMenuSpecies: TabMenuSpecies,
@@ -192,10 +186,10 @@ export default {
         this.getAll();
       }
     },
-    saleoff(a, b, c) {
-      const result = ((1 - a / b) * 100).toFixed(c);
-      return result;
-    },
+    // saleoff(a, b, c) {
+    //   const result = ((1 - a / b) * 100).toFixed(c);
+    //   return result;
+    // },
     // changePage (page){
     //   this.page.pageCount = page;
     //   // this.getAll()

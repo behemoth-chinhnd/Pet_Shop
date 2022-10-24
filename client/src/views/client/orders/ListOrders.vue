@@ -53,11 +53,11 @@
                     x {{ item.quantity }}
                   <div class="total-cash flex-row-end">
                     <div class="sale-off mgr-10px">
-                      {{ Intl.NumberFormat().format(item.product.master_list_price) }}đ 
+                      {{ format_number(item.product.master_list_price) }}đ 
                     </div>
-                     {{ Intl.NumberFormat().format(item.product.master_sales_price) }}đ
+                     {{ format_number(item.product.master_sales_price) }}đ
                     <!-- {{
-                    Intl.NumberFormat().format(item.product.master_sales_price * item.product.quantity)
+                    format_number(item.product.master_sales_price * item.product.quantity)
                   }}đ -->
                   </div>
                   
@@ -70,7 +70,7 @@
                 </div>
                 <div class="total flex-row-space-between pd-lr-10px">
                   <div class="content"> {{ post.total_quantity }} product </div>
-                  <div class="all text-right">Into Money: <span class="sub-total">{{ Intl.NumberFormat().format(post.subtotal) }}đ</span></div>
+                  <div class="all text-right">Into Money: <span class="sub-total">{{ format_number(post.subtotal) }}đ</span></div>
               </div>
               </div>
               
@@ -101,10 +101,9 @@
 <script>
 import { createNamespacedHelpers } from "vuex";
 const ORDE = createNamespacedHelpers("ORDE");
-// const {mapState: ORDE} = createNamespacedHelpers("ORDE");
-
-import func from "@/plugin/func";
+import mixins from "@/mixins/index"
 export default {
+  mixins:[mixins],
   name: "ProductDta",
   data() {
     return {

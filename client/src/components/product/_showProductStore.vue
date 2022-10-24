@@ -34,7 +34,7 @@
                 <div class="flex-row-space-between">
                   <div class="flex-cloumn text-left">
                     <div class="price-sale mgb-10px">
-                      {{ Intl.NumberFormat().format(post.master_sales_price) }}đ
+                      {{ format_number(post.master_sales_price) }}đ
                     </div>
                     <div class="sale flex-row-space-between-center gap-10px">
                       <div class="percent">
@@ -48,7 +48,7 @@
                       </div>
                       <span class="saleoff"
                         >{{
-                          Intl.NumberFormat().format(post.master_list_price)
+                          format_number(post.master_list_price)
                         }}đ
                       </span>
                     </div>
@@ -70,7 +70,6 @@
           >
             <empty-product></empty-product>
           </div>
-
           <div v-if="this.params.pages > 1" class="panel-footer">
             <paginate
               v-model="params.page"
@@ -102,9 +101,10 @@ const mapActionsPROD = createNamespacedHelpers("PROD");
 import Paginate from "vuejs-paginate";
 import { Glide } from "vue-glide-js";
 
-// import { thisExpression } from "@babel/types";
+import mixins from "@/mixins/index"
 export default {
   name: "ProductForm",
+  mixins: [mixins],
   components: {
     Paginate,
     tabMenuSpecies: TabMenuSpecies,

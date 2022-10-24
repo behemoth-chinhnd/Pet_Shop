@@ -4,7 +4,11 @@
       <div class="container">
         <div class="panel-body">
           <div v-if="species" class="scroll-x pd-lr-10px">
-            <vue-glide @glide:slide-click="searchIndex" :perView="numberItem">
+            <vue-glide
+              @glide:slide-click="searchIndex"
+              :perView="numberItem"
+              :breakpoints="breakpoints"
+            >
               <vue-glide-slide
                 v-for="post in this.species"
                 :key="post.id"
@@ -12,7 +16,7 @@
               >
                 {{ post.name }}
               </vue-glide-slide>
-              <template slots="control" class="tab-species">
+              <template slot="control" class="tab-species">
                 <button class="prev-species" data-glide-dir="<">&#8249;</button>
                 <button class="next-species" data-glide-dir=">">&#8250;</button>
               </template>
@@ -70,6 +74,17 @@ export default {
           id: null,
           name: "",
         },
+      },
+      breakpoints: {
+        1000: {
+          perView: 4,
+        },
+        1300:{
+          perView: 5,
+        },
+        2000:{
+          perView: 6,
+        }
       },
     };
   },

@@ -198,7 +198,7 @@
                 @mouseover="hiddenPrice()"
                 v-if="!this.hidden.master_list_price"
               >
-                {{ Intl.NumberFormat().format(product.master_sales_price) }}
+                {{ format_number(product.master_sales_price) }}
               </p>
               <div class="feedback-invalid" v-if="errors.master_sales_price">
                 {{ errors.master_sales_price }}
@@ -247,8 +247,10 @@ const mapActionsPROD = createNamespacedHelpers("PROD");
 const mapActionsADTR = createNamespacedHelpers("ADTR");
 const mapActionsADCA = createNamespacedHelpers("ADCA");
 const mapActionsADSP = createNamespacedHelpers("ADSP");
+import mixins from "@/mixins/index"
 export default {
   name: "CurrencyInput",
+  mixins:[mixins],
   data() {
     return {
       categories: [],

@@ -16,7 +16,7 @@
         </div>
         <div class="flex-1 flex-row-space-between-center break-line-2 gap-10px">
           {{ cart.product.name }}
-          <p class="total-cash">{{ Intl.NumberFormat().format(cart.product.master_sales_price) }}đ</p>
+          <p class="total-cash">{{ format_number(cart.product.master_sales_price) }}đ</p>
         </div>
       </div>
     </div>
@@ -29,9 +29,10 @@
   </div>
 </template>
 <script>
-
+import mixins from "@/mixins/index"
 
 export default {
+  mixins:[mixins],
   components: {},
   data() {
     return {

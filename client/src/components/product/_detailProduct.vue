@@ -26,12 +26,12 @@
             <div class="details-price flex-row-space-between">
               <div class="flex-cloumn text-left">
                 <div class="price-sale mgb-10px">
-                  {{ Intl.NumberFormat().format(product.master_sales_price) }} VND
+                  {{ format_number(product.master_sales_price) }} VND
                 </div>
                 <div class="sale">
-                  {{ sales }}%
+                  {{ saleoff(product) }}%
                   <span class="saleoff"
-                    >{{ Intl.NumberFormat().format(product.master_list_price) }} VND</span
+                    >{{ format_number(product.master_list_price) }} VND</span
                   >
                 </div>
               </div>
@@ -93,11 +93,10 @@
 import { createNamespacedHelpers } from "vuex";
 const mapActionsPROD = createNamespacedHelpers("PROD");
 const mapActionsCART = createNamespacedHelpers("CART");
-
-import func from "@/plugin/func";
-
+import mixins from "@/mixins/index";
 export default {
   name: "DetailProduct",
+  mixins: [mixins],
   data() {
     return {
       number: 1,
@@ -150,14 +149,9 @@ export default {
     async getItem(itemId) {
       this.error = false;
       const res = await this.getItemPROD(itemId);
-      console.log(res)
+      console.log(res);
       if (res.data) {
         this.product = res.data;
-        this.sales = func.saleoff(
-          this.product.master_sales_price,
-          this.product.master_list_price,
-          0
-        );
       } else {
         this.$swal.fire(res.message, "", res.status);
         this.error = true;
@@ -205,6 +199,5 @@ export default {
 };
 </script>
 <style >
-
 </style>
   

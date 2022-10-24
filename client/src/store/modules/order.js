@@ -1,6 +1,9 @@
 
 import api from "@/plugin/axios";
+import api_order from "@/apis/modules/order";
+
 import qs from "qs"
+import check from "@/plugin/check";
 
 const state = {
   state: {
@@ -77,21 +80,19 @@ const mutations = {
   },
   getPages(state, value) {
     state.state.params.pages = value;
-  },
+  }, 
 
 };
 const actions = {
-  async create({ commit, state }, credentials) {
+  async create({},credentials) {
     try {
-      const res = await api.post("/api/order/submit", { order: { customer_address_id: credentials.id } })
-      console.log(`Order All Cart (create)`, res)
-      commit("resStatus", "success");
-      commit("resMessage", "Order Successful");
+      const res = await api_order.create(credentials)
+      const result = check.success(res)
+      return result
     } catch {
-      commit("resStatus", "error");
-      commit("resMessage", "Order Failed");
+      const result = check.errors(error)
+      return result
     }
-    return state.state.res
   },
 
   async buyNow({ commit, rootState, state }, credentials) {

@@ -44,10 +44,12 @@
 </template>
 
 <script>
+import mixins from "@/mixins/index"
 import SliderBanner from "@/components/incfiles/_sliderBanner.vue";
 import ListProduct from "@/components/product/_showProduct.vue";
 
 export default {
+  mixins: [mixins],
   components: {
     ListProduct,
     sliderBanner: SliderBanner,
@@ -60,7 +62,9 @@ export default {
   },
   created() {},
   mounted() {},
-  methods: {},
+  methods: {
+
+  },
   computed: {},
 };
 </script>

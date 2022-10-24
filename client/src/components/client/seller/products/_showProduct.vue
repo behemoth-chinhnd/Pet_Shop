@@ -127,8 +127,8 @@
               <td>{{ post.quantity }}</td>
               <td>{{ post.number }}</td>
               <td>{{ post.master_sku }}</td>
-              <td>{{ Intl.NumberFormat().format(post.master_list_price) }}</td>
-              <td>{{ Intl.NumberFormat().format(post.master_sales_price) }}</td>
+              <td>{{ format_number(post.master_list_price) }}</td>
+              <td>{{ format_number(post.master_sales_price) }}</td>
               <td class="gap-10px">
                 <router-link
                   :to="{ name: 'saler.products.edit', params: { id: post.id } }"
@@ -169,10 +169,11 @@ const mapActionsPROD = createNamespacedHelpers("PROD");
 const mapActionsADTR = createNamespacedHelpers("ADTR");
 const mapActionsADCA = createNamespacedHelpers("ADCA");
 const mapActionsADSP = createNamespacedHelpers("ADSP");
-import func from "@/plugin/func";
+import mixins from "@/mixins/index"
 
 export default {
   name: "ProductForm",
+  mixins:[mixins],
   components: {
     // HeaderTest,
   },
