@@ -26,6 +26,7 @@ module EcommerceRestfulApi
     config.time_zone = "Hanoi"
 
     config.default_url_options = { host: ENV.fetch("RAILS_HOST_URL", "localhost:3000") }
+    config.action_mailer.default_url_options = config.default_url_options
     Rails.application.routes.default_url_options = config.default_url_options
   end
 end

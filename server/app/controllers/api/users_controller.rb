@@ -1,6 +1,6 @@
 module Api
   class UsersController < ApplicationController
-    before_action :auth?, except: [:index, :create]
+    before_action :auth?, except: [:index, :create, :send_email_reset_passsword, :reset_password]
     before_action :set_user
 
     def show
@@ -92,6 +92,36 @@ module Api
         response_success(form.model, { serializer: ::Users::UserListSerializer })
       else
         response_error(form.errors.to_hash(true))
+      end
+    end
+
+    def send_email_reset_passsword
+      user = User.find_by(email: params[:email])
+
+      if user.present?
+        ::Publics::SendPasswordResetEmailService.call(user:)
+
+        response_success("Send Email Successfull")
+      else
+        response_not_found
+      end
+    end
+
+    def reset_password
+      password_reset_token = Devise.token_generator.digest(User, :password_reset_token, params[:token])
+
+      user = ::User.find_by(password_reset_token:)
+
+      if user.present? && user.password_reset_token_valid_datetime >= Time.current
+        form = ::Publics::PasswordResetForm.new.assign_model(user, password_params.merge(params.permit(:password_confirmation)).to_h)
+
+        if form.save
+          response_success("Reset Password Successfull")
+        else
+          response_error(form.errors.to_hash(true))
+        end
+      else
+        response_not_found
       end
     end
 
