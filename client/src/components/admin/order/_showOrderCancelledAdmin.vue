@@ -22,7 +22,7 @@
                 </div>
 
                 <div
-                  class="status-order danger"
+                  class="status-order text-danger"
                 >
                   Canceled
                 </div>
@@ -70,7 +70,7 @@
                 <div class="all text-right">
                   Into Money:
                   <span class="sub-total"
-                    >{{ Intl.NumberFormat().format(post.subtotal) }}đ</span
+                    >{{ Intl.NumberFormat().format(post.total) }}đ</span
                   >
                 </div>
               </div>
@@ -122,7 +122,7 @@ export default {
         page: 1,
         per_page: 10,
         q: {
-          status: 4,
+          status: 5,
         },
         pages: "",
       },

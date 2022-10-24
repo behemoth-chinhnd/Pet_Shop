@@ -14,6 +14,7 @@ api.interceptors.request.use((config) => {
 });
 
 api.interceptors.response.use((result) => {
+  console.log("result",result);
   return result;
 });
 

@@ -188,6 +188,12 @@ ul.glide__slides{
     border: 1px  solid rgba(0, 0, 0, .09);
     position: absolute;
     margin-top: -40px;
+    border-radius: 3px;
+}
+
+.glide.glide--ltr.glide--slider.glide--swipeable button:hover{
+    background: var(--master);
+    color: var(--white);
 }
 
 .glide.glide--ltr.glide--slider.glide--swipeable button.prev-species {
@@ -389,21 +395,25 @@ ul.box-menu-user li a {
     width: auto;
 
 }
+.tab-category {
+    padding: 15px;
+    gap: 10px;
+}
 
-.category img.img-category {
+.tab-category img.img-category {
     cursor: pointer;
     height: 50px;
     width: 50px;
     border-radius: 100%;
 }
 
-.category .glide.glide--ltr.glide--slider.glide--swipeable, .category ul.glide__slides, .category ul.glide__slides li {
+.tab-category .glide.glide--ltr.glide--slider.glide--swipeable, .category ul.glide__slides, .category ul.glide__slides li {
     background: none;
     border-bottom: none;
 }
 
 
-.category img.img-category.checked {
+.tab-category img.img-category.checked {
     height: 70px;
     width: 70px;
     border: 2px solid var(--master);
@@ -706,6 +716,11 @@ svg {
 .card-order {
     background-color: #fff;
     border: 1px solid #f1f1f1;
+}
+
+.card .store-name {
+color: var(--white);
+padding: 5px;
 }
 
 .order-items {
@@ -1626,6 +1641,8 @@ td .info-author .button-view-offer {
 .feedback-invalid {
     color: red;
 }
+
+
 
 
 @media screen and (min-width:1000px) {

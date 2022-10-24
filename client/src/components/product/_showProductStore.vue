@@ -11,14 +11,11 @@
         <div class="card-deck mb-3 text-center scroll-x">
           <div class="cards">
             <div
-              class="card rel"
+              class="card"
               v-for="post in this.products"
               :key="post.id"
               @click="nextDetail(post.id)"
             >
-              <!-- <div class="store-name abs">
-                {{post.creator.store_name}}
-              </div> -->
               <img
                 class="img-card"
                 ref="image"
@@ -153,12 +150,18 @@ export default {
           trademark_id: null,
           category_id: null,
           species_id: null,
+          store_name:null,
         },
       },
     };
   },
   props: {},
   created() {
+    const storeName = this.$route.params.id;
+    console.log(`store`,storeName)
+    this.params.q.store_name = storeName
+    console.log(`params`,this.params)
+
     this.getAll(this.params);
   },
 

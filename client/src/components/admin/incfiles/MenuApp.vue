@@ -75,9 +75,7 @@
             <li>
               <router-link
                 :class="{
-                  'sub-active': this.$route.path.includes(
-                    '/seller/profile'
-                  ),
+                  'sub-active': this.$route.path.includes('/seller/profile'),
                 }"
                 to="/seller/profile"
                 >Profile</router-link
@@ -102,6 +100,24 @@
             <li>
               <router-link to="/seller/products/create"
                 >Create Product</router-link
+              >
+            </li>
+          </ul>
+        </li>
+
+        <!-- Admin -->
+        <li class="sub-menu">
+          <a class="active bold" href="#">MANAGEMENT SELLER</a>
+          <ul>
+            <li>
+              <router-link
+                :class="{
+                  'sub-active': this.$route.path.includes(
+                    '/admin/order'
+                  ),
+                }"
+                to="/admin/order"
+                >Order</router-link
               >
             </li>
           </ul>

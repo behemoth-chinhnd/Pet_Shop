@@ -60,7 +60,7 @@
                         placeholder="Store Name"
                         v-model="user.store_name"
                         @blur="validate()"
-                        v-bind:class="{ 'is-invalid': errors.store_name }"
+                        v-bind:class="{ 'is-invalid': errors.length }"
                         required
                       />
                       <p class="feedback-invalid" v-if="errors.store_name">
@@ -140,12 +140,12 @@ export default {
   data() {
     return {
       namePage: "Update",
-      user: "",
+      user: {},
       update: {
         name: "",
         store_name: "",
         shipping_fee: "",
-        password:"",
+        password: "",
       },
       errors: [],
     };
@@ -163,7 +163,7 @@ export default {
       updateProfile: "update",
     }),
     ...mapActionsADDR.mapActions({ getIsDefaultADDR: "getIsDefault" }),
-     validate() {
+    validate() {
       let isValid = true;
       this.errors = {
         store_name: "",
@@ -173,7 +173,7 @@ export default {
       if (!this.user.store_name) {
         this.errors.store_name = "Store Name not Empty ";
         isValid = false;
-      }else if (!this.user.password) {
+      } else if (!this.user.password) {
         this.errors.password = "Please enter password to authenticate!!";
         isValid = false;
       }
@@ -195,32 +195,23 @@ export default {
     },
 
     async save() {
-      if (this.validate()) {
-        const input = {
-          password: this.user.password,
-          store_name: this.user.store_name,
-          shipping_fee: this.user.shipping_fee,
-        };
-        this.$swal
-          .fire({
-            title: "Do you want to save the changes?",
-            showCancelButton: true,
-            confirmButtonText: "Save",
-          })
-          .then(async (result) => {
-            if (result.isConfirmed) {
-              const res = await this.updateProfile(input);
-              this.errors = res.errors;
-              this.$swal.fire(
-                this.namePage + " " + res.alert.message,
-                "",
-                res.alert.status
-              );
-              this.user.password = "";
-            }
-            await this.profile();
-          });
+      const input = {
+        password: this.user.password,
+        store_name: this.user.store_name,
+        shipping_fee: this.user.shipping_fee,
+      };
+      const res = await this.updateProfile(input);
+      if (res.errors) {
+        this.errors = res.errors;
+      } else {
+        this.user.password = "";
+        await this.profile();
       }
+      this.$swal.fire(
+        this.namePage + " " + res.alert.message,
+        "",
+        res.alert.status
+      );
     },
   },
 };

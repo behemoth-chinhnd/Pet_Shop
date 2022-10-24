@@ -58,6 +58,18 @@
                   </div>
                 </div>
                 <div class="form-group row flex-row-start-center">
+                  <label for="password" class="item-name col-form-label"
+                    >Password:</label
+                  >
+                  <div class="item-value flex">
+                    <p id="password">********</p>
+
+                    <p class="mgl-10px">
+                      <router-link to="/user/account/change_password"> Change </router-link>
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group row flex-row-start-center">
                   <label for="address" class="item-name col-md-3 col-form-label"
                     >Address:</label
                   >

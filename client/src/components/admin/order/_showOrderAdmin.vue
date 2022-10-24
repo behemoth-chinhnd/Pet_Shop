@@ -22,10 +22,9 @@
                 </div>
 
                 <div
-                  class="status-order"
-                  :class="{ warning: (post.status = 'wait_for_confirmation') }"
+                  class="status-order text-warning"
                 >
-                  Chờ Xác Nhận Đơn Hàng
+                  Waiting for the comfirm
                 </div>
               </div>
               <div
@@ -71,14 +70,14 @@
                 <div class="all text-right">
                   Into Money:
                   <span class="sub-total"
-                    >{{ Intl.NumberFormat().format(post.subtotal) }}đ</span
+                    >{{ Intl.NumberFormat().format(post.total) }}đ</span
                   >
                 </div>
               </div>
             </div>
           </div>
           
-          <div  class="text-right" v-if=" post.status === 'wait_for_confirmation'">
+          <div  class="text-right">
             <b-button @click="confirm(post.number)" variant="warning">Order confirmation</b-button>
           </div>
         </div>
@@ -151,12 +150,6 @@ export default {
     clickCallback(pageNum) {
       this.params.page = pageNum;
       this.getAll(this.params);
-    },
-
-    isStatus(status) {
-      if (status === "wait_for_confirmation") {
-        status = "Wait For Confirmation";
-      }
     },
 
     async confirm(numberOrder) {

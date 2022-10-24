@@ -13,20 +13,13 @@
                 <div class="flex-cloumn text-left"></div>
                 <div class="flex-cloumn text-left"></div>
               </div>
-
               <div
                 class="number-product flex-row-space-between text-left mgt-10px"
               >
                 <div class="">
                   <p class="">#{{ post.number }}</p>
                 </div>
-
-                <div
-                  class="status-order"
-                  :class="{ warning: (post.status = 'wait_for_confirmation') }"
-                >
-                Being shipped
-                </div>
+                <div class="status-order text-warning">Being shipped</div>
               </div>
               <div
                 class="order-items mgb-10px pd-10px flex-row-space-between"
@@ -71,21 +64,24 @@
                 <div class="all text-right">
                   Into Money:
                   <span class="sub-total"
-                    >{{ Intl.NumberFormat().format(post.subtotal) }}đ</span
+                    >{{ Intl.NumberFormat().format(post.total) }}đ</span
                   >
                 </div>
               </div>
             </div>
           </div>
           <div class="flex-row-end gap-10px">
-            <div  class="text-right" v-if=" post.status === 'wait_for_confirmation'">
-            <b-button @click="cancel(post.number)" variant="danger">Cancel</b-button>
+            <div class="text-right">
+              <b-button @click="cancel(post.number)" variant="danger"
+                >Cancel</b-button
+              >
+            </div>
+            <div class="text-right">
+              <b-button @click="complete(post.number)" variant="success"
+                >Complete</b-button
+              >
+            </div>
           </div>
-          <div  class="text-right" v-if=" post.status === 'wait_for_confirmation'">
-            <b-button @click="complete(post.number)" variant="success">Complete</b-button>
-          </div>
-          </div>
-          
         </div>
 
         <div v-if="this.params.pages > 1" class="panel-footer">
@@ -133,7 +129,7 @@ export default {
         page: 1,
         per_page: 10,
         q: {
-          status :3
+          status: 3,
         },
         pages: "",
       },
@@ -151,33 +147,24 @@ export default {
       getAllADOR: "getAllList",
       cancelADOR: "cancel",
       completeADOR: "complete",
-      
-
     }),
     clickCallback(pageNum) {
       this.params.page = pageNum;
       this.getAll(this.params);
     },
 
-    isStatus(status) {
-      if (status === "wait_for_confirmation") {
-        status = "Wait For Confirmation";
-      }
-    },
-
     async cancel(numberOrder) {
       const res = await this.cancelADOR({ number: numberOrder });
-      console.log(res)
+      console.log(res);
       this.$swal.fire(res.message, res.text, res.status);
       this.getAll(this.params);
     },
     async complete(numberOrder) {
       const res = await this.completeADOR({ number: numberOrder });
-      console.log(res)
+      console.log(res);
       this.$swal.fire(res.message, res.text, res.status);
       this.getAll(this.params);
     },
-    
 
     async getAll(input) {
       const res = await this.getAllADOR(input);

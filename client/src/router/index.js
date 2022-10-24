@@ -22,9 +22,11 @@ const routes = [
       { path: '/', name: 'home.index', component: () => import('@/views/client/IndexHome.vue') },
       { path: 'products', name: 'home.products', component: () => import('@/views/client/products/ListProducts.vue') },
       { path: 'products/detail/:id', name: 'home.products.detail', component: () => import('@/views/client/products/DetailProducts.vue') },
+
       { path: 'register', name: 'home.users.register', component: () => import('@/views/client/users/RegisterUser.vue') },
       { path: 'login', name: 'home.users.login', component: () => import('@/views/client/users/LoginUser.vue') },
       { path: 'users', name: 'home.users', component: () => import('@/views/client/users/ListUser.vue') },
+      { path: 'store/:id', name: 'home.products', component: () => import('@/views/client/store/ListProductsStore.vue') },
 
       {
         path: 'carts', name: 'home.carts', component: Cart, children: [

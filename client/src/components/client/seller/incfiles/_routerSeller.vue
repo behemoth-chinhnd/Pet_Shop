@@ -25,6 +25,12 @@
           <li v-if="this.$route.path.includes('/admin')">
             <router-link :to="{ path: '/admin' }"> Admin </router-link>
           </li>
+
+          <!-- Order Admin -->
+          <li v-if="this.$route.path.includes('/admin/order')">
+            <router-link :to="{ path: '/admin/order' }"> Order </router-link>
+          </li>
+          
           <!-- Category -->
           <li v-if="this.$route.path.includes('/admin/category')">
             <router-link to="/admin/category"> Category </router-link>

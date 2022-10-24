@@ -3,39 +3,20 @@
     <div class="header-layout">
       <div class="container">
         <div class="">
-          <div class="scroll-x category">
-            <vue-glide
-              v-if="categories"
-              @glide:slide-click="SearchIndex"
-              :perView="6"
-            >
-              <vue-glide-slide
-                v-for="post in this.categories"
-                :key="post.id"
-                :class="{ active: is_active == post.id }"
-                @change="isActive(post.id)"
-              >
+          <div
+            v-if="categories"
+            class="scroll-x flex-row-center-center tab-category"
+          >
+            <div class="" v-for="post in this.categories" :key="post.id">
               <img
-                    @click="isActive(post.id)"
-                    for="check-category"
-                    :class="{ checked: is_active === post.id }"
-                    class="img-category"
-                    :src="post.image_url"
-                    alt=""
-                  />
-                  <input
-                    id="check-category"
-                    class="input-radio hidden"
-                    @change="isActive(post.id)"
-                    v-model="CAID"
-                    type="radio"
-                    v-bind:value="post.id"
-                    name="category"
-                    v-bind:checked="CAID == post.id"
-                    :class="{ checked: is_active == post.id }"
-                  />
-              </vue-glide-slide>
-            </vue-glide>
+                @click="isActive(post.id)"
+                for="check-category"
+                :class="{ checked: is_active === post.id }"
+                class="img-category"
+                :src="post.image_url"
+                alt=""
+              />
+            </div>
           </div>
           <div v-if="this.params.pages > 1" class="panel-footer">
             <paginate
@@ -90,8 +71,7 @@ export default {
   },
   beforeCreate() {},
   created() {
-    this.getAll(this.params);
-    // this.isActive(1);
+    this.getAll(this.params)
   },
   mounted() {},
   props: {
@@ -102,17 +82,18 @@ export default {
       getAllADCA: "getAllList",
       deleteADCA: "delete",
     }),
-    async isActive(CAID) {
+    isActive(CAID) {
       this.is_active = CAID;
-      await this.$emit("nextCategory", CAID);
+      this.$emit("nextCategory", CAID);
     },
-    async SearchIndex(index){
-      const ID = this.categories[index].id 
-      await this.isActive(ID)
+    searchIndex(index) {
+      if (index >= 0) {
+        const CAID = this.categories[index].id;
+        this.isActive(CAID);
+      }
     },
     async getAll(input) {
-      const res = await this.getAllADCA(input);
-      console.log(res);
+      const res = await this.getAllADCA(input)
       if (res.categories) {
         this.categories = res.categories.reverse();
         this.total_search = res.meta.total;

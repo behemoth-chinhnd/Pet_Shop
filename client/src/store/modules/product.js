@@ -103,7 +103,8 @@ const actions = {
           name_or_number_cont: credentials.q.name,
           trademark_category_id_eq: credentials.q.category_id,
           trademark_species_id_eq: credentials.q.species_id,
-          trademark_id_eq: credentials.q.trademark_id
+          trademark_id_eq: credentials.q.trademark_id,
+          creator_of_User_type_store_name_cont: credentials.q.store_name
 
         },
       }
@@ -125,7 +126,8 @@ const actions = {
         name_or_number_cont: credentials.q.name,
         trademark_category_id_eq: credentials.q.category_id,
         trademark_species_id_eq: credentials.q.species_id,
-        trademark_id_eq: credentials.q.trademark_id
+        trademark_id_eq: credentials.q.trademark_id,
+        creator_of_User_type_store_name_cont: credentials.q.store_name
 
       },
     }
