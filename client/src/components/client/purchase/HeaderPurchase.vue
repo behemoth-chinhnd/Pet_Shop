@@ -4,34 +4,29 @@
       <div class="container">
         <div class="scroll-x">
           <ul class="flex-row-space-between-center purchase width-700px">
-            <li :class="{ active: this.$route.path === '/user/purchase' }">
-              <router-link class="purchase-item" to="/user/purchase">
-                All
-              </router-link>
-            </li>
-            <li @click="nextParams(1)">
+            <li @click="nextParams(1,'text-warning')">
               <router-link
                 class="purchase-item"
                 to="/user/purchase/wait_comfirm"
-              >Wait Comfirm
+                >Wait Comfirm
               </router-link>
             </li>
-            <li @click="nextParams(2)">
+            <li @click="nextParams(2,'text-warning')">
               <router-link class="purchase-item" to="/user/purchase/wait_goods">
                 Wait Goods
               </router-link>
             </li>
-            <li @click="nextParams(3)">
+            <li @click="nextParams(3,'text-warning')">
               <router-link class="purchase-item" to="/user/purchase/delivering">
                 Delivering
               </router-link>
             </li>
-            <li @click="nextParams(4)">
+            <li @click="nextParams(4,'text-success')">
               <router-link class="purchase-item" to="/user/purchase/delivered">
-                Delivered</router-link
-              >
+                Delivered
+              </router-link>
             </li>
-            <li @click="nextParams(5)">
+            <li @click="nextParams(5,'text-danger')">
               <router-link class="purchase-item" to="/user/purchase/cancelled">
                 Cancelled
               </router-link>
@@ -51,14 +46,13 @@ export default {
     };
   },
   methods: {
-    async nextParams(ID) {
-      console.log(ID);
-      await this.$emit("next", ID);
+    async nextParams(ID, color) {
+      console.log(ID, color);
+      await this.$emit("next", ID, color );
     },
   },
   computed: {},
 };
 </script>
-
 <style scoped>
 </style>

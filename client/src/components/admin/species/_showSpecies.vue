@@ -1,6 +1,13 @@
 <template>
-  <!-- <div class="body-saler"> -->
-    <div class="panel-body">
+  <div class="">
+    <div v-if="is_popup" class="popup rel">
+      <div class="body-popup abs">
+        <a @click="closed" class="cancel abs" href="#">x</a>
+        <edit-props :IDProps="IDEdit" @reset="Search"></edit-props>
+      </div>
+      <div class="modal-backdrop in"></div>
+    </div>
+    <div class="panel-body rel">
       <div class="search flex-row-center-center gap-10px">
         <form @submit.prevent="Search()" class="form-search">
           <input
@@ -58,11 +65,13 @@
                   alt=""
                 />
               </td>
+
               <td>{{ post.name }}</td>
               <td>{{ post.description }}</td>
-
-             
               <td class="gap-10px">
+                <b-button variant="primary" @click="isPopup(post.id)">
+                  Edit popup
+                </b-button>
                 <router-link
                   :to="{ name: 'admin.species.edit', params: { id: post.id } }"
                 >
@@ -93,20 +102,23 @@
         </paginate>
       </div>
     </div>
-  <!-- </div> -->
+  </div>
   <!-- <router-view/> -->
 </template>
 <script>
+import EditProps from "@/components/admin/species/_editProps.vue";
 import { createNamespacedHelpers } from "vuex";
-const {mapActions} = createNamespacedHelpers("ADSP");
+const { mapActions } = createNamespacedHelpers("ADSP");
 
 export default {
   name: "speciesForm",
   components: {
-    // HeaderTest,
+    editProps: EditProps,
   },
   data() {
     return {
+      is_popup: false,
+      IDEdit: 1,
       total_search: "",
       species: [],
       // search: "",
@@ -130,10 +142,9 @@ export default {
   created() {
     this.getAll(this.params);
   },
-  mounted() {
-  },
-  props:{
-    species2:[]
+  mounted() {},
+  props: {
+    species2: [],
   },
   methods: {
     ...mapActions({
@@ -144,8 +155,16 @@ export default {
       this.params.page = pageNum;
       this.getAll(this.params);
     },
-    async nextParams(ID){
-      await this.$emit('next', ID )
+
+    isPopup(ID) {
+      this.is_popup = true;
+      this.IDEdit = ID;
+    },
+    closed() {
+      this.is_popup = false;
+    },
+    async nextParams(ID) {
+      await this.$emit("next", ID);
     },
     async getAll(input) {
       const res = await this.getAllADSP(input);
@@ -180,6 +199,8 @@ export default {
         };
         await this.getAll(input);
       }
+      this.is_popup = false;
+
     },
     async onDelete(speciesId) {
       this.$swal
@@ -208,9 +229,7 @@ export default {
     },
   },
   watch: {},
-  computed: {
-    
-  },
+  computed: {},
 };
 </script>
 <style>

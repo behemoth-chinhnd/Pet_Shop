@@ -65,7 +65,7 @@
           </router-link>
         </li>
         <li>
-          <router-link class="" to="/user/purchase"> Purchase </router-link>
+          <router-link class="" to="/user/purchase/wait_comfirm"> Purchase </router-link>
         </li>
         <li>
           <router-link class="" to="/seller/profile">

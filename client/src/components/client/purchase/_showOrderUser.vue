@@ -1,6 +1,11 @@
 <template>
   <div class="body">
-    <header-purchase :ID="ID" @next="nextPurchase" ref="test"></header-purchase>
+    <header-purchase
+      :ID="ID"
+      :color="color"
+      @next="nextPurchase"
+      ref="test"
+    ></header-purchase>
     <div class="detail-product">
       <div class="container">
         <div
@@ -11,19 +16,31 @@
           <div class="flex-row-space-between gap-10px">
             <div class="flex-1">
               <div class="flex-row-space-between">
-                <div class="flex-cloumn text-left">
-                </div>
+                <div class="flex-cloumn text-left"></div>
                 <div class="flex-cloumn text-left"></div>
               </div>
 
-              <div class="number-product flex-row-space-between text-left mgt-10px">
+              <div
+                class="number-product flex-row-space-between text-left mgt-10px"
+              >
                 <div class="">
-
-                  <p class=""><i class="fa-solid fa-store pdr-5px"></i>{{ post.number }}</p>
+                  <p class="">
+                    <i class="fa-solid fa-store pdr-5px"></i>{{ post.number }}
+                  </p>
                 </div>
-                <div class="status-order text-warning">
+                <div
+                  class="status-order"
+                  :class="{
+                    'text-warning':
+                      params.q.status === 1 ||
+                      params.q.status === 2 ||
+                      params.q.status === 3, 
+                      'text-success':params.q.status===4,
+                      'text-danger':params.q.status===5
+                  }"
+                >
                   Waiting for the comfirm
-                  </div>
+                </div>
               </div>
               <div
                 class="order-items mgb-10px pd-10px flex-row-space-between"
@@ -32,65 +49,62 @@
               >
                 <div class="images-order">
                   <img
-                  class="img"
-                  ref="image"
-                  :src="
-                    item.product.image_url
-                      ? item.product.image_url
-                      : require('@/assets/images/plugin/no_photo.jpeg')
-                  "
-                  alt=""
-                />
+                    class="img"
+                    ref="image"
+                    :src="
+                      item.product.image_url
+                        ? item.product.image_url
+                        : require('@/assets/images/plugin/no_photo.jpeg')
+                    "
+                    alt=""
+                  />
                 </div>
-                <div class="detail-item  flex-1 flex-row-space-between">
-                  <div class=" col-md-6 col-sm-9 mgb-5px">
+                <div class="detail-item flex-1 flex-row-space-between">
+                  <div class="col-md-6 col-sm-9 mgb-5px">
                     <div class="name break-line-1 mgb-10px text-body bold">
                       <router-link :to="`/products/detail/${item.product.id}`">
-                        {{ item.product.name }} 
+                        {{ item.product.name }}
                       </router-link>
                     </div>
                     <div>Decription</div>
                   </div>
-                  
+
                   <div class="total-price col-md-6 col-sm-3 text-right">
                     x {{ item.quantity }}
-                  <div class="total-cash flex-row-end">
-                     {{ format_number(item.total/item.quantity) }}đ
-                  </div>
-                  
+                    <div class="total-cash flex-row-end">
+                      {{ format_number(item.total / item.quantity) }}đ
+                    </div>
                   </div>
                 </div>
-                
-                  
-                  
-                   
+              </div>
+              <div class="total flex-row-space-between pd-lr-10px">
+                <div class="content">{{ post.total_quantity }} product</div>
+                <div class="all text-right">
+                  Into Money:
+                  <span class="sub-total"
+                    >{{ format_number(post.total) }}đ</span
+                  >
                 </div>
-                <div class="total flex-row-space-between pd-lr-10px">
-                  <div class="content"> {{ post.total_quantity }} product </div>
-                  <div class="all text-right">Into Money: <span class="sub-total">{{ format_number(post.total) }}đ</span></div>
               </div>
-              </div>
-              
             </div>
-              
-           
+          </div>
         </div>
-        
+
         <div v-if="this.params.pages > 1" class="panel-footer">
-                <paginate 
-                v-model="params.page" 
-                :page-count="this.params.pages" 
-                :page-range="3" 
-                :margin-pages="2"
-                :click-handler="clickCallback" 
-                :prev-text="'<<'" 
-                :next-text="'>>'" 
-                :container-class="'pagination'"
-                :page-class="'page-item'">
-                </paginate>
-            </div>
+          <paginate
+            v-model="params.page"
+            :page-count="this.params.pages"
+            :page-range="3"
+            :margin-pages="2"
+            :click-handler="clickCallback"
+            :prev-text="'<<'"
+            :next-text="'>>'"
+            :container-class="'pagination'"
+            :page-class="'page-item'"
+          >
+          </paginate>
+        </div>
       </div>
-      
     </div>
   </div>
   <!-- </div> -->
@@ -99,17 +113,17 @@
 import HeaderPurchase from "@/components/client/purchase/HeaderPurchase.vue";
 import { createNamespacedHelpers } from "vuex";
 const ORDE = createNamespacedHelpers("ORDE");
-import mixins from "@/mixins/index"
+import mixins from "@/mixins/index";
 export default {
-  mixins:[mixins],
+  mixins: [mixins],
   name: "ProductDta",
   components: {
-    headerPurchase: HeaderPurchase
+    headerPurchase: HeaderPurchase,
   },
   data() {
     return {
-      ID:"",
-      color_status:"",
+      ID: "",
+      color: "",
       message: "",
       sales: "",
       carts: [],
@@ -125,7 +139,7 @@ export default {
         page: 1,
         per_page: 5,
         q: {
-          status :1
+          status: 1,
         },
         pages: "",
       },
@@ -133,30 +147,29 @@ export default {
   },
   created() {
     const status = this.$route.params.id;
-    if(status === "wait_for_confirmation"){
-      this.params.q.status = 1
-      this.color_status = "text-warning"
-    }else if(status === "wait_goods"){
-      this.params.q.status = 2
-      this.color_status = "text-warning"
-    }else if(status === "delivering"){
-      this.params.q.status = 3
-      this.color_status = "text-warning"
-    }else if(status === "delivered"){
-      this.params.q.status = 4
-      this.color_status = "text-success"
-    }else if(status === "cancelled"){
-      this.params.q.status = 5
-      this.color_status = "text-danger"
-    }else {
-      this.params.q.status = 1
-      this.color_status = "text-warning"
+    if (status === "wait_for_confirmation") {
+      this.params.q.status = 1;
+      this.color_status = "text-warning";
+    } else if (status === "wait_goods") {
+      this.params.q.status = 2;
+      this.color_status = "text-warning";
+    } else if (status === "delivering") {
+      this.params.q.status = 3;
+      this.color_status = "text-warning";
+    } else if (status === "delivered") {
+      this.params.q.status = 4;
+      this.color_status = "text-success";
+    } else if (status === "cancelled") {
+      this.params.q.status = 5;
+      this.color_status = "text-danger";
+    } else {
+      this.params.q.status = 1;
+      this.color_status = "text-warning";
     }
     this.getAll();
   },
   computed: {
     // ...ORDE.mapState(['test']),
-   
   },
   methods: {
     ...ORDE.mapActions({
@@ -173,17 +186,16 @@ export default {
         per_page: this.params.per_page,
         q: this.params.q,
       });
-      console.log(`ListOrder`,res)
+      console.log(`ListOrder`, res);
       this.orders = res.orders;
     },
     async nextPurchase(ID) {
       this.params.q.status = ID;
-      this.getAll()
+      this.getAll();
     },
   },
 };
 </script>
 <style scoped>
-
 </style>
   

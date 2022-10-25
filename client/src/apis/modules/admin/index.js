@@ -7,7 +7,7 @@ const api = request.create({
 
 api.interceptors.request.use((config) => {
   config.headers = {
-    Authorization: "Bearer " + store.state.ADAU.state.adminToken,
+    Authorization: "Bearer " + store.state.ADAU.state.adminToken
   };
   return config;
 });
