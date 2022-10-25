@@ -118,7 +118,7 @@ export default {
         product_id: "",
         quantity: 1,
       },
-      res: {
+      alert: {
         is_res: null,
         status: "",
         message: "",
@@ -186,14 +186,23 @@ export default {
       await this.buyItemCART(input);
       this.$router.push({ path: "/carts/buynow" });
     },
-
     async addToCart() {
       const input = {
         product_id: this.product.id,
         quantity: this.cart.quantity,
       };
       const res = await this.addCart(input);
-      this.$swal.fire(res.message, res.text, res.status);
+      if (res.errors) {
+        this.errors = res.errors;
+        this.alert.text = "Product quantity is not enough or sold out";
+      } else {
+        this.alert.text = "See details List product in Cart";
+      }
+      this.$swal.fire(
+        "Add To Cart" + " " + res.alert.message,
+        this.alert.text,
+        res.alert.status
+      );
     },
   },
 };

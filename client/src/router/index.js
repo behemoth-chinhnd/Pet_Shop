@@ -55,8 +55,10 @@ const routes = [
             ]
           },
           {
-            path: 'purchase', name: 'user.purchase', component: Purchase, children: [
-              { path: '/', name: 'purchase.index', component: () => import('@/views/client/orders/ListOrders.vue') },
+            path: 'purchase', name: 'user.purchase', component: Cart, children: [
+              { path: ':id', name: 'purchase.index', component: () => import('@/views/client/orders/ListOrders.vue') },
+              // { path: '/:id', name: 'purchase.status', component: () => import('@/views/client/orders/ListOrders.vue') },
+
             ]
           },
 

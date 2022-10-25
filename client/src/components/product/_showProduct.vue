@@ -139,7 +139,7 @@ export default {
       },
       params: {
         page: 1,
-        per_page: 15,
+        per_page: 20,
         pages: "",
         q: {
           id: null,
@@ -186,14 +186,6 @@ export default {
         this.getAll();
       }
     },
-    // saleoff(a, b, c) {
-    //   const result = ((1 - a / b) * 100).toFixed(c);
-    //   return result;
-    // },
-    // changePage (page){
-    //   this.page.pageCount = page;
-    //   // this.getAll()
-    // },
     async getAll(input) {
       const res = await this.getAllPROD(input);
       if (res.products) {

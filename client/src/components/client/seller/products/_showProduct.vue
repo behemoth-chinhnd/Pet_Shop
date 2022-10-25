@@ -1,5 +1,6 @@
 <template>
   <div class="body-saler">
+
     <div class="panel-body">
       <div class="search flex-row-start gap-10px row left">
         <form @submit.prevent="Search()" class="form-search col-md-3">
@@ -131,7 +132,7 @@
               <td>{{ format_number(post.master_sales_price) }}</td>
               <td class="gap-10px">
                 <router-link
-                  :to="{ name: 'saler.products.edit', params: { id: post.id } }"
+                  :to="{ name: 'seller.products.edit', params: { id: post.id } }"
                 >
                   <b-button variant="primary">
                     <i class="fa fa-edit"></i>

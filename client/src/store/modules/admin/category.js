@@ -91,7 +91,6 @@ const actions = {
     }
   },
   async getAllList({ commit, state }, credentials) {
-    console.log(`input`, credentials)
     if (credentials.q.id) {
       var queryParams = {
         page: credentials.page,
@@ -120,7 +119,6 @@ const actions = {
   async getItem({ commit, state }, credentials) {
     try {
       const res = await api_admin_category.getItem(credentials)
-      console.log(res.data)
       commit("getItem", res.data);
       commit("getNameDetail", res.data.name);
       console.log(`getItem`, res.data)

@@ -118,7 +118,7 @@ const actions = {
   async getAll({ commit }, input) {
     const queryParams = {
       q: {
-        number_cont: '',
+        status_eq: input.q.status,
       },
     }
     const res = await api.get(`/api/orders?page=${input.page}&per_page=${input.per_page}`, {

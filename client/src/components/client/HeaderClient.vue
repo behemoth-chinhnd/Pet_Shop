@@ -9,21 +9,24 @@
                 <div class="logo">
                   <img src="/pet2.png" alt="" />
                 </div>
-               
               </div>
-              <div class="login-header-mobile">
-                  <login-header ></login-header>
+              <div class="flex-row-space-between-center gap-40px">
+                <div class="login-header-mobile">
+                  <login-header></login-header>
                 </div>
-              <button class="menu-toggle">
-                <i class="fa fa-bars"></i>
-              </button>
+                <button class="menu-toggle">
+                  <i class="fa fa-bars"></i>
+                </button>
+              </div>
             </div>
-            <div class="form-input-search mg-tb-20px">
-              <input type="text" class="input-search" placeholder="Search" />
-              <i class="icon-search fa fa-search"></i>
-            </div>
-            <div class="login-header">
-              <login-header></login-header>
+            <div class="flex-row-space-between-center flex-1 gap-40px">
+              <div class="form-input-search mg-tb-20px">
+                <input type="text" class="input-search" placeholder="Search" />
+                <i class="icon-search fa fa-search"></i>
+              </div>
+              <div class="login-header">
+                <login-header></login-header>
+              </div>
             </div>
           </div>
         </div>
@@ -41,11 +44,9 @@ import LoginHeader from "@/components/incfiles/_loginHeader.vue";
 import RouterClient from "@/components/client/incfiles/_routerClient.vue";
 export default {
   components: {
-
     sliderBanner: SliderBanner,
     loginHeader: LoginHeader,
     routerClient: RouterClient,
-
   },
   data() {
     return {
@@ -55,8 +56,7 @@ export default {
       carts: false,
     };
   },
-  created() {
-  },
+  created() {},
   computed: {
     isRun() {
       this.order_items = this.$store.state.CART.state.order_items;
@@ -71,5 +71,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

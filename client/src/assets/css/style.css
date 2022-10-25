@@ -8,6 +8,10 @@ body {
     color: #a3a3a3;
 }
 
+.text-body, .name.text-body a {
+    color: #2c3e50;
+}
+
 
 
 /* .row{
@@ -257,7 +261,7 @@ ul.box-menu-user li a {
 
 .box-list-cart {
     position: absolute;
-    z-index: 2;
+    z-index: 3;
     text-align: left;
     background-color: var(--white);
     min-width: 300px;
@@ -276,10 +280,9 @@ ul.box-menu-user li a {
     height: 0;
     border-left: 15px solid transparent;
     border-right: 15px solid transparent;
-    border-bottom: 15px solid var(--master);
+    border-bottom: 15px solid var(--white);
 }
 
-.list-cart-header
 
 #list-cart-header .img-cart, #list-cart-header .img-cart img {
 height: 40px;

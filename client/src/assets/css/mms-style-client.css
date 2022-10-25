@@ -2714,12 +2714,20 @@ h6+p.content {
     gap: 15px;
 }
 
-.gap-20px {
+.gap-20px, .gap-20 {
     gap: 20px;
 }
 
-.gap-30px {
+.gap-30px, .gap-30 {
     gap: 30px;
+}
+
+.gap-40px, .gap-40 {
+    gap: 40px;
+}
+
+.gap-50px, .gap-50{
+    gap: 50px;
 }
 
 .mg-auto-0 {

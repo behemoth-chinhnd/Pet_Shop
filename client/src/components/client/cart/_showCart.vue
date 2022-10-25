@@ -5,7 +5,6 @@
         <!-- is default address order -->
         <default-address></default-address>
         <!-- end is default address order -->
-
         <div
           class="card card-cart mgb-10px"
           v-for="(post, index) in this.order_items"
@@ -54,7 +53,6 @@
                       <div class="quantily-product col-md-4 flex-row">
                         <div class="prev" @click="prev(info)">-</div>
                         <div class="quantily">{{ info.quantity }}</div>
-                        <!-- <div class="next mgr-10px" @click="next((order_items), (post.orders), (item.order_items), info.quantity)">+</div> -->
                         <div class="next mgr-10px" @click="next(info)">+</div>
                       </div>
 
@@ -86,21 +84,18 @@
                 </div>
               </div>
             </div>
-            <div
-              data-v-70cbe303=""
-              class="total flex-row-space-between-center mg-tb-10px"
-            >
-              <div data-v-70cbe303="" class="content">4 product</div>
-              <div data-v-70cbe303="" class="all flex-column text-right">
+            <div class="total flex-row-space-between-center mg-tb-10px">
+              <div class="content">{{ format_number(item.total_quantity) }} product</div>
+              <div class="all flex-column text-right">
                 <div class="shipping-fee mgb-10px">
                   Shipping Fee:
-                  <span data-v-70cbe303="" class="sub-total"
+                  <span class="sub-total"
                     >{{ format_number(item.shipping_fee) }}đ</span
                   >
                 </div>
                 <div>
                   Into Money:
-                  <span data-v-70cbe303="" class="sub-total"
+                  <span class="sub-total"
                     >{{ format_number(item.total) }}đ</span
                   >
                 </div>
@@ -170,12 +165,6 @@ export default {
       params: {
         page: 1,
         per_page: 5,
-        sort_column: "id",
-        direction: "desc",
-        search_column: "id",
-        search_operator: "equal_to",
-        search_query_1: "",
-        search_query_2: "",
         q: {},
         pages: "",
       },

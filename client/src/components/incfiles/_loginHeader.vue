@@ -103,7 +103,7 @@ export default {
   },
   beforeCreate() {},
   created() {
-    this.getAll();
+    // this.getAll();
   },
   mounted() {
   },

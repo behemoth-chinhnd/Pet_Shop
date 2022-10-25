@@ -103,7 +103,6 @@ const actions = {
   },
 
   async getAllList({ commit, state }, credentials) {
-    console.log(`input`, credentials)
     if (credentials.q.id) {
       var queryParams = {
         page: credentials.page,

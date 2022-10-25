@@ -2,6 +2,8 @@
 import api from "@/plugin/axios";
 import api_cart from "@/apis/modules/cart"
 import api_product from "@/apis/modules/product"
+import check from "@/plugin/check";
+
 
 const state = {
   state: {
@@ -96,32 +98,24 @@ const mutations = {
 
 };
 const actions = {
-  async create({ commit }, credentials) {
-    await api.post("/api/products", credentials).then(res => {
-      if (res) {
-        commit("isError", false);
-        commit("setErrors", "");
-      }
-    }).catch((res) => {
-      commit("isError", true);
-      commit("setErrors", res.response.data);
-    })
-  },
-
+  // async create({ commit }, credentials) {
+  //   try {
+  //     const res = await api.post("/api/products", credentials)
+  //     const result = check.success(res)
+  //     setTimeout(() =>
+  //       window.location.href = "/carts", 2000)
+  //     return result
+  //   } catch (error) {
+  //     const result = check.errors(error)
+  //     return result
+  //   }
+  // },
   async getAll({ commit }) {
-
     const res = await api_cart.getAll();
     commit("getTotalItems", res.data.infos.number_of_items);
-    // commit("getAll", res.data.products);
-      // commit("getOrderItem", res.data.order_items);
-      // commit("getTotal", res.data.total);
-      // commit("getTotalQuantity", res.data.total_quantity);
-      // commit("getTotalItems", res.data.total_items);
-      // commit("getPages", res.data.meta.pages);
-      // commit("getPage", credentials.page);
-      console.log(`getAllCart`, res)
-      return res;
+    return res;
   },
+
   async getItem({ commit }, credentials) {
     await api.get(`/api/products/${credentials}`).then(res => {
       commit("getItem", res.data);
@@ -133,13 +127,6 @@ const actions = {
   async buyItem({ commit }, credentials) {
 
     commit("postBuyNow", credentials)
-
-    // await api.get(`/api/products/${credentials.product_id}`).then(res => {
-    //   commit("postProductsData", credentials);
-    //   commit("postCustomerAddressId", 7);
-    //   commit("postAddressAttribute", null);
-    //   console.log(`buyNow`, res.data);
-    // })
     console.log(`buyNow`, credentials);
 
   },
@@ -150,21 +137,16 @@ const actions = {
     console.log(`deleteBuyNow`, credentials);
 
   },
-  
-  async addCart({ commit, dispatch, state }, credentials) {
+
+  async addCart({}, credentials) {
     try {
       const res = await api_cart.addCart(credentials)
-      console.log(`cart`,res)
-      dispatch('getAll')
-      commit("resStatus", "success");
-      commit("resMessage", "Add to Cart: Success");
-      commit("resText", "See details List product in Cart!");
-    } catch {
-      commit("resStatus", "error");
-      commit("resMessage", "Add to Cart: Failed!");
-      commit("resText", "Product quantity is not enough or sold out!");
+      const result = check.success(res)
+      return result
+    } catch (error) {
+      const result = check.errors(error)
+      return result
     }
-    return state.state.res
   },
 
   async nextCart({ commit }, credentials) {
@@ -174,7 +156,7 @@ const actions = {
     }
     try {
       const res = await api_cart.addCart(input)
-    } catch (error){
+    } catch (error) {
       commit("resStatus", "error");
       commit("resMessage", "Add to Cart: Failed!");
       commit("resText", "Product quantity is not enough or sold out!");
@@ -188,7 +170,7 @@ const actions = {
     }
     try {
       const res = await api_cart.addCart(input)
-    } catch (error){
+    } catch (error) {
       commit("resStatus", "error");
       commit("resMessage", "Failed!");
       commit("resText", "Product quantity is not enough or sold out!");

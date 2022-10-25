@@ -8,7 +8,7 @@
 import ListProduct from "@/components/product/_showProduct.vue";
 
 export default {
-name: "ListTrademark",
+name: "ListProducr",
 components: {
   listProduct: ListProduct,
 },
