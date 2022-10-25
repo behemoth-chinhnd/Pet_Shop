@@ -12,7 +12,7 @@
                
               </div>
               <div class="login-header-mobile">
-                  <login-header></login-header>
+                  <login-header ></login-header>
                 </div>
               <button class="menu-toggle">
                 <i class="fa fa-bars"></i>
@@ -71,19 +71,5 @@ export default {
 </script>
 
 <style scoped>
-#header-client #header-bottom {
-  background: #ffe2e5;
-}
 
-#header-client .warning {
-  background: #ffc220;
-}
-
-#header-client .primary {
-  background: #3699ff;
-}
-
-#header-client .gap-10px {
-  gap: 10px;
-}
 </style>
