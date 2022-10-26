@@ -111,6 +111,7 @@ export default {
   mixins: [mixins],
   data() {
     return {
+      namePage:"Comfirm",
       message: "",
       sales: "",
       carts: [],
@@ -154,8 +155,7 @@ export default {
 
     async confirm(numberOrder) {
       const res = await this.confirmADOR({ number: numberOrder });
-      console.log(res)
-      this.$swal.fire(res.message, "", res.status);
+      this.$swal.fire(this.namePage + " " + res.alert.message, res.alert.text, res.alert.status);
       this.getAll(this.params);
     },
     

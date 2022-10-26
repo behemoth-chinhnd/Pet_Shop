@@ -1,5 +1,6 @@
 
 import api_admin_order from "@/apis/modules/admin/order";
+import check from "@/plugin/check";
 import qs from "qs"
 
 const state = {
@@ -99,17 +100,16 @@ const actions = {
     }
   },
 
-  async confirmOrder({ commit, state }, credentials) {
+  async confirmOrder({}, credentials) {
     console.log(`input`, credentials)
     try {
       var res = await api_admin_order.confirmOrder(credentials)
-      commit("resStatus", "success");
-      commit("resMessage", "Order has been confirmed, please wait for the carrier to pick up the goods! Thanks!");
+      const result = check.success(res)
+      return result
     } catch (error) {
-      commit("resStatus", "error");
-      commit("resMessage", "An error occurred, You may have confirmed this order before! Thanks!");
+      const result = check.errors(error)
+      return result
     }
-    return state.state.res
   },
   async confirmTransport({ commit, state }, credentials) {
     console.log(`input`, credentials)

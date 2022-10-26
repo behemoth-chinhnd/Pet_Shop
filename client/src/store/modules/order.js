@@ -121,16 +121,23 @@ const actions = {
         status_eq: input.q.status,
       },
     }
-    const res = await api.get(`/api/orders?page=${input.page}&per_page=${input.per_page}`, {
-      params: queryParams, paramsSerializer: params => {
-        return qs.stringify(params)
-      }
-    })
-    commit("getAll", res.data.orders);
-    commit("getPages", res.data.meta.pages);
-    commit("getPage", input.page);
-    console.log(`getAll Order`, res.data);
-    return res.data
+    try{
+      const res = await api.get(`/api/orders?page=${input.page}&per_page=${input.per_page}`, {
+        params: queryParams, paramsSerializer: params => {
+          return qs.stringify(params)
+        }
+      })
+      console.log(`getAll Order`, res.data);
+
+      // commit("getAll", res.data.orders);
+      // commit("getPages", res.data.meta.pages);
+      // commit("getPage", input.page);
+      return res.data
+    } catch (error){
+      const result = check.errors(error)
+      return result
+    }
+    
   },
 
   async getDetail({ commit }, value) {

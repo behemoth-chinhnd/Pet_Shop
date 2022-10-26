@@ -30,16 +30,9 @@
                 </div>
                 <div
                   class="status-order"
-                  :class="{
-                    'text-warning':
-                      params.q.status === 1 ||
-                      params.q.status === 2 ||
-                      params.q.status === 3,
-                    'text-success': params.q.status === 4,
-                    'text-danger': params.q.status === 5,
-                  }"
+                  :class="color_status"
                 >
-                  Waiting for the comfirm
+                  {{ titel_status }}
                 </div>
               </div>
               <div
@@ -68,7 +61,6 @@
                     </div>
                     <div>Decription</div>
                   </div>
-
                   <div class="total-price col-md-6 col-sm-3 text-right">
                     x {{ item.quantity }}
                     <div class="total-cash flex-row-end">
@@ -89,7 +81,6 @@
             </div>
           </div>
         </div>
-
         <div v-if="this.params.pages > 1" class="panel-footer">
           <paginate
             v-model="params.page"
@@ -107,7 +98,6 @@
       </div>
     </div>
   </div>
-  <!-- </div> -->
 </template>
 <script>
 import HeaderPurchase from "@/components/client/purchase/HeaderPurchase.vue";
@@ -122,9 +112,11 @@ export default {
   },
   data() {
     return {
+      namePage: "Show Order",
       ID: "",
       color: "",
       message: "",
+      titel_status: "",
       sales: "",
       carts: [],
       cart: {
@@ -147,29 +139,34 @@ export default {
   },
   created() {
     const status = this.$route.params.id;
-    if (status === "wait_for_confirmation") {
+    if (status === "wait_comfirm") {
       this.params.q.status = 1;
       this.color_status = "text-warning";
+      this.titel_status = "Wait Comfirm";
     } else if (status === "wait_goods") {
       this.params.q.status = 2;
       this.color_status = "text-warning";
+      this.titel_status = "Wait Goods";
     } else if (status === "delivering") {
       this.params.q.status = 3;
       this.color_status = "text-warning";
+      this.titel_status = "Delivering";
     } else if (status === "delivered") {
       this.params.q.status = 4;
       this.color_status = "text-success";
+      this.titel_status = "Delivered";
     } else if (status === "cancelled") {
       this.params.q.status = 5;
       this.color_status = "text-danger";
+      this.titel_status = "Cancelled";
     } else {
       this.params.q.status = 1;
       this.color_status = "text-warning";
+      this.titel_status = "Wait Comfirm";
     }
     this.getAll();
   },
   computed: {
-    // ...ORDE.mapState(['test']),
   },
   methods: {
     ...ORDE.mapActions({
@@ -186,11 +183,40 @@ export default {
         per_page: this.params.per_page,
         q: this.params.q,
       });
-      console.log(`ListOrder`, res);
-      this.orders = res.orders;
+      if(res.errors){
+        this.$swal.fire(this.namePage + " " + res.alert.message, res.alert.text, res.alert.status);
+      } else {
+        console.log(`ListOrder`, res)
+      this.orders = res.orders
+      this.params.page = res.meta.page
+      this.params.pages = res.meta.pages
+      }
+
+
+
     },
     async nextPurchase(ID) {
       this.params.q.status = ID;
+      if (ID === 1) {
+      this.color_status = "text-warning";
+      this.titel_status = "Wait Comfirm"
+    } else if (ID === 2) {
+      this.color_status = "text-warning";
+      this.titel_status = "Wait Goods"
+    } else if (ID === 3) {
+      this.color_status = "text-warning";
+      this.titel_status = "Delivering"
+    } else if (ID === 4) {
+      this.color_status = "text-success";
+      this.titel_status = "Delivered"
+    } else if (ID === 5) {
+      this.color_status = "text-danger";
+      this.titel_status = "Cancelled"
+    } else {
+      this.params.q.status = 1;
+      this.color_status = "text-warning";
+      this.titel_status = "Wait Comfirm"
+    }
       this.getAll();
     },
   },

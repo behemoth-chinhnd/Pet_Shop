@@ -6,14 +6,10 @@ export default {
       errors: [],
       alert: []
     };
-    if (check.response.request.satus = 422) {
       res.errors = check.response.data
       res.alert.status = "error"
       res.alert.message = "Failed"
-    } else if (check.response.request.satus = 401) {
-      res.alert.status = "error"
-      res.alert.message = "Failed"
-    }
+      res.alert.text = check.response.statusText
     return res;
   },
   success(check) {
