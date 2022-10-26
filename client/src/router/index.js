@@ -165,4 +165,13 @@ router.beforeEach((to, from, next) => {
   }
 })
 
+
+router.beforeEach((to, from, next) => {
+  if (((to.path.includes('/admin')) && (to.path !='/admin/login')) && (store.state.ADAU.state.isActive === false)) {
+    next({ path: '/admin/login' })
+  } else {
+    next()
+  }
+})
+
 export default router

@@ -34,9 +34,6 @@ const mutations = {
   resMessage(state, value) {
     state.state.res.message = value;
   },
-  resIsActive(state, value) {
-    state.state.res.isActive = value;
-  },
   setAdminToken(state, value) {
     state.state.adminToken = value;
   },
@@ -51,7 +48,7 @@ const actions = {
       const res = await api_admin_auth.login(credentials);
       console.log(res)
       commit("setAdminToken", res.data);
-      commit("resIsActive", true);
+      commit("setActive", true);
       const result = check.success(res)
       setTimeout(() =>
         window.location.href = "/admin", 2000)
@@ -63,17 +60,21 @@ const actions = {
   },
 
   logout({ commit }) {
-    commit("setToken", "");
+    commit("setAdminToken", "");
     commit("setActive", false);
     window.location.href = "/admin/login";
   },
+
+
   // async getAllUser({ commit }, credentials) {
   //   await api.get(`/api/users?page=${credentials.page}&per_page=${credentials.per_page}&q=${credentials.q}`).then((res) => {
   //     commit("getAllUser", res.data.users);
   //     commit("getPages", res.data.meta.pages);
   //   });
   // },
-  async getAllList({ commit, state }, credentials) {
+
+
+  async getAllUser({ commit, state }, credentials) {
     console.log(`input`, credentials)
     if (credentials.q.id) {
       var queryParams = {
@@ -93,7 +94,7 @@ const actions = {
       }
     }
     try {
-      var res = await api_admin_auth.getAllList(queryParams)
+      var res = await api_admin_auth.getAllUser(queryParams)
       console.log(`res`, res)
       return res.data
     } catch {

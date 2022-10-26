@@ -2,6 +2,7 @@
 import api from "@/plugin/axios";
 import api_admin_species from "@/apis/modules/admin/species"
 import upload from "@/apis/modules/upload"
+import check from "@/plugin/check";
 
 import qs from "qs"
 
@@ -147,8 +148,8 @@ const actions = {
     try {
       if (credentials.file === null) {
         const res = await api_admin_species.edit(credentials)
-        commit("getItem", res.data);
-        return res
+        const result = check.success(res)
+        return result
       } else {
         const res = await upload.image(credentials.file)
         const image_key = res.data.key
@@ -157,7 +158,8 @@ const actions = {
           species: credentials.species
         }
         const data = await api_admin_species.edit(input)
-        return data
+        const result = check.success(data)
+        return result
       }
     } catch (error) {
       commit("resStatus", "error");
