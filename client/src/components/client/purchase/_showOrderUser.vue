@@ -196,6 +196,7 @@ export default {
     },
     async nextPurchase(ID, link, color_status, titel_status) {
       this.params.q.status = ID;
+      this.params.page = 1;
       if (!this.$route.path.includes(link)) {
         this.$router.push({ path: `/user/purchase/${link}` });
       }

@@ -3,81 +3,14 @@
     <div class="header-layout">
       <div class="container">
         <div class="flex">
-          <ul class="flex header-site">
-            <li>
-              <router-link to="/"> Home </router-link>
-            </li>
-            <!-- User -->
-            <li v-if="this.$route.path.includes('/user')">
-              <router-link :to="{ path: '/user' }"> User </router-link>
-            </li>
-            <li v-if="this.$route.path.includes('/user/account')">
-              <router-link to="/user/account"> Account </router-link>
-            </li>
-            <li v-if="this.$route.path.includes('/user/account/profile')">
-              <router-link to="/user/account/profile"> Profile </router-link>
-            </li>
-            <!-- change info User -->
-            <li v-if="this.$route.path.includes('/user/account/change_email')">
-              <router-link :to="{ path: '/user/account/change_email' }">
-                Change Email
-              </router-link>
-            </li>
-            <li v-if="this.$route.path.includes('/user/account/change_phone')">
-              <router-link :to="{ path: '/user/account/change_phone' }">
-                Change Phone
-              </router-link>
-            </li>
-            <li
-              v-if="this.$route.path.includes('/user/account/change_password')"
-            >
-              <router-link :to="{ path: '/user/account/change_password' }">
-                Change Password
-              </router-link>
-            </li>
-
-            <!-- User Address Order-->
-            <li v-if="this.$route.path.includes('/user/account/address_order')">
-              <router-link :to="{ path: '/user/account/address_order' }">
-                Address
-              </router-link>
-            </li>
-            <li
-              v-if="
-                this.$route.path.includes('/user/account/address_order/edit')
-              "
-            >
-              <router-link :to="{ path: '' }"> Edit </router-link>
-            </li>
-            <li
-              v-if="
-                this.$route.path.includes('/user/account/address_order/create')
-              "
-            >
-              <router-link :to="{ path: '/user/account/address_order/create' }">
-                Create
-              </router-link>
-            </li>
-            <li v-if="this.$route.path.includes('/user/purchase')">
-              <router-link to="/user/purchase"> Purchase </router-link>
-            </li>
-
-            <!-- product -->
-            <li v-if="this.$route.path.includes('/products')">
-              <router-link :to="{ path: '/products' }"> Products </router-link>
-            </li>
-            <li v-if="this.$route.path.includes('/products/detail/')">
-              <router-link to="">
-                {{ this.$store.state.PROD.state.name_detail }}
-              </router-link>
-            </li>
-            <!-- Cart -->
-            <li v-if="this.$route.path.includes('/carts')">
-              <router-link :to="{ path: '/carts' }"> Carts </router-link>
-            </li>
-            <li v-if="this.$route.path.includes('/carts/buynow')">
-              <router-link :to="{ path: '/carts/buynow' }">
-                Buy Now
+          <ul
+            v-for="(item, index) in routers"
+            :key="index"
+            class="flex header-site break-line-1"
+          >
+            <li v-if="$route.path.includes(item.case)">
+              <router-link :to="{ path: item.link }">
+                {{ setName(item.name) }}
               </router-link>
             </li>
           </ul>
@@ -86,20 +19,134 @@
     </div>
   </div>
 </template>
+
 <script>
-// import HeaderUser from "@/components/client/users/HeaderUser.vue";
+import { createNamespacedHelpers } from "vuex";
+const PROD = createNamespacedHelpers("PROD");
 export default {
-  components: {
-    // headerUser: HeaderUser,
+  components: {},
+  computed: {
+    ...PROD.mapState({
+      name_product: (state) => state.state.name_detail,
+    }),
+  },
+  created() {},
+  data() {
+    return {
+      routers: [
+        {
+          name: "Home",
+          link: "/",
+          case: "/",
+        },
+        {
+          name: "User",
+          link: "/user",
+          case: "/user",
+        },
+        {
+          name: "Account",
+          link: "/user/account",
+          case: "/user/account",
+        },
+        {
+          name: "Profile",
+          link: "/user/account/profile",
+          case: "/user/account/profile",
+        },
+        {
+          name: "Change Email",
+          link: "/user/account/change_email",
+          case: "/user/account/change_email",
+        },
+        {
+          name: "Change Phone",
+          link: "/user/account/change_phone",
+          case: "/user/account/change_phone",
+        },
+        {
+          name: "Change Password",
+          link: "/user/account/change_password",
+          case: "/user/account/change_password",
+        },
+        {
+          name: "Address",
+          link: "/user/account/address_order",
+          case: "/user/account/address_order",
+        },
+        {
+          name: "Create",
+          link: "/user/account/address_order/create",
+          case: "/user/account/address_order/create",
+        },
+        {
+          name: "Edit",
+          link: "",
+          case: "/user/account/address_order/edit",
+        },
+        {
+          name: "Purchase",
+          link: "/user/purchase",
+          case: "/user/purchase",
+        },
+        {
+          name: "Wait Comfirm",
+          link: "/user/purchase/wait_comfirm",
+          case: "/user/purchase/wait_comfirm",
+        },
+        {
+          name: "Wait Goods",
+          link: "/user/purchase/wait_goods",
+          case: "/user/purchase/wait_goods",
+        },
+        {
+          name: "Delivering",
+          link: "/user/purchase/delivering",
+          case: "/user/purchase/delivering",
+        },
+        {
+          name: "Delivered",
+          link: "/user/purchase/delivered",
+          case: "/user/purchase/delivered",
+        },
+        {
+          name: "Cancelled",
+          link: "/user/purchase/cancelled",
+          case: "/user/purchase/cancelled",
+        },
+        {
+          name: "Products",
+          link: "/products",
+          case: "/products",
+        },
+        {
+          name: "nameProduct",
+          link: "",
+          case: "/products/detail",
+        },
+        {
+          name: "Carts",
+          link: "/carts",
+          case: "/carts",
+        },
+        {
+          name: "Buy Now",
+          link: "/carts/buynow",
+          case: "/carts/buynow",
+        },
+      ],
+    };
   },
   methods: {
-    toggle() {
-      document.getElementsByClassName("sold").classList.toggle("hide");
+    setName(name_item) {
+      if (name_item === "nameProduct") {
+        return this.name_product;
+      } else {
+        return name_item;
+      }
     },
   },
-  computed: {},
 };
 </script>
-
 <style scoped>
 </style>
