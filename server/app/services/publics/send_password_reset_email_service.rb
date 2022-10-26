@@ -6,7 +6,7 @@ module Publics
       raw, token = Devise.token_generator.generate(User, :password_reset_token)
 
       context.user.password_reset_token = token
-      context.user.password_reset_token_valid_datetime = Time.current + 6.minutes
+      context.user.password_reset_token_valid_datetime = 6.minutes.from_now
       context.user.save!
 
       protocol = Rails.env.development? ? "http://" : "https://"

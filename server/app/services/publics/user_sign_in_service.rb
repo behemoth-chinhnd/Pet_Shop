@@ -23,7 +23,7 @@ module Publics
         )
       end
 
-      # context.fail!(message: "Update Fail") unless user.update(is_logout: false)
+      context.fail!(message: "Update Fail") unless user.update(is_logout: false)
 
       context.token = ::JsonWebToken.encode(
         user.jwt_payload, 1.month.from_now

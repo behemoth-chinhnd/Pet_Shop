@@ -16,7 +16,7 @@ module Publics
         )
       end
 
-      # context.fail!(message: "Update Fail") unless admin.update(is_logout: false)
+      context.fail!(message: "Update Fail") unless admin.update(is_logout: false)
 
       context.id = admin.id
 

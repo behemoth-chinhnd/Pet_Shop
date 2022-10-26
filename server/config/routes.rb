@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       collection do
         post :admin_login
         post :user_login
+        post :logout
       end
     end
 
