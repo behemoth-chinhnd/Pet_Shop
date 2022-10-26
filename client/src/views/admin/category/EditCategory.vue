@@ -1,40 +1,40 @@
 <template>
-  <edit-category></edit-category>
+  <div class="body-saler">
+    <edit-category></edit-category>
+  </div>
 </template>
 <script>
 import EditCategory from "@/components/admin/category/_edit.vue";
 
 export default {
-name: "ViewListcategory",
-components: {
-  editCategory: EditCategory,
-},
-data() {
-  return {
-
-  }
-},
-beforeCreate() {},
-created() {},
-mounted() {},
-methods: {},
-watch: {},
-computed: {},
-// components: { HeaderApp },
+  name: "ViewListcategory",
+  components: {
+    editCategory: EditCategory,
+  },
+  data() {
+    return {};
+  },
+  beforeCreate() {},
+  created() {},
+  mounted() {},
+  methods: {},
+  watch: {},
+  computed: {},
+  // components: { HeaderApp },
 };
 </script>
 <style>
 table {
-border-radius: 6px;
+  border-radius: 6px;
 }
 
 table td,
 table th {
-border: 1px solid #f5f5f5;
+  border: 1px solid #f5f5f5;
 }
 
 table th {
-background: var(--primary) !important;
-color: var(--white);
+  background: var(--primary) !important;
+  color: var(--white);
 }
 </style>

@@ -16,7 +16,6 @@
               Edit species - ID: #{{ this.species.id }}
             </h1>
           </div>
-
           <div class="form-group col-lg-6 col-md-12 col-sm-12">
             <div class="form-group">
               <label for="inputName" class="col-form-label">Name</label>
@@ -35,7 +34,6 @@
               </div>
             </div>
           </div>
-
           <div class="form-group col-lg-6 col-md-12 col-sm-12">
             <div class="form-group">
               <label for="inputspeciesdescription" class="col-form-label"
@@ -56,7 +54,6 @@
               </div>
             </div>
           </div>
-
           <div class="form-group col-md-6">
             <img
               class="img-edit"
@@ -74,7 +71,6 @@
               @change="uploadFile()"
             />
           </div>
-
           <div class="flex-row-space-between-center">
             <router-link :to="{ name: 'admin.species' }">
               <b-button variant="danger" class="text-white">
@@ -93,10 +89,8 @@
 </template>
 <script>
 // import ListSpecies from "@/components/admin/species/_showSpecies.vue";
-
 import { createNamespacedHelpers } from "vuex";
 const { mapActions } = createNamespacedHelpers("ADSP");
-
 export default {
   components: {
     // listSpecies: ListSpecies,
@@ -128,25 +122,19 @@ export default {
       inputPicture: null,
     };
   },
-
   created() {
-    
     const itemId = this.$route.params.id;
     this.getItem(itemId);
   },
-  mounted(){
-  },
+  mounted() {},
   methods: {
     ...mapActions({
       editADSP: "edit",
       getItemADSP: "getItem",
     }),
-
-    async getToList(){
-      // await this.$refs.test.getAll(this.$refs.test.params)
-      await this.$refs.test.Search()
-    },
-
+    // async getToList(){
+    //   await this.$refs.test.Search()
+    // },
     validate() {
       let isValid = true;
       this.errors = {
@@ -161,30 +149,22 @@ export default {
     isNumber(value) {
       return /^\d*$/.test(value);
     },
-
-    async nextEdit(ID) {
-      this.getItem(ID);
-    },
-
+    // async nextEdit(ID) {
+    //   this.getItem(ID);
+    // },
     uploadFile: function () {
       this.inputPicture = this.$refs.inputFile.files[0];
       this.species.image_url = URL.createObjectURL(
         this.$refs.inputFile.files[0]
       );
     },
-
     async edit() {
-      console.log(`1`);
       if (this.inputPicture === null) {
-        console.log(`2`);
-
         const input = {
           file: null,
           species: this.species,
         };
         if (this.validate()) {
-          console.log(`3`);
-
           const res = await this.editADSP(input);
           if (res.data) {
             this.$swal.fire("Edit species Success", "", "success");
@@ -194,8 +174,6 @@ export default {
           }
         }
       } else {
-        console.log(`2-2`);
-
         let formData = new FormData();
         formData.append("file", this.inputPicture);
         const input = {
@@ -203,8 +181,6 @@ export default {
           species: this.species,
         };
         if (this.validate()) {
-          console.log(`3-2`);
-
           const res = await this.editADSP(input);
           if (res.data) {
             this.$swal.fire("Edit species Success", "", "success");
@@ -214,7 +190,7 @@ export default {
           }
         }
       }
-      await this.getToList()
+      // await this.getToList()
     },
     async getItem(itemId) {
       this.error = false;

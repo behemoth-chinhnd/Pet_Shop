@@ -148,7 +148,6 @@ const actions = {
       return result
     }
   },
-
   async nextCart({ commit }, credentials) {
     const input = {
       product_id: credentials,

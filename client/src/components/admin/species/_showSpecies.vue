@@ -65,20 +65,19 @@
                   alt=""
                 />
               </td>
-
               <td>{{ post.name }}</td>
               <td>{{ post.description }}</td>
               <td class="gap-10px">
                 <b-button variant="primary" @click="isPopup(post.id)">
-                  Edit popup
+                  <i class="fa fa-edit"></i>
                 </b-button>
-                <router-link
+                <!-- <router-link
                   :to="{ name: 'admin.species.edit', params: { id: post.id } }"
                 >
                   <b-button variant="primary" @click="nextParams(post.id)">
                     <i class="fa fa-edit"></i>
                   </b-button>
-                </router-link>
+                </router-link> -->
                 <b-button variant="danger" @click="onDelete(post.id)">
                   <i class="fa fa-trash"></i>
                 </b-button>
@@ -103,15 +102,13 @@
       </div>
     </div>
   </div>
-  <!-- <router-view/> -->
 </template>
 <script>
-import EditProps from "@/components/admin/species/_editProps.vue";
+import EditProps from "@/components/admin/species/_editPropsSpecies.vue";
 import { createNamespacedHelpers } from "vuex";
 const { mapActions } = createNamespacedHelpers("ADSP");
-
 export default {
-  name: "speciesForm",
+  name: "ShowSpecies",
   components: {
     editProps: EditProps,
   },
@@ -121,7 +118,6 @@ export default {
       IDEdit: 1,
       total_search: "",
       species: [],
-      // search: "",
       page: {
         pageCount: 0,
         count: 1,
@@ -200,7 +196,6 @@ export default {
         await this.getAll(input);
       }
       this.is_popup = false;
-
     },
     async onDelete(speciesId) {
       this.$swal

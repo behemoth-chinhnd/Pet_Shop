@@ -1,12 +1,12 @@
 <template>
   <div
-    id="nav"
+    id="nav text-right"
     :class="{
       active: isOn,
       on: isOn,
       off: isOff,
-      'menu-left-on': this.$store.state.ADMU.state.menu_left,
-      'menu-left-off': !this.$store.state.ADMU.state.menu_left,
+      'menu-left-on': menu_left,
+      'menu-left-off': menu_left,
     }"
   >
     <section id="header-mobile">
@@ -22,9 +22,7 @@
           <!-- <a class="icon default" href="#">
             <img src="/images/User.png" alt="" />
           </a> -->
-          <b-button variant="danger" @click="logoutAdmin">
-            Logout
-          </b-button>
+          <b-button variant="danger" @click="logoutAdmin"> Logout </b-button>
         </div>
         <client-app></client-app>
         <button
@@ -34,7 +32,8 @@
           <i class="fa fa-bars"></i>
         </button>
       </header>
-      <router-seller></router-seller>
+      <router-seller>
+      </router-seller>
     </section>
   </div>
 </template>
@@ -53,17 +52,19 @@ export default {
   },
   data() {
     return {
+      windowWidth: "",
       isActive: false,
       isOn: false,
       isOff: true,
     };
   },
   created() {
-    // console.log(`menu`, menu_left)
     this.isActiveMenuLeft();
   },
   computed: {
-    ...mapState({ menu_left: (state) => state.menu_left }),
+    ...mapState({ 
+      menu_left: (state) => state.state.menu_left 
+    }),
     async runIsActive() {
       this.isActiveMenuLeft();
       const res = await this.getMenuLeft();
@@ -87,7 +88,7 @@ export default {
     ...mapActions(["getMenuLeft"]),
 
     ...ADAU.mapActions({
-      logoutAdmin:'logout'
+      logoutAdmin: "logout",
     }),
 
     async isActiveMenuLeft() {

@@ -34,9 +34,9 @@
                     'text-warning':
                       params.q.status === 1 ||
                       params.q.status === 2 ||
-                      params.q.status === 3, 
-                      'text-success':params.q.status===4,
-                      'text-danger':params.q.status===5
+                      params.q.status === 3,
+                    'text-success': params.q.status === 4,
+                    'text-danger': params.q.status === 5,
                   }"
                 >
                   Waiting for the comfirm

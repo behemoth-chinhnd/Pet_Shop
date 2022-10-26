@@ -1,10 +1,10 @@
 <template >
-  <div class="body-saler">
-    <div class="panel-body">
+  <div class="body-reset row gap-15px">
+    <div class="panel-body col-lg-6 col-md-12 col-sm-12 mgl--7-5px">
       <div v-if="error" class="error">
         <img src="@/assets/images/plugin/404_error.png" alt="" />
       </div>
-      <div v-if="!error" class="edit-category">
+      <div v-if="!error" class="">
         <form
           action=""
           @submit.prevent="edit()"
@@ -36,7 +36,9 @@
             </div>
           </div>
           <div class="form-group col-md-6">
-            <label for="inputcategorydescription" class="col-form-label">Description</label>
+            <label for="inputcategorydescription" class="col-form-label"
+              >Description</label
+            >
             <div class="">
               <input
                 type="text"
@@ -51,9 +53,7 @@
               </div>
             </div>
           </div>
-          
-          
-          
+
           <div class="col-md-12 flex-column">
             <img
               class="img-edit"
@@ -88,16 +88,23 @@
         </form>
       </div>
     </div>
+    <div class="panel-body col-lg-6 col-md-12 col-sm-12 mgr--7-5px">
+      <list-categories :ID="ID" @next="nextEdit" ref="test"></list-categories>
+    </div>
   </div>
 </template>
 <script>
+import ListCategories from "@/components/admin/category/_showCategory.vue";
 import { createNamespacedHelpers } from "vuex";
-const {mapActions} = createNamespacedHelpers("ADCA");
-
+const { mapActions } = createNamespacedHelpers("ADCA");
 export default {
   name: "CurrencyInput",
+  components: {
+    listCategories: ListCategories,
+  },
   data() {
     return {
+      ID: "",
       isHover: false,
       hidden: {
         name: "",
@@ -121,7 +128,6 @@ export default {
       inputPicture: null,
     };
   },
-
   created() {
     const itemId = this.$route.params.id;
     this.getItem(itemId);
@@ -131,12 +137,10 @@ export default {
       editADCA: "edit",
       getItemADCA: "getItem",
     }),
-
     validate() {
       let isValid = true;
       this.errors = {
         name: "",
-
       };
       if (!this.category.name) {
         this.errors.name = "Error: Name not Empty";
@@ -147,26 +151,26 @@ export default {
     isNumber(value) {
       return /^\d*$/.test(value);
     },
-
     uploadFile: function () {
       this.inputPicture = this.$refs.inputFile.files[0];
       this.category.image_url = URL.createObjectURL(
         this.$refs.inputFile.files[0]
       );
     },
-
+    async nextEdit(ID) {
+      this.getItem(ID);
+    },
+    async getToList() {
+      await this.$refs.test.Search();
+    },
     async edit() {
-      console.log(`1`)
+      console.log(`1`);
       if (this.inputPicture === null) {
-        console.log(`2`)
-
         const input = {
           file: null,
           category: this.category,
         };
         if (this.validate()) {
-          console.log(`3`)
-
           const res = await this.editADCA(input);
           if (res.data) {
             this.$swal.fire("Edit Category Success", "", "success");
@@ -176,8 +180,6 @@ export default {
           }
         }
       } else {
-        console.log(`2-2`)
-
         let formData = new FormData();
         formData.append("file", this.inputPicture);
         const input = {
@@ -185,8 +187,6 @@ export default {
           category: this.category,
         };
         if (this.validate()) {
-          console.log(`3-2`)
-
           const res = await this.editADCA(input);
           if (res.data) {
             this.$swal.fire("Edit Category Success", "", "success");
@@ -196,6 +196,7 @@ export default {
           }
         }
       }
+      await this.getToList();
     },
     async getItem(itemId) {
       this.error = false;

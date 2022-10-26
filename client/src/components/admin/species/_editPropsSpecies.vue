@@ -84,7 +84,6 @@
 <script>
 import { createNamespacedHelpers } from "vuex";
 const { mapActions } = createNamespacedHelpers("ADSP");
-
 export default {
   components: {},
   name: "CurrencyInput",

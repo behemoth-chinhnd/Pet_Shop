@@ -1,5 +1,5 @@
 <template>
-  <div class="body-saler">
+  <div class="">
     <div class="panel-body">
       <div class="search flex-row-center-center gap-10px">
         <form @submit.prevent="Search()" class="form-search">
@@ -66,7 +66,7 @@
                 <router-link
                   :to="{ name: 'admin.category.edit', params: { id: post.id } }"
                 >
-                  <b-button variant="primary">
+                  <b-button variant="primary" @click="nextParams(post.id)">
                     <i class="fa fa-edit"></i>
                   </b-button>
                 </router-link>
@@ -140,6 +140,9 @@ export default {
     clickCallback(pageNum) {
       this.params.page = pageNum;
       this.getAll(this.params);
+    },
+    async nextParams(ID) {
+      await this.$emit("next", ID);
     },
     async getAll(input) {
       const res = await this.getAllADCA(input);
