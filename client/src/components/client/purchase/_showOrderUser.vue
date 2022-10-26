@@ -2,7 +2,9 @@
   <div class="body">
     <header-purchase
       :ID="ID"
-      :color="color"
+      :link="link"
+      :color_status="color_status"
+      :titel_status="titel_status"
       @next="nextPurchase"
       ref="test"
     ></header-purchase>
@@ -28,10 +30,7 @@
                     <i class="fa-solid fa-store pdr-5px"></i>{{ post.number }}
                   </p>
                 </div>
-                <div
-                  class="status-order"
-                  :class="color_status"
-                >
+                <div class="status-order" :class="color_status">
                   {{ titel_status }}
                 </div>
               </div>
@@ -114,7 +113,8 @@ export default {
     return {
       namePage: "Show Order",
       ID: "",
-      color: "",
+      color_status: "",
+      link: "",
       message: "",
       titel_status: "",
       sales: "",
@@ -166,8 +166,7 @@ export default {
     }
     this.getAll();
   },
-  computed: {
-  },
+  computed: {},
   methods: {
     ...ORDE.mapActions({
       getAllORDE: "getAll",
@@ -183,41 +182,26 @@ export default {
         per_page: this.params.per_page,
         q: this.params.q,
       });
-      if(res.errors){
-        this.$swal.fire(this.namePage + " " + res.alert.message, res.alert.text, res.alert.status);
+      if (res.errors) {
+        this.$swal.fire(
+          this.namePage + " " + res.alert.message,
+          res.alert.text,
+          res.alert.status
+        );
       } else {
-        console.log(`ListOrder`, res)
-      this.orders = res.orders
-      this.params.page = res.meta.page
-      this.params.pages = res.meta.pages
+        this.orders = res.orders;
+        this.params.page = res.meta.page;
+        this.params.pages = res.meta.pages;
       }
-
-
-
     },
-    async nextPurchase(ID) {
+    async nextPurchase(ID, link, color_status, titel_status) {
       this.params.q.status = ID;
-      if (ID === 1) {
-      this.color_status = "text-warning";
-      this.titel_status = "Wait Comfirm"
-    } else if (ID === 2) {
-      this.color_status = "text-warning";
-      this.titel_status = "Wait Goods"
-    } else if (ID === 3) {
-      this.color_status = "text-warning";
-      this.titel_status = "Delivering"
-    } else if (ID === 4) {
-      this.color_status = "text-success";
-      this.titel_status = "Delivered"
-    } else if (ID === 5) {
-      this.color_status = "text-danger";
-      this.titel_status = "Cancelled"
-    } else {
-      this.params.q.status = 1;
-      this.color_status = "text-warning";
-      this.titel_status = "Wait Comfirm"
-    }
-      this.getAll();
+      if (!this.$route.path.includes(link)) {
+        this.$router.push({ path: `/user/purchase/${link}` });
+      }
+      this.titel_status = titel_status;
+      this.color_status = color_status;
+      await this.getAll();
     },
   },
 };

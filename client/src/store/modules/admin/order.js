@@ -93,15 +93,13 @@ const actions = {
     try {
       var res = await api_admin_order.getAllList(queryParams)
       return res.data
-    } catch {
-      commit("resStatus", "error");
-      commit("resMessage", "An error occurs, please contact the Admin to handle it! Thanks!");
-      return state.state.res
+    } catch (error){
+      const result = check.errors(error)
+      return result
     }
   },
 
   async confirmOrder({}, credentials) {
-    console.log(`input`, credentials)
     try {
       var res = await api_admin_order.confirmOrder(credentials)
       const result = check.success(res)

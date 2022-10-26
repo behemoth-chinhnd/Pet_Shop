@@ -4,32 +4,37 @@
       <div class="container">
         <div class="scroll-x">
           <ul class="flex-row-space-between-center purchase width-700px">
-            <li @click="nextParams(1,'text-warning')">
-              <router-link
-                class="purchase-item"
-                to="/user/purchase/wait_comfirm"
-                >Wait Comfirm
-              </router-link>
+            <li
+              @click="
+                nextParams(1, 'wait_comfirm', 'text-warning', 'Wait Comfirm')
+              "
+              :class="{ active: this.$route.path.includes('wait_comfirm') }"
+            >
+              Wait Comfirm
             </li>
-            <li @click="nextParams(2,'text-warning')">
-              <router-link class="purchase-item" to="/user/purchase/wait_goods">
-                Wait Goods
-              </router-link>
+            <li
+              @click="nextParams(2, 'wait_goods', 'text-warning', 'Wait Goods')"
+              :class="{ active: this.$route.path.includes('wait_goods') }"
+            >
+              Wait Goods
             </li>
-            <li @click="nextParams(3,'text-warning')">
-              <router-link class="purchase-item" to="/user/purchase/delivering">
-                Delivering
-              </router-link>
+            <li
+              @click="nextParams(3, 'delivering', 'text-warning', 'Delivering')"
+              :class="{ active: this.$route.path.includes('delivering') }"
+            >
+              Delivering
             </li>
-            <li @click="nextParams(4,'text-success')">
-              <router-link class="purchase-item" to="/user/purchase/delivered">
-                Delivered
-              </router-link>
+            <li
+              @click="nextParams(4, 'delivered', 'text-success', 'Delivered')"
+              :class="{ active: this.$route.path.includes('delivered') }"
+            >
+              Delivered
             </li>
-            <li @click="nextParams(5,'text-danger')">
-              <router-link class="purchase-item" to="/user/purchase/cancelled">
-                Cancelled
-              </router-link>
+            <li
+              @click="nextParams(5, 'cancelled', 'text-danger', 'Cancelled')"
+              :class="{ active: this.$route.path.includes('cancelled') }"
+            >
+              Cancelled
             </li>
           </ul>
         </div>
@@ -46,9 +51,8 @@ export default {
     };
   },
   methods: {
-    async nextParams(ID, color) {
-      console.log(ID, color);
-      await this.$emit("next", ID, color );
+    nextParams(ID, link, color, titel_status) {
+      this.$emit("next", ID, link, color, titel_status);
     },
   },
   computed: {},
