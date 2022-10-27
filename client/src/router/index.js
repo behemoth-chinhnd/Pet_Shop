@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '@/store/store'
+
 import Admin from '@/layout/Admin.vue'
 import Client from '@/layout/Client.vue'
 import User from '@/layout/User.vue'
@@ -8,26 +10,28 @@ import Cart from '@/layout/Cart.vue'
 import Order from '@/layout/Order.vue'
 import Purchase from '@/layout/Purchase.vue'
 
-import store from '@/store/store'
-
 
 Vue.use(VueRouter)
 
 const routes = [
   { path: '/input', name: 'input', component: () => import('@/components/tester/InputCash/ViewInput.vue') },
   { path: '/admin/login', name: 'admin.login', component: () => import('@/views/admin/LoginAdmin.vue') },
-
   {
     path: '/', name: 'client', component: Client, children: [
       { path: '/', name: 'home.index', component: () => import('@/views/client/IndexHome.vue') },
       { path: 'products', name: 'home.products', component: () => import('@/views/client/products/ListProducts.vue') },
+      { path: 'products&keyword=:id', name: 'home.products.search', component: () => import('@/views/client/products/ListProducts.vue') },
+      { path: 'products&keywords=:id', name: 'home.products.searchkeyword', component: () => import('@/views/client/products/ListProductsKeyword.vue') },
       { path: 'products/detail/:id', name: 'home.products.detail', component: () => import('@/views/client/products/DetailProducts.vue') },
-
       { path: 'register', name: 'home.users.register', component: () => import('@/views/client/users/RegisterUser.vue') },
       { path: 'login', name: 'home.users.login', component: () => import('@/views/client/users/LoginUser.vue') },
       { path: 'users', name: 'home.users', component: () => import('@/views/client/users/ListUser.vue') },
       { path: 'store/:id', name: 'home.products', component: () => import('@/views/client/store/ListProductsStore.vue') },
-
+      {
+        path: 'orders', name: 'orders', component: Order, children: [
+          { path: '/', name: 'orders.list', component: () => import('@/views/client/orders/ListOrders.vue') },
+        ]
+      },
       {
         path: 'carts', name: 'home.carts', component: Cart, children: [
           { path: '/', name: 'home.carts', component: () => import('@/views/client/carts/ListCarts.vue') },
@@ -44,7 +48,6 @@ const routes = [
               { path: 'change_phone', name: 'account.change_phone', component: () => import('@/views/client/users/ChangePhone.vue') },
               { path: 'change_email', name: 'account.change_email', component: () => import('@/views/client/users/ChangeEmail.vue') },
               { path: 'change_password', name: 'account.change_password', component: () => import('@/views/client/users/ChangePassword.vue') },
-
               {
                 path: 'address_order', name: 'address_order', component: User, children: [
                   { path: '', name: 'address_order.list', component: () => import('@/views/client/address_order/ListAddress.vue') },
@@ -58,20 +61,11 @@ const routes = [
             path: 'purchase', name: 'user.purchase', component: Cart, children: [
               { path: ':id', name: 'purchase.index', component: () => import('@/views/client/orders/ListOrders.vue') },
               { path: '/', name: 'purchase.status', component: () => import('@/views/client/orders/ListOrders.vue') },
-
             ]
           },
-
         ]
       },
-      {
-        path: 'orders', name: 'orders', component: Order, children: [
-          { path: '/', name: 'orders.list', component: () => import('@/views/client/orders/ListOrders.vue') },
-
-        ]
-      },
-
-
+      
     ],
   },
   {
@@ -82,17 +76,9 @@ const routes = [
       { path: 'products/edit/:id', name: 'seller.products.edit', component: () => import('@/views/client/seller/products/EditProduct.vue') },
       { path: 'order', name: 'seller.order', component: () => import('@/views/client/seller/order/IndexOrder.vue') },
       { path: 'confirm', name: 'seller.confirm', component: () => import('@/views/client/seller/confirm/IndexConfirm.vue') },
-
       { path: 'profile', name: 'seller.profile', component: () => import('@/views/client/seller/profile/Index.vue') },
-
-
-
-
-
     ]
   },
-
-
   {
     path: '/admin/', name: 'admin', component: Admin, children: [
       { path: '', name: 'admin.home', component: () => import('@/components/product/_showProduct.vue') },
@@ -126,10 +112,6 @@ const routes = [
           { path: 'delivered', name: 'admin.order.delivered', component: () => import('@/views/admin/order/ListOrderDeliveredAdmin.vue') },
         ]
       },
-
-
-
-
     ],
   },
 

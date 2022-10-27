@@ -7,6 +7,7 @@ import qs from "qs"
 
 const state = {
   state: {
+    keyword:"",
     total_search: "",
     product: [],
     products: [],
@@ -28,6 +29,9 @@ const state = {
 const getters = {
 };
 const mutations = {
+  setKeyword(state, value) {
+    state.state.keyword = value;
+  },
   setErrors(state, value) {
     state.state.errors = value;
   },
@@ -137,6 +141,11 @@ const actions = {
     } catch (error) {
       alert(error.response)
     }
+  },
+
+  async searchKeyword({ commit, state }, keyword) {
+    commit("setKeyword", keyword)
+    console.log(`storekeyword`,keyword)
   },
 
   async getItemSaler({ commit, state }, credentials) {

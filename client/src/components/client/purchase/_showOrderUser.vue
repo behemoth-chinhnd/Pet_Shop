@@ -6,7 +6,6 @@
       :color_status="color_status"
       :titel_status="titel_status"
       @next="nextPurchase"
-      ref="test"
     ></header-purchase>
     <div class="detail-product">
       <div class="container">
@@ -99,7 +98,7 @@
   </div>
 </template>
 <script>
-import HeaderPurchase from "@/components/client/purchase/HeaderPurchase.vue";
+import HeaderPurchase from "@/components/client/purchase/_headerPurchase.vue";
 import { createNamespacedHelpers } from "vuex";
 const ORDE = createNamespacedHelpers("ORDE");
 import mixins from "@/mixins/index";

@@ -5,7 +5,7 @@
   </div>
 </template>
 <script>
-import HeaderPurchase from "@/components/client/purchase/HeaderPurchase.vue";
+import HeaderPurchase from "@/components/client/purchase/_headerPurchase.vue";
 export default {
   components: {
     headerPurchase: HeaderPurchase,

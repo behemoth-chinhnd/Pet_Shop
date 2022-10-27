@@ -6,6 +6,7 @@
       :CAID="CAID"
       @nextCategory="SearchCategory"
     ></tab-menu-pet>
+    <!-- <search-keyword-product :KeyWord="KeyWord" @nextSearch="SearchKeyword"  ></search-keyword-product> -->
     <main id="main" class="">
       <div class="container">
         <div class="card-deck mb-3 text-center scroll-x">
@@ -40,13 +41,9 @@
                       {{ format_number(post.master_sales_price) }}đ
                     </div>
                     <div class="sale flex-row-space-between-center gap-10px">
-                      <div class="percent">
-                        {{ saleoff(post) }}%
-                      </div>
+                      <div class="percent">{{ saleoff(post) }}%</div>
                       <span class="saleoff"
-                        >{{
-                          format_number(post.master_list_price)
-                        }}đ
+                        >{{ format_number(post.master_list_price) }}đ
                       </span>
                     </div>
                   </div>
@@ -92,13 +89,13 @@
 import TabMenuSpecies from "@/components/incfiles/_tabMenuSpecies.vue";
 import TabMenuPet from "@/components/incfiles/_tabMenuPet.vue";
 import EmptyProduct from "@/components/incfiles/_emptyProduct.vue";
-
+// import SearchKeywordProduct from "@/components/product/_searchProduct.vue";
 
 import { createNamespacedHelpers } from "vuex";
-const mapActionsPROD = createNamespacedHelpers("PROD");
+const PROD = createNamespacedHelpers("PROD");
 import Paginate from "vuejs-paginate";
 import { Glide } from "vue-glide-js";
-import mixins from "@/mixins/index"
+import mixins from "@/mixins/index";
 export default {
   name: "ProductForm",
   mixins: [mixins],
@@ -107,10 +104,13 @@ export default {
     tabMenuSpecies: TabMenuSpecies,
     tabMenuPet: TabMenuPet,
     vueGlide: Glide,
-    emptyProduct:EmptyProduct
+    emptyProduct: EmptyProduct,
+    // searchKeywordProduct:SearchKeywordProduct
+
   },
   data() {
     return {
+      KeyWord:null,
       active: 1,
       ID: "",
       CAID: "",
@@ -153,12 +153,25 @@ export default {
   },
   props: {},
   created() {
-    // this.getAll(this.params);
+    const keyword = this.$route.params.id;
+    if (keyword) {
+      this.params.q.name = keyword;
+      this.getAll(this.params);
+    } 
+
+    console.log(`keyword`, keyword);
+    console.log(`keywordSearch`, this.keywordSearch);
   },
 
-  mounted() {},
+  mounted() {
+  },
+  computed: {
+    ...PROD.mapState({
+      keywordSearch: (state) => state.state.keyword,
+    }),
+  },
   methods: {
-    ...mapActionsPROD.mapActions({
+    ...PROD.mapActions({
       getAllPROD: "getAll",
       deletePROD: "delete",
     }),
@@ -211,6 +224,24 @@ export default {
       };
       await this.getAll(input);
     },
+
+    // async SearchKeyword(KeyWord) {
+    //   console.log(`checkSearh`, KeyWord);
+    //   this.params.q.name = KeyWord;
+    //   if (this.params.q.species_id !== 1) {
+    //     this.params.q.category_id = "";
+    //   }
+
+    //   const input = {
+    //     page: 1,
+    //     pages: this.params.pages,
+    //     per_page: this.params.per_page,
+    //     q: this.params.q,
+    //   };
+    //   await this.getAll(input);
+    // },
+
+
     async SearchCategory(CAID) {
       this.params.q.category_id = CAID;
       const input = {
@@ -222,7 +253,6 @@ export default {
       await this.getAll(input);
     },
   },
-  computed: {}, // components: { HeaderApp },
 };
 </script>
 <style scoped>
