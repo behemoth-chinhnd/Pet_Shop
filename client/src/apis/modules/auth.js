@@ -9,6 +9,9 @@ export default {
       email: credentials.email, password: credentials.password
     })
   },
+  logout(){
+    return API.post("/api/auths/logout")
+  },
   profile() {
     return API.get("/api/user")
   },

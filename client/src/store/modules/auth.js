@@ -179,11 +179,18 @@ const actions = {
       return result
     }
   },
-  logout({ commit }) {
-    commit("setToken", "");
-    commit("setActive", false);
-    localStorage.removeItem("vuex");
-    window.location.href = "/login";
+  async logout({ commit }) {
+    try{
+      const res = await api_auth.logout()
+      console.log(`logout`,res)
+      commit("setToken", "");
+      commit("setActive", false);
+      localStorage.removeItem("vuex");
+      window.location.href = "/login";
+    }catch (error){
+
+    }
+ 
   },
 }
 export default {

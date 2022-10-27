@@ -138,10 +138,11 @@ const actions = {
 
   },
 
-  async addCart({}, credentials) {
+  async addCart({dispatch}, credentials) {
     try {
       const res = await api_cart.addCart(credentials)
       const result = check.success(res)
+      dispatch('getAll')
       return result
     } catch (error) {
       const result = check.errors(error)
