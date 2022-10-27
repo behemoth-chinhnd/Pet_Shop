@@ -85,10 +85,11 @@ export default {
   },
   beforeCreate() {},
   created() {
-    if(!this.$route.path.includes('/search')){
+    this.getAll(this.params)
+    if(this.$route.path.includes('/search')){
+    } else {
       this.isActive(1)
     }
-    this.getAll(this.params)
 
   },
   mounted() {},

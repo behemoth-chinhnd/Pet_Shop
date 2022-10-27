@@ -78,7 +78,6 @@ export default {
   methods: {
     ...mapActions({
       getAllADCA: "getAllList",
-      deleteADCA: "delete",
     }),
     isActive(CAID) {
       this.is_active = CAID;

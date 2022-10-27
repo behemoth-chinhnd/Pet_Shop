@@ -1,5 +1,14 @@
 <template >
-  <div></div>
+  <div class="form-input-search mg-tb-20px">
+    <input
+      @change="searchKeyword"
+      v-model="keyword"
+      type="text"
+      class="input-search"
+      placeholder="Search"
+    />
+    <i class="icon-search fa fa-search"></i>
+  </div>
 </template>
 <script>
 import { createNamespacedHelpers } from "vuex";
@@ -7,7 +16,7 @@ const PROD = createNamespacedHelpers("PROD");
 
 export default {
   components: {},
-  name: "CurrencyInput",
+  name: "InputSearchHeader",
   props: ["KeyWord"],
   data() {
     return {
@@ -28,14 +37,11 @@ export default {
     };
   },
   created() {
-    this.nextKeyword(this.KeyWord);
-    console.log(`searchprops`, this.KeyWord);
   },
   mounted() {},
   computed: {
     ...PROD.mapState({
       keywordSearch: (state) => state.state.keyword,
-      ListProducts: (state) => state.state.products,
       ListProducts: (state) => state.state.products,
       Params: (state) => state.state.params,
     }),
@@ -43,16 +49,19 @@ export default {
   methods: {
     ...PROD.mapActions({
       getAllPROD: "getAll",
-      deletePROD: "delete",
+      searchKeywordPROD: "searchKeyword",
     }),
-
-    nextKeyword(KeyWord) {
-      console.log(`nextSearch`, KeyWord);
-      this.params= this.Params
-      this.params.q.name = KeyWord;
+    async searchKeyword() {
+      if (this.$route.path.includes("/search")) {
+        this.params = this.Params;
+      } else {
+        this.params.q.species_id = "";
+        this.params.q.category_id = "";
+      }
+      this.params.q.name = this.keyword;
+      this.$router.push({ path: "/search", query: { keywords: this.keyword } });
+      await this.searchKeywordPROD(this.keyword);
       this.getAll(this.params);
-
-      this.$emit("nextSearch", KeyWord);
     },
     async getAll(input) {
       const res = await this.getAllPROD(input);

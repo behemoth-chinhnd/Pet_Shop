@@ -37,13 +37,9 @@
                       {{ format_number(post.master_sales_price) }}đ
                     </div>
                     <div class="sale flex-row-space-between-center gap-10px">
-                      <div class="percent">
-                        {{ saleoff(post) }}%
-                      </div>
+                      <div class="percent">{{ saleoff(post) }}%</div>
                       <span class="saleoff"
-                        >{{
-                          format_number(post.master_list_price)
-                        }}đ
+                        >{{ format_number(post.master_list_price) }}đ
                       </span>
                     </div>
                   </div>
@@ -88,13 +84,11 @@
 import TabMenuSpecies from "@/components/incfiles/_tabMenuSpecies.vue";
 import TabMenuPet from "@/components/incfiles/_tabMenuPet.vue";
 import EmptyProduct from "@/components/incfiles/_emptyProduct.vue";
-
 import { createNamespacedHelpers } from "vuex";
 const mapActionsPROD = createNamespacedHelpers("PROD");
 import Paginate from "vuejs-paginate";
 import { Glide } from "vue-glide-js";
-
-import mixins from "@/mixins/index"
+import mixins from "@/mixins/index";
 export default {
   name: "ProductForm",
   mixins: [mixins],
@@ -103,7 +97,7 @@ export default {
     tabMenuSpecies: TabMenuSpecies,
     tabMenuPet: TabMenuPet,
     vueGlide: Glide,
-    emptyProduct:EmptyProduct
+    emptyProduct: EmptyProduct,
   },
   data() {
     return {
@@ -143,7 +137,7 @@ export default {
           trademark_id: null,
           category_id: null,
           species_id: null,
-          store_name:null,
+          store_name: null,
         },
       },
     };
@@ -151,17 +145,15 @@ export default {
   props: {},
   created() {
     const storeName = this.$route.params.id;
-    this.params.q.store_name = storeName
+    this.params.q.store_name = storeName;
     // this.getAll(this.params);
   },
-
   mounted() {},
   methods: {
     ...mapActionsPROD.mapActions({
       getAllPROD: "getAll",
       deletePROD: "delete",
     }),
-
     nextDetail(productId) {
       this.$router.push({
         name: "home.products.detail",
@@ -172,7 +164,6 @@ export default {
       this.params.page = pageNum;
       this.getAll(this.params);
     },
-
     prev() {
       if (this.model.prev_page_url) {
         this.params.page--;
@@ -232,7 +223,6 @@ export default {
     --column: 4;
   }
 }
-
 @media screen and (min-width: 1024px) and (max-width: 1366px) {
   .cards {
     --width: 99%;
@@ -241,7 +231,6 @@ export default {
     --column: 3;
   }
 }
-
 @media screen and (min-width: 800px) and (max-width: 1024px) {
   .cards {
     --width: 99%;
@@ -250,7 +239,6 @@ export default {
     --column: 3;
   }
 }
-
 @media screen and (min-width: 683px) and (max-width: 800px) {
   .cards {
     --width: 99%;
@@ -259,7 +247,6 @@ export default {
     --column: 2;
   }
 }
-
 @media screen and (min-width: 500px) and (max-width: 683px) {
   .cards {
     --width: 99%;
@@ -268,7 +255,6 @@ export default {
     --column: 2;
   }
 }
-
 @media screen and (min-width: 0px) and (max-width: 600px) {
   .cards {
     --width: 99%;
@@ -277,17 +263,14 @@ export default {
     --column: 2;
   }
 }
-
 .cards a {
   color: #333;
 }
-
 .cards {
   --padding-card: 15px;
   display: flex;
   flex-wrap: wrap;
 }
-
 .card {
   cursor: pointer;
   width: calc(100% / var(--column) - var(--padding-card));
@@ -299,12 +282,10 @@ export default {
   flex-direction: column;
   margin: calc(var(--padding-card) / 2);
 }
-
 .img-card {
   height: 200px;
   width: 100%;
 }
-
 .card-top {
   padding: 10px;
   flex: 1;
@@ -315,25 +296,21 @@ export default {
   font-weight: 700;
   text-align: left;
 }
-
 .item-1 {
   flex: 1;
   display: flex;
   /* margin-bottom: 20px; */
   /* word-break: break-all; */
-
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-
 .item-2,
 .card-bottom {
   flex-shrink: 0;
   margin-top: auto;
 }
-
 .card-bottom {
   padding: 10px;
   /* background: var(--warning); */
@@ -343,7 +320,6 @@ export default {
   align-items: center;
   justify-content: space-between;
 }
-
 .pagination li,
 .page-item {
   background: var(--white);
@@ -353,9 +329,7 @@ export default {
   vertical-align: middle;
   border: 1px solid #000;
 }
-
 .page-item.active {
   background: var(--primary);
 }
 </style>
-  
