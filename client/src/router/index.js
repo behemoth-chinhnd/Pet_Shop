@@ -21,7 +21,7 @@ const routes = [
       { path: '/', name: 'home.index', component: () => import('@/views/client/IndexHome.vue') },
       { path: 'products', name: 'home.products', component: () => import('@/views/client/products/ListProducts.vue') },
       { path: 'products&keyword=:id', name: 'home.products.search', component: () => import('@/views/client/products/ListProducts.vue') },
-      { path: 'products&keywords=:id', name: 'home.products.searchkeyword', component: () => import('@/views/client/products/ListProductsKeyword.vue') },
+      { path: 'search', name: 'home.products.searchkeyword', component: () => import('@/views/client/products/ListProductsKeyword.vue') },
       { path: 'products/detail/:id', name: 'home.products.detail', component: () => import('@/views/client/products/DetailProducts.vue') },
       { path: 'register', name: 'home.users.register', component: () => import('@/views/client/users/RegisterUser.vue') },
       { path: 'login', name: 'home.users.login', component: () => import('@/views/client/users/LoginUser.vue') },

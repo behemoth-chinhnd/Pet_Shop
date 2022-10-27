@@ -89,11 +89,12 @@ export default {
       // if ((this.runKeyword === false)) {
         this.runKeyword = true;
         console.log(`keywordHeader`, this.keyword);
-        if(this.$route.path.includes(`/products&keyword=`)){
-          this.$router.push({ path: `/products&keywords=${this.keyword}` });
-        } else {
-          this.$router.push({ path: `/products&keyword=${this.keyword}` });
-        }
+        // if(this.$route.path.includes(`/products&keyword=`)){
+          // this.$router.push({ path: `/products&keywords=${this.keyword}` });
+          this.$router.push({ path: '/search', query: { keywords: this.keyword }})
+        // } else {
+          // this.$router.push({ path: `/products&keyword=${this.keyword}` });
+        // }
         await this.searchKeywordPROD(this.keyword);
         this.keyword = this.keywordSearch;
         this.runKeyword = false;

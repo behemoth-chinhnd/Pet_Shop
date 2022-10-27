@@ -5,7 +5,7 @@
   </div>
 </template>
 <script>
-import ListProduct from "@/components/product/_showProduct.vue";
+import ListProduct from "@/components/product/_showProductSearch.vue";
 
 export default {
 name: "ListProductsKeyword",

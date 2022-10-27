@@ -12,7 +12,7 @@
               <vue-glide-slide
                 v-for="post in this.species"
                 :key="post.id"
-                :class="{ active: is_active == post.id }"
+                :class="{ active: is_active == post.id, '': is_active==0 }"
               >
                 {{ post.name }}
               </vue-glide-slide>
@@ -55,10 +55,10 @@ export default {
   data() {
     return {
       windowWidth: "",
-      active: 1,
+      active: "",
       numberItem: 4,
       ID: "",
-      is_active: 1,
+      is_active: 0,
       total_search: "",
       species: false,
       params: {
@@ -85,8 +85,11 @@ export default {
   },
   beforeCreate() {},
   created() {
+    if(!this.$route.path.includes('/search')){
+      this.isActive(1)
+    }
     this.getAll(this.params)
-    this.isActive(1)
+
   },
   mounted() {},
   props: {},

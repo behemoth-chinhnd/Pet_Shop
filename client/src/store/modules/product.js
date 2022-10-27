@@ -15,7 +15,12 @@ const state = {
     params: {
       page: 1,
       per_page: 3,
-      q: {},
+      q: {
+        keyword:"",
+        name:"",
+        category_id:"",
+        species_id:""
+      },
       pages: 1
     },
     isErr: false,
@@ -31,6 +36,9 @@ const getters = {
 const mutations = {
   setKeyword(state, value) {
     state.state.keyword = value;
+  },
+  setParams(state, value) {
+    state.state.params = value;
   },
   setErrors(state, value) {
     state.state.errors = value;
@@ -115,6 +123,8 @@ const actions = {
     }
     try {
       var res = await api_product.getAllList(queryParams)
+
+      commit("getAll",res.data)
       return res.data
     } catch {
       commit("resStatus", "error");
@@ -137,6 +147,9 @@ const actions = {
     }
     try {
       const res = await api_product.getAll(queryParams)
+      commit("getAll",res.data)
+      commit("setParams",credentials)
+
       return res.data
     } catch (error) {
       alert(error.response)
