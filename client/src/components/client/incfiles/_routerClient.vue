@@ -8,9 +8,9 @@
             :key="index"
             class="flex header-site break-line-1"
           >
-            <li v-if="$route.path.includes(item.case)">
-              <router-link :to="{ path: item.link }">
-                {{ setName(item.name) }}
+            <li v-if="$route.path.includes(item.case)" >
+              <router-link :to="{ path: item.link }" :class="{active: item.name=='Search'}">
+                {{ setName(item) }}
               </router-link>
             </li>
           </ul>
@@ -33,6 +33,7 @@ export default {
   created() {},
   data() {
     return {
+      is_active:false,
       routers: [
         {
           name: "Home",
@@ -40,10 +41,16 @@ export default {
           case: "/",
         },
         {
+          name: "Search",
+          link: "",
+          case: "/search",
+        },
+        {
           name: "User",
-          link: "/user",
+          link: "",
           case: "/user",
         },
+
         {
           name: "Account",
           link: "/user/account",
@@ -138,11 +145,11 @@ export default {
     };
   },
   methods: {
-    setName(name_item) {
-      if (name_item === "nameProduct") {
+    setName(item) {
+      if (item.name === "nameProduct") {
         return this.name_product;
       } else {
-        return name_item;
+        return item.name;
       }
     },
   },

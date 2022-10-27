@@ -71,7 +71,7 @@ body {
     color: rgba(85, 85, 85, .8);
 }
 
-.header-layout ul.header-site li a.router-link-exact-active {
+.header-layout ul.header-site li a.router-link-exact-active, .header-layout ul.header-site li a.active {
     position: relative;
     color: var(--master);
 
@@ -89,7 +89,7 @@ body {
 
 } */
 
-.header-layout ul.header-site li a.router-link-exact-active::after {
+.header-layout ul.header-site li a.router-link-exact-active::after, .header-layout ul.header-site li a.active::after {
     content: " / ";
     display: flex;
     box-sizing: border-box;
