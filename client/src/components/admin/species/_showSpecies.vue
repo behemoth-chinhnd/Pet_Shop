@@ -1,13 +1,9 @@
 <template>
-  <div class="">
-    <div v-if="is_popup" class="popup rel">
-      <div class="body-popup abs">
-        <a @click="closed" class="cancel abs" href="#">x</a>
-        <edit-props :IDProps="IDEdit" @reset="Search"></edit-props>
+  <div class="rel">
+    <div class="panel-body rel flex-column">
+      <div class="create">
+        <b-button variant="primary right" @click="openCreate"> +Add New </b-button>
       </div>
-      <div class="modal-backdrop in"></div>
-    </div>
-    <div class="panel-body rel">
       <div class="search flex-row-center-center gap-10px">
         <form @submit.prevent="Search()" class="form-search">
           <input
@@ -68,7 +64,7 @@
               <td>{{ post.name }}</td>
               <td>{{ post.description }}</td>
               <td class="gap-10px">
-                <b-button variant="primary" @click="isPopup(post.id)">
+                <b-button variant="primary" @click="openEdit(post.id)">
                   <i class="fa fa-edit"></i>
                 </b-button>
                 <!-- <router-link
@@ -101,20 +97,37 @@
         </paginate>
       </div>
     </div>
+    <div v-if="is_edit" class="popup ">
+      <div class="body-popup abs">
+        <a @click="closed" class="cancel abs" href="#">x</a>
+        <edit-props :IDProps="IDEdit" @reset="Search"></edit-props>
+      </div>
+      <div class="modal-backdrop in"></div>
+    </div>
+    <div v-if="is_create" class="popup ">
+      <div class="body-popup abs">
+        <a @click="closed" class="cancel abs" href="#">x</a>
+        <create-species @reset="Search"></create-species>
+      </div>
+      <div class="modal-backdrop in"></div>
+    </div>
   </div>
 </template>
 <script>
 import EditProps from "@/components/admin/species/_editPropsSpecies.vue";
+import CreateSpecies from "@/components/admin/species/_create.vue";
 import { createNamespacedHelpers } from "vuex";
 const { mapActions } = createNamespacedHelpers("ADSP");
 export default {
   name: "ShowSpecies",
   components: {
     editProps: EditProps,
+    createSpecies: CreateSpecies
   },
   data() {
     return {
-      is_popup: false,
+      is_edit: false,
+      is_create:false,
       IDEdit: 1,
       total_search: "",
       species: [],
@@ -152,12 +165,16 @@ export default {
       this.getAll(this.params);
     },
 
-    isPopup(ID) {
-      this.is_popup = true;
+    openEdit(ID) {
+      this.is_edit = true;
       this.IDEdit = ID;
     },
+    openCreate(){
+      this.is_create = true;
+    },
     closed() {
-      this.is_popup = false;
+      this.is_edit = false;
+      this.is_create = false;
     },
     async nextParams(ID) {
       await this.$emit("next", ID);

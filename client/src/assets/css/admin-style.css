@@ -496,7 +496,8 @@ font-size: 15px;
 
 
 .popup{
-
+  top: 50px;
+  margin: 0 auto;
 }
 
 .modal-backdrop.in{
@@ -511,7 +512,7 @@ font-size: 15px;
     z-index: 10;
     left: 50%;
     transform: translateX(-50%);
-    width: 700px;
+    width: calc(100% - 30px);
     top: 40px;
     margin: 0 auto;
     background: var(--admin-master);
@@ -535,7 +536,17 @@ font-size: 15px;
 }
 
 
+@media (min-width:450px) {
+  .body-popup, .popup {
+    width: calc(100% - 30px);
+    max-width: 700px;
+    margin: 0 auto;
+  }
+}
+
 @media (max-width: 575px) {
+
+
 
   #admin .menu-left-off+.body-saler,
   #admin .menu-left-off+.body-saler,
@@ -553,6 +564,7 @@ font-size: 15px;
 }
 
 @media (max-width: 655px) {
+
 
   /* #admin .menu-left-off +  .body-saler,
   #admin .menu-left-on +  .body-saler,
@@ -572,10 +584,6 @@ font-size: 15px;
 
 @media (max-width: 767px) {
 
-  .body-popup {
-    width: calc(100% - 30px);
-    margin: 0 auto;
-  }
 
   #admin .body-saler .input-search {
     width: 200px;
@@ -585,12 +593,14 @@ font-size: 15px;
 
 @media (max-width: 990px) {
 
+
   #admin .body-reset.gap-15px {
     margin: 0;
   }
 }
 
 @media (min-width:1200px) {
+
   section#menu-icon {
     display: block;
   }

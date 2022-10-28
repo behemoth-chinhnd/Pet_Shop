@@ -1,5 +1,5 @@
 <template>
-  <div class="body-saler">
+  <div class="">
     <div class="panel-body">
       <div class="register-species bg-white">
         <h1 class="color-primary">CREATE species</h1>
@@ -71,12 +71,12 @@
                 </router-link>
                 <div class="right">
                   <b-button type="submit" variant="primary ">Create</b-button>
-                  <b-button
+                  <!-- <b-button
                     class="text-white"
                     variant="info mgl-10px"
                     @click="reset()"
                     >Test</b-button
-                  >
+                  > -->
                 </div>
               </div>
             </div>
@@ -148,6 +148,7 @@ export default {
           const res = await this.createADSP(input);
           this.$swal.fire(res.message, "", res.status);
         }
+        this.$emit("reset");
       }
     },
   },
