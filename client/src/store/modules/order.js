@@ -80,11 +80,11 @@ const mutations = {
   },
   getPages(state, value) {
     state.state.params.pages = value;
-  }, 
+  },
 
 };
 const actions = {
-  async create({},credentials) {
+  async create({ }, credentials) {
     try {
       const res = await api_order.create(credentials)
       const result = check.success(res)
@@ -108,7 +108,7 @@ const actions = {
       const res = await api.post("/api/order", input)
       commit("resStatus", "success");
       commit("resMessage", "Order Successful");
-    }catch {
+    } catch {
       commit("resStatus", "error");
       commit("resMessage", "Order Failed");
     }
@@ -121,7 +121,7 @@ const actions = {
         status_eq: input.q.status,
       },
     }
-    try{
+    try {
       const res = await api.get(`/api/orders?page=${input.page}&per_page=${input.per_page}`, {
         params: queryParams, paramsSerializer: params => {
           return qs.stringify(params)
@@ -133,19 +133,20 @@ const actions = {
       // commit("getPages", res.data.meta.pages);
       // commit("getPage", input.page);
       return res.data
-    } catch (error){
+    } catch (error) {
       const result = check.errors(error)
       return result
     }
-    
+
   },
 
-  async getDetail({ commit }, value) {
-    console.log(value)
-    await api.get(`/api/order?number=${value}`).then((res) => {
-      console.log(res.data)
-
-    });
+  async detail({  }, value) {
+    const input = {
+      number: value
+    }
+    const res = await api_order.detail(input)
+    console.log(`res detail order`,res)
+return res
   },
 
 }

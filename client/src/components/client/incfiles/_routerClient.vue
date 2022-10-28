@@ -3,13 +3,13 @@
     <div class="header-layout">
       <div class="container">
         <div class="flex">
-          <ul
-            v-for="(item, index) in routers"
-            :key="index"
-            class="flex header-site break-line-1"
-          >
-            <li v-if="$route.path.includes(item.case)" >
-              <router-link :to="{ path: item.link }" :class="{active: item.name=='Search'}">
+          <ul class="flex header-site break-line-1">
+            <li v-for="(item, index) in routers" :key="index">
+              <router-link
+                v-if="$route.path.includes(item.case)"
+                :to="{ path: item.link }"
+                :class="{ active: item.name == 'Search' }"
+              >
                 {{ setName(item) }}
               </router-link>
             </li>
@@ -33,7 +33,7 @@ export default {
   created() {},
   data() {
     return {
-      is_active:false,
+      is_active: false,
       routers: [
         {
           name: "Home",
@@ -47,10 +47,9 @@ export default {
         },
         {
           name: "User",
-          link: "",
+          link: "/user",
           case: "/user",
         },
-
         {
           name: "Account",
           link: "/user/account",

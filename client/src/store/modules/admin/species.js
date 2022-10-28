@@ -144,35 +144,24 @@ const actions = {
     }
   },
 
-  async edit({ commit, state }, credentials) {
+  async edit({ }, credentials) {
     try {
       if (credentials.file === null) {
-        const res = await api_admin_species.edit(credentials)
-        const result = check.success(res)
-        return result
+        var input = credentials
       } else {
         const res = await upload.image(credentials.file)
         const image_key = res.data.key
-        const input = {
+        var input = {
           image_key: image_key,
           species: credentials.species
         }
-        const data = await api_admin_species.edit(input)
-        const result = check.success(data)
-        return result
       }
+      const res = await api_admin_species.edit(input)
+      const result = check.success(res)
+      return result
     } catch (error) {
-      commit("resStatus", "error");
-      if (error.response.data.message) {
-        commit("resMessage", 'This file type cannot be uploaded');
-      } else if (error.response.data.name) {
-        commit("resMessage", 'Name has already been taken');
-      } else if (error.response.data.name && error.response.data.number) {
-        commit("resMessage", 'Name & Numbder has already been taken');
-      } else {
-        commit("resMessage", "Edit Failed!");
-      }
-      return state.state.res
+      const result = check.errors(error)
+      return result
     }
   },
 

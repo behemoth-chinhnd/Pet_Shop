@@ -90,6 +90,7 @@ export default {
   props: ["IDProps"],
   data() {
     return {
+      namePage: "",
       ID: "",
       hidden: {
         name: "",
@@ -153,36 +154,20 @@ export default {
 
     async edit() {
       if (this.inputPicture === null) {
-        const input = {
+        var input = {
           file: null,
           species: this.species,
         };
-        if (this.validate()) {
-          const res = await this.editADSP(input);
-          if (res.data) {
-            this.$swal.fire("Edit species Success", "", "success");
-            this.species = res.data;
-          } else {
-            this.$swal.fire(res.message, "", res.status);
-          }
-        }
       } else {
         let formData = new FormData();
         formData.append("file", this.inputPicture);
-        const input = {
+        var input = {
           file: formData,
           species: this.species,
         };
-        if (this.validate()) {
-          const res = await this.editADSP(input);
-          if (res.data) {
-            this.$swal.fire("Edit species Success", "", "success");
-            this.categories = res.data;
-          } else {
-            this.$swal.fire(res.message, "", res.status);
-          }
-        }
       }
+      const res = await this.editADSP(input);
+      this.$swal.fire("Edit" + " " + res.alert.message, res.alert.text, res.alert.status);
       this.$emit("reset");
     },
 

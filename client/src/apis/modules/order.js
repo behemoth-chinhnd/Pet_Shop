@@ -14,6 +14,8 @@ export default {
         return qs.stringify(params)
       }
     })
+  },
+  detail(number){
+    return API.get(`/api/order_history`,number)
   }
-
 }
